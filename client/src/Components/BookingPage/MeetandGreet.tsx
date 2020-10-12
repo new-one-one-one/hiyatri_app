@@ -1,11 +1,11 @@
-import BookingInformation from "../MeetandGreet/BookingInformation/BookInformation";
+import BookingInformation from "./BookingInformation/BookInformation";
 import PassengerInformation from "./PassengerContactInfo/PassengerContactInfo";
-import PassengerDetails from "../MeetandGreet/PassengerDetails/PassengerDetails";
+import PassengerDetails from "./PassengerDetails/PassengerDetails";
 import React from "react";
 import Header from "../Header/Header";
 import "./main.css";
 
-const MeetandGreet = () => {
+const BookingPage = () => {
 
     return (
         <form>
@@ -30,4 +30,4 @@ const MeetandGreet = () => {
         </form>
     );
 }
-export default MeetandGreet;
+export default BookingPage;

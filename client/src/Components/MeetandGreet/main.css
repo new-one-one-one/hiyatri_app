@@ -1,0 +1,52 @@
+.main-div {
+  flex-direction: column;
+  flex-flow: column;
+  min-height: 100vh;
+  background-color: #F2F2F2;
+}
+
+.container-div{
+    margin-left:6%;
+    margin-right: 6%;  
+    min-width: 80%;
+   
+}
+
+.pnr-heading{
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    
+}
+
+.booking-tables{
+    background-color: white;
+    padding:1%;
+    margin-Top:2%;
+    
+}
+
+th{
+    text-align: left;
+    background-color: black;
+    padding:1.3%;
+    color:white
+}
+table th{
+    border-collapse: collapse;
+}
+table td{
+    padding:1.3%
+}
+
+input{
+    padding-top:2%;
+    padding-bottom: 1%;
+    height:30px;
+    width: 100%;
+}
+table{
+    margin-bottom: 3%;
+    margin-top: 1%;
+}

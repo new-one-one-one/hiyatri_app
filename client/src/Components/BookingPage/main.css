@@ -35,9 +35,13 @@ th{
 }
 table th{
     border-collapse: collapse;
+    border-right: 1px solid #c2c2c2;
 }
 table td{
-    padding:1.3%
+    padding:1.3%;
+    border-left:1px solid #c2c2c2;
+    border-bottom: 1px solid #c2c2c2;
+    border-right: 1px solid #c2c2c2;
 }
 
 input{
@@ -45,8 +49,22 @@ input{
     padding-bottom: 1%;
     height:30px;
     width: 100%;
+    padding-left: 1%;
 }
 table{
     margin-bottom: 3%;
     margin-top: 1%;
+    border-collapse: collapse;
 }
+
+
+.container {
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100vh;
+    display: flex;
+  }
+  .container .btn-holder {
+    justify-content: flex-end;
+    display: flex;
+  }

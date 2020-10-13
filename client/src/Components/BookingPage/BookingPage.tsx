@@ -1,8 +1,11 @@
 import BookingInformation from "./BookingInformation/BookInformation";
 import PassengerInformation from "./PassengerContactInfo/PassengerContactInfo";
 import PassengerDetails from "./PassengerDetails/PassengerDetails";
+import CabService from "./CabService/CabService";
+
 import React from "react";
 import Header from "../Header/Header";
+
 import "./main.css";
 
 const BookingPage = () => {
@@ -23,10 +26,15 @@ const BookingPage = () => {
                             <BookingInformation />
                             <PassengerInformation />
                             <PassengerDetails />
+                            <CabService />
                         </div>
+                        
                     </div>
+                    <button type="submit">Continue</button>
                 </div>
+
             </div>
+
         </form>
     );
 }

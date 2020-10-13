@@ -2,7 +2,7 @@ import React from "react";
 
 import { Route, Switch } from 'react-router-dom';
 import HomePage from "./Components/HomePage/HomePage";
-import MeetandGreet from "./Components/BookingPage/MeetandGreet";
+import MeetandGreet from "./Components/BookingPage/BookingPage";
 
 const App = () => {
 

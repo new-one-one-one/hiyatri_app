@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -8,6 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import firebase from "../../firebase"
 
 const useStyles = makeStyles({
   root: {
@@ -56,6 +57,34 @@ const LandingPage = () => {
     setValue((event.target as HTMLInputElement).value);
   };
 
+  const handleClick = ()=>{
+    let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha');
+    let sendTo = `+${number}`
+    firebase.auth().signInWithPhoneNumber(sendTo, recaptcha).then(function(e){
+      let code = prompt('Enter the OTP', '');
+      if(code == null) return;
+      e.confirm(code).then(function(result){
+        console.log(result.user, 'user');
+        if(result && result.user)
+       { document.querySelector("label")!.textContent +=
+              result.user.phoneNumber + "Number verified";}
+       }).catch((err)=>{
+        console.log(err)
+       })
+    }).catch(function (error) {
+      alert(error);
+    });
+  }
+
+  const [number, setNumber] = useState('')
+
+  const onInputNum = (event:any)=>{
+    setNumber(event.target.value)
+  }
+  
+ useEffect(()=>{
+   console.log("+++++ ",number)
+ }, [number])
   return (
     <div style={{ flexDirection: "column", flexFlow: "column", minHeight: '100vh', backgroundColor: '#F2F2F2' }}>
       <Header />
@@ -100,11 +129,14 @@ const LandingPage = () => {
 
               <form style={{ marginTop: '3%' }} noValidate autoComplete="off">
                 <TextField style={{ marginRight: '2%' }} id="outlined-basic" label="Name" variant="outlined" />
-                <TextField type="number" style={{ marginRight: '2%' }} id="outlined-basic" label="Phone No." variant="outlined" />
+                <TextField type="number" style={{ marginRight: '2%' }} id="outlined-basic" value={number} label="Phone No." variant="outlined" onChange={onInputNum} />
                 <TextField id="outlined-basic" label="PNR No." variant="outlined" />
               </form>
 
-              <Button variant="contained" className={classes.button}>
+              <label></label>
+
+              <div id="recaptcha"></div>
+              <Button variant="contained" className={classes.button} onClick= {handleClick}>
                 CONTINUE
                </Button>
             </Card>

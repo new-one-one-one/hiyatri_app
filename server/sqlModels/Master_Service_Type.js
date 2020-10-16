@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Age_Group extends Model {
+  class Master_Service_Type extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,16 +13,18 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Age_Group.init({
+  Master_Service_Type.init({
     id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     value: DataTypes.STRING,
     del_flag: DataTypes.BOOLEAN,
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
     created_by: DataTypes.INTEGER,
     updated_by: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Age_Group',
+    modelName: 'Master_Service_Type',
   });
-  return Age_Group;
+  return Master_Service_Type;
 };

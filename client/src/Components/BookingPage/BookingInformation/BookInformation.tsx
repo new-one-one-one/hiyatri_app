@@ -1,7 +1,18 @@
 import React from "react";
 import "../main.css";
 
-const BookingInformation = () => {
+
+
+interface IbookingProps{
+handleChange:Function,
+handleBlur:Function,
+values:any;
+errors:any;
+touched:any
+
+}
+
+const BookingInformation = (props:IbookingProps) => {
 
     return (
         <React.Fragment>

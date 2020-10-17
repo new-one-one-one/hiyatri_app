@@ -1,7 +1,7 @@
 .main-div {
   flex-direction: column;
   flex-flow: column;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: #F2F2F2;
 }
 
@@ -24,7 +24,7 @@
     background-color: white;
     padding:1%;
     margin-Top:2%;
-    
+   
 }
 
 th{
@@ -64,7 +64,15 @@ table{
     height: 100vh;
     display: flex;
   }
-  .container .btn-holder {
-    justify-content: flex-end;
-    display: flex;
+ 
+
+  .btn-holder{
+      justify-content: flex-end;
+      display: flex;
+      margin-top: 10%;
+      
+  }
+
+  .errors{
+      color:red
   }

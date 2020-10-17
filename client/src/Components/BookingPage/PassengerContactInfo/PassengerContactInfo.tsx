@@ -2,7 +2,16 @@ import React from "react";
 import "../main.css";
 
 
-const PassengerContactInfo = () => {
+
+interface PassengerProps {
+    handleChange: any;
+    handleBlur: any;
+    values: any;
+    errors: any;
+    touched: any
+}
+
+const PassengerContactInfo = (props: PassengerProps) => {
 
     return (
         <React.Fragment>
@@ -16,9 +25,16 @@ const PassengerContactInfo = () => {
 
                 </tr>
                 <tr>
-                    <td><input /></td>
-                    <td><input /></td>
-                    <td><input /></td>
+                    <td><input name="PassengerNumber" onChange={props.handleChange} value={props.values.PassengerNumber} onBlur={props.handleBlur} type="Number" />
+
+                        <span className="errors"> {props.errors.PassengerNumber && props.touched.PassengerNumber && props.errors.PassengerNumber}</span>
+                    </td>
+                    <td><input type="Number" onChange={props.handleChange} /></td>
+                    <td>
+                        <input name="email" onBlur={props.handleBlur} value={props.values.email} type="email" onChange={props.handleChange} />
+
+                        <span className="errors"> {props.errors.email && props.touched.email && props.errors.email}</span>
+                    </td>
                 </tr>
             </table>
         </React.Fragment>

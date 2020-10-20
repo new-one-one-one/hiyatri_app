@@ -1,8 +1,9 @@
 'use strict';
+const Sequelize = require('sequelize')
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class User_Type extends Model {
     /**
      * Helper method for defining associations.
@@ -11,16 +12,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User_Type.hasMany(models.User)
     }
   };User_Type.init({
-    id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    value: DataTypes.STRING,
-    del_flag: DataTypes.BOOLEAN,
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
-    created_by: DataTypes.INTEGER,
-    updated_by: DataTypes.INTEGER
+    id: {
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    name: Sequelize.STRING,
+    value: Sequelize.STRING,
+    del_flag: Sequelize.BOOLEAN,
+    created_at: Sequelize.DATE,
+    updated_at: Sequelize.DATE,
+    created_by: Sequelize.INTEGER,
+    updated_by: Sequelize.INTEGER
   }, {
     sequelize,
     modelName: 'User_Type',

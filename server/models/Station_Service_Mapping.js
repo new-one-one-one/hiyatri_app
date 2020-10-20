@@ -1,8 +1,9 @@
 'use strict';
+const Sequelize = require('sequelize')
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class Station_Service_Mapping extends Model {
     /**
      * Helper method for defining associations.
@@ -14,13 +15,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Station_Service_Mapping.init({
-    id: DataTypes.INTEGER,
-    station_id: DataTypes.INTEGER,
-    service_id: DataTypes.INTEGER,
-    is_active: DataTypes.BOOLEAN,
-    del_flag: DataTypes.BOOLEAN,
-    created_by: DataTypes.INTEGER,
-    updated_by: DataTypes.INTEGER
+    id: {
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    station_id: Sequelize.INTEGER,
+    service_id: Sequelize.INTEGER,
+    is_active: Sequelize.BOOLEAN,
+    del_flag: Sequelize.BOOLEAN,
+    created_by: Sequelize.INTEGER,
+    updated_by: Sequelize.INTEGER
   }, {
     sequelize,
     modelName: 'Station_Service_Mapping',

@@ -1,8 +1,9 @@
 'use strict';
+const Sequelize = require('sequelize')
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, Sequelize) => {
   class Master_Service extends Model {
     /**
      * Helper method for defining associations.
@@ -14,15 +15,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Master_Service.init({
-    id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    type: DataTypes.TINYINT,
-    price: DataTypes.DECIMAL,
-    del_flag: DataTypes.BOOLEAN,
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
-    created_by: DataTypes.INTEGER,
-    updated_by: DataTypes.INTEGER
+    id: {
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    name: Sequelize.STRING,
+    type: Sequelize.TINYINT,
+    price: Sequelize.DECIMAL,
+    del_flag: Sequelize.BOOLEAN,
+    created_by: Sequelize.INTEGER,
+    updated_by: Sequelize.INTEGER
   }, {
     sequelize,
     modelName: 'Master_Service',

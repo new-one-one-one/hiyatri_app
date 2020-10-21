@@ -1,7 +1,38 @@
+import { useState, useReducer, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
+import Modal from './otp_modal';
+
 
 const Homepage = () => {
+
+  const initialData = {
+    phone_number:"",
+    pnr_number:"",
+  }
+
+  const ACTIONS = {
+    PHONE:"phone",
+    PNR:"pnr"
+  }
+  const reducer = (state, action) => {
+      switch (action.type) {
+        case  ACTIONS.PHONE:
+           return {...state, phone_number: action.data}
+        case  ACTIONS.PNR:
+           return {...state, pnr_number: action.data}
+        default:
+            return state
+      }
+  }
+  const [state, dispatch] = useReducer(reducer, initialData)
+  const handleChange  = name => e => {
+    name === "phone" ? dispatch({ type: ACTIONS.PHONE, data: e.target.value }):
+                       dispatch({ type: ACTIONS.PNR, data: e.target.value })
+  }
+
+
+
   return <>
             <div className="hp-curve" />
             <div className="hp-welcome">
@@ -54,23 +85,26 @@ const Homepage = () => {
                   <small>Please provide basic detail t avail the services</small>
              </div>
              <div className="hp-details container">
-                  <div className="row justify-content-center">
-                      <div classNamehp="col-md-6">
+                  <div className="row col justify-content-center">
+                      <div className="col-md-4">
                           <TextField label="Phone No."
+                                      fullWidth
+                                      onChange={handleChange("phone")}
                                       className="hp-detail-input"
                                       variant="outlined"
                                       size="small"/>
-
+                      </div>
+                      <div className="col-md-4">
                           <TextField label="PNR No."
+                                      fullWidth
+                                      onChange={handleChange("pnr")}
                                       className="hp-detail-input"
                                       variant="outlined"
                                       size="small"/>
                       </div>
                   </div>
                   <div className="text-center mt-2">
-                  <Button variant="contained" className="hp-continue-btn">
-                     Continue
-                  </Button>
+                  <Modal state={state}/>
                   </div>
              </div>
          </>

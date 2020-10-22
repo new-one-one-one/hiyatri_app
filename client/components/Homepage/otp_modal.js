@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import firebase from '../../helpers/firebase';
+import Router from 'next/router';
 import { userAuthenticate, authenticate } from '../../actions/auth';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
- const Modalbox = ({ onClose, state }) => {
+ const Modalbox = ({ state }) => {
   const classes = useStyles();
 
   const initialData = {

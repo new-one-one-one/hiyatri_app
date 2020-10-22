@@ -31,9 +31,8 @@ const PassengerContactInfo = (props: PassengerProps) => {
                     </td>
                     <td><input type="Number" onChange={props.handleChange} /></td>
                     <td>
-                        <input name="email" onBlur={props.handleBlur} value={props.values.email} type="email" onChange={props.handleChange} />
+                        <input name="email" value={props.values.email} type="email" onChange={props.handleChange} />
 
-                        <span className="errors"> {props.errors.email && props.touched.email && props.errors.email}</span>
                     </td>
                 </tr>
             </table>

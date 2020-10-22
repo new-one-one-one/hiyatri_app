@@ -101,8 +101,8 @@ const CabService = (props: IcabService) => {
           <td>
             <input disabled={!props.disabled} value={"2"} />
           </td>
-          <td>
-            <input disabled={!props.disabled} value={"2200"} />
+          <td style={{width:"20%"}}>
+           <span>&#x20b9;300</span>
           </td>
         </tr>
       </table>

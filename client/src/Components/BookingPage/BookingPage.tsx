@@ -51,14 +51,25 @@ const BookingPage = () => {
     <div className="main-div">
       <Header />
       <Formik
-        initialValues={{ PassengerNumber: "", email: "", PassengerName: "" ,PorterService:{
+        initialValues={{ PassengerNumber: "", email: "", PassengerName: "" ,
             largeBags:'',
             smallBags:'',
             mediumBags:''
-        }}}
+        }}
 
         validate={(values) => {
           const errors: any = {};
+
+          if(!values.smallBags){
+              errors.smallBags="Required"
+          }
+
+          if(!values.mediumBags){
+              errors.mediumBags="Required"
+          }
+          if(!values.largeBags){
+              errors.largeBags="Required"
+          }
 
           if (!values.PassengerName) {
             errors.PassengerName = "Required";
@@ -165,7 +176,7 @@ const BookingPage = () => {
 
                 <span>Porter Service</span>
                 <Switch/>
-                
+
                 <PorterService 
                 
                 handleChange={handleChange}

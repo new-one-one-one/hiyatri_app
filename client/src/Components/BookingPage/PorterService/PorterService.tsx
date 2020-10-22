@@ -13,7 +13,7 @@ interface Iprops{
 
 }
 
-const PorterService = (props:Iprops) => {
+const PorterService= (props:Iprops) => {
   return (
     <div className="porter-Service">
       <table width="100%">
@@ -25,13 +25,18 @@ const PorterService = (props:Iprops) => {
         </tr>
         <tr>
           <td>
-            <input onChange={props.handleChange}  onBlur={props.handleBlur} value={props.values.PorterService.largeBags}/>
+            <input type="number" name="largeBags" onChange={props.handleChange}  onBlur={props.handleBlur} value={props.values.largeBags}/>
+            <span className="errors"> {props.errors.largeBags && props.touched.largeBags && props.errors.largeBags}</span>
           </td>
           <td>
-            <input onChange={props.handleChange} onBlur={props.handleBlur} value={props.values.PorterService.mediumBags}/>
+            <input type="number" name="mediumBags" onChange={props.handleChange} onBlur={props.handleBlur} value={props.values.mediumBags}/>
+            <span className="errors"> {props.errors.mediumBags && props.touched.mediumBags && props.errors.mediumBags}</span>
           </td>
           <td>
-            <input />
+
+            <input  type="number" name="smallBags" onChange={props.handleChange} onBlur={props.handleBlur} value={props.values.smallBags}/>
+            <span className="errors"> {props.errors.smallBags && props.touched.smallBags && props.errors.smallBags}</span>
+         
           </td>
           <td style={{width:'20%'}}>
           &#x20b9;300

@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 
 interface passengersProps {
 
-    handleChange: Function;
-    handleBlur: Function;
+    handleChange: any;
+    handleBlur: any;
     values: any;
     errors: any;
     touched: any;
@@ -22,9 +22,8 @@ interface passengersProps {
 const PassengerDetails = (props: passengersProps) => {
 
     return (
-        <React.Fragment>
+        <div className="Passenger-Details">
             {/* passenger's contact information */}
-            <span>Passenger's Details</span>
             <table width="100%" >
                 <tr>
                     <th>Seat No.</th>
@@ -188,7 +187,7 @@ const PassengerDetails = (props: passengersProps) => {
 
 
             </table>
-        </React.Fragment>
+        </div>
     );
 }
 export default PassengerDetails;

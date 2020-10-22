@@ -1,11 +1,9 @@
 import React from "react";
 import "../main.css";
 
-
-
 interface IbookingProps{
-handleChange:Function,
-handleBlur:Function,
+handleChange:any,
+handleBlur:any,
 values:any;
 errors:any;
 touched:any
@@ -15,8 +13,8 @@ touched:any
 const BookingInformation = (props:IbookingProps) => {
 
     return (
-        <React.Fragment>
-            <span>Booking Information</span>
+        <div className="booking-Information">
+           
             {/* booking information table */}
             <table width="100%" >
                 <tr>
@@ -34,7 +32,7 @@ const BookingInformation = (props:IbookingProps) => {
                     <td>11-10-2020</td>
                 </tr>
             </table>
-        </React.Fragment>
+        </div>
 
     )
 }

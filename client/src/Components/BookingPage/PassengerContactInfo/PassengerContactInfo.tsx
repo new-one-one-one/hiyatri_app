@@ -14,9 +14,9 @@ interface PassengerProps {
 const PassengerContactInfo = (props: PassengerProps) => {
 
     return (
-        <React.Fragment>
+        <div className="contact-Information">
             {/* passenger's contact information */}
-            <span>Passenger's Contact Information</span>
+           
             <table width="100%" >
                 <tr>
                     <th>Passenger Number*</th>
@@ -37,7 +37,7 @@ const PassengerContactInfo = (props: PassengerProps) => {
                     </td>
                 </tr>
             </table>
-        </React.Fragment>
+        </div>
     );
 }
 

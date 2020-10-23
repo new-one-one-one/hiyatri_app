@@ -6,6 +6,7 @@
 }
 
 
+
 .top-subheading{
     padding:1%
 }
@@ -44,19 +45,22 @@ table th{
     border-right: 1px solid #c2c2c2;
 }
 table td{
-    padding:1.3%;
+    
+    padding:2% !important;
+
     border-left:1px solid #c2c2c2;
     border-bottom: 1px solid #c2c2c2;
     border-right: 1px solid #c2c2c2;
 }
 
 input{
-    padding-top:2%;
-    padding-bottom: 1%;
-    height:30px;
-    width: 100%;
-    padding-left: 1%;
+    padding-top:2% ;
+    padding-bottom: 1% ;
+    height:30px ;
+    width: 100% ;
+    
 }
+
 table{
     margin-bottom: 3%;
     margin-top: 1%;
@@ -93,6 +97,7 @@ table{
     margin:2% 0% 2% 0%;
     padding-top:1% ;
     background-color: white;
+    overflow-x: auto;
 }
 
 /* conntact_information */
@@ -103,6 +108,7 @@ table{
     margin:2% 0% 4% 0%;
     padding-top:1% ;
     background-color: white;
+    overflow-x: auto;
 }
 
 /* passenger-details */
@@ -113,6 +119,7 @@ table{
     margin:2% 0% 4% 0%;
     padding-top:1% ;
     background-color: white;
+    overflow-x: auto;
 }
 
 /* cab-details */
@@ -124,6 +131,7 @@ table{
     margin:2% 0% 4% 0%;
     padding-top:1% ;
     background-color: white;
+    overflow-x: auto;
 }
 
 /* porter Service */
@@ -136,7 +144,10 @@ table{
     margin:2% 0% 4% 0%;
     padding-top:1% ;
     background-color: white;
+    overflow-x: hidden;
 }
+
+
 
 
 /* payable amount div */
@@ -162,6 +173,11 @@ table{
  padding-top:1% ;
 }
 
+/* mobile view */
+.payable-amt-section-mobile{
+width:100%
+}
+
 /* selections Dropdowns */
 .container-dropdowns{
   padding:0px !important;
@@ -185,7 +201,7 @@ select {
     padding-right: 0 !important;
     padding-left:0 !important;
     height:40px;
-    width: 150px !important;
+    width: 110% !important;
   }
 
   select option{

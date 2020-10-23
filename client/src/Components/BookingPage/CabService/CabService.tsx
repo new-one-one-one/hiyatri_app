@@ -65,6 +65,8 @@ const CabService = (props: IcabService) => {
       {/* passenger's contact information */}
 
       <table width="100%">
+        <thead>
+
         <tr>
           <th>Destination</th>
           <th>No. of Passengers</th>
@@ -72,7 +74,10 @@ const CabService = (props: IcabService) => {
           <th>No. Of Cabs</th>
           <th>Price</th>
         </tr>
-        <tr>
+        </thead>
+
+        <tbody>
+        <tr>  
           <td>
             <input
               ref={autoCompleteRef}
@@ -105,6 +110,8 @@ const CabService = (props: IcabService) => {
            <span>&#x20b9;300</span>
           </td>
         </tr>
+          </tbody>
+      
       </table>
     </div>
   );

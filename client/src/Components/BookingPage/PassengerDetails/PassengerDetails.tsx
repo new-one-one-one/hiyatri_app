@@ -22,11 +22,12 @@ const PassengerDetails = (props: passengersProps) => {
     <div className="Passenger-Details">
       {/* passenger's contact information */}
       <table width="100%">
+        <thead>
         <tr>
           <th>Seat No.</th>
           <th>Passenger Name</th>
-          <th>Age Group</th>
-          <th>Gender</th>
+          <th  style={{width:"12%"}}>Age Group</th>
+          <th style={{width:"12%"}}>Gender</th>
           <th>
            
             Meet & Greet *<br />
@@ -43,8 +44,10 @@ const PassengerDetails = (props: passengersProps) => {
             (80 Per Person)
           </th>
         </tr>
-        <tr>
-          <td style={{width:"10%"}}>B7LB36</td>
+        </thead>
+      <tbody>
+      <tr>
+          <td >B7LB36</td>
           <td>
             <input value={"Ram Sahara Anand"} />
           </td>
@@ -259,6 +262,8 @@ const PassengerDetails = (props: passengersProps) => {
             </Typography>
           </td>
         </tr>
+      </tbody>
+       
       </table>
     </div>
   );

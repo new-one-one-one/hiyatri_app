@@ -8,7 +8,7 @@ import * as ICONS from "../../assets/Images/index";
 import "../../index.css";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import MenuIcon from "@material-ui/icons/Menu";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,7 +68,7 @@ const Header = () => {
               </span>
             </Typography>
           ) : (
-            <MenuIcon/>
+            <img alt="hamburger-icon" src={ICONS.HAMBURGER_ICON}/>
           )}
         </Toolbar>
       </AppBar>

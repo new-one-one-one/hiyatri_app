@@ -7,11 +7,15 @@ import React, { useState } from "react";
 import Header from "../Header/Header";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
-
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import "./main.css";
 import { Formik } from "formik";
-
+import Grid from "@material-ui/core/Grid";
 const BookingPage = () => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+
   let [state, setState] = useState({
     checkedA: false,
     otherServices1: true,
@@ -51,24 +55,26 @@ const BookingPage = () => {
     <div className="main-div">
       <Header />
       <Formik
-        initialValues={{ PassengerNumber: "", email: "", PassengerName: "" ,
-            largeBags:'',
-            smallBags:'',
-            mediumBags:''
+        initialValues={{
+          PassengerNumber: "",
+          email: "",
+          PassengerName: "",
+          largeBags: "",
+          smallBags: "",
+          mediumBags: "",
         }}
-
         validate={(values) => {
           const errors: any = {};
 
-          if(!values.smallBags){
-              errors.smallBags="Required"
+          if (!values.smallBags) {
+            errors.smallBags = "Required";
           }
 
-          if(!values.mediumBags){
-              errors.mediumBags="Required"
+          if (!values.mediumBags) {
+            errors.mediumBags = "Required";
           }
-          if(!values.largeBags){
-              errors.largeBags="Required"
+          if (!values.largeBags) {
+            errors.largeBags = "Required";
           }
 
           if (!values.PassengerName) {
@@ -112,16 +118,16 @@ const BookingPage = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className="container-div">
-                {/* top most heading section */}
-                <div className="top-subheading">
+              {/* top most heading section */}
+              <div className="top-subheading">
                 <h1>MEET & GREET</h1>
-              <br />
-              <div className="pnr-heading">
-                <span>Arrival - PNR No. - 20YB305 </span>
-                <span> No. of Passengers - 4</span>
-              </div>
+                <br />
+                <div className="pnr-heading">
+                  <span>Arrival - PNR No. - 20YB305 </span>
+                  <span> No. of Passengers - 4</span>
                 </div>
-             
+              </div>
+
               <div className="booking-tables">
                 <span>Booking Information</span>
 
@@ -142,7 +148,7 @@ const BookingPage = () => {
                   touched={touched}
                 />
 
-        <span>Passenger's Details</span>
+                <span>Passenger's Details</span>
                 <PassengerDetails
                   handleChange={handleChange}
                   handleBlur={handleBlur}
@@ -175,33 +181,53 @@ const BookingPage = () => {
                 />
 
                 <span>Porter Service</span>
-                <Switch/>
+                <Switch />
 
-                <PorterService 
-                
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                values={values}
-                errors={errors}
-                touched={touched}
-                disabled={false}
+                <PorterService
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  values={values}
+                  errors={errors}
+                  touched={touched}
+                  disabled={false}
                 />
 
                 <div className="payable-amt-section">
-                <div>
-                <span >Payable Amount</span>
-                <br/>
-                <span style={{fontWeight:"bold"}}>&#x20b9; 4580</span>
+                  
+
+                  {matches ? (
+                    <>
+                    <div>
+                    <span>Payable Amount</span>
+                    <br />
+                    <span style={{ fontWeight: "bold" }}>&#x20b9; 4580</span>
+                  </div>
+                    <Button
+                      style={{ backgroundColor: "#00C4FF", width: "30%" }}
+                      variant="outlined"
+                      type="submit"
+                    >
+                      <span style={{ color: "white", fontWeight: "bold" }}>
+                        Continue
+                      </span>
+                    </Button>
+                    </>
+                  ) : (
+                    <Grid item xs={12} md={12} lg={12}>
+                      <Button
+                        style={{ backgroundColor: "#00C4FF", width: "100%" }}
+                        variant="outlined"
+                        type="submit"
+                      >
+                        <span style={{ color: "white", fontWeight: "bold" }}>
+                          REVIEW YOUR BOOKING & PAY &#x20b9;4580
+                        </span>
+                      </Button>
+                    </Grid>
+                  )}
                 </div>
-                <Button style={{backgroundColor:'#00C4FF',width:'30%'}} variant="outlined" type="submit">
-                    <span style={{color:'white',fontWeight:'bold'}}>Continue</span>
-                  </Button>
-            </div>
-             
-              
               </div>
             </div>
-           
           </form>
         )}
       </Formik>

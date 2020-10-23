@@ -17,12 +17,15 @@ const PorterService= (props:Iprops) => {
   return (
     <div className="porter-Service">
       <table width="100%">
+        <thead>
         <tr>
           <th>No. of Large Bags</th>
           <th>No. of Medium Bags</th>
           <th>No. of Small Bags</th>
           <th>Price</th>
         </tr>
+        </thead>
+        <tbody>
         <tr>
           <td>
             <input type="number" name="largeBags" onChange={props.handleChange}  onBlur={props.handleBlur} value={props.values.largeBags}/>
@@ -42,6 +45,8 @@ const PorterService= (props:Iprops) => {
           &#x20b9;300
           </td>
         </tr>
+        </tbody>
+       
       </table>
 
       <div style={{display:'flex',flexDirection:'row',width:"40%"}}> 

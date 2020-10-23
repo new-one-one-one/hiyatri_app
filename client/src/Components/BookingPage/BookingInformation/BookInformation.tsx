@@ -17,6 +17,7 @@ const BookingInformation = (props:IbookingProps) => {
            
             {/* booking information table */}
             <table width="100%" >
+                <thead>
                 <tr>
                     <th>Train No.</th>
                     <th>Train Name</th>
@@ -24,13 +25,18 @@ const BookingInformation = (props:IbookingProps) => {
                     <th>Arrival Time</th>
                     <th>Arrival Date</th>
                 </tr>
-                <tr>
+                    </thead>
+            
+            <tbody>
+            <tr>
                     <td>03308</td>
                     <td>G Satluj Exp Spl</td>
                     <td>Nizamuddin</td>
                     <td>23:05</td>
                     <td>11-10-2020</td>
                 </tr>
+            </tbody>
+             
             </table>
         </div>
 

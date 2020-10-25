@@ -64,7 +64,7 @@ const CabService = (props: IcabService) => {
     <div className="cab-Details">
       {/* passenger's contact information */}
 
-      <table width="100%">
+      <table >
         <thead>
 
         <tr>

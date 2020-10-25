@@ -2,7 +2,7 @@ import React from "react";
 import "../main.css";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+
 
 interface passengersProps {
   handleChange: any;
@@ -21,24 +21,24 @@ const PassengerDetails = (props: passengersProps) => {
   return (
     <div className="Passenger-Details">
       {/* passenger's contact information */}
-      <table width="100%">
+      <table  >
         <thead>
         <tr>
-          <th>Seat No.</th>
-          <th>Passenger Name</th>
-          <th  style={{width:"12%"}}>Age Group</th>
-          <th style={{width:"12%"}}>Gender</th>
-          <th>
+          <th >Seat No.</th>
+          <th >Passenger Name</th>
+          <th  >Age Group</th>
+          <th  >Gender</th>
+          <th >
            
             Meet & Greet *<br />
             (500 Per Person)
           </th>
-          <th>
+          <th >
             Wheel Chair
             <br />
             (80 Per Person)
           </th>
-          <th>
+          <th >
             Golf Cart
             <br />
             (80 Per Person)
@@ -67,39 +67,39 @@ const PassengerDetails = (props: passengersProps) => {
               </select></td>
           <td>
            
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
-                <Grid item>No</Grid>
-                <Grid item>
+        
+              <Grid component="label" container alignItems="center" >
+                <span >No</span>
+                
                   <Switch name="firstRow" onChange={props.toggler} />
-                </Grid>
-                <Grid item>Yes</Grid>
+                
+                <span >Yes</span>
               </Grid>
-            </Typography>
+        
           </td>
           <td>
         
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices1} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
 
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices1} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
         </tr>
 
@@ -122,39 +122,39 @@ const PassengerDetails = (props: passengersProps) => {
               </select>
           </td>
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch onChange={props.toggler} name="secondRow" />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
           <td>
            
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices2} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
           <td>
            
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices2} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
         </tr>
 
@@ -176,38 +176,38 @@ const PassengerDetails = (props: passengersProps) => {
               </select>
           </td>
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch onChange={props.toggler} name="thirdRow" />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
           <td>
            
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices3} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices3} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
         </tr>
 
@@ -229,37 +229,37 @@ const PassengerDetails = (props: passengersProps) => {
               </select>
           </td>
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch onChange={props.toggler} name="fourthRow" />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices4} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
           <td>
-            <Typography component="div">
-              <Grid component="label" container alignItems="center" spacing={1}>
+           
+              <Grid component="label" container alignItems="center" >
                 <Grid item>No</Grid>
                 <Grid item>
                   <Switch disabled={props.otherServices4} />
                 </Grid>
                 <Grid item>Yes</Grid>
               </Grid>
-            </Typography>
+           
           </td>
         </tr>
       </tbody>

@@ -17,7 +17,7 @@ const PassengerContactInfo = (props: PassengerProps) => {
         <div className="contact-Information">
             {/* passenger's contact information */}
            
-            <table width="100%" >
+            <table  >
                 <thead>
 
                 <tr>

@@ -12,8 +12,8 @@
 }
 
 .container-div{
-    margin-left:3%;
-    margin-right: 3%;  
+    margin-left:4%;
+    margin-right: 4%;  
     min-width: 80%;
    
 }
@@ -27,37 +27,50 @@
 }
 
 .booking-tables{
-
     padding:1%;
     margin-Top:2%;
    
 }
 
 
-th{
+table th{
     text-align: left;
     background-color: #2A306C;
-    padding:1.3%;
-    color:white
-}
-table th{
+    padding:1% !important;
+    color:white;
     border-collapse: collapse;
-    border-right: 1px solid #c2c2c2;
+    border-right: 1px solid white;
+    width:120px !important;
+   
 }
+
+
+table{
+    width: 100% !important;
+    table-layout: auto;
+}
+
 table td{
     
     padding:2% !important;
-
-    border-left:1px solid #c2c2c2;
-    border-bottom: 1px solid #c2c2c2;
-    border-right: 1px solid #c2c2c2;
+    border-left:1px solid #8588AA;
+    border-bottom: 1px solid #8588AA;
+    border-right: 1px solid #8588AA;
+    width: 120px !important;
 }
 
+
+
 input{
-    padding-top:2% ;
-    padding-bottom: 1% ;
-    height:30px ;
-    width: 100% ;
+
+    margin-top:2% !important;
+    margin-bottom: 2% !important;
+    padding:2%;
+    margin-right:0.9% !important;
+    height:30px !important ;
+    width: 90%  ;
+    border:1px solid black;
+    border-radius: 1px;
     
 }
 
@@ -65,6 +78,8 @@ table{
     margin-bottom: 3%;
     margin-top: 1%;
     border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
 }
 
 
@@ -91,7 +106,7 @@ table{
   
   /* booking information */
 .booking-Information{
-    padding:1%;
+    padding:1% !important;
     border-radius: 10px;
     box-shadow: 0px 0px 12px grey ;
     margin:2% 0% 2% 0%;
@@ -102,7 +117,7 @@ table{
 
 /* conntact_information */
 .contact-Information{
-    padding:1%;
+    padding:1% !important;
     border-radius: 10px;
     box-shadow: 0px 0px 12px  grey ;
     margin:2% 0% 4% 0%;
@@ -113,7 +128,7 @@ table{
 
 /* passenger-details */
 .Passenger-Details{
-    padding:1%;
+    padding:1% !important;
     border-radius: 10px;
     box-shadow: 0px 0px 12px  grey ;
     margin:2% 0% 4% 0%;
@@ -125,7 +140,7 @@ table{
 /* cab-details */
 
 .cab-Details{
-    padding:1%;
+    padding:1% !important;
     border-radius: 10px;
     box-shadow: 0px 0px 12px  grey ;
     margin:2% 0% 4% 0%;
@@ -138,13 +153,13 @@ table{
 
 
 .porter-Service{
-    padding:1%;
+    padding:1% !important;
     border-radius: 10px;
     box-shadow: 0px 0px 12px  grey ;
     margin:2% 0% 4% 0%;
     padding-top:1% ;
     background-color: white;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 
@@ -188,7 +203,7 @@ margin:0px !important
 select {
     text-align: center;
     justify-content: center;
-    border: 1px solid #c9c9c9;
+    border: 1px solid black;
     color: #444444;
     -webkit-user-select: none;
     background-color: white;
@@ -208,3 +223,5 @@ select {
         position: relative;
   }
   
+
+

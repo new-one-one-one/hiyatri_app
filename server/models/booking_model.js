@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Schema;
 const bookingSchema = mongoose.Schema({
     pnr_number: {
       type:String,
-      required: true
+      //required: true
     },
     user_id: {
       type: ObjectId,

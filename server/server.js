@@ -1,27 +1,28 @@
-const express = require('express');
+const express  = require('express');
 const bodyParser = require('body-parser');
-const User = require('./models').User;
-const User_Type = require('./models').User_Type;
-
-User_Type.create({
-    name: 'Admin',
-    value: 'admin',
-    del_flag: 0,
-}).then(user_type =>{
-    user_type.createUser({
-        name: 'Rohan',
-        email: 'rohan@tekonika.com',
-        mobile_number: '919034491678',
-        user_type_id: 1,
-        del_flag: 0
-    }).then(()=>{
-        console.log('Worked!')
-    })
-})
-
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const cors = require('cors')
+require('dotenv').config();
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended:true}))
+const authRouter = require('./routers/auth_router');
+
+app.use(morgan('dev'));
+app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/api', authRouter);
 
+mongoose.connect(process.env.DATABASE, {
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useFindAndModify: false,
+		useUnifiedTopology: true
+	})
+	.then(() => console.log('Connected to Database'))
+	.catch((err) => console.log(`Error: ${err}`));
+
+const Port = process.env.PORT || 8000;
+app.listen(Port, () => console.log(`Listening on port ${Port}`))

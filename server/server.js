@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.use('/api', authRouter);
+
 app.use('/api',bookingRouter);
 
 app.get('/',((req,res)=>{

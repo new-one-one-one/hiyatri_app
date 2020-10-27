@@ -1,6 +1,7 @@
 import React from "react";
 import "../../BookingPage/main.css";
 import BaggageGurantee from "./BaggageGurantee/BaggageGurantee";
+import { Field } from "formik";
 
 interface Iprops {
   handleChange: any;
@@ -26,55 +27,48 @@ const PorterService = (props: Iprops) => {
         <tbody>
           <tr>
             <td>
-              <input
-                type="number"
-                name="largeBags"
+              <Field
+
+                name="LargeBags"
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.largeBags}
               />
-              <span className="errors">
-            
-                {props.errors.largeBags &&
-                  props.touched.largeBags &&
-                  props.errors.largeBags}
-              </span>
+                {props.errors.LargeBags && (
+                                <div className="errors">{props.errors.LargeBags}</div>
+                            ) }
             </td>
             <td>
-              <input
-                type="number"
-                name="mediumBags"
+              <Field
+
+                name="MediumBags"
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.mediumBags}
               />
-              <span className="errors">
-              
-                {props.errors.mediumBags &&
-                  props.touched.mediumBags &&
-                  props.errors.mediumBags}
-              </span>
+                {props.errors.MediumBags && (
+                                <div className="errors">{props.errors.MediumBags}</div>
+                            )}
+
             </td>
             <td>
-              <input
-                type="number"
-                name="smallBags"
+              <Field
+
+                name="SmallBags"
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.smallBags}
               />
-              <span className="errors">
-           
-                {props.errors.smallBags &&
-                  props.touched.smallBags &&
-                  props.errors.smallBags}
-              </span>
+                {props.errors.SmallBags && (
+                                <div className="errors">{props.errors.SmallBags}</div>
+                            )}
+                            
             </td>
             <td style={{ width: "20%" }}>&#x20b9;300</td>
           </tr>
         </tbody>
       </table>
-      <BaggageGurantee/>
+      <BaggageGurantee />
     </div>
   );
 };

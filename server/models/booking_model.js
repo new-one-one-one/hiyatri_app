@@ -32,6 +32,7 @@ const bookingSchema = mongoose.Schema({
       wheel_chair: { type: Boolean, default: false },
       golf_cart: { type: Boolean, default: false }
     }],
+    
     car_service_opted: Boolean,
     car_service_detail:{
       destination: String,

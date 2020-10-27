@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../main.css";
+import {Field} from "formik";
 
 let autoComplete:any;
 
@@ -79,9 +80,9 @@ const CabService = (props: IcabService) => {
         <tbody>
         <tr>  
           <td>
-            <input
+            <Field
               ref={autoCompleteRef}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event:any) => setQuery(event.target.value)}
               placeholder="Enter Destination"
               value={query}
               type="text"
@@ -90,7 +91,7 @@ const CabService = (props: IcabService) => {
               disabled={!props.disabled}
               
             />
-            {/* <input disabled={!props.disabled} name="destination" value={props.values.destination} type="Text" onBlur={props.handleBlur} onChange={props.handleChange} /> */}
+            {/* <Form disabled={!props.disabled} name="destination" value={props.values.destination} type="Text" onBlur={props.handleBlur} onChange={props.handleChange} /> */}
             <span className="errors">
               {props.errors.destination &&
                 props.touched.destination &&
@@ -98,13 +99,13 @@ const CabService = (props: IcabService) => {
             </span>
           </td>
           <td>
-            <input disabled={!props.disabled} value={"4"} />
+            <Field disabled={!props.disabled} value={"4"} />
           </td>
           <td>
-            <input disabled={!props.disabled} value={"2"} />
+            <Field disabled={!props.disabled} value={"2"} />
           </td>
           <td>
-            <input disabled={!props.disabled} value={"2"} />
+            <Field disabled={!props.disabled} value={"2"} />
           </td>
           <td style={{width:"20%"}}>
            <span>&#x20b9;300</span>

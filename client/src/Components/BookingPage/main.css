@@ -68,7 +68,7 @@ input{
     padding:2%;
     margin-right:0.9% !important;
     height:30px  ;
-    width: 90%  ;
+    width: 100%  ;
     border:1px solid black;
     border-radius: 1px;
     
@@ -209,14 +209,15 @@ select {
     background-color: white;
     background-repeat: no-repeat;
     background-size: contain;
-    margin:0px !important;
+    margin-right:0 !important;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-right: 0 !important;
     padding-left:0 !important;
     height:40px;
-    width: 110% !important;
+    width: 110% !important ;
+   
   }
 
   select option{

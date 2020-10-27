@@ -53,17 +53,17 @@ const PassengerDetails = (props: passengersProps) => {
             </td>
             <td >
 
-              <select name="platform" id="platform">
-                <option value="option1">option1</option>
-                <option value="option2">option2</option>
-                <option value="lochness">option3</option>
+              <select >
+                <option value="option1">Sr Citizen (Above 60)</option>
+                <option value="option2">Adult(12 yrs-60yrs)</option>
+                <option value="option3">Kid(below 12)</option>
               </select>
 
             </td>
-            <td >  <select name="platform" id="platform">
-              <option value="option1">option1</option>
-              <option value="option2">option2</option>
-              <option value="lochness">option3</option>
+            <td >  <select >
+              <option value="option1">Male</option>
+              <option value="option2">Female</option>
+
             </select></td>
             <td>
 
@@ -108,17 +108,19 @@ const PassengerDetails = (props: passengersProps) => {
             <td>
               <input value={"Darshana"} />
             </td>
-            <td>  <select name="platform" id="platform">
-              <option value="option1">option1</option>
-              <option value="option2">option2</option>
-              <option value="lochness">option3</option>
-            </select></td>
+            <td>  <select >
+                <option value="option1">Sr Citizen (Above 60)</option>
+                <option value="option2">Adult(12 yrs-60yrs)</option>
+                <option value="option3">Kid(below 12)</option>
+              </select>
+            
+            </td>
             <td>
 
-              <select name="platform" id="platform">
-                <option value="option1">option1</option>
-                <option value="option2">option2</option>
-                <option value="lochness">option3</option>
+              <select >
+                <option value="option1">Male</option>
+                <option value="option2">Female</option>
+
               </select>
             </td>
             <td>
@@ -163,16 +165,18 @@ const PassengerDetails = (props: passengersProps) => {
             <td>
               <input value={"Amit Arora"} />
             </td>
-            <td>  <select name="platform" id="platform">
-              <option value="option1">option1</option>
-              <option value="option2">option2</option>
-              <option value="lochness">option3</option>
-            </select></td>
+            <td>  <select >
+                <option value="option1">Sr Citizen (Above 60)</option>
+                <option value="option2">Adult(12 yrs-60yrs)</option>
+                <option value="option3">Kid(below 12)</option>
+              </select>
+            
+            </td>
             <td>
-              <select name="platform" id="platform">
-                <option value="option1">option1</option>
-                <option value="option2">option2</option>
-                <option value="lochness">option3</option>
+              <select >
+                <option value="option1">Male</option>
+                <option value="option2">Female</option>
+
               </select>
             </td>
             <td>
@@ -216,16 +220,17 @@ const PassengerDetails = (props: passengersProps) => {
             <td>
               <input value={"Vanshaj Arora"} />
             </td>
-            <td>  <select name="platform" id="platform">
-              <option value="option1">option1</option>
-              <option value="option2">option2</option>
-              <option value="lochness">option3</option>
-            </select></td>
+            <td>  <select >
+                <option value="option1">Sr Citizen (Above 60)</option>
+                <option value="option2">Adult(12 yrs-60yrs)</option>
+                <option value="option3">Kid(below 12)</option>
+              </select>
+            </td>
             <td>
-              <select name="platform" id="platform">
-                <option value="option1">option1</option>
-                <option value="option2">option2</option>
-                <option value="lochness">option3</option>
+              <select >
+                <option value="option1">Male</option>
+                <option value="option2">Female</option>
+
               </select>
             </td>
             <td>

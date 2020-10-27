@@ -1,6 +1,6 @@
 import React from "react";
 import "../main.css";
-
+import { Field } from "formik";
 
 
 interface PassengerProps {
@@ -16,33 +16,37 @@ const PassengerContactInfo = (props: PassengerProps) => {
     return (
         <div className="contact-Information">
             {/* passenger's contact information */}
-           
+
             <table  >
                 <thead>
 
-                <tr>
-                    <th>Passenger Number*</th>
-                    <th>Secondary Mobile No.</th>
-                    <th>Email ID</th>
+                    <tr>
+                        <th>Passenger Contact Number*</th>
+                        <th>Secondary Mobile No.</th>
+                        <th>Email ID</th>
 
-                </tr>
+                    </tr>
                 </thead>
-              
-              <tbody>
 
-              <tr>
-                    <td><input className="input-fields" name="PassengerNumber" onChange={props.handleChange} value={props.values.PassengerNumber} onBlur={props.handleBlur} type="Number" />
+                <tbody>
 
-                        <span className="errors"> {props.errors.PassengerNumber && props.touched.PassengerNumber && props.errors.PassengerNumber}</span>
-                    </td>
-                    <td><input className="input-fields" type="Number" onChange={props.handleChange} /></td>
-                    <td>
-                        <input className="input-fields" name="email" value={props.values.email} type="email" onChange={props.handleChange} />
+                    <tr>
+                        <td><Field  className="input-fields" name="PassengerNumber" onChange={props.handleChange} value={props.values.PassengerNumber} onBlur={props.handleBlur} type="Number" />
 
-                    </td>
-                </tr>
-              </tbody>
-           
+                            {props.errors.PassengerNumber && props.touched.PassengerNumber && (
+                                <div className="errors">{props.errors.PassengerNumber}</div>
+                            )}
+
+                        </td>
+                        <td><Field className="input-fields" value={props.values.SecondaryMobile} type="Number" name="SecondaryMobile" onChange={props.handleChange} /></td>
+                        <td>
+                            <Field className="input-fields" name="email" value={props.values.email} type="email" onChange={props.handleChange} />
+
+
+                        </td>
+                    </tr>
+                </tbody>
+
             </table>
         </div>
     );

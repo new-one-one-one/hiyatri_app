@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
            userAuthenticate({phone_number: state.phone_number})
              .then(result => {
                authenticate(result, () => {
-                 Router.push('/booking')
+                 Router.push(`/booking/${state.pnr_number}`)
                })
              })
              .catch(err => {

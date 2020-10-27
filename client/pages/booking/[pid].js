@@ -1,5 +1,4 @@
 import Layout from '../../components/Core/Layout';
-import { useEffect, useState } from 'react';
 import Private from '../../components/Core/Private';
 import { pnrDetails } from '../../actions/booking';
 import { withRouter } from 'next/router';

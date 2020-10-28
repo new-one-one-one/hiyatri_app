@@ -44,7 +44,13 @@ function App() {
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
         }
-        axios.post('http://localhost:8000/verification', rzpData);
+        axios.post('http://localhost:8000/verification', rzpData)
+        .then(resp => {
+          alert(resp.data.message)
+        })
+        .catch( err => {
+          alert( err )
+        })
       },
     };
 

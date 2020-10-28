@@ -1,5 +1,6 @@
 import React from "react";
 import "../main.css";
+import { SampleResponse } from "../sampleResponse";
 
 interface IbookingProps {
   handleChange: any;
@@ -26,11 +27,11 @@ const BookingInformation = (props: IbookingProps) => {
 
         <tbody>
           <tr>
-            <td>03308</td>
-            <td>G Satluj Exp Spl</td>
-            <td>Nizamuddin</td>
-            <td>23:05</td>
-            <td>11-10-2020</td>
+            <td>{SampleResponse.pnr_details.train_number}</td>
+            <td>{SampleResponse.pnr_details.train_name}</td>
+            <td>{SampleResponse.pnr_details.reservation_upto.station_name}</td>
+            <td>{SampleResponse.pnr_details.reservation_upto.time}</td>
+            <td>{SampleResponse.pnr_details.reservation_upto.date}</td>
           </tr>
         </tbody>
       </table>

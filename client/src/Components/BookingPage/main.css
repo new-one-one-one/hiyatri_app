@@ -40,15 +40,10 @@ table th{
     color:white;
     border-collapse: collapse;
     border-right: 1px solid white;
-    width:120px !important;
+    width:120px ;
    
 }
 
-
-table{
-    width: 100% !important;
-    table-layout: auto;
-}
 
 table td{
     
@@ -56,7 +51,7 @@ table td{
     border-left:1px solid #8588AA;
     border-bottom: 1px solid #8588AA;
     border-right: 1px solid #8588AA;
-    width: 120px !important;
+    width: 120px ;
 }
 
 
@@ -81,6 +76,7 @@ table{
     table-layout: fixed;
     width: 100%;
 }
+
 
 
 .container {
@@ -128,13 +124,18 @@ table{
 
 /* passenger-details */
 .Passenger-Details{
-    padding:1% !important;
+    padding:2% !important;
     border-radius: 10px;
     box-shadow: 0px 0px 12px  grey ;
     margin:2% 0% 4% 0%;
     padding-top:1% ;
     background-color: white;
     overflow-x: auto;
+}
+
+
+.sub-heading{
+    font-weight:bold
 }
 
 /* cab-details */
@@ -199,6 +200,9 @@ width:100%
 margin:0px !important
 }
 
+img{
+    margin-left: 10px;
+}
 
 select {
     text-align: center;

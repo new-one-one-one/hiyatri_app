@@ -44,7 +44,7 @@ const Header = () => {
             aria-label="menu"
           ></IconButton>
           <Typography variant="h6" className={classes.title}>
-            Hi Yatri
+            HI-YATRI
           </Typography>
           {matches ? (
             <Typography style={{ width: "20%", flexDirection: "row" }}>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../main.css";
 import {Field} from "formik";
+import {SampleResponse} from "../sampleResponse";
 
 let autoComplete:any;
 
@@ -65,55 +66,18 @@ const CabService = (props: IcabService) => {
     <div className="cab-Details">
       {/* passenger's contact information */}
 
-      <table >
-        <thead>
-
-        <tr>
-          <th>Destination</th>
-          <th>No. of Passengers</th>
-          <th>Luggage Bags</th>
-          <th>No. Of Cabs</th>
-          <th>Price</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr>  
-          <td>
-            <Field
-              ref={autoCompleteRef}
-              onChange={(event:any) => setQuery(event.target.value)}
-              placeholder="Enter Destination"
-              value={query}
-              type="text"
-              name="destination"
-              onBlur={props.handleBlur}
-              disabled={!props.disabled}
-              
-            />
-            {/* <Form disabled={!props.disabled} name="destination" value={props.values.destination} type="Text" onBlur={props.handleBlur} onChange={props.handleChange} /> */}
-            <span className="errors">
-              {props.errors.destination &&
-                props.touched.destination &&
-                props.errors.destination}
-            </span>
-          </td>
-          <td>
-            <Field disabled={!props.disabled} value={"4"} />
-          </td>
-          <td>
-            <Field disabled={!props.disabled} value={"2"} />
-          </td>
-          <td>
-            <Field disabled={!props.disabled} value={"2"} />
-          </td>
-          <td style={{width:"20%"}}>
-           <span>&#x20b9;300</span>
-          </td>
-        </tr>
-          </tbody>
-      
-      </table>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
     </div>
   );
 };

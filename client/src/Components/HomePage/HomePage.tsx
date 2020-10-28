@@ -50,6 +50,10 @@ const useStyles = makeStyles({
 });
 
 const LandingPage = () => {
+  const handleSubmit=(e:any)=>{
+   e.preventDefault()
+    console.log(e.target.value)
+  }
   const classes = useStyles();
   const [value, setValue] = React.useState("");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,15 +102,16 @@ const LandingPage = () => {
                 </RadioGroup>
               </FormControl>
 
-              <form style={{ marginTop: '3%' }} noValidate autoComplete="off">
-                <TextField style={{ marginRight: '2%' }} id="outlined-basic" label="Name" variant="outlined" />
+              <form onSubmit={handleSubmit} style={{ marginTop: '3%' }} noValidate autoComplete="off">
+            
                 <TextField type="number" style={{ marginRight: '2%' }} id="outlined-basic" label="Phone No." variant="outlined" />
                 <TextField id="outlined-basic" label="PNR No." variant="outlined" />
-              </form>
-
-              <Button variant="contained" className={classes.button}>
+            
+                <br/>
+              <Button type="submit" variant="contained" className={classes.button}>
                 CONTINUE
                </Button>
+               </form>
             </Card>
           </div>
         </div>

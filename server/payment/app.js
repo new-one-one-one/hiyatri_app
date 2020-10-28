@@ -83,11 +83,10 @@ app.post('/verification', (req, res) => {
     let isSignatureValid = generated_signature == req.body.razorpay_signature;
     if(isSignatureValid){
         hiYatri.collection.updateOne(
-            {razorpay_order_id: req.body.razorpay_order_id},
-            {  razorpay_payment_id : req.body.razorpay_payment_id, status : 'captured/verified' },
+            {order_id: req.body.razorpay_order_id},
+            { $set : {  razorpay_payment_id : req.body.razorpay_payment_id, status : 'captured/verified' } },
             { upsert: true }
         )
-        console.log('done');
         return res.status(200).json({
           message: 'Payment verification SUCCESS'
         })

@@ -1,6 +1,5 @@
-// import { SampleResponse } from "../sampleResponse";
 
-const BookingInformation = () => {
+const BookingInformation = ({ data }) => {
   return (
     <div className="booking-Information">
       <table>
@@ -15,8 +14,8 @@ const BookingInformation = () => {
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td></td>
+            <td>{data.train_number}</td>
+            <td>{data.train_name}</td>
             <td></td>
             <td></td>
             <td></td>

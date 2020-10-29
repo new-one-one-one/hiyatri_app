@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Formik } from "formik";
 import { BookingPageSchema } from "../../helpers/validationSchema";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -18,6 +18,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 const TrainBooking = ({ data }) => {
 const theme = useTheme();
 const matches = useMediaQuery(theme.breakpoints.up("md"));
+
 
 const [state, setState] = useState({
   checkedA: false,
@@ -90,7 +91,7 @@ return (
               <div className="pnr-heading">
                 <div>
                   <span>
-                    Arrival - PNR No. -
+                    Arrival - PNR No. - {data.pnr_number}
                   </span>
                   <img
                     onClick={() => alert("editing")}
@@ -100,8 +101,7 @@ return (
                 </div>
 
                 <span>
-                  No. of Passengers -
-
+                  No. of Passengers - {data.passenger_details[0].length}
                 </span>
               </div>
             </div>
@@ -110,6 +110,7 @@ return (
               <span className="sub-heading">Booking Information</span>
               <BookingInformation
                 handleChange={handleChange}
+                data={data}
                 handleBlur={handleBlur}
                 values={values}
                 errors={errors}
@@ -121,6 +122,7 @@ return (
                 handleChange={handleChange}
                 handleBlur={handleBlur}
                 values={values}
+                data={data}
                 errors={errors}
                 touched={touched}
               />
@@ -130,6 +132,7 @@ return (
                 handleChange={handleChange}
                 handleBlur={handleBlur}
                 values={values}
+                data={data}
                 errors={errors}
                 touched={touched}
                 otherServices1={state.otherServices1}

@@ -1,6 +1,6 @@
 import Switch from "@material-ui/core/Switch";
 
-const PassengerDetails = (props) => {
+const PassengerDetails = ({data}) => {
   return (
     <div className="Passenger-Details">
       <table>
@@ -28,7 +28,7 @@ const PassengerDetails = (props) => {
         </thead>
         <tbody>
 
-            {[].map(
+            {data.passenger_details[0].map(
               (eachPassenger, index) => {
                 return <tr key={index}>
                   <td>{eachPassenger.booking_status_details}</td>
@@ -50,27 +50,21 @@ const PassengerDetails = (props) => {
                   <td>
                     <div >
                       <span>No</span>
-
-                      <Switch name="firstRow" onChange={props.toggler} />
-
+                      <Switch name="firstRow"   />
                       <span>Yes</span>
                     </div>
                   </td>
                   <td>
                     <div>
                       <span>No</span>
-
-                      <Switch name="SecondRow" onChange={props.toggler} />
-
+                      <Switch name="SecondRow"   />
                       <span>Yes</span>
                     </div>
                   </td>
                   <td>
                     <div>
                       <span>No</span>
-
-                      <Switch name="ThirdRow" onChange={props.toggler} />
-
+                      <Switch name="ThirdRow"   />
                       <span>Yes</span>
                     </div>
                   </td>

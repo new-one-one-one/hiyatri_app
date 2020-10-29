@@ -7,11 +7,8 @@ import BookingComponent from '../../components/Booking';
 import BookingClass from '../../helpers/booking';
 
 const TrainBooking = ({ data }) => {
-const booking = new BookingClass();
-
-  useEffect(() => {
-   booking.addBooking(data);
-  },[])
+  const booking = new BookingClass();
+  booking.addBooking(data)
 
   return <>
             <Layout>

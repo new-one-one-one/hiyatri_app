@@ -1,10 +1,9 @@
 import { isAuth } from '../actions/auth';
-const user = isAuth();
+
 
 class Booking {
     constructor(){
         this.booking = {
-          user_id:"",
           pnr_number:"",
           boarding_station:{
             date:"",
@@ -28,7 +27,6 @@ class Booking {
     addBooking(detail){
       let booking = this.booking;
       let data = detail.pnr_details;
-       booking.user_id = user._id;
        booking.pnr_number = data.pnr_number;
        booking.boarding_station = {date: data.boarding_station.date,
                                    station_name:data.boarding_station.station_name,

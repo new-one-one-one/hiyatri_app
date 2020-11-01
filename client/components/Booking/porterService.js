@@ -1,64 +1,48 @@
-import BaggageGurantee from "./baggageGurantee";
-import { Field } from "formik";
-
-const PorterService = (props) => {
-  return (
-    <div className="porter-Service">
-      <table>
-        <thead>
-          <tr>
-            <th>No. of Large Bags</th>
-            <th>No. of Medium Bags</th>
-            <th>No. of Small Bags</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <Field
-
-                name="LargeBags"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.largeBags}
-              />
-                {props.errors.LargeBags && (
-                                <div className="errors">{props.errors.LargeBags}</div>
-                            ) }
-            </td>
-            <td>
-              <Field
-
-                name="MediumBags"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.mediumBags}
-              />
-                {props.errors.MediumBags && (
-                                <div className="errors">{props.errors.MediumBags}</div>
-                            )}
-
-            </td>
-            <td>
-              <Field
-
-                name="SmallBags"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.smallBags}
-              />
-                {props.errors.SmallBags && (
-                                <div className="errors">{props.errors.SmallBags}</div>
-                            )}
-
-            </td>
-            <td style={{ width: "20%" }}>&#x20b9;300</td>
-          </tr>
-        </tbody>
-      </table>
-      <BaggageGurantee />
-    </div>
-  );
+const PorterService = ({ handleChange }) => {
+  return <>
+          <div className="porter-Service">
+          <table>
+            <thead>
+                <tr>
+                  <th>No. of Large Bags</th>
+                  <th>No. of Medium Bags</th>
+                  <th>No. of Small Bags</th>
+                  <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                  type="number"
+                   onChange={handleChange("porter_service_lg_bags")} />
+                </td>
+                <td>
+                  <input
+                  type="number"
+                   onChange={handleChange("porter_service_md_bags")} />
+                </td>
+                <td>
+                  <input
+                   type="number"
+                   onChange={handleChange("porter_service_sm_bags")} />
+                </td>
+                <td style={{ width: "20%" }}>
+                 &#x20b9;300
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="baggage-container">
+            <input  className="baggage-input" type="checkbox"/>
+              <span className="baggage-text">
+                Baggage Gurantee
+              </span>
+              <span>
+                Starting &#x20b9;20 Per Bag*
+              </span>
+            </div>
+          </div>
+   </>
 };
 export default PorterService;

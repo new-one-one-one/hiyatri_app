@@ -1,49 +1,47 @@
-import { Field } from "formik";
 
-const PassengerContactInfo = (props) => {
-    return (
-        <div className="contact-Information">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Passenger Contact Number*</th>
-                        <th>Secondary Mobile No.</th>
-                        <th>Email ID</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                        <Field  className="input-fields"
-                        name="PassengerNumber"
-                        onChange={props.handleChange}
-                        value={props.values.PassengerNumber}
-                        onBlur={props.handleBlur}
-                        type="Number" />
-                        {props.errors.PassengerNumber && props.touched.PassengerNumber && (
-                            <div className="errors">{props.errors.PassengerNumber}</div>
-                        )}
-                        </td>
-                        <td>
-                          <Field className="input-fields"
-                          value={props.values.SecondaryMobile}
-                          type="Number"
-                          name="SecondaryMobile"
-                          onChange={props.handleChange} />
-                        </td>
-                        <td>
-                          <Field className="input-fields"
-                          name="email"
-                          value={props.values.email}
-                          type="email"
-                          onChange={props.handleChange} />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    );
+const PassengerContactInformation = ({ handleChange, data }) => {
+return <>
+  <div className="contact-Information">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Passenger Mobile Number*</th>
+            <th>Secondary Mobile No.</th>
+            <th>Email ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input className="input-fields"
+               value={data.passenger_contact_information.name}
+               onChange={handleChange("passenger_name")}
+               type="text" />
+            </td>
+            <td>
+              <input className="input-fields"
+               value={data.passenger_contact_information.passenger_primary_number}
+               onChange={handleChange("passenger_primary_number")}
+               type="number" />
+            </td>
+            <td>
+              <input className="input-fields"
+               value={data.passenger_contact_information.passenger_secondary_number}
+               onChange={handleChange("passenger_secondary_number")}
+               type="number" />
+            </td>
+            <td>
+              <input className="input-fields"
+               value={data.passenger_contact_information.passenger_email}
+               onChange={handleChange("passenger_email")}
+               type="email" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</>
 }
 
-export default PassengerContactInfo;
+export default PassengerContactInformation;

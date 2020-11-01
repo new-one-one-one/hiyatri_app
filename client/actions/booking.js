@@ -15,3 +15,19 @@ export const pnrDetails = pnr => {
     	console.error(err);
     });
 };
+
+export const createBooking = (data, token) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/create`, {
+        method: 'POST',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

@@ -21,13 +21,4 @@ exports.create_booking_validator = [
       .isEmpty()
       .withMessage('Primary contact number is required'),
 
-      check('car_service_detail.car_service_opted')
-      .not()
-      .isEmpty()
-      .withMessage('Car service opted is required'),
-
-      check('porter_service_detail.porter_service_opted')
-      .not()
-      .isEmpty()
-      .withMessage('Porter service opted is required'),
 ];

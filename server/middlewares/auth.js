@@ -4,7 +4,7 @@ const { errorHandler } = require('../utils/dbErrorHandler');
 
 exports.requireSignin = expressJwt({
     secret: process.env.JWT_SECRET,
-    algorithms: ['RS256']
+    algorithms: ['sha1', 'RS256', 'HS256']
 });
 
 

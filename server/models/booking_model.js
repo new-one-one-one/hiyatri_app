@@ -38,8 +38,10 @@ const bookingSchema = mongoose.Schema({
         passenger_details:[{
           seat_number: String,
           passenger_name: String,
-          age_group: { type: ObjectId, ref:"Age_Group" },
-          gender: { type: ObjectId, ref:"Gender"},
+          // age_group: { type: ObjectId, ref:"Age_Group" },
+          // gender: { type: ObjectId, ref:"Gender"},
+          age_group:{type: String},  //temporary
+          gender:{type: String},  //temporary
           meet_and_greet: { type: Boolean, default: false },
           wheel_chair: { type: Boolean, default: false },
           golf_cart: { type: Boolean, default: false }

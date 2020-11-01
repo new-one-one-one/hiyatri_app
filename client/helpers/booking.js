@@ -1,57 +1,58 @@
+import { isAuth } from '../actions/auth';
+
 class Booking {
     constructor(){
         this.booking = {
-          user_id:"",
           pnr_number:"",
-          booking_information:{
-            is_arrival:"",
-            boarding_station:{
-              date:"",
-              time:"",
-              station_name:"",
-              station_code:""
-            },
-            reservation_upto:{
-              station_code:"",
-              station_name:"",
-              date:"",
-              time:""
-            }
+          boarding_station:{
+            date:"",
+            time:"",
+            station_name:"",
+            station_code:""
           },
-          passenger_contact_information:{
-             primary_contact_number:"",
-             secondary_contact_number:"",
-             email_id:""
+          reservation_upto:{
+            station_code:"",
+            station_name:"",
+            date:"",
+            time:""
           },
           passenger_details:[],
-          car_service_detail:{
-             car_service_opted:false,
-             destination:"",
-             number_of_passengers:null,
-             luggage_bags:null,
-             number_of_cab:null,
-             price:null
-          },
-          porter_service_detail:{
-             porter_service_opted:false,
-             number_of_large_bags:null,
-             number_of_medium_bags:null,
-             number_of_small_bags:null,
-             price:null
-          }
+          train_number:"",
+          train_name:"",
+          travel_time:""
         };
     }
 
-    // seat_number: String,
-    // passenger_name: String,
-    // age_group: { type: ObjectId, ref:"Age_Group" },
-    // gender: { type: ObjectId, ref:"Gender"},
-    // meet_and_greet: { type: Boolean, default: false },
-    // wheel_chair: { type: Boolean, default: false },
-    // golf_cart: { type: Boolean, default: false }
-
-    AddBooking(data){
-
+    addBooking(detail){
+      let booking = this.booking;
+      let data = detail && detail.pnr_details;
+      if(data){
+        booking.pnr_number = data.pnr_number;
+        booking.boarding_station = {date: data.boarding_station.date,
+                                    station_name:data.boarding_station.station_name,
+                                    station_code: data.boarding_station.station_code,
+                                    time: data.boarding_station.time};
+        booking.reservation_upto = {date: data.reservation_upto.date,
+                                    station_name:data.reservation_upto.station_name,
+                                    station_code: data.reservation_upto.station_code,
+                                    time: data.reservation_upto.time};
+        const passInfo = data.pass_info.map((pass, i) => {
+        return {name: pass.passenger_name,
+                seat: pass.booking_status_details,
+                age_group:"",
+                gender:"",
+                meet_and_greet:false,
+                wheel_chair:false,
+                golf_cart:false }})
+        booking.passenger_details.push(passInfo)
+        booking.train_name = data.train_name;
+        booking.train_number = data.train_number;
+        booking.travel_time = data.travel_time;
+        return;
+      }
+    }
+    getBooking(){
+    return this.booking;
     }
 }
 

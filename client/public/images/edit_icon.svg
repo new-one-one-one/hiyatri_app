@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="Rectangle_3532" d="M0 0H20V20H0z" class="cls-1" transform="translate(0 -21)"/>
+        </clipPath>
+        <clipPath id="clip-path-2">
+            <path id="Path_906" d="M0-1h20v-19H0z" class="cls-1"/>
+        </clipPath>
+        <style>
+            .cls-1,.cls-5{fill:none}.cls-5{stroke:#303030;stroke-linejoin:round;stroke-linecap:round}
+        </style>
+    </defs>
+    <g id="Group_839" transform="translate(0 21)" style="isolation:isolate">
+        <g id="Group_843" clip-path="url(#clip-path)">
+            <g id="Group_842" clip-path="url(#clip-path-2)">
+                <g id="Group_839-2" transform="translate(1 -20)">
+                    <path id="Path_903" d="M5.727 16.364L0 18l1.636-5.727L13.909 0 18 4.091z" class="cls-5"/>
+                </g>
+                <g id="Group_840" transform="translate(11.636 -16.727)">
+                    <path id="Path_904" fill="none" stroke="#303030" stroke-linejoin="round" d="M0 0l4.091 4.091"/>
+                </g>
+                <g id="Group_841" transform="translate(2.636 -7.727)">
+                    <path id="Path_905" d="M0 0l4.091 4.091" class="cls-5"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

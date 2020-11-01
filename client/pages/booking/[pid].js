@@ -1,24 +1,27 @@
 import Layout from '../../components/Core/Layout';
 import Private from '../../components/Core/Private';
 import { pnrDetails } from '../../actions/booking';
+import { useState, useEffect } from 'react';
 import { withRouter } from 'next/router';
 import BookingComponent from '../../components/Booking';
+import BookingClass from '../../helpers/booking';
 
-
-const Booking = ({ data }) => {
+const TrainBooking = ({ data, query }) => {
+  const booking = new BookingClass();
+  booking.addBooking(data)
   return <>
             <Layout>
                <Private>
-                   <BookingComponent data={data} />
+                   <BookingComponent data={booking.getBooking()} query={query}/>
                </Private>
             </Layout>
          </>
 }
 
-Booking.getInitialProps = ({ query }) => {
-    return  pnrDetails(query.pid)
-    .then(value => {
-       return { data: value}
+TrainBooking.getInitialProps = ({ query }) => {
+    return  pnrDetails(query.pnr)
+    .then(data => {
+       return { data, query}
     })
     .catch(err => {
        return console.log(err)
@@ -26,4 +29,4 @@ Booking.getInitialProps = ({ query }) => {
 }
 
 
-export default withRouter(Booking);
+export default withRouter(TrainBooking);

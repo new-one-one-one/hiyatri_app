@@ -9,5 +9,6 @@ const { create_booking_validator } = require("../validators/booking_validator");
 const { run_validation } = require("../validators");
 
 router.post("/booking/create",requireSignin, authMiddleware, create_booking_validator, run_validation, create_booking);
+ 
 
 module.exports = router;

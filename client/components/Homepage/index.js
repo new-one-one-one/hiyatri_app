@@ -34,7 +34,7 @@ const Homepage = () => {
 
 
   return <>
-            <div className="hp-curve" />
+            {/*<div className="hp-curve" />*/}
             <div className="hp-welcome">
                 <section className="hp-welcome-text">
                     <h1 className="hp-title">MEET AND GREET</h1>

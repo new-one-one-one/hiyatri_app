@@ -198,3 +198,281 @@ body{
    font-weight: bold;
    padding: 10px 30px 10px 30px;
  }
+
+
+
+
+/* ------------------
+ BaggageGurantee
+-------------------- */
+.baggage-container{
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+  align-items:center;
+}
+.baggage-input{
+  height: 25px;
+  width: 25px;
+}
+.baggage-text{
+ font-weight: bold;
+ margin: 0px 20px 0px 20px;
+}
+
+
+
+
+
+
+
+
+ .main-div {
+   flex-direction: column;
+   flex-flow: column;
+   min-height: 100%;
+   background-color: #f2f2f2;
+ }
+
+
+
+ .top-subheading{
+     padding:1%
+ }
+
+ .container-div{
+     margin-left:4%;
+     margin-right: 4%;
+     min-width: 80%;
+
+ }
+
+ .pnr-heading{
+     justify-content: space-between;
+     display: flex;
+     flex-direction: row;
+     flex-flow: row;
+
+ }
+
+ .booking-tables{
+     padding:1%;
+     margin-Top:2%;
+
+ }
+
+
+ table th{
+     text-align: left;
+     background-color: #2A306C;
+     padding:1% !important;
+     color:white;
+     border-collapse: collapse;
+     border-right: 1px solid white;
+     width:120px ;
+
+ }
+
+
+ table td{
+
+     padding:2% !important;
+     border-left:1px solid #8588AA;
+     border-bottom: 1px solid #8588AA;
+     border-right: 1px solid #8588AA;
+     width: 120px ;
+ }
+
+
+
+ input{
+
+     margin-top:2% !important;
+     margin-bottom: 2% !important;
+     padding:2%;
+     margin-right:0.9% !important;
+     height:30px  ;
+     width: 100%  ;
+     border:1px solid black;
+     border-radius: 1px;
+
+ }
+
+ table{
+     margin-bottom: 3%;
+     margin-top: 1%;
+     border-collapse: collapse;
+     table-layout: fixed;
+     width: 100%;
+ }
+
+
+
+ .container {
+     justify-content: space-between;
+     flex-direction: column;
+     height: 100vh;
+     display: flex;
+   }
+
+
+   .btn-holder{
+       justify-content: flex-end;
+       display: flex;
+       margin-top: 10%;
+
+   }
+
+   .errors{
+       color:red
+   }
+
+
+
+   /* booking information */
+ .booking-Information{
+     padding:1% !important;
+     border-radius: 10px;
+     box-shadow: 0px 0px 12px grey ;
+     margin:2% 0% 2% 0%;
+     padding-top:1% ;
+     background-color: white;
+     overflow-x: auto;
+ }
+
+ /* conntact_information */
+ .contact-Information{
+     padding:1% !important;
+     border-radius: 10px;
+     box-shadow: 0px 0px 12px  grey ;
+     margin:2% 0% 4% 0%;
+     padding-top:1% ;
+     background-color: white;
+     overflow-x: auto;
+ }
+
+ /* passenger-details */
+ .Passenger-Details{
+     padding:2% !important;
+     border-radius: 10px;
+     box-shadow: 0px 0px 12px  grey ;
+     margin:2% 0% 4% 0%;
+     padding-top:1% ;
+     background-color: white;
+     overflow-x: auto;
+ }
+
+
+ .sub-heading{
+     font-weight:bold
+ }
+
+ /* cab-details */
+
+ .cab-Details{
+     padding:1% !important;
+     border-radius: 10px;
+     box-shadow: 0px 0px 12px  grey ;
+     margin:2% 0% 4% 0%;
+     padding-top:1% ;
+     background-color: white;
+     overflow-x: auto;
+ }
+
+ /* porter Service */
+
+
+ .porter-Service{
+     padding:1% !important;
+     border-radius: 10px;
+     box-shadow: 0px 0px 12px  grey ;
+     margin:2% 0% 4% 0%;
+     padding-top:1% ;
+     background-color: white;
+     overflow-x: auto;
+ }
+
+
+
+
+ /* payable amount div */
+
+ .payable-amount{
+
+     box-shadow: 0px 0px 12px grey;
+     display: flex;
+     justify-content: space-between;
+     flex-direction: row;
+ }
+
+ /* payable amount section */
+
+
+ .payable-amt-section{
+     box-shadow: 0px 0px 12px grey;
+     display: flex;
+     justify-content: space-between;
+     flex-direction: row;
+     border-radius: 10px;
+     padding:1%;
+  padding-top:1% ;
+ }
+
+ /* mobile view */
+ .payable-amt-section-mobile{
+ width:100%
+ }
+
+ /* selections Dropdowns */
+ .container-dropdowns{
+   padding:0px !important;
+ margin:0px !important
+ }
+
+ img{
+     margin-left: 10px;
+ }
+
+ select {
+     text-align: center;
+     justify-content: center;
+     border: 1px solid black;
+     color: #444444;
+     -webkit-user-select: none;
+     background-color: white;
+     background-repeat: no-repeat;
+     background-size: contain;
+     margin-right:0 !important;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     padding-right: 0 !important;
+     padding-left:0 !important;
+     height:40px;
+     width: 110% !important ;
+
+   }
+
+   select option{
+         position: relative;
+   }
+
+
+   body {
+     margin: 0;
+     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+       sans-serif;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+   }
+
+   code {
+     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+       monospace;
+   }
+
+   .icons{
+     margin-right: 1%;
+     margin-left: 0.1%;
+   }

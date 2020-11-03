@@ -9,6 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Router from 'next/router';
 import { createBooking } from '../../actions/booking';
 import { getCookie, isAuth } from "../../actions/auth";
 
@@ -280,7 +281,7 @@ const handleSubmit = e => {
     if(response.error){
       return console.log(response.error)
     }
-  console.log(response)
+    Router.push(`/booking/order/${state.pnr_number}`)
   })
   .catch(err => {
     console.log(err)
@@ -294,7 +295,6 @@ useEffect(() => {
               payload: query.pnr })
 },[])
 
-console.log(state)
 return <>
          <div className="main-div">
             <form>

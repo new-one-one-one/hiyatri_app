@@ -19,8 +19,8 @@ exports.authenticate = (req, res) => {
               error: err
             })
           }
-         const token = jwt.sign({_id: result._id}, process.env.JWT_SECRET, { expiresIn: '1d' });
-         res.cookie('token', token, { expiresIn: '1d' });
+         const token = jwt.sign({_id: result._id}, process.env.JWT_SECRET, { expiresIn: '7d' });
+         res.cookie('token', token, { expiresIn: '7d' });
          const user = { _id: result._id, phone_number: result.phone_number}
          return res.status(200).json({
             message: "successfully authenticated",
@@ -30,8 +30,8 @@ exports.authenticate = (req, res) => {
          res.status(200).json({ result })
        })
      }
-     const token = jwt.sign({_id: response._id}, process.env.JWT_SECRET, { expiresIn: '1d' });
-     res.cookie('token', token, { expiresIn: '1d' });
+     const token = jwt.sign({_id: response._id}, process.env.JWT_SECRET, { expiresIn: '7d' });
+     res.cookie('token', token, { expiresIn: '7d' });
      const user = { _id: response._id, phone_number: response.phone_number}
      return res.status(200).json({
         message: "successfully authenticated",

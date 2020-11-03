@@ -62,3 +62,18 @@ exports.create_booking = (req, res) => {
       })
    })
 }
+
+exports.get_booking_by_pnr = (req, res) => {
+   const { pnr } = req.params;
+   Booking.findOne({ pnr_number: pnr })
+     .exec((err, response) => {
+       if(err){
+         return res.status(400).json({
+            error: err
+         })
+       }
+       res.status(200).json({
+         response
+       })
+     })
+}

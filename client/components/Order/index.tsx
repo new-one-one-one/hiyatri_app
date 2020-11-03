@@ -1,5 +1,3 @@
-
-import React from "react";
 import {Paper} from "@material-ui/core";
 import {Theme, makeStyles, withStyles, createStyles} from "@material-ui/core/styles";
 import {Grid, FormControlLabel, Box,Button, TextField, List,Avatar, ListItemText, ListItemAvatar, ListItem, CardContent,Typography,Divider} from "@material-ui/core";
@@ -11,6 +9,8 @@ import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import useWindowSize from './windowDimension';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Height } from "@material-ui/icons";
+import { getCookie, isAuth } from "../../actions/auth";
+
 
 const AquaBlueCheckBox = withStyles({
   root: {
@@ -22,13 +22,12 @@ const AquaBlueCheckBox = withStyles({
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-
     grow: {
       flexGrow: 1,
     },
     AppBarColor:{
       background:"#000066"
-    },  
+    },
     inputRoot: {
       color: 'inherit',
     },
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: "Roboto",
 
     },
-    allOrders:{      
+    allOrders:{
       overflow:"none",
       flexGrow: 1,
       borderRadius:"10px",
@@ -75,14 +74,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom:"3%",
       paddingLeft:"5px",
       paddingRight:"5px",
-      borderColor:"#000066", 
+      borderColor:"#000066",
       borderWidth:"1.5px",
       paddingBottom:"10px",
       paddingTop:"10px"
     },
     innerDetails:{
       padding:"4px 8px 1px 5px",
-      color:"grey",    
+      color:"grey",
     },
     promocode:{
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
@@ -94,13 +93,13 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft:"2px",
 
     },
-  
+
     orderFull:{
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
       MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
       boxShadow:"2px 2px 2px 2px #9E9E9E",
       borderRadius:"10px"
-      
+
     },
     Services :{
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
@@ -110,11 +109,11 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom:"5px",
       borderRadius:"10px",
     },
- 
+
     outerDetails:{
       // top right bottom left
-      padding:"10px 8px 2px 5px", 
-      color:"#000066", 
+      padding:"10px 8px 2px 5px",
+      color:"#000066",
     },
     headingPart:{
       borderRadius:"4px 4px 0px 0px",
@@ -125,7 +124,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     wholeList:{
       paddingBottom:"5px",
-      borderColor:"#000066", 
+      borderColor:"#000066",
       borderWidth:"1.5px",
     },
     mobileButton:{
@@ -141,74 +140,20 @@ const useStyles = makeStyles((theme: Theme) =>
       background:"#00FFFF",
       top:'auto',
       bottom:0
-
     }
   }));
 
-const FinalORder = () => {
+
+const FinalORder = ({ data }) => {
+  const token = getCookie('token');
   const { width } = useWindowSize();
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const handleMobileMenuClose = () => {setMobileMoreAnchorEl(null);};
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {setMobileMoreAnchorEl(event.currentTarget);};
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      keepMounted
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton  color="inherit">
-            <ContactPhoneIcon />
-        </IconButton>
-        <p>Contact Us</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color="inherit">
-            <PersonOutlineIcon />
-        </IconButton>
-        <p>Me</p>
-      </MenuItem>
-    </Menu>
-  );
   return (
   <div>
-    {/* Creating heading bar */}
-    <AppBar className={classes.AppBarColor} position="fixed">
-        <Toolbar>
-          <span style={{fontSize:"20px"}}><b>HI-Y </b></span>
-              <TrainIcon />
-          <span style={{fontSize:"20px"}}> <b>TRI </b></span>
-
-          <div className={classes.grow}/>
-          {/* Content of bar */}
-           <div className={classes.sectionDesktop}>
-            <IconButton  color="inherit">
-                <ContactPhoneIcon />
-            </IconButton>
-            <p>Contact Us</p>
-            <IconButton color="inherit">
-              <PersonOutlineIcon />
-            </IconButton>
-            <p>Me</p>
-          </div>
-          {/* For mobile menu */}
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <FilterListIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      {renderMobileMenu}
-      </AppBar>
-      
     <div className={classes.root}>
       <h5>Summary</h5>
       <Grid container spacing={3}>
@@ -219,7 +164,7 @@ const FinalORder = () => {
             <Box className={classes.headingPart} p={2} bgcolor="#000066">
                       <Typography>Meeting Services</Typography>
             </Box>
-          
+
              <Paper variant="outlined" className={classes.particularOrder}>
           <div style={{marginLeft:"4%"}}>
             <Grid style={{color:"grey"}}  container spacing={1}>
@@ -233,29 +178,29 @@ const FinalORder = () => {
                     <Grid  item xs={4}>
                     <b> Number of passengers </b>
                     </Grid>
-                </Grid>  
+                </Grid>
             <Grid container spacing={1}>
               <Grid  item xs={4}>
-                  New Delhi 
+                  New Delhi
               </Grid>
               <Grid  item xs={2} >
-                <Typography align="center">12:35</Typography> 
+                <Typography align="center">12:35</Typography>
               </Grid>
               <Grid  item xs={4}>
-              <Typography align="right">4</Typography> 
+              <Typography align="right">4</Typography>
               </Grid>
-            </Grid> 
+            </Grid>
           </Grid>
-               
+
           </div>
               </Paper>
 
-              
-              {/*  FIRST ORDER DISPLAY */}        
+
+              {/*  FIRST ORDER DISPLAY */}
               <Paper variant="outlined" className={classes.particularOrder}>
                   <div className={classes.outerDetails}>
 
-                    <Grid container xs={12} justify="space-between">  
+                    <Grid container xs={12} justify="space-between">
                           <Typography  variant="body1" align="left">Ram Sahara</Typography>
                           <Typography  variant="body1" align="right">Rs.580</Typography>
                     </Grid>
@@ -263,54 +208,12 @@ const FinalORder = () => {
                   <Divider/>
                   {/* Whats included in order */}
                   <div className={classes.innerDetails} >
-                    <Grid container xs={12} justify="space-between">  
+                    <Grid container xs={12} justify="space-between">
                           <Typography  variant="body2"  align="left">Meet & Greet</Typography>
                           <Typography  variant="body2" align="right">Rs.500</Typography>
                     </Grid>
                   </div>
-              </Paper> 
-              {/*  SECOND ORDER DISPLAY */}
-              <Paper variant="outlined" className={classes.particularOrder}>
-                  <div className={classes.outerDetails}>
-                    <Grid container xs={12} justify="space-between">  
-                          <Typography  variant="body1" align="left">Ram Sahara</Typography>
-                          <Typography  variant="body1" align="right">Rs.580</Typography>
-                    </Grid>
-                  </div>
-                  <Divider />
-                  {/* Whats included in order */}
-                  <div className={classes.innerDetails} >
-                    <Grid container xs={12} justify="space-between">  
-                          <Typography  variant="body2"  align="left">Meet & Greet</Typography>
-                          <Typography  variant="body2" align="right">Rs.500</Typography>
-                    </Grid>
-                    <Grid container xs={12} justify="space-between">  
-                          <Typography  variant="body2"  align="left">Cab</Typography>
-                          <Typography  variant="body2" align="right">Rs.80</Typography>
-                    </Grid>
-                  </div>
-              </Paper> 
-              {/* Third Order Display */}
-              <Paper variant="outlined" className={classes.particularOrder}>
-                  <div className={classes.outerDetails}>
-                    <Grid container xs={12} justify="space-between">  
-                          <Typography  variant="body1" align="left">Ram Sahara</Typography>
-                          <Typography  variant="body1" align="right">Rs.500</Typography>
-                    </Grid>
-                  </div>
-                  <Divider />
-                  {/* Whats included in order */}
-                  <div className={classes.innerDetails} >
-                    <Grid container xs={12} justify="space-between">  
-                          <Typography  variant="body2"  align="left">Meet & Greet</Typography>
-                          <Typography  variant="body2" align="right">Rs.500</Typography>
-                    </Grid>
-                    <Grid container xs={12} justify="space-between">  
-                          <Typography  variant="body2"  align="left">Cab</Typography>
-                          <Typography  variant="body2" align="right">Rs.80</Typography>
-                    </Grid>
-                  </div>
-              </Paper> 
+              </Paper>
               <br></br>
           </Paper>
         <br></br>
@@ -318,7 +221,7 @@ const FinalORder = () => {
           <Box className={classes.headingPart} p={1} bgcolor="#000066">
                       <Typography>Other Services</Typography>
           </Box>
-          
+
           <Paper className={classes.particularOrder} variant="outlined">
                  <Box display="flex" p={0} bgcolor="background.paper">
                     <Box p={1} width="100%">
@@ -337,7 +240,7 @@ const FinalORder = () => {
                       500
                     </Box>
                   </Box>
-           </Paper>       
+           </Paper>
         </Paper>
         <FormControlLabel
           control={
@@ -388,20 +291,20 @@ const FinalORder = () => {
           <Paper className={classes.promocode}>
                 <Box display="flex" p={1} bgcolor="background.paper">
                   <Box p={1} width="100%">
-                    Have any promoCode? 
+                    Have any promoCode?
                   </Box>
                   <Box p={0} flexShrink={0}>
                       <Button size="small" variant="outlined" color="primary" href="#outlined-buttons">
                         Apply
                       </Button>
-                        
+
                   </Box>
-              
-                </Box>              
+
+                </Box>
                {/* <Container >
                <Grid container xs={12} spacing={2}>
                   <Grid xs={10}>
-                      Have any promoCode ? 
+                      Have any promoCode ?
                   </Grid>
                   <Grid xs={2}>
                   <Button size="small" variant="outlined" color="primary" href="#outlined-buttons">
@@ -410,7 +313,7 @@ const FinalORder = () => {
                   </Grid>
                 </Grid>
                  </Container>  */}
-                
+
 
           </Paper>
           <br></br>
@@ -422,35 +325,35 @@ const FinalORder = () => {
                     Total Cost
                   </Box>
                   <Box p={1} flexShrink={0}>
-                   Rs. 2000 
+                   Rs. 2000
                   </Box>
                 </Box>
                 <Box display="flex" p={0} bgcolor="background.paper">
                   <Box p={1} width="100%">
-                    Discount 
+                    Discount
                     <br></br>
-                    <p style={{color:"blue"}}>Apply Coupon ? </p> 
+                    <p style={{color:"blue"}}>Apply Coupon ? </p>
                   </Box>
                   <Box p={1} flexShrink={0}>
-                   - Rs. 500 
+                   - Rs. 500
                   </Box>
                 </Box>
-                <Divider variant="middle"/> 
+                <Divider variant="middle"/>
                 <Box display="flex" p={0} bgcolor="background.paper">
                   <Box p={1} width="100%">
-                    Final Cost 
+                    Final Cost
                   </Box>
                   <Box p={1} flexShrink={0}>
-                   Rs. 1500 
+                   Rs. 1500
                   </Box>
-                </Box>  
-                {width>500 && ( 
+                </Box>
+                {width>500 && (
                 <Button className={classes.mobileButton} size="large" variant="contained">
                   Book Now
-                </Button>   
-                )}         
+                </Button>
+                )}
           </Paper>
-          
+
         </Grid>
        </Grid>
        <br></br>
@@ -458,11 +361,11 @@ const FinalORder = () => {
       <br/>
       <br/>
     </div>
-   { (width <500) && (  
+   { (width <500) && (
     <AppBar className={classes.buttonMobile} position="fixed">
       <Button>Book Now</Button>
     </AppBar>
-    
+
    )}
     </div>
   );

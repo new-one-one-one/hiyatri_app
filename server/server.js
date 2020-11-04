@@ -8,6 +8,8 @@ const app = express();
 
 const authRouter = require('./routers/auth_router');
 const bookingRouter = require('./routers/booking_router');
+const orderRouter = require('./routers/order_router');
+
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -16,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api', authRouter);
 app.use('/api', bookingRouter);
+app.use('/api', orderRouter);
 
 mongoose.connect(process.env.DATABASE, {
 		useNewUrlParser: true,

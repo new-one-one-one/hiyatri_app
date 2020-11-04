@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {Paper} from "@material-ui/core";
 import TrainIcon from '@material-ui/icons/Train';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -7,28 +8,10 @@ import useWindowSize from './windowDimension';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Height } from "@material-ui/icons";
 import { getCookie, isAuth } from "../../actions/auth";
-import {Theme,
-        makeStyles,
-        withStyles,
-        createStyles} from "@material-ui/core/styles";
-import {Grid,
-        FormControlLabel,
-        Box,Button,
-        TextField,
-        List,
-        Avatar,
-        ListItemText,
-        ListItemAvatar,
-        ListItem,
-        CardContent,
-        Typography,
-        Divider} from "@material-ui/core";
-import {IconButton,
-        AppBar,
-        Toolbar,
-        Menu,
-        MenuItem} from "@material-ui/core";
-
+import {Theme,makeStyles,withStyles,createStyles} from "@material-ui/core/styles";
+import {Grid,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,ListItemAvatar,ListItem,CardContent,Typography,Divider} from "@material-ui/core";
+import {IconButton,AppBar,Toolbar,Menu,MenuItem} from "@material-ui/core";
+import { createOrder } from '../../actions/order';
 
 
 const AquaBlueCheckBox = withStyles({
@@ -164,7 +147,7 @@ const useStyles = makeStyles(Theme =>
   }));
 
 
-const FinalORder = ({ data }) => {
+const FinalOrder = ({ data }) => {
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -172,6 +155,95 @@ const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState();
 const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 const handleMobileMenuClose = () => {setMobileMoreAnchorEl(null);};
 const handleMobileMenuOpen = (event) => { setMobileMoreAnchorEl(event.currentTarget) };
+// const [orderId, setOrderId] = useState(null);
+
+const order = (e) => {
+    e.preventDefault()
+    createOrder(data.response._id)
+       .then(response => {
+         if(response.error){
+           return response.error
+         }
+         paymentHandler(response._id)
+       })
+       .catch((err) => {
+         console.log(err)
+       })
+}
+
+
+const paymentHandler = (orderId) => {
+  console.log(orderId)
+    const options = {
+    key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
+    amount: 100,
+    currency: 'INR',
+    name: 'Payments',
+    order_id: orderId,
+    prefill: {
+      contact: isAuth() && isAuth().mobile,
+      email: isAuth() && isAuth().email
+    },
+    theme: {
+    color: 'black',
+    },
+    handler(response) {
+     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+     console.log(razorpay_order_id,
+                 razorpay_payment_id,
+                 razorpay_signature)
+
+    }
+  }
+    const razorpay = new window.Razorpay(options);
+    razorpay.open()
+}
+
+
+
+const showPassengers = () => {
+     return data.response.passenger_details.map((item, i) => {
+       return <>
+               <div className={classes.outerDetails}>
+               <Grid container xs={12} justify="space-between">
+               <Typography  variant="body1" align="left">
+                 {item.passenger_name}
+               </Typography>
+               <Typography  variant="body1" align="right">
+                 Rs.580
+               </Typography>
+               </Grid>
+               </div>
+               <Divider/>
+               <div className={classes.innerDetails} >
+                 <Grid container xs={12} justify="space-between">
+                     <Typography  variant="body2"  align="left">
+                        {item.meet_and_greet?"Meet & Greet":""}
+                     </Typography>
+                     <Typography  variant="body2" align="right">
+                      {item.meet_and_greet?"Rs. 500":""}
+                     </Typography>
+                 </Grid>
+                 <Grid container xs={12} justify="space-between">
+                     <Typography  variant="body2"  align="left">
+                        {item.wheel_chair?"Wheel Chair":""}
+                     </Typography>
+                     <Typography  variant="body2" align="right">
+                       {item.wheel_chair?"Rs. 500":""}
+                     </Typography>
+                 </Grid>
+                 <Grid container xs={12} justify="space-between">
+                     <Typography  variant="body2"  align="left">
+                        {item.golf_cart?"Golf cart":""}
+                     </Typography>
+                     <Typography  variant="body2" align="right">
+                      {item.golf_cart?"Rs. 500":""}
+                     </Typography>
+                 </Grid>
+               </div>
+              </>
+     })
+}
 
 
 return  <>
@@ -193,7 +265,7 @@ return  <>
                                            <b> Meeting Station </b>
                                         </Grid>
                                         <Grid  item xs={4}>
-                                           <b> Time Of arrival  </b>
+                                           <b>{`Time of ${data.response.booking_information.is_arrival?"arrival":"departure"}`}</b>
                                         </Grid>
                                         <Grid  item xs={4}>
                                            <b> Number of passengers </b>
@@ -201,7 +273,8 @@ return  <>
                                    </Grid>
                                    <Grid container spacing={1}>
                                         <Grid item xs={4}>
-                                         New Delhi
+                                           {data.response.booking_information.is_arrival?data.response.booking_information.reservation_upto.station_name:
+                                            data.response.booking_information.boarding_station.station_name}
                                         </Grid>
                                         <Grid  item xs={2}>
                                            <Typography align="center">
@@ -210,34 +283,16 @@ return  <>
                                         </Grid>
                                         <Grid  item xs={4}>
                                           <Typography align="right">
-                                            4
+                                            {data.response.passenger_details.length}
                                           </Typography>
                                         </Grid>
                                   </Grid>
                             </Grid>
                         </Paper>
                         <Paper variant="outlined" className={classes.particularOrder}>
-                              <div className={classes.outerDetails}>
-                              <Grid container xs={12} justify="space-between">
-                              <Typography  variant="body1" align="left">
-                                 Ram Sahara
-                              </Typography>
-                              <Typography  variant="body1" align="right">Rs.580</Typography>
-                              </Grid>
-                              </div>
-                              <Divider/>
-                              <div className={classes.innerDetails} >
-                                <Grid container xs={12} justify="space-between">
-                                    <Typography  variant="body2"  align="left">
-                                        Meet & Greet
-                                    </Typography>
-                                    <Typography  variant="body2" align="right">
-                                    Rs.500
-                                    </Typography>
-                                </Grid>
-                              </div>
-                              </Paper>
-                              <br />
+                           {showPassengers()}
+                        </Paper>
+                        <br />
                         </Paper>
                         <br/>
                         <Paper className={classes.Services}>
@@ -249,19 +304,19 @@ return  <>
                                 <Paper className={classes.particularOrder} variant="outlined">
                                       <Box display="flex" p={0} bgcolor="background.paper">
                                             <Box p={1} width="100%">
-                                              Baggage Service
+                                            {data.response.car_service.car_service_opted?"CAB service":""}
                                             </Box>
                                             <Box p={1}>
-                                              2000
+                                            {data.response.car_service.car_service_opted?"Rs. 2000":""}
                                             </Box>
                                       </Box>
                                       <Divider />
                                       <Box display="flex" p={0}>
                                             <Box p={1} width="100%">
-                                              Cab serivice
+                                            {data.response.car_service.car_service_opted?"Porter service":""}
                                             </Box>
                                             <Box p={1} flexShrink={1}>
-                                              500
+                                            {data.response.car_service.car_service_opted?"Rs. 1000":""}
                                             </Box>
                                       </Box>
                                 </Paper>
@@ -284,6 +339,30 @@ return  <>
                               <ListItemAvatar>
                                 <Avatar  style={{backgroundColor:"#000066"}}>
                                   1
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText primary="" secondary="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer" />
+                              </ListItem>
+                              <ListItem>
+                              <ListItemAvatar>
+                                <Avatar  style={{backgroundColor:"#000066"}}>
+                                  2
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText primary="" secondary="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer" />
+                              </ListItem>
+                              <ListItem>
+                              <ListItemAvatar>
+                                <Avatar  style={{backgroundColor:"#000066"}}>
+                                  3
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText primary="" secondary="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer" />
+                              </ListItem>
+                              <ListItem>
+                              <ListItemAvatar>
+                                <Avatar  style={{backgroundColor:"#000066"}}>
+                                  4
                                 </Avatar>
                               </ListItemAvatar>
                               <ListItemText primary="" secondary="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer" />
@@ -337,7 +416,7 @@ return  <>
                                       </Box>
                                   </Box>
                             {width>500 && (
-                            <Button className={classes.mobileButton} size="large" variant="contained">
+                            <Button className={classes.mobileButton} size="large" variant="contained" onClick={order}>
                               Book Now
                             </Button>)}
                   </Paper>
@@ -345,7 +424,7 @@ return  <>
       </Grid>
 </div>
 {(width <500) && (
-  <AppBar className={classes.buttonMobile} position="fixed">
+  <AppBar className={classes.buttonMobile} position="fixed" onClick={order}>
     <Button>
       Book Now
     </Button>
@@ -353,4 +432,4 @@ return  <>
 )}
     </>
 }
-export default FinalORder;
+export default FinalOrder;

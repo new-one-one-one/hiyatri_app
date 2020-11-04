@@ -8,11 +8,11 @@ const PassengerDetails = ({data, handleChange}) => {
             (item, index) => {
               return <tr key={index}>
                         <td>
-                          {item.seat}
+                          {item.seat_number}
                         </td>
                         <td>
-                         <input placeholder={item.name}
-                          value={item.name}
+                         <input placeholder={item.passenger_name}
+                          value={item.passenger_name}
                           onChange={handleChange("passenger_detail_name", index)} />
                         </td>
                         <td>

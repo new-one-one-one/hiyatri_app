@@ -37,8 +37,8 @@ class Booking {
                                     station_code: data.reservation_upto.station_code,
                                     time: data.reservation_upto.time};
         const passInfo = data.pass_info.map((pass, i) => {
-        return {name: pass.passenger_name,
-                seat: pass.booking_status_details,
+        return {passenger_name: pass.passenger_name,
+                seat_number: pass.booking_status_details,
                 age_group:"",
                 gender:"",
                 meet_and_greet:false,

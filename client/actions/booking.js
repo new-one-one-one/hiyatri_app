@@ -33,6 +33,7 @@ export const createBooking = (data, token) => {
 };
 
 export const getBookingByPnr = (pnr, token) => {
+  console.log(pnr)
     return fetch(`${process.env.NEXT_PUBLIC_API}/booking/get/${pnr}`, {
         method: 'GET',
         headers: {

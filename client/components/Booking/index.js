@@ -136,7 +136,7 @@ const reducer = (state, action) => {
        const pass_detail_name = state.passenger_details
         .map((value, idx) => {
         if(action.sidx != idx) return value;
-        return {...value, name: action.payload }})
+        return {...value, passenger_name: action.payload }})
         return {...state, passenger_details: pass_detail_name}
     case ACTIONS.PASSENGER_DETAIL.AGE:
        const pass_detail_age = state.passenger_details
@@ -235,17 +235,17 @@ const handleChange = (value1, value2) => e => {
   }
   if(value1 === "passenger_detail_meet_and_greet"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-               payload: e.target.value,
+               payload: e.target.checked,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_wheel_chair"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-               payload: e.target.value,
+               payload: e.target.checked,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_golf_cart"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-               payload: e.target.value,
+               payload: e.target.checked,
                sidx: value2 })
   }
 
@@ -295,6 +295,7 @@ useEffect(() => {
               payload: query.pnr })
 },[])
 
+console.log(state)
 return <>
          <div className="main-div">
             <form>

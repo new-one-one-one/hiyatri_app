@@ -55,6 +55,7 @@ exports.create_booking = (req, res) => {
                 error: errorHandler(err)
                 })
               }
+              console.log(response)
               return res.status(200).json({
               message:"Booking successfully created"
             })
@@ -66,6 +67,8 @@ exports.create_booking = (req, res) => {
 exports.get_booking_by_pnr = (req, res) => {
    const { pnr } = req.params;
    Booking.findOne({ pnr_number: pnr })
+     .populate("car_service", "car_service_detail")
+     .populate("porter_service", "porter_service_detail")
      .exec((err, response) => {
        if(err){
          return res.status(400).json({

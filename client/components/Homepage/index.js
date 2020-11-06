@@ -1,19 +1,28 @@
 import { useReducer } from 'react';
 import Button from '@material-ui/core/Button';
-import { TextField } from '@material-ui/core';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Modal from './otp_modal';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
 
 
 const Homepage = () => {
 
   const initialData = {
+    status: "",
     phone_number:"",
     pnr_number:"",
   }
 
   const ACTIONS = {
     PHONE:"phone",
-    PNR:"pnr"
+    PNR:"pnr",
+    STATUS:"status",
+    ERROR_PH:"error"
   }
   const reducer = (state, action) => {
       switch (action.type) {
@@ -21,92 +30,106 @@ const Homepage = () => {
            return {...state, phone_number: action.data}
         case  ACTIONS.PNR:
            return {...state, pnr_number: action.data}
+        case  ACTIONS.STATUS:
+          return {...state, status: action.data}
         default:
             return state
       }
   }
   const [state, dispatch] = useReducer(reducer, initialData)
   const handleChange  = name => e => {
-    name === "phone" ? dispatch({ type: ACTIONS.PHONE, data: e.target.value }):
-                       dispatch({ type: ACTIONS.PNR, data: e.target.value })
+        if(name==="phone"){
+           dispatch({ type: ACTIONS.PHONE, data: e.target.value })
+        }
+        if(name==="pnr"){
+          dispatch({ type: ACTIONS.PNR, data: e.target.value })
+        }
+        if(name==="status"){
+          dispatch({ type: ACTIONS.STATUS, data: e.target.value })
+        }
   }
 
-
-
+console.log(state)
   return <>
-            {/*<div className="hp-curve" />*/}
+            {<div className="hp-curve" />}
             <div className="hp-welcome">
-                <section className="hp-welcome-text">
-                    <h1 className="hp-title">MEET AND GREET</h1>
-                    <p className="hp-desc">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                      Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                      when an unknown printer.
-                    </p>
-                </section>
-            </div>
-            <div className="hp-mg">
-              <h2 className="hp-mg-title">TYPE OF MEET AND GREET</h2>
-                <div className="row col justify-content-center">
-                    <div className="col-md-4 hp-mg-card">
-                        <header className="hp-mg-header">
-                           Arrival Meet and Greet
-                        </header>
-                        <p className="hp-mg-desc">
-                           Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                           Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                           when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        </p>
-                        <div className="hp-btn-container">
-                            <Button variant="contained" className="hp-mg-btn">
-                               Choose Arrival
-                            </Button>
-                        </div>
-                    </div>
+               <div className="mb-hp-welcome d-sm-block d-md-none">
+                  <img src="/images/home_welcome_mobile.jpg" width="100%" />
+               </div>
+               <div className="hp-welcome-inner">
+                  <div className="row justify-content-center">
+                     <div className="col-md-7 hp-inp-outer">
+                        {/*<div className="d-lg-block d-xl-block d-none d-md-block d-lg-none">
+                          <section className="hp-heading">
+                          India's Only Meet & Greet Service
+                          </section>
+                          <section className="hp-subheading">
+                          Avoid Long Lines With Our Personal VIP Assistance
+                          </section>
+                        </div>*/}
 
-                    <div className="col-md-4 hp-mg-card">
-                        <header className="hp-mg-header">
-                          Departure Meet and Greet
-                        </header>
-                        <p className="hp-mg-desc">
-                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                          when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        </p>
-                        <div className="hp-btn-container">
-                            <Button variant="contained" className="hp-mg-btn">
-                               Choose Departure
-                            </Button>
+                        <div className="hp-inp-container">
+                           <div className="hp-radio-btn">
+                               <FormControl component="fieldset">
+                               <RadioGroup
+                                  aria-label="gender"
+                                  name="gender1"
+                                  row
+                                  onChange={handleChange("status")}>
+                                 <FormControlLabel
+                                  value="arrival"
+                                  control={<Radio
+                                  color="primary"/>}
+                                  label="Arrival"/>
+                                 <FormControlLabel
+                                  value="departure"
+                                  control={<Radio
+                                  color="primary"/>}
+                                  label="Departure"
+                                  className="ml-5"/>
+                               </RadioGroup>
+                               </FormControl>
+                           </div>
+
+                           <div className="row justify-content-center">
+                               <div className="col-md-6">
+                                <OutlinedInput
+                                variant="outlined"
+                                type="Number"
+                                error={false}
+                                value={state.phone_number}
+                                onChange={handleChange("phone")}
+                                placeholder="Phone no."
+                                className="hp-input"
+                                fullWidth
+                                startAdornment={<InputAdornment position="start">+91</InputAdornment>}
+                                />
+                               {/*<small>Phone number is not valid</small>*/}
+                               </div>
+                               <div className="col-md-6">
+                               <OutlinedInput
+                               variant="outlined"
+                               type="Number"
+                               error={false}
+                               value={state.pnr_number}
+                               onChange={handleChange("pnr")}
+                               className="hp-input"
+                               placeholder="PNR No."
+                               fullWidth/>
+                                {/* <small>PNR number is not valid</small>*/}
+                               </div>
+                               <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none pt-4">
+                                 <Modal state={state}/>
+                               </div>
+                           </div>
                         </div>
-                    </div>
-                </div>
+                     </div>
+                  </div>
+               </div>
+               <div className="text-center d-sm-block d-md-none">
+                 {<Modal state={state}/>}
+               </div>
             </div>
-             <div className="hp-detail-container container">
-                  <small>Please provide basic detail t avail the services</small>
-             </div>
-             <div className="hp-details container">
-                  <div className="row col justify-content-center">
-                      <div className="col-md-4">
-                          <TextField label="Phone No."
-                                      fullWidth
-                                      onChange={handleChange("phone")}
-                                      className="hp-detail-input"
-                                      variant="outlined"
-                                      size="small"/>
-                      </div>
-                      <div className="col-md-4">
-                          <TextField label="PNR No."
-                                      fullWidth
-                                      onChange={handleChange("pnr")}
-                                      className="hp-detail-input"
-                                      variant="outlined"
-                                      size="small"/>
-                      </div>
-                  </div>
-                  <div className="text-center mt-2">
-                  <Modal state={state}/>
-                  </div>
-             </div>
          </>
 }
 export default Homepage;

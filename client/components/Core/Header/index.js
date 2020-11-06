@@ -10,6 +10,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
+      height:"88px",
       flexGrow: 1,
     },
     menuButton: {
@@ -27,10 +28,10 @@ const theme = useTheme();
 const classes = useStyles();
 const matches = useMediaQuery(theme.breakpoints.up("lg"));
   return  <>
-            <AppBar position='fixed'>
+            <AppBar position='fixed' className={classes.root}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                    <img className="icons" src="/images/logo.png" />
+                    <img className="icons" src="/images/logo.png" className="h-logo"/>
                     </Typography>
                     {matches ? (
                     <Typography />

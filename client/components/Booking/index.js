@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Router from 'next/router';
 import { createBooking } from '../../actions/booking';
 import { getCookie, isAuth } from "../../actions/auth";
+import { singleUser } from "../../actions/user";
 
 const TrainBooking = ({ data, query }) => {
 const theme = useTheme();
@@ -44,7 +45,7 @@ const initialData = {
   },
   passenger_contact_information: {
    name: "",
-   primary_contact_number: "",
+   primary_contact_number: isAuth() && isAuth().phone_number,
    secondary_contact_number: "",
    email_id: ""
  },
@@ -65,6 +66,7 @@ const initialData = {
     price: 0
 }
 }
+
 
 const ACTIONS = {
   USER_ID:"user_id",
@@ -274,6 +276,8 @@ const handleChange = (value1, value2) => e => {
   }
 }
 
+
+console.log(state)
 const handleSubmit = e => {
   e.preventDefault();
   createBooking(state, token)
@@ -293,9 +297,19 @@ useEffect(() => {
              payload: isAuth() && isAuth()._id })
    dispatch({ type: ACTIONS.PNR,
               payload: query.pnr })
+
+  singleUser(isAuth() && isAuth()._id)
+    .then((value) => {
+      console.log(value)
+      dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
+                 payload: value.result.name })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 },[])
 
-console.log(state)
+
 return <>
          <div className="main-div">
             <form>
@@ -333,11 +347,11 @@ return <>
                       handleChange={handleChange}
                       data={state}  />
 
-                      <span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
+                      {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
                       <Switch
                       onChange={handleChange("cab_service_opted")}
                       value={state.cab_service_detail.cab_copted} />
-                      <CabService />
+                      <CabService />*/}
 
                       <span>Porter Service</span>
                       <Switch

@@ -7,6 +7,8 @@ class MyDocument extends Document {
       <Html lang="en">
       <Head>
       <script SameSite="None" src="https://checkout.razorpay.com/v1/checkout.js" />
+      <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer />
+
       </Head>
         <body>
           <Main />

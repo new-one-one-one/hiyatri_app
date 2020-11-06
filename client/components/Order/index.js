@@ -12,6 +12,7 @@ import {Theme,makeStyles,withStyles,createStyles} from "@material-ui/core/styles
 import {Grid,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,ListItemAvatar,ListItem,CardContent,Typography,Divider} from "@material-ui/core";
 import {IconButton,AppBar,Toolbar,Menu,MenuItem} from "@material-ui/core";
 import { createOrder } from '../../actions/order';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 
 const AquaBlueCheckBox = withStyles({
@@ -19,6 +20,7 @@ const AquaBlueCheckBox = withStyles({
     '&$checked': {
       color: "aqua",
     },
+
   },
   checked: {},
 })(CheckboxProps => <Checkbox color="default" />);
@@ -28,6 +30,12 @@ const useStyles = makeStyles(Theme =>
   createStyles({
     grow: {
       flexGrow: 1,
+    },
+    outerPass:{
+    border:"2px solid #283593",
+    borderRadius:"10px",
+    margin:"10px 0px 20px 0px",
+    padding:"20px 10px 20px 10px"
     },
     AppBarColor:{
       background:"#000066"
@@ -78,7 +86,7 @@ const useStyles = makeStyles(Theme =>
       marginBottom:"3%",
       paddingLeft:"5px",
       paddingRight:"5px",
-      borderColor:"#000066",
+    border:"2px solid #283593",
       borderWidth:"1.5px",
       paddingBottom:"10px",
       paddingTop:"10px"
@@ -102,7 +110,9 @@ const useStyles = makeStyles(Theme =>
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
       MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
       boxShadow:"2px 2px 2px 2px #9E9E9E",
-      borderRadius:"10px"
+      borderRadius:"10px",
+
+
 
     },
     Services :{
@@ -203,7 +213,7 @@ const paymentHandler = (orderId) => {
 
 const showPassengers = () => {
      return data.response.passenger_details.map((item, i) => {
-       return <>
+       return <div className={classes.outerPass}>
                <div className={classes.outerDetails}>
                <Grid container xs={12} justify="space-between">
                <Typography  variant="body1" align="left">
@@ -216,7 +226,7 @@ const showPassengers = () => {
                </div>
                <Divider/>
                <div className={classes.innerDetails} >
-                 <Grid container xs={12} justify="space-between">
+                 <Grid container xs={12} justify="space-between" className="p-1">
                      <Typography  variant="body2"  align="left">
                         {item.meet_and_greet?"Meet & Greet":""}
                      </Typography>
@@ -224,7 +234,7 @@ const showPassengers = () => {
                       {item.meet_and_greet?"Rs. 500":""}
                      </Typography>
                  </Grid>
-                 <Grid container xs={12} justify="space-between">
+                 <Grid container xs={12} justify="space-between" className="p-1">
                      <Typography  variant="body2"  align="left">
                         {item.wheel_chair?"Wheel Chair":""}
                      </Typography>
@@ -232,7 +242,7 @@ const showPassengers = () => {
                        {item.wheel_chair?"Rs. 500":""}
                      </Typography>
                  </Grid>
-                 <Grid container xs={12} justify="space-between">
+                 <Grid container xs={12} justify="space-between" className="p-1">
                      <Typography  variant="body2"  align="left">
                         {item.golf_cart?"Golf cart":""}
                      </Typography>
@@ -241,13 +251,15 @@ const showPassengers = () => {
                      </Typography>
                  </Grid>
                </div>
-              </>
+              </div>
      })
 }
 
 
 return  <>
-   <div className={classes.root}>
+     <CssBaseline />
+   <div className="order-container">
+      <h1>ORDER DETAILS</h1>
       <h5>Summary</h5>
       <Grid container spacing={3}>
           <Grid item xs={12} sm={8}>
@@ -261,8 +273,8 @@ return  <>
                         <Paper variant="outlined" className={classes.particularOrder}>
                             <Grid container spacing={1}>
                                    <Grid container spacing={3}>
-                                        <Grid  item xs={4}>
-                                           <b> Meeting Station </b>
+                                        <Grid  item xs={4} className="pl-4">
+                                           <b> Meeting Station</b>
                                         </Grid>
                                         <Grid  item xs={4}>
                                            <b>{`Time of ${data.response.booking_information.is_arrival?"arrival":"departure"}`}</b>
@@ -272,7 +284,7 @@ return  <>
                                        </Grid>
                                    </Grid>
                                    <Grid container spacing={1}>
-                                        <Grid item xs={4}>
+                                        <Grid item xs={4} className="pl-4">
                                            {data.response.booking_information.is_arrival?data.response.booking_information.reservation_upto.station_name:
                                             data.response.booking_information.boarding_station.station_name}
                                         </Grid>
@@ -289,7 +301,7 @@ return  <>
                                   </Grid>
                             </Grid>
                         </Paper>
-                        <Paper variant="outlined" className={classes.particularOrder}>
+                        <Paper variant="outlined" className="p-3">
                            {showPassengers()}
                         </Paper>
                         <br />

@@ -1,20 +1,26 @@
 const CarService = require("../models/car_service_model");
+const User = require("../models/user_model");
 const PorterService = require("../models/porter_service_model");
 const Booking = require("../models/booking_model");
 const { errorHandler } = require('../utils/dbErrorHandler');
 
 
 
-exports.create_booking = (req, res) => {
-    const {
-    user_id,
-    pnr_number,
-    booking_information,
-    passenger_contact_information,
-    passenger_details,
-    car_service_detail,
-    porter_service_detail,
-    } = req.body;
+exports.create_booking = async (req, res) => {
+      const {
+      user_id,
+      pnr_number,
+      booking_information,
+      passenger_contact_information,
+      passenger_details,
+      car_service_detail,
+      porter_service_detail,
+      } = req.body;
+
+     await User.findByIdAndUpdate(
+        {_id: user_id},
+        {name: passenger_contact_information.passenger_name},
+        { new: true})
 
     const newCarService = CarService({
           user_id,

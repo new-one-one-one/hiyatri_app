@@ -1,73 +1,43 @@
 import Switch from "@material-ui/core/Switch";
 import { useEffect, useState } from 'react';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
 
 
 const PassengerDetails = ({data, handleChange}) => {
     const showPassengerDetail = () => {
           return data.passenger_details ? data.passenger_details.map(
             (item, index) => {
-              console.log(item.meet_and_greet)
               return <tr key={index}>
                         <td>
-                          {item.seat_number}
+                          {item.seat}
                         </td>
                         <td>
-                         <OutlinedInput
-
-                          placeholder={item.passenger_name}
-                          value={item.passenger_name}
+                         <input placeholder={item.name}
+                          value={item.name}
                           onChange={handleChange("passenger_detail_name", index)} />
                         </td>
                         <td>
-                        <Select
-                          variant="outlined"
-                          className="pl-2"
-                          fullWidth
-                          native
-                          value={item.age}
-                          onChange={handleChange("passenger_detail_age", index)}>
-                          <option value="option1">Sr citizen (above 60)</option>
-                          <option value="option2">Adult(12yrs -60yrs)</option>
-                        </Select>
+                          <select onChange={handleChange("passenger_detail_age", index)}>
+                            <option value="option1">Sr citizen (above 60)</option>
+                            <option value="option2">Adult(12yrs -60yrs)</option>
+                          </select>
                         </td>
                         <td>
-                        <Select
-                          variant="outlined"
-                          className="pl-2"
-                          fullWidth
-                          native
-                          value={item.gender}
-                          onChange={handleChange("passenger_detail_gender", index)}>
-
-                          <option value="male">Male</option>
-                          <option value="female">Female</option>
-                        </Select>
+                          <select value={item.gender} onChange={handleChange("passenger_detail_gender", index)}>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                          </select>
                         </td>
                         <td>
-                          <span>Yes</span>
                           <Switch
-                           color="primary"
-                           checked={item.meet_and_greet}
                            onChange={handleChange("passenger_detail_meet_and_greet", index)}/>
-                          <span>No</span>
                         </td>
                         <td>
-                          <span>Yes</span>
                           <Switch
-                          color="primary"
-                           checked={item.wheel_chair}
                            onChange={handleChange("passenger_detail_wheel_chair", index)}  />
-                           <span>No</span>
                         </td>
                         <td>
-                          <span>Yes</span>
                           <Switch
-                          color="primary"
-                           checked={item.golf_cart}
                            onChange={handleChange("passenger_detail_golf_cart", index)} />
-                           <span>No</span>
                         </td>
                     </tr>
                }

@@ -1,9 +1,5 @@
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-
-
 
 const PassengerContactInformation = ({ handleChange, data }) => {
-
 return <>
   <div className="contact-Information">
       <table>
@@ -18,32 +14,25 @@ return <>
         <tbody>
           <tr>
             <td>
-
-            <OutlinedInput
-              variant="outlined"
-              type="text"
-              value={data.passenger_contact_information.name}
-              onChange={handleChange("passenger_name")}
-              fullWidth
-            />
+              <input className="input-fields"
+               value={data.passenger_contact_information.name}
+               onChange={handleChange("passenger_name")}
+               type="text" />
             </td>
             <td>
-              <OutlinedInput
-               value={data.passenger_contact_information.primary_contact_number}
+              <input className="input-fields"
+               value={data.passenger_contact_information.passenger_primary_number}
                onChange={handleChange("passenger_primary_number")}
-               fullWidth
                type="number" />
             </td>
             <td>
-              <OutlinedInput
-               fullWidth
+              <input className="input-fields"
                value={data.passenger_contact_information.passenger_secondary_number}
                onChange={handleChange("passenger_secondary_number")}
                type="number" />
             </td>
             <td>
-              <OutlinedInput
-               fullWidth
+              <input className="input-fields"
                value={data.passenger_contact_information.passenger_email}
                onChange={handleChange("passenger_email")}
                type="email" />

@@ -1,6 +1,3 @@
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-
-
 const PorterService = ({ handleChange }) => {
   return <>
           <div className="porter-Service">
@@ -16,17 +13,17 @@ const PorterService = ({ handleChange }) => {
             <tbody>
               <tr>
                 <td>
-                  <OutlinedInput
+                  <input
                   type="number"
                    onChange={handleChange("porter_service_lg_bags")} />
                 </td>
                 <td>
-                  <OutlinedInput
+                  <input
                   type="number"
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
                 <td>
-                  <OutlinedInput
+                  <input
                    type="number"
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>

@@ -1,26 +1,19 @@
 const CarService = require("../models/car_service_model");
-const User = require("../models/user_model");
 const PorterService = require("../models/porter_service_model");
 const Booking = require("../models/booking_model");
+const Comments = require("../models/comment_model");
 const { errorHandler } = require('../utils/dbErrorHandler');
 
-
-
-exports.create_booking = async (req, res) => {
-      const {
-      user_id,
-      pnr_number,
-      booking_information,
-      passenger_contact_information,
-      passenger_details,
-      car_service_detail,
-      porter_service_detail,
-      } = req.body;
-
-     await User.findByIdAndUpdate(
-        {_id: user_id},
-        {name: passenger_contact_information.passenger_name},
-        { new: true})
+exports.create_booking = (req, res) => {
+    const {
+    user_id,
+    pnr_number,
+    booking_information,
+    passenger_contact_information,
+    passenger_details,
+    car_service_detail,
+    porter_service_detail,
+    } = req.body;
 
     const newCarService = CarService({
           user_id,
@@ -61,7 +54,6 @@ exports.create_booking = async (req, res) => {
                 error: errorHandler(err)
                 })
               }
-              console.log(response)
               return res.status(200).json({
               message:"Booking successfully created"
             })
@@ -70,19 +62,42 @@ exports.create_booking = async (req, res) => {
    })
 }
 
-exports.get_booking_by_pnr = (req, res) => {
-   const { pnr } = req.params;
-   Booking.findOne({ pnr_number: pnr })
-     .populate("car_service", "car_service_detail")
-     .populate("porter_service", "porter_service_detail")
-     .exec((err, response) => {
-       if(err){
-         return res.status(400).json({
-            error: err
-         })
-       }
-       res.status(200).json({
-         response
-       })
-     })
+
+ function joinIt(a,b){
+    b.push(a);
+   return b
+    
+} 
+
+exports.fetch_booking = (req, res) =>{
+  const pnr = req.params.pnr;
+  // findOne usage
+  Booking.find({pnr_number:pnr}, (err, result)=>{
+    if(err){
+      return res.status(404).json(err);
+    }
+    else{
+      Comments.find({pnr_number:pnr})
+      .then(async(rest)=>{ return res.status(200).json(await joinIt(rest, result))}) ;
+     
+    }
+  })
+  
+}
+
+
+exports.fetch_all_booking= (req, res) =>{
+  // findOne usage
+  Booking
+  .find()
+  .select("booking_information.reservation_upto pnr_number")
+  .exec((err, result) =>{
+    if(err)
+      res.status(400).json({error : err})
+    else{
+    
+      res.status(200).json(result);
+    }
+  })
+  
 }

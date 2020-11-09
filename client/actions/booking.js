@@ -32,18 +32,35 @@ export const createBooking = (data, token) => {
         .catch(err => console.log(err));
 };
 
-export const getBookingByPnr = (pnr, token) => {
-  console.log(pnr)
-    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/get/${pnr}`, {
-        method: 'GET',
+
+export const getBooking = pnr =>{
+    if(pnr!==undefined){
+    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/${pnr}`, {
+        method:"GET",  
         headers: {
-           'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`
-        }
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
-};
+            'Content-Type': 'application/json;charset=utf-8'
+          },      
+    }).then(response =>{
+        return response.json();
+    }).catch(err => {
+        return err;
+        });
+    }
+    else{
+        return null;
+    }
+
+}
+
+export const get_all_bookings = () =>{
+    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/admin/all`, {
+        method:"GET",  
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },      
+    }).then(response =>{
+        return response.json();
+    }).catch(err => {
+        return err;
+        });
+}   

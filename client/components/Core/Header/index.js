@@ -10,11 +10,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
-      height:"88px",
       flexGrow: 1,
     },
     menuButton: {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
@@ -24,22 +23,53 @@ const useStyles = makeStyles(theme =>
 );
 
 const Header = () => {
-const theme = useTheme();
-const classes = useStyles();
-const matches = useMediaQuery(theme.breakpoints.up("lg"));
-  return  <>
-            <AppBar position='fixed' className={classes.root}>
-                <Toolbar>
-                    <Typography variant="h6" className={classes.title}>
-                    <img className="icons" src="/images/logo.png" className="h-logo"/>
-                    </Typography>
-                    {matches ? (
-                    <Typography />
-                    ) : (
-                    <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
-                    )}
-                </Toolbar>
-            </AppBar>
-         </>
+  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
+
+  return (
+    <div className={classes.root}>
+      <AppBar
+        style={{ backgroundColor: "#2A306C", height: "14vh" }}
+        position="static"
+      >
+        <Toolbar style={{ marginTop: "1%" }}>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          ></IconButton>
+          <Typography variant="h6" className={classes.title}>
+            <img className="icons" src="/images/logo.png" />
+          </Typography>
+          {matches ? (
+            <Typography style={{ width: "20%", flexDirection: "row" }}>
+              <span
+                onClick={() => alert("working")}
+                style={{ color: "#00C4FF", cursor: "pointer" }}
+              >
+                <img className="icons" alt="contact" src="/images/contact_icon.svg" />
+                CONTACT US
+              </span>
+              <span
+                onClick={() => alert("working")}
+                style={{
+                  color: "#00C4FF",
+                  marginLeft: "20%",
+                  cursor: "pointer",
+                }}
+              >
+                <img className="icons" src="/images/login_icon.svg" alt="login" />
+                LOGIN
+              </span>
+            </Typography>
+          ) : (
+            <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
 export default Header;

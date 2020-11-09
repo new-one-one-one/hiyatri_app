@@ -1,26 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import cookie from 'js-cookie';
 
-
-export const sendingOTP = user => {
-  console.log(user)
-    return fetch(`${process.env.NEXT_PUBLIC_API}/send/otp`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
-};
-
-
-export const verifyingOTP = user => {
-    return fetch(`${process.env.NEXT_PUBLIC_API}/verify/otp`, {
+export const userAuthenticate = user => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/authenticate`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',

@@ -7,7 +7,7 @@ import BookingComponent from '../../components/Booking';
 import BookingClass from '../../helpers/booking';
 
 const TrainBooking = ({ data, query }) => {
-  const booking = new BookingClass();
+   const booking = new BookingClass();
   booking.addBooking(data)
   return <>
             <Layout>

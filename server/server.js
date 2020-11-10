@@ -9,6 +9,9 @@ const app = express();
 const authRouter    = require('./routers/auth_router');
 const bookingRouter = require('./routers/booking_router');
 const commentRouter = require('./routers/comment_router');
+const orderRouter = require('./routers/order_router');
+const userRouter = require('./routers/user_router');
+
 app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json());
@@ -17,8 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', authRouter);
 app.use('/api', bookingRouter);
 app.use('/api', commentRouter);
+app.use('/api', orderRouter);
+app.use('/api', userRouter);
 
-mongoose.connect('', {
+
+
+mongoose.connect(process.env.DATABASE, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useFindAndModify: false,
@@ -29,7 +36,7 @@ mongoose.connect('', {
 	}
 	else{
 		console.log("Connected to database");
-	}	
+	}
 })
 
 const Port = process.env.PORT || 8000;

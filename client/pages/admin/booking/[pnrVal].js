@@ -9,7 +9,7 @@ import { Button } from '@material-ui/core';
 
 const bookingFetch = (res) => {
     if( res!==undefined&& Object.keys(res).length!==0 ){
-      return <>        
+      return <>
                 <AdminPage requestedPnr={res} cmnts={res[1]}/>
              </>
     }
@@ -18,13 +18,13 @@ const bookingFetch = (res) => {
                 <h1>Still loading</h1>
                </>
     }
- 
+
 }
 
 bookingFetch.getInitialProps=async({query})=>{
     return {
       res: await getBooking(query.pnrVal)
-    } 
+    }
 }
 
 export default bookingFetch;
@@ -78,17 +78,17 @@ export default bookingFetch;
 //               }));
 //         })
 //         .catch(err=>{console.log(err)});
-//  } 
+//  }
 //  if(Object.keys(res).length!==0 && res!==undefined){
 //      console.log(res, "This is res");
-//   return <>        
+//   return <>
 //            <AdminPage requestedPnr={res} />
 //          </>
-//  } 
+//  }
 //  else{
 //      return <>
-//                 <Button style={{marginTop:"40%", marginLeft:"30%"}} 
-//                 size="large" color="primary" 
+//                 <Button style={{marginTop:"40%", marginLeft:"30%"}}
+//                 size="large" color="primary"
 //                 variant="contained"
 //                 onClick={() => getDetails(pnrVal)}>Request details</Button>
 //             </>

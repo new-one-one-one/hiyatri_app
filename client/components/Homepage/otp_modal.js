@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
 
   return (
     <div>
-    
+     <div className="d-sm-block d-md-none">
        <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
           Continue
        </Button>

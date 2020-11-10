@@ -88,3 +88,27 @@ return res.status(400).json({
   message: 'Payment verification failed'
   })
 }
+
+
+
+module.exports.get_all_orders = (req, res) => {
+  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  Order.find()
+  .populate({ path: 'booking_id', select:'booking_information passenger_contact_information pnr_number passenger_details', populate: { path: 'car_service', select: 'car_service_detail'}})
+  .populate({ path: 'booking_id', select:'booking_information passenger_contact_information pnr_number passenger_details', populate: { path: 'porter_service', select: 'porter_service_detail'}})
+  .select('amount payment_verified booking_id razorpay_order_id')
+  .sort({ updatedAt: -1 })
+  .skip(skip)
+  .limit(limit)
+  .exec((err, response) => {
+     if(err){
+       return res.status(400).json({
+         error: err
+       })
+     }
+     res.status(200).json({
+       response
+     })
+  })
+}

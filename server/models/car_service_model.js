@@ -40,6 +40,7 @@ const carServiceSchema = mongoose.Schema({
             default:0
             }
         },
+        total_amount: { type: Number },
         del_flag: { type: Boolean, default: false }
 }, { timestamp: true })
 

@@ -56,8 +56,13 @@ const bookingSchema = mongoose.Schema({
           ref:"Porter_Service",
           required: true
         },
-        amount:{type: Number},
-        status:false,
+        amount:{
+          type: Number
+        },
+        booking_status:{
+          type: ObjectId,
+          ref: "Booking_Status"
+        },
         del_flag: { type: Boolean, default: false }
 }, { timestamp: true })
 

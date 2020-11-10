@@ -1,17 +1,16 @@
-
-
-
 import { getBooking } from './../../../actions/booking';
 import {useRouter} from 'next/router';
 import AdminPage from './../../../components/Admin';
-import React from 'react';
+import Layout from '../../../components/Core/Layout';
 import { Button } from '@material-ui/core';
+import React from 'react';
 
-const bookingFetch = (res) => {
+
+const BookingFetch = (res) => {
     if( res!==undefined&& Object.keys(res).length!==0 ){
-      return <>
+      return <Layout>
                 <AdminPage requestedPnr={res} cmnts={res[1]}/>
-             </>
+             </Layout>
     }
     else{
         return <>
@@ -20,14 +19,13 @@ const bookingFetch = (res) => {
     }
 
 }
-
-bookingFetch.getInitialProps=async({query})=>{
+BookingFetch.getInitialProps=async({query})=>{
     return {
       res: await getBooking(query.pnrVal)
     }
 }
 
-export default bookingFetch;
+export default BookingFetch;
 
 
 

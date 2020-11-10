@@ -10,11 +10,9 @@ import Router from 'next/router';
 import Recaptcha from 'react-recaptcha';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Timer from 'react-compound-timer';
-import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
+ import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
 
-const { Seconds }  = Timer
-const useStyles = makeStyles((theme) => ({
+ const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -185,18 +183,7 @@ const useStyles = makeStyles((theme) => ({
               fullWidth
               onChange={handleChange}/>
               <br />
-              {/*<Timer
-             initialTime={30000}
-             direction="backward"
-             >
-              {({ getTime }) => {
-              getCoutdownTime(getTime())
-              return <>
-              <b><Seconds /> seconds </b>
-              </>
-              }}
-             </Timer>*/}
-
+               
               <Button variant="contained" className="m-2 md-btn" onClick={verify}>
               Verify OTP
               </Button>

@@ -30,33 +30,33 @@ const bookingSchema = mongoose.Schema({
             time:String,
           }
         },
-
         passenger_contact_information:{
            primary_contact_number:String,
            secondary_contact_number:String,
            email_id:String,
         },
         passenger_details:[{
-          seat_number: String,
-          passenger_name: String,
+          seat_number:{ type: String },
+          passenger_name:{ type: String },
           // age_group: { type: ObjectId, ref:"Age_Group" },
           // gender: { type: ObjectId, ref:"Gender"},
           age_group:{type: String},  //temporary
           gender:{type: String},  //temporary
-          meet_and_greet: { type: Boolean, default: false },
-          wheel_chair: { type: Boolean, default: false },
-          golf_cart: { type: Boolean, default: false }
+          meet_and_greet:{ type: Boolean, default: false },
+          wheel_chair:{ type: Boolean, default: false },
+          golf_cart:{ type: Boolean, default: false }
         }],
         car_service:{
           type: ObjectId,
+          ref:"Car_Service",
           required: true
         },
         porter_service:{
           type: ObjectId,
+          ref:"Porter_Service",
           required: true
+        
         },
-<<<<<<< HEAD
-<<<<<<< HEAD
         amount:{
           type: Number
         },
@@ -64,11 +64,6 @@ const bookingSchema = mongoose.Schema({
           type: ObjectId,
           ref: "Booking_Status"
         },
-=======
-=======
->>>>>>> dfdb51c028c2bf419954423a68f9a8a2c088b8a9
-        status:false,
->>>>>>> main
         del_flag: { type: Boolean, default: false }
 }, { timestamp: true })
 

@@ -120,24 +120,11 @@ const useStyles = makeStyles((theme) => ({
 
   return (
     <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
      <div className="d-sm-block d-md-none">
        <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
           Continue
        </Button>
      </div>
-
-=======
-    <Button variant="contained" className="hp-continue-btn" onClick={onSubmission}>
-       Continue
-    </Button>
->>>>>>> main
-=======
-    <Button variant="contained" className="hp-continue-btn" onClick={onSubmission}>
-       Continue
-    </Button>
->>>>>>> dfdb51c028c2bf419954423a68f9a8a2c088b8a9
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

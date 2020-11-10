@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
     AppBarColor:{
       background:"#000066"
-    },  
+    },
     inputRoot: {
       color: 'inherit',
     },
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
       fontFamily: "Roboto",
 
     },
-    allOrders:{      
+    allOrders:{
       overflow:"none",
       flexGrow: 1,
       borderRadius:"10px",
@@ -71,14 +71,14 @@ const useStyles = makeStyles((theme) => ({
       marginBottom:"3%",
       paddingLeft:"5px",
       paddingRight:"5px",
-      borderColor:"#000066", 
+      borderColor:"#000066",
       borderWidth:"1.5px",
       paddingBottom:"10px",
       paddingTop:"10px"
     },
     innerDetails:{
       padding:"4px 8px 1px 5px",
-      color:"grey",    
+      color:"grey",
     },
     promocode:{
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
@@ -92,13 +92,13 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom:"10px"
 
     },
-  
+
     orderFull:{
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
       MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
       boxShadow:"2px 2px 2px 2px #9E9E9E",
       borderRadius:"10px"
-      
+
     },
     Services :{
       WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
@@ -108,11 +108,11 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom:"5px",
       borderRadius:"10px",
     },
- 
+
     outerDetails:{
       // top right bottom left
-      padding:"10px 8px 2px 5px", 
-      color:"#000066", 
+      padding:"10px 8px 2px 5px",
+      color:"#000066",
     },
     headingPart:{
       borderRadius:"4px 4px 0px 0px",
@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
     },
     wholeList:{
       paddingBottom:"5px",
-      borderColor:"#000066", 
+      borderColor:"#000066",
       borderWidth:"1.5px",
     },
     mobileButton:{
@@ -164,9 +164,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ParticularPnr = ({requestedPnr}) => {
 
-  const data = requestedPnr.res[0];
-  const passenger = data.passenger_details;
-  const station = data.booking_information.reservation_upto;
+  const data = requestedPnr && requestedPnr.res[0];
+  const passenger = data && data.passenger_details;
+  const station = data && data.booking_information.reservation_upto;
   const sizeofwindow = useWindowSize();
   const width= 900;
   if(sizeofwindow){
@@ -182,17 +182,17 @@ const ParticularPnr = ({requestedPnr}) => {
   };
  const {register,handleSubmit } = useForm();
   const commentSubmit = (result) =>{
-    result.pnr_number= data.pnr_number;
+    result.pnr_number= data && data.pnr_number;
     createComment(result);
     openCommentBox(false);
-    
+
   }
   const getMyService = (needed, type)=>{
     switch(type) {
       case "wheel":
           if(needed){
             return (<div className={classes.innerDetails} >
-                  <Grid container xs={12} justify="space-between"> 
+                  <Grid container xs={12} justify="space-between">
                         <Typography  variant="body2"  align="left">Get wheel chari</Typography>
                         <Typography  variant="body2" align="right">Wheel Chair</Typography>
                   </Grid>
@@ -203,7 +203,7 @@ const ParticularPnr = ({requestedPnr}) => {
       case "golf":
         if(needed){
           return (<div className={classes.innerDetails} >
-                <Grid container xs={12} justify="space-between"> 
+                <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Golf cart</Typography>
                       <Typography  variant="body2" align="right">Wheel Chair</Typography>
                 </Grid>
@@ -214,7 +214,7 @@ const ParticularPnr = ({requestedPnr}) => {
       case "meet":
         if(needed){
           return (<div className={classes.innerDetails} >
-                <Grid container xs={12} justify="space-between"> 
+                <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Meet & Greet</Typography>
                       <Typography  variant="body2" align="right">Wheel Chair</Typography>
                 </Grid>
@@ -226,7 +226,7 @@ const ParticularPnr = ({requestedPnr}) => {
   }
 
 
-  const comments = requestedPnr.res[1];
+  const comments = requestedPnr && requestedPnr.res[1];
 
   return (
   <div>
@@ -240,13 +240,13 @@ const ParticularPnr = ({requestedPnr}) => {
               <br></br>
             <Box className={classes.headingPart} display="flex" p={1} bgcolor="#000066">
                       <Box p={1} width="100%">
-                        BOOKING-ID : {data._id}
+                        BOOKING-ID : {data && data._id}
                       </Box >
                       <Box p={1}>
                         Pending
                       </Box>
             </Box>
-          
+
              <Paper variant="outlined" className={classes.particularOrder}>
           <div style={{marginLeft:"4%"}}>
             <Grid style={{color:"grey"}}  container spacing={1}>
@@ -260,31 +260,31 @@ const ParticularPnr = ({requestedPnr}) => {
                     <Grid  item xs={4}>
                     <b> Number of passengers </b>
                     </Grid>
-                </Grid>  
+                </Grid>
             <Grid container spacing={1}>
               <Grid  item xs={4}>
                   {/* New Delhi  */}
-                  {station.station_name} ({station.station_code})
+                  {station && station.station_name} ({station && station.station_code})
               </Grid>
               <Grid  item xs={2} >
-                <Typography align="center">{station.time}</Typography> 
+                <Typography align="center">{station && station.time}</Typography>
               </Grid>
               <Grid  item xs={4}>
-              <Typography align="right">{Object.keys(passenger).length}</Typography> 
+              {/*<Typography align="right">{Object.keys(passenger).length}</Typography>*/}
               </Grid>
-            </Grid> 
+            </Grid>
           </Grid>
                {/* ---------------------------------------- */}
           </div>
               </Paper>
 
-             {passenger.map(val => {  
+             {passenger && passenger.map(val => {
                 if(val.wheel_chair || val.golf_cart || val.meet_and_greet ){
                 return (
                     <Paper variant="outlined" className={classes.particularOrder}>
                       <div className={classes.outerDetails}>
 
-                        <Grid container xs={12} justify="space-between">  
+                        <Grid container xs={12} justify="space-between">
                               <Typography  variant="body1" align="left">{val._id}</Typography>
                               <Typography  variant="body1" align="left">67 years, Male</Typography>
                         </Grid>
@@ -293,12 +293,12 @@ const ParticularPnr = ({requestedPnr}) => {
                       {getMyService(val.wheel_chair, "wheel")}
                       {getMyService(val.golf_cart, "golf")}
                       {getMyService(val.meet_and_greet, "meet")}
-                  </Paper> 
+                  </Paper>
                         )}
                })
-             } 
-            
-            
+             }
+
+
               <br></br>
           </Paper>
         <br></br>
@@ -306,7 +306,7 @@ const ParticularPnr = ({requestedPnr}) => {
           <Box className={classes.headingPart} p={1} bgcolor="#000066">
                       <Typography>Other Services</Typography>
           </Box>
-          
+
           <Paper className={classes.particularOrder} variant="outlined">
           <Grid container style={{color:"#000066"}} spacing={10}>
                     <Grid  item xs={4}>
@@ -318,28 +318,28 @@ const ParticularPnr = ({requestedPnr}) => {
                     <Grid  item xs={4}>
                     <b> Cab service </b>
                     </Grid>
-                </Grid>        
-         </Paper>       
+                </Grid>
+         </Paper>
         </Paper>
         <br></br>
         <br></br>
          {/* Comments paragraph */}
          <div>Comments </div>
-          
-            {/* {(width >= 800) &&(  
+
+            {/* {(width >= 800) &&(
               <Paper className={classes.Services}>
-            <div className={classes.comment}> 
+            <div className={classes.comment}>
               <Grid spacing={4} xs={12}>
-              <Grid container xs={12} justify="space-between">  
+              <Grid container xs={12} justify="space-between">
                   <Typography  variant="body1" align="left">Wheel chair number - 9994333445</Typography>
               </Grid>
-              <Grid container xs={12} justify="space-between"> 
+              <Grid container xs={12} justify="space-between">
                   <Box p={1}>
                     <Box width="30%">
-                      
+
                     </Box>
-                  
-                  </Box> 
+
+                  </Box>
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="subtitle2" color="textSecondary"  align="center">Puneet Singhal, Admin</Typography>
                   <Typography variant="subtitle2"  align="right">Time</Typography>
@@ -348,7 +348,7 @@ const ParticularPnr = ({requestedPnr}) => {
               </Grid>
 
               <Divider variant="middle"/>
-              <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">  
+              <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                     <Button variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
                         Add Comment
@@ -361,15 +361,15 @@ const ParticularPnr = ({requestedPnr}) => {
              */}
 
 
-         
+
               <div className={classes.comment_root}>
-             {comments.map((comment)=>{ 
-              return ( 
+             {comments && comments.map((comment)=>{
+              return (
 
               <Accordion expanded={expanded === comment.comment_by} onChange={changeDropDown(comment.comment_by)}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header"
                 >
-                 <Grid container xs={12} justify="space-between">  
+                 <Grid container xs={12} justify="space-between">
                   <Typography className={classes.comment_heading}>{comment.created_at}</Typography>
               <Typography className={classes.comment_secondaryHeading}>{comment.comment_by}, For {comment.facilityType}</Typography>
                 </Grid>
@@ -382,9 +382,9 @@ const ParticularPnr = ({requestedPnr}) => {
               </Accordion>
               )
              })}
-             
+
               <Divider/>
-              <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">  
+              <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="body1"  align="right">
                   <Button variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
@@ -393,8 +393,8 @@ const ParticularPnr = ({requestedPnr}) => {
                   </Typography>
               </Grid>
             </div>
-        
- 
+
+
             <br></br>
         </Grid>
         {/* This is for promocode part */}
@@ -403,16 +403,16 @@ const ParticularPnr = ({requestedPnr}) => {
                 <Box p={1}>
                   <Button variant="outlined" size="large" fullWidth={true} color="primary">Cancel</Button>
                 </Box>
-                <Box p={1}>  
+                <Box p={1}>
                    <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)}  color="primary">Assign to agent</Button>
                 </Box>
-                   
+
           </Paper>
         </Grid>
        </Grid>
     </div>
     {/* This is for adding a comment */}
-    
+
     <Dialog
         fullWidth
         style={{minHeight:"600px"}}
@@ -430,8 +430,8 @@ const ParticularPnr = ({requestedPnr}) => {
           >
           <Typography>Admin or Agent</Typography>
           <FormControl>
-          <TextField id="outlined-basic" inputRef={register} name="comment_by" label="Creator" variant="outlined" /> <br></br>       
-          <TextField id="outlined-basic" inputRef={register} name="facilityType" label="For Service" variant="outlined" />  <br></br> 
+          <TextField id="outlined-basic" inputRef={register} name="comment_by" label="Creator" variant="outlined" /> <br></br>
+          <TextField id="outlined-basic" inputRef={register} name="facilityType" label="For Service" variant="outlined" />  <br></br>
           {/* <TextareaAutosize name="comment" cols={10}  ref={register}  rowsMin={3} placeholder="write your comment here" /> */}
           <TextField
           id="outlined-multiline-static"
@@ -444,7 +444,7 @@ const ParticularPnr = ({requestedPnr}) => {
           variant="outlined"
         />
           </FormControl>
-         
+
          </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
@@ -457,7 +457,7 @@ const ParticularPnr = ({requestedPnr}) => {
         </DialogActions>
       </form>
       </Dialog>
-      
+
 
     {/*  THis is for adding agent  */}
     <Dialog
@@ -490,7 +490,7 @@ const ParticularPnr = ({requestedPnr}) => {
         </Select>
 
           <br></br>
-         <TextField id="outlined-multiline-static"  label="Comments" 
+         <TextField id="outlined-multiline-static"  label="Comments"
           multiline  fullWidth  rowsMax={10}  rows={5} placeholder="write you comments here"
           variant="outlined"
         />
@@ -504,7 +504,7 @@ const ParticularPnr = ({requestedPnr}) => {
         }
         label="Viewable by all users"
       />
-      
+
       </FormControl>
 
 

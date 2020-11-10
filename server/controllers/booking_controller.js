@@ -66,8 +66,8 @@ exports.create_booking = (req, res) => {
  function joinIt(a,b){
     b.push(a);
    return b
-    
-} 
+
+}
 
 exports.fetch_booking = (req, res) =>{
   const pnr = req.params.pnr;
@@ -79,10 +79,10 @@ exports.fetch_booking = (req, res) =>{
     else{
       Comments.find({pnr_number:pnr})
       .then(async(rest)=>{ return res.status(200).json(await joinIt(rest, result))}) ;
-     
+
     }
   })
-  
+
 }
 
 
@@ -95,9 +95,9 @@ exports.fetch_all_booking= (req, res) =>{
     if(err)
       res.status(400).json({error : err})
     else{
-    
+
       res.status(200).json(result);
     }
   })
-  
+
 }

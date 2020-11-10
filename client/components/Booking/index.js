@@ -9,10 +9,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Router from 'next/router';
 import { createBooking } from '../../actions/booking';
 import { getCookie, isAuth } from "../../actions/auth";
-import { singleUser } from "../../actions/user";
 
 const TrainBooking = ({ data, query }) => {
 const theme = useTheme();
@@ -45,7 +43,7 @@ const initialData = {
   },
   passenger_contact_information: {
    name: "",
-   primary_contact_number: isAuth() && isAuth().phone_number,
+   primary_contact_number: "",
    secondary_contact_number: "",
    email_id: ""
  },
@@ -66,7 +64,6 @@ const initialData = {
     price: 0
 }
 }
-
 
 const ACTIONS = {
   USER_ID:"user_id",
@@ -138,7 +135,7 @@ const reducer = (state, action) => {
        const pass_detail_name = state.passenger_details
         .map((value, idx) => {
         if(action.sidx != idx) return value;
-        return {...value, passenger_name: action.payload }})
+        return {...value, name: action.payload }})
         return {...state, passenger_details: pass_detail_name}
     case ACTIONS.PASSENGER_DETAIL.AGE:
        const pass_detail_age = state.passenger_details
@@ -237,17 +234,17 @@ const handleChange = (value1, value2) => e => {
   }
   if(value1 === "passenger_detail_meet_and_greet"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-               payload: e.target.checked,
+               payload: e.target.value,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_wheel_chair"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-               payload: e.target.checked,
+               payload: e.target.value,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_golf_cart"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-               payload: e.target.checked,
+               payload: e.target.value,
                sidx: value2 })
   }
 
@@ -276,8 +273,6 @@ const handleChange = (value1, value2) => e => {
   }
 }
 
-
-console.log(state)
 const handleSubmit = e => {
   e.preventDefault();
   createBooking(state, token)
@@ -285,7 +280,7 @@ const handleSubmit = e => {
     if(response.error){
       return console.log(response.error)
     }
-    Router.push(`/booking/order/${state.pnr_number}`)
+  console.log(response)
   })
   .catch(err => {
     console.log(err)
@@ -297,19 +292,9 @@ useEffect(() => {
              payload: isAuth() && isAuth()._id })
    dispatch({ type: ACTIONS.PNR,
               payload: query.pnr })
-
-  singleUser(isAuth() && isAuth()._id)
-    .then((value) => {
-      console.log(value)
-      dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
-                 payload: value.result.name })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
 },[])
 
-
+console.log(state)
 return <>
          <div className="main-div">
             <form>
@@ -347,11 +332,11 @@ return <>
                       handleChange={handleChange}
                       data={state}  />
 
-                      {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
+                      <span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
                       <Switch
                       onChange={handleChange("cab_service_opted")}
                       value={state.cab_service_detail.cab_copted} />
-                      <CabService />*/}
+                      <CabService />
 
                       <span>Porter Service</span>
                       <Switch

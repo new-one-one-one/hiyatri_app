@@ -56,6 +56,7 @@ const bookingSchema = mongoose.Schema({
           required: true
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         amount:{
           type: Number
         },
@@ -64,6 +65,8 @@ const bookingSchema = mongoose.Schema({
           ref: "Booking_Status"
         },
 =======
+=======
+>>>>>>> dfdb51c028c2bf419954423a68f9a8a2c088b8a9
         status:false,
 >>>>>>> main
         del_flag: { type: Boolean, default: false }

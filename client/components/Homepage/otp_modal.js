@@ -120,9 +120,11 @@ const useStyles = makeStyles((theme) => ({
 
   return (
     <div>
-    <Button variant="contained" className="hp-continue-btn" onClick={onSubmission}>
-       Continue
-    </Button>
+     <div className="d-sm-block d-md-none">
+       <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
+          Continue
+       </Button>
+     </div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

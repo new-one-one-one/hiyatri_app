@@ -7,8 +7,7 @@ import Booking from '../components/Admin'
 const Home = () => {
   return <>
           <Layout>
-             {/* <Homepage /> */}
-             <Booking />
+             <Homepage />
           </Layout>
          </>
 }

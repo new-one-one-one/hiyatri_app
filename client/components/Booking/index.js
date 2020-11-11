@@ -294,7 +294,6 @@ useEffect(() => {
               payload: query.pnr })
 },[])
 
-console.log(state)
 return <>
          <div className="main-div">
             <form>

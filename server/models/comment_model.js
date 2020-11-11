@@ -5,6 +5,6 @@ const commentSchema = new  Schema({
     comment_by :String ,
     comment:String,
     facilityType:String,
-    created_at:{type: Date, default: Date.now},
+    created_at:{type:Date, default:Date.now},
 });
 module.exports = mongoose.model('Comment', commentSchema);

@@ -8,19 +8,23 @@ const orderSchema = mongoose.Schema({
      ref:"Booking"
    },
    razorpay_payment_id:{
-     type: String,
+     type:String,
    },
    razorpay_order_id:{
-     type: String
+     type:String
    },
    payment_verified:{
-     type: Boolean,
-     default: false
-   },
-   del_flag:{
      type:Boolean,
      default: false
    },
-}, { timestamp: true })
+   agent: {
+      type:ObjectId,
+      ref:"User"
+   },
+   del_flag:{
+     type:Boolean,
+     default:false
+   },
+}, { timestamp:true })
 
 module.exports = mongoose.model("Order", orderSchema);

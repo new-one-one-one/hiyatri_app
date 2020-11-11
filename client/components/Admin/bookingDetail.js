@@ -7,7 +7,7 @@ import TrainIcon from '@material-ui/icons/Train';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import useWindowSize from './windowDimension';
+import useWindowSize from '../../helpers/windowDimension';
 import Checkbox from '@material-ui/core/Checkbox';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -18,7 +18,6 @@ import  {createComment} from './../../actions/comments';
 import { TextareaAutosize } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-
     grow: {
       flexGrow: 1,
     },
@@ -162,7 +161,10 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-const ParticularPnr = ({requestedPnr}) => {
+
+  
+
+const BookingDetail = ({requestedPnr}) => {
 
   const data = requestedPnr && requestedPnr.res[0];
   const passenger = data && data.passenger_details;
@@ -522,4 +524,4 @@ const ParticularPnr = ({requestedPnr}) => {
     </div>
   );
 }
-export default ParticularPnr;
+export default BookingDetail;

@@ -4,7 +4,7 @@ import TrainIcon from '@material-ui/icons/Train';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import useWindowSize from './windowDimension';
+import useWindowSize from '../../helpers/windowDimension';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { Height } from "@material-ui/icons";
 import { getCookie, isAuth } from "../../actions/auth";

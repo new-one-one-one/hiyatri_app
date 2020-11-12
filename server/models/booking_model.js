@@ -3,19 +3,21 @@ const { ObjectId } = mongoose.Schema;
 
 
 const bookingSchema = mongoose.Schema({
-        user_id:{
-          type: ObjectId,
-          required: true
+        booking_id:{
+          type:String,
+        },
+        user:{
+          type:ObjectId,
+          required:true
         },
         pnr_number:{
-          type: String,
-          unique: true,
-          required: true
+          type:String,
+          required:true
         },
         booking_information:{
           is_arrival:{
-            type: Boolean,
-            required: true
+            type:Boolean,
+            required:true
           },
           boarding_station:{
             date:String,
@@ -36,35 +38,36 @@ const bookingSchema = mongoose.Schema({
            email_id:String,
         },
         passenger_details:[{
-          seat_number:{ type: String },
-          passenger_name:{ type: String },
-          // age_group: { type: ObjectId, ref:"Age_Group" },
-          // gender: { type: ObjectId, ref:"Gender"},
-          age_group:{type: String},  //temporary
-          gender:{type: String},  //temporary
-          meet_and_greet:{ type: Boolean, default: false },
-          wheel_chair:{ type: Boolean, default: false },
-          golf_cart:{ type: Boolean, default: false }
+          _id:String,
+          seat_number:String,
+          passenger_name:String,
+          age_group:String,
+          gender:{ type: String, enum:['Male','Female']},
+          meet_and_greet:{ type:Boolean, default:false },
+          wheel_chair:{ type:Boolean, default:false },
+          golf_cart:{ type:Boolean, default:false }
         }],
-        car_service:{
-          type: ObjectId,
-          ref:"Car_Service",
-          required: true
+        cab_service:{
+          type:ObjectId,
+          ref:"Cab",
+          required:true
         },
         porter_service:{
-          type: ObjectId,
-          ref:"Porter_Service",
-          required: true
-        
+          type:ObjectId,
+          ref:"Porter",
+          required:true
         },
-        amount:{
-          type: Number
+        total_amount:{
+          type:Number
         },
         booking_status:{
-          type: ObjectId,
-          ref: "Booking_Status"
+          type:String,
+          enum:['']
         },
-        del_flag: { type: Boolean, default: false }
-}, { timestamp: true })
+        del_flag:{
+          type:Boolean,
+          default:false
+        }
+}, { timestamp:true })
 
 module.exports = mongoose.model("Booking", bookingSchema);

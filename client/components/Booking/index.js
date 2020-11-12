@@ -1,15 +1,15 @@
-import BookingInformation from "./bookingInfo";
-import PassengerInformation from "./passengerContactInfo";
+import BookingInformation from "./bookingInformation";
+import PassengerInformation from "./passengerContact";
 import PassengerDetails from "./passengerDetails";
-import PorterService from "./porterService";
-import CabService from "./cabService";
+import PorterService from "./porter";
+import CabService from "./cab";
 import { useReducer, useEffect } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { createBooking } from '../../actions/booking';
+import { create_booking } from '../../actions/booking';
 import { getCookie, isAuth } from "../../actions/auth";
 
 const TrainBooking = ({ data, query }) => {
@@ -275,7 +275,7 @@ const handleChange = (value1, value2) => e => {
 
 const handleSubmit = e => {
   e.preventDefault();
-  createBooking(state, token)
+  create_booking(state, token)
   .then(response => {
     if(response.error){
       return console.log(response.error)
@@ -294,7 +294,6 @@ useEffect(() => {
               payload: query.pnr })
 },[])
 
-console.log(state)
 return <>
          <div className="main-div">
             <form>

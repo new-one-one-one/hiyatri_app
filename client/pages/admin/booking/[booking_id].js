@@ -1,33 +1,25 @@
+import BookingPage from './../../../components/Admin/Booking/bookingDetail';
+import Layout from '../../../components/Core/Layout';
+import { singleOrder } from '../../../actions/order';
+import { withRouter } from 'next/router';
 
-
-
-import { getBooking } from './../../../actions/booking';
-import {useRouter} from 'next/router';
-import AdminPage from './../../../components/Admin';
-import React from 'react';
-import { Button } from '@material-ui/core';
-
-const bookingFetch = (res) => {
-    if( res!==undefined&& Object.keys(res).length!==0 ){
-      return <>
-                <AdminPage requestedPnr={res} cmnts={res[1]}/>
-             </>
-    }
-    else{
-        return <>
-                <h1>Still loading</h1>
-               </>
-    }
-
+const BookingDetail = ({ data }) => {
+ return <Layout>
+            <BookingPage data={data} />
+        </Layout>
 }
 
-bookingFetch.getInitialProps=async({query})=>{
-    return {
-      res: await getBooking(query.pnrVal)
-    }
+BookingDetail.getInitialProps = ({ query }) => {
+    return  singleOrder(query.booking_id)
+    .then(data => {
+       return { data, query}
+    })
+    .catch(err => {
+       return console.log(err)
+    })
 }
 
-export default bookingFetch;
+export default withRouter(BookingDetail);
 
 
 

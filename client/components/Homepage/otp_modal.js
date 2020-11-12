@@ -10,10 +10,9 @@ import Router from 'next/router';
 import Recaptcha from 'react-recaptcha';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Timer from 'react-compound-timer';
 import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
 
-const { Seconds }  = Timer
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
- const Modalbox = ({ state }) => {
+ const Modalbox = ({ state, submit }) => {
   const classes = useStyles();
   const initialData = {
     open_modal:false,
@@ -80,12 +79,16 @@ const useStyles = makeStyles((theme) => ({
     dispatch({ type: ACTIONS.OTP_CODE, data: e.target.value })
   }
   const onSubmission = () => {
-      // if(state.phone_number.length !== 10){
-      //   return console.log("Please enter a valid phone number")
-      // }
-      // if(state.pnr_number.length !== 10){
-      //   return console.log("Please enter a valid PNR number")
-      // }
+       submit()
+      if(state.phone_number.length !== 10){
+        return;
+      }
+      if(state.pnr_number.length !== 10){
+        return;
+      }
+      if(!state.status){
+        return;
+      }
      dispatch({ type: ACTIONS.MODAL, data: true })
   }
 
@@ -109,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
    verifyingOTP({ phone_number: state.phone_number, session_id: data.session_id, otp_code: data.otp_code })
    .then(response => {
      if(response.error){
-         dispatch({ type: ACTIONS.ERROR, data: response.error})
+         return dispatch({ type: ACTIONS.ERROR, data: response.error})
      }
       authenticate(response, () => {
           Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
@@ -123,15 +126,17 @@ const useStyles = makeStyles((theme) => ({
      }
   }
 
-  const getCoutdownTime = (time) => {
-     if(time< 0){
-     }
-  return;
-}
+
 
   return (
     <div>
      <div className="d-sm-block d-md-none">
+       <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
+          Continue
+       </Button>
+     </div>
+
+     <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none">
        <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
           Continue
        </Button>
@@ -169,6 +174,7 @@ const useStyles = makeStyles((theme) => ({
                 render="explicit"
                 verifyCallback={verifyCallback}
                 />
+
               <Button
                 onClick={send}
                 disabled={!data.recaptcha}
@@ -185,18 +191,9 @@ const useStyles = makeStyles((theme) => ({
               fullWidth
               onChange={handleChange}/>
               <br />
-              {/*<Timer
-             initialTime={30000}
-             direction="backward"
-             >
-              {({ getTime }) => {
-              getCoutdownTime(getTime())
-              return <>
-              <b><Seconds /> seconds </b>
-              </>
-              }}
-             </Timer>*/}
 
+              <small>{data.error}</small>
+              <br />
               <Button variant="contained" className="m-2 md-btn" onClick={verify}>
               Verify OTP
               </Button>

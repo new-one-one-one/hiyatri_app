@@ -11,8 +11,9 @@ import { getCookie, isAuth } from "../../actions/auth";
 import { withStyles } from "@material-ui/core/styles";
 import {Grid,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,ListItemAvatar,ListItem,CardContent,Typography,Divider} from "@material-ui/core";
 import {IconButton,AppBar,Toolbar,Menu,MenuItem} from "@material-ui/core";
-import { createOrder } from '../../actions/order';
+import { create_order, verify_order } from '../../actions/order';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import OrderConfirmation from './orderConfirmation';
 import useStyles from './style';
 
 
@@ -34,11 +35,14 @@ const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState();
 const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 const handleMobileMenuClose = () => {setMobileMoreAnchorEl(null);};
 const handleMobileMenuOpen = (event) => { setMobileMoreAnchorEl(event.currentTarget) };
-// const [orderId, setOrderId] = useState(null);
+const [orderStatus, setorderStatus] = useState({
+  status:"",
+  show: true
+});
 
 const order = (e) => {
     e.preventDefault()
-    createOrder(data.response._id)
+    create_order(data.response._id)
        .then(response => {
          if(response.error){
            return response.error
@@ -68,10 +72,20 @@ const paymentHandler = (orderId) => {
     },
     handler(response) {
      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
-     console.log(razorpay_order_id,
-                 razorpay_payment_id,
-                 razorpay_signature)
-
+     console.log(razorpay_order_id, razorpay_payment_id, razorpay_signature)
+      verify_order({ razorpay_order_id, razorpay_payment_id, razorpay_signature })
+       .then(result => {
+         if(result.error){
+           return console.log(result.error)
+         }
+         if(result.status === "ok"){
+           return setorderStatus({ ...orderStatus, status:"successfull", show: true});
+         }
+         setorderStatus({ ...orderStatus, status:"failed", show: true});
+       })
+       .catch((err) => {
+         console.log(err)
+       })
     }
   }
     const razorpay = new window.Razorpay(options);
@@ -127,7 +141,9 @@ const showPassengers = () => {
 
 return  <>
      <CssBaseline />
-   <div className="order-container">
+    {orderStatus.show ? <OrderConfirmation status={orderStatus}/>:
+      <>
+     <div className="order-container">
       <h1>ORDER DETAILS</h1>
       <h5>Summary</h5>
       <Grid container spacing={3}>
@@ -159,7 +175,8 @@ return  <>
                                         </Grid>
                                         <Grid  item xs={2}>
                                            <Typography align="center">
-                                              12:35
+                                           {data.response.booking_information.is_arrival?data.response.booking_information.reservation_upto.time:
+                                            data.response.booking_information.boarding_station.time}
                                            </Typography>
                                         </Grid>
                                         <Grid  item xs={4}>
@@ -185,19 +202,19 @@ return  <>
                                 <Paper className={classes.particularOrder} variant="outlined">
                                       <Box display="flex" p={0} bgcolor="background.paper">
                                             <Box p={1} width="100%">
-                                            {data.response.car_service.car_service_opted?"CAB service":""}
+                                            {data.response.cab_service.cab_service_opted?"CAB service":""}
                                             </Box>
                                             <Box p={1}>
-                                            {data.response.car_service.car_service_opted?"Rs. 2000":""}
+                                            {data.response.cab_service.cab_service_opted?"Rs. 2000":""}
                                             </Box>
                                       </Box>
                                       <Divider />
                                       <Box display="flex" p={0}>
                                             <Box p={1} width="100%">
-                                            {data.response.car_service.car_service_opted?"Porter service":""}
+                                            {data.response.cab_service.cab_service_opted?"Porter service":""}
                                             </Box>
                                             <Box p={1} flexShrink={1}>
-                                            {data.response.car_service.car_service_opted?"Rs. 1000":""}
+                                            {data.response.cab_service.cab_service_opted?"Rs. 1000":""}
                                             </Box>
                                       </Box>
                                 </Paper>
@@ -311,6 +328,7 @@ return  <>
     </Button>
   </AppBar>
 )}
+</>}
     </>
 }
 export default FinalOrder;

@@ -1,5 +1,5 @@
 import Layout from '../../components/Core/Layout';
-// import Private from '../../components/Core/Private';
+import Private from '../../components/Core/Private';
 import BookingComponent from '../../components/Booking';
 import BookingClass from '../../helpers/booking';
 import { get_details_by_pnr } from '../../actions/booking';
@@ -10,7 +10,9 @@ const TrainBooking = ({ data, query }) => {
   const booking = new BookingClass();
   booking.addBooking(data)
   return <Layout>
+           <Private>
             <BookingComponent data={booking.getBooking()} query={query}/>
+           </Private>
          </Layout>
 }
 

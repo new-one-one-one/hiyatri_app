@@ -62,6 +62,7 @@ module.exports.create_order = (req,res) => {
 // VERIFY PAYMENT
 module.exports.verify_order = (req, res) => {
   const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
+  console.log(razorpay_payment_id, razorpay_order_id, razorpay_signature)
   // generate signature with razorpay_payment_id and razorpay_order_id
   let generatedSignature = crypto
                          .createHmac("SHA256",process.env.RAZORPAY_KEY_SECRET)
@@ -69,6 +70,7 @@ module.exports.verify_order = (req, res) => {
                          .digest("hex");
   // match the razorpay signature with generated signature
   let isSignatureValid = generatedSignature == razorpay_signature;
+  console.log(isSignatureValid)
 if(isSignatureValid){
   //if generatedSignature matched with the given razorpay_signature then update the payment status to Verified
   const update_info = {razorpay_payment_id:  razorpay_payment_id, payment_verified: true}
@@ -80,7 +82,8 @@ if(isSignatureValid){
             })
           }
         return res.status(200).json({
-          message: 'Payment verified successfuly'
+          message: 'Payment verified successfuly',
+          status:"ok"
         })
         })
   }

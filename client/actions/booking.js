@@ -32,19 +32,7 @@ export const create_booking = (data, token) => {
         .catch(err => console.log(err));
 };
 
-export const get_all_bookings = () =>{
-    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/admin/all`, {
-        method:"GET",
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-          },
-    }).then(response =>{
-        return response.json();
-    }).catch(err => {
-        return err;
-        });
-}
-
+ 
 export const get_booking_by_id = (booking_id) =>{
     return fetch(`${process.env.NEXT_PUBLIC_API}/booking/single/${booking_id}`, {
         method:"GET",

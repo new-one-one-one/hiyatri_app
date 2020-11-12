@@ -9,22 +9,25 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Router from 'next/router';
 import { create_booking } from '../../actions/booking';
 import { getCookie, isAuth } from "../../actions/auth";
+import { singleUser } from "../../actions/user";
+import {useForm} from 'react-hook-form';
+
 
 const TrainBooking = ({ data, query }) => {
 const theme = useTheme();
 const token = getCookie('token');
 const matches = useMediaQuery(theme.breakpoints.up("md"));
-
-
+const {register, errors,handleSubmit} = useForm();
 const capitalize = (s) => {
 if (typeof s !== 'string') return ''
 return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 const initialData = {
-  user_id: "",
+  user: "",
   pnr_number: "",
   booking_information: {
     is_arrival: false,
@@ -43,7 +46,7 @@ const initialData = {
   },
   passenger_contact_information: {
    name: "",
-   primary_contact_number: "",
+   primary_contact_number: isAuth() && isAuth().phone_number,
    secondary_contact_number: "",
    email_id: ""
  },
@@ -54,19 +57,20 @@ const initialData = {
     number_of_passengers: 0,
     luggage_bags: 0,
     number_of_cab: 0,
-    price: 0
+    total_amount: 0
 },
   porter_service_detail: {
-    porter_service_opted: false,
+    porter_service_opted: true,
     number_of_large_bags: null,
     number_of_medium_bags: null,
     number_of_small_bags: null,
-    price: 0
+    total_amount: 0
 }
 }
 
+
 const ACTIONS = {
-  USER_ID:"user_id",
+  USER:"user_id",
   PNR:"pnr",
   PASSENGER_CONTACT_INFO:{
     NAME:"name",
@@ -88,14 +92,14 @@ const ACTIONS = {
     NUMBER_OF_PASS:"cab_number_of_pass",
     LAGGAGE_BAG:"cab_laggage_bag",
     NUMBER_OF_CAB:"cab_number_of_cab",
-    PRICE:"cab_price"
+    TOTAL_AMOUNT:"cab_price"
   },
   PORTER_SERVICE:{
     OPTED:"porter_copted",
     LARGE_BAG:"porter_large_bags",
     MEDIUM_BAG:"porter_medium_bags",
     SMALL_BAG:"porter_small_bags",
-    PRICE:"porter_price"
+    TOTAL_AMOUNT:"porter_price"
   }
 }
 
@@ -105,8 +109,8 @@ const reducer = (state, action) => {
   switch (action.type) {
 
     /* User id */
-    case ACTIONS.USER_ID:
-       return {...state, user_id: action.payload }
+    case ACTIONS.USER:
+       return {...state, user: action.payload }
 
    /* PNR */
     case ACTIONS.PNR:
@@ -135,7 +139,7 @@ const reducer = (state, action) => {
        const pass_detail_name = state.passenger_details
         .map((value, idx) => {
         if(action.sidx != idx) return value;
-        return {...value, name: action.payload }})
+        return {...value, passenger_name: action.payload }})
         return {...state, passenger_details: pass_detail_name}
     case ACTIONS.PASSENGER_DETAIL.AGE:
        const pass_detail_age = state.passenger_details
@@ -234,17 +238,17 @@ const handleChange = (value1, value2) => e => {
   }
   if(value1 === "passenger_detail_meet_and_greet"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-               payload: e.target.value,
+               payload: e.target.checked,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_wheel_chair"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-               payload: e.target.value,
+               payload: e.target.checked,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_golf_cart"){
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-               payload: e.target.value,
+               payload: e.target.checked,
                sidx: value2 })
   }
 
@@ -273,26 +277,40 @@ const handleChange = (value1, value2) => e => {
   }
 }
 
-const handleSubmit = e => {
-  e.preventDefault();
+
+console.log(state)
+const handleSubmission = e => {
   create_booking(state, token)
   .then(response => {
     if(response.error){
       return console.log(response.error)
     }
-  console.log(response)
+    console.log(response)
+    Router.push(`/booking/order/${response.booking_id}`)
   })
   .catch(err => {
     console.log(err)
   })
 }
 
+
 useEffect(() => {
-   dispatch({ type: ACTIONS.USER_ID,
+   dispatch({ type: ACTIONS.USER,
              payload: isAuth() && isAuth()._id })
    dispatch({ type: ACTIONS.PNR,
               payload: query.pnr })
+
+  singleUser(isAuth() && isAuth()._id)
+    .then((value) => {
+      console.log(value)
+      dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
+                 payload: value.result.name })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 },[])
+
 
 return <>
          <div className="main-div">
@@ -323,19 +341,23 @@ return <>
 
                       <span className="sub-heading">Passenger's Contact Information</span>
                       <PassengerInformation
+                      register={register}
+                      errors={errors}
                       handleChange={handleChange}
                       data={state} />
 
                       <span className="sub-heading">Passenger's Details</span>
                       <PassengerDetails
+                      register={register}
+                      errors={errors}
                       handleChange={handleChange}
                       data={state}  />
 
-                      <span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
+                      {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
                       <Switch
                       onChange={handleChange("cab_service_opted")}
                       value={state.cab_service_detail.cab_copted} />
-                      <CabService />
+                      <CabService />*/}
 
                       <span>Porter Service</span>
                       <Switch
@@ -355,7 +377,7 @@ return <>
                           </span>
                         </div>
                         <Button
-                        onClick={handleSubmit}
+                        onClick={handleSubmit(handleSubmission)}
                         variant="outlined"
                         type="submit"
                         >
@@ -365,7 +387,7 @@ return <>
                       </div>
                       ) : (
                         <Button
-                          onClick={handleSubmit}
+                          onClick={handleSubmit(handleSubmission)}
                           variant="outlined"
                           type="submit">
                            REVIEW YOUR BOOKING & PAY &#x20b9;4580

@@ -21,5 +21,5 @@ pnr_number,
         comment,
         facility_type
 
-post format 
+post format
 */

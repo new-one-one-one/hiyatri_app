@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-export const pnrDetails = pnr => {
+export const get_details_by_pnr = pnr => {
       return fetch(`${process.env.NEXT_PUBLIC_RAPID_API_BASE_URL}/pnr-status?pnr=${pnr}`, {
     	"method": "POST",
     	"headers": {
@@ -16,7 +16,7 @@ export const pnrDetails = pnr => {
     });
 };
 
-export const createBooking = (data, token) => {
+export const create_booking = (data, token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/booking/create`, {
         method: 'POST',
         headers: {
@@ -32,10 +32,8 @@ export const createBooking = (data, token) => {
         .catch(err => console.log(err));
 };
 
-
-export const getBooking = pnr =>{
-    if(pnr!==undefined){
-    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/${pnr}`, {
+export const get_all_bookings = () =>{
+    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/admin/all`, {
         method:"GET",
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -45,15 +43,10 @@ export const getBooking = pnr =>{
     }).catch(err => {
         return err;
         });
-    }
-    else{
-        return null;
-    }
-
 }
 
-export const get_all_bookings = () =>{
-    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/admin/all`, {
+export const get_booking_by_id = (booking_id) =>{
+    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/single/${booking_id}`, {
         method:"GET",
         headers: {
             'Content-Type': 'application/json;charset=utf-8'

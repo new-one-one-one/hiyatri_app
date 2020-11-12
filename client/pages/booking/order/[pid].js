@@ -2,7 +2,7 @@ import Layout from '../../../components/Core/Layout';
 import Private from '../../../components/Core/Private';
 import { withRouter } from 'next/router';
 import Order from '../../../components/Order';
-import { getBookingByPnr } from '../../../actions/booking';
+import { get_booking_by_id } from '../../../actions/booking';
 
 const FinalOrder = ({ data }) => {
   return <>
@@ -15,7 +15,7 @@ const FinalOrder = ({ data }) => {
 }
 
 FinalOrder.getInitialProps = ({ query }) => {
-  return  getBookingByPnr(query.pid)
+  return  get_booking_by_id(query.pid)
   .then(data => {
      return { data }
   })

@@ -36,10 +36,10 @@ export const createBooking = (data, token) => {
 export const getBooking = pnr =>{
     if(pnr!==undefined){
     return fetch(`${process.env.NEXT_PUBLIC_API}/booking/${pnr}`, {
-        method:"GET",  
+        method:"GET",
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
-          },      
+          },
     }).then(response =>{
         return response.json();
     }).catch(err => {
@@ -54,13 +54,13 @@ export const getBooking = pnr =>{
 
 export const get_all_bookings = () =>{
     return fetch(`${process.env.NEXT_PUBLIC_API}/booking/admin/all`, {
-        method:"GET",  
+        method:"GET",
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
-          },      
+          },
     }).then(response =>{
         return response.json();
     }).catch(err => {
         return err;
         });
-}   
+}

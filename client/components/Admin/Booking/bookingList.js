@@ -126,8 +126,7 @@ class BookingList extends React.PureComponent {
                     total={this.state.total}
                     skip={this.state.skip}
                     pageable={this.state.pageable}
-                    pageSize={this.state.pageSize} >
-
+                    pageSize={this.state.pageSize}>
                     <Column field="ProductID"  title="Booking Id"/>
                     <Column field="ProductName" title="Status" />
                     <Column field="UnitPrice" title="Assigned to" />
@@ -136,7 +135,6 @@ class BookingList extends React.PureComponent {
                     <Column field="UnitPrice" title="Booking Type" />
                     <Column field="UnitPrice" title="Action" />
                     <Column cell={this.MyEditCommandCell} />
-
                 </Grid>
             </div >
         );

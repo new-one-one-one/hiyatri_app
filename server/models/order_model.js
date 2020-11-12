@@ -3,9 +3,10 @@ const { ObjectId } = mongoose.Schema;
 
 
 const orderSchema = mongoose.Schema({
-   booking_id: {
+   booking: {
      type:ObjectId,
-     ref:"Booking"
+     ref:"Booking",
+     unique:true
    },
    razorpay_payment_id:{
      type:String,

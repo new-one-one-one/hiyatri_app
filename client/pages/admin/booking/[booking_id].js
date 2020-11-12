@@ -1,13 +1,25 @@
-import BookingPage from './../../../components/Admin/BookingDetail';
+import BookingPage from './../../../components/Admin/Booking/bookingDetail';
 import Layout from '../../../components/Core/Layout';
+import { singleOrder } from '../../../actions/order';
+import { withRouter } from 'next/router';
 
-const BookingDetail = () => {
+const BookingDetail = ({ data }) => {
  return <Layout>
-            <BookingPage />
+            <BookingPage data={data} />
         </Layout>
 }
 
-export default BookingDetail;
+BookingDetail.getInitialProps = ({ query }) => {
+    return  singleOrder(query.booking_id)
+    .then(data => {
+       return { data, query}
+    })
+    .catch(err => {
+       return console.log(err)
+    })
+}
+
+export default withRouter(BookingDetail);
 
 
 

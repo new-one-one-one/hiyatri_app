@@ -38,7 +38,7 @@ module.exports.create_order = (req,res) => {
            })
          }
         const newOrder = Order({
-              booking_id: booking_id,
+              booking: booking_id,
               amount: response.amount,
               pnr_number: response.pnr_number,
               razorpay_order_id: rzp_order.id
@@ -101,6 +101,23 @@ module.exports.get_all_orders = (req, res) => {
   .sort({ updatedAt: -1 })
   .skip(skip)
   .limit(limit)
+  .exec((err, response) => {
+     if(err){
+       return res.status(400).json({
+         error: err
+       })
+     }
+     res.status(200).json({
+       response
+     })
+  })
+}
+
+module.exports.get_single_order = (req, res) => {
+  Order.findOne({ booking: req.params.booking_id })
+  .populate({ path: 'booking', select:'booking_information passenger_contact_information pnr_number passenger_details booking_id', populate: { path: 'cab_service', select: 'cab_service_detail'}})
+  .populate({ path: 'booking', select:'booking_information passenger_contact_information pnr_number passenger_details booking_id', populate: { path: 'porter_service', select: 'porter_service_detail'}})
+  .select('amount payment_verified booking_id')
   .exec((err, response) => {
      if(err){
        return res.status(400).json({

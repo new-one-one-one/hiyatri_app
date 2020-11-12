@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-  export const createOrder = (booking_id, token) => {
+  export const create_order = (booking_id, token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/create/${booking_id}`, {
         method: 'POST',
         headers: {
@@ -16,7 +16,7 @@ import fetch from 'isomorphic-fetch';
   };
 
 
-  export const orderList = (token) => {
+  export const order_list = (token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/list`, {
         method: 'GET',
         headers: {
@@ -32,7 +32,7 @@ import fetch from 'isomorphic-fetch';
   };
 
 
-  export const singleOrder = (booking_id, token) => {
+  export const single_order = (booking_id, token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/single/${booking_id}`, {
         method: 'GET',
         headers: {
@@ -40,6 +40,22 @@ import fetch from 'isomorphic-fetch';
             Accept: 'application/json',
             Authorization: `Bearer ${token}`
         }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+  };
+
+  export const verify_order = (data, token) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/verify`, {
+        method: 'POST',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
     })
         .then(response => {
             return response.json();

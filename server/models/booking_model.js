@@ -33,6 +33,7 @@ const bookingSchema = mongoose.Schema({
           }
         },
         passenger_contact_information:{
+           name:String,
            primary_contact_number:String,
            secondary_contact_number:String,
            email_id:String,

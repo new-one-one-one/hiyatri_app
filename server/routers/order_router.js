@@ -10,8 +10,8 @@ const { run_validation } = require("../validators");
 
 router.post("/order/create/:booking_id", create_order);
 
-// Admin
 router.get('/order/list', get_all_orders);
 router.get('/order/single/:booking_id', get_single_order);
+router.post('/order/verify', verify_order);
 
 module.exports = router;

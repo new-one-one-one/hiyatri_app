@@ -15,7 +15,7 @@ const FinalOrder = ({ data }) => {
 }
 
 FinalOrder.getInitialProps = ({ query }) => {
-  return  get_booking_by_id(query.pid)
+  return  get_booking_by_id(query.booking_id)
   .then(data => {
      return { data }
   })

@@ -1,6 +1,6 @@
-import BookingPage from './../../../components/Admin/Booking/bookingDetail';
-import Layout from '../../../components/Core/Layout';
-import { singleOrder } from '../../../actions/order';
+import BookingPage from '../../../../components/Admin/Booking/bookingDetail';
+import Layout from '../../../../components/Core/Layout';
+import { single_order } from '../../../../actions/order';
 import { withRouter } from 'next/router';
 
 const BookingDetail = ({ data }) => {
@@ -10,7 +10,7 @@ const BookingDetail = ({ data }) => {
 }
 
 BookingDetail.getInitialProps = ({ query }) => {
-    return  singleOrder(query.booking_id)
+    return  single_order(query.booking_id)
     .then(data => {
        return { data, query}
     })

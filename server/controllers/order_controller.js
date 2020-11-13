@@ -37,9 +37,11 @@ module.exports.create_order = (req,res) => {
              error: err
            })
          }
+       const order_type = response.booking_information.is_arrival ? "Arrival":"Departure"
         const newOrder = Order({
               booking: booking_id,
-              amount: response.amount,
+              order_type,
+              total_amount: response.total_amount,
               pnr_number: response.pnr_number,
               razorpay_order_id: rzp_order.id
            })
@@ -94,28 +96,6 @@ return res.status(400).json({
 
 
 
-module.exports.get_all_orders = (req, res) => {
-  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
-  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
-  Order.find()
-  .populate({ path: 'booking_id', select:'booking_information passenger_contact_information pnr_number passenger_details', populate: { path: 'car_service', select: 'car_service_detail'}})
-  .populate({ path: 'booking_id', select:'booking_information passenger_contact_information pnr_number passenger_details', populate: { path: 'porter_service', select: 'porter_service_detail'}})
-  .select('amount payment_verified booking_id razorpay_order_id')
-  .sort({ updatedAt: -1 })
-  .skip(skip)
-  .limit(limit)
-  .exec((err, response) => {
-     if(err){
-       return res.status(400).json({
-         error: err
-       })
-     }
-     res.status(200).json({
-       response
-     })
-  })
-}
-
 module.exports.get_single_order = (req, res) => {
   Order.findOne({ booking: req.params.booking_id })
   .populate({ path: 'booking', select:'booking_information passenger_contact_information pnr_number passenger_details booking_id', populate: { path: 'cab_service', select: 'cab_service_detail'}})
@@ -131,4 +111,61 @@ module.exports.get_single_order = (req, res) => {
        response
      })
   })
+}
+
+
+module.exports.get_all_orders = async (req, res) => {
+  const { order_type, order_status} = req.body;
+  if(!order_type && !order_status){
+    return Order.find()
+    .populate({ path: 'booking', select:'booking_information booking_id' })
+    .populate({ path: 'booking', select:'booking_information booking_id' })
+    .select('order_type order_status')
+    .sort({ updatedAt: -1 })
+    .exec((err, response) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      const list = response.map(item => {
+          return { booking_status: item.order_status,
+                   booking_type: item.order_type,
+                   booking_id: item.booking.booking_id,
+                   date: item.booking.booking_information.is_arrival?item.booking.booking_information.reservation_upto.date:item.booking.booking_information.boarding_station.date,
+                   time: item.booking.booking_information.is_arrival?item.booking.booking_information.reservation_upto.time:item.booking.booking_information.boarding_station.time,
+                   _id: item.booking._id
+           }
+      })
+      return res.status(200).json({
+        response: list
+      })
+    })
+  }
+
+  Order.find({ order_type, order_status, payment_verified: true })
+  .populate({ path: 'booking', select:'booking_information booking_id' })
+  .populate({ path: 'booking', select:'booking_information booking_id' })
+  .select('order_type order_status')
+  .sort({ updatedAt: -1 })
+ .exec((err, response) => {
+    if(err){
+      return res.status(400).json({
+        error: err
+      })
+    }
+    const list = response.map(item => {
+        return { booking_status: item.order_status,
+                 booking_type: item.order_type,
+                 booking_id: item.booking.booking_id,
+                 date: item.booking.booking_information.is_arrival?item.booking.booking_information.reservation_upto.date:item.booking.booking_information.boarding_station.date,
+                 time: item.booking.booking_information.is_arrival?item.booking.booking_information.reservation_upto.time:item.booking.booking_information.boarding_station.time,
+                 _id: item.booking._id
+         }
+    })
+
+    res.status(200).json({
+      response: list
+    })
+ })
 }

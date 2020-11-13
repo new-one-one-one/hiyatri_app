@@ -278,7 +278,7 @@ const handleChange = (value1, value2) => e => {
 }
 
 
-console.log(state)
+
 const handleSubmission = e => {
   create_booking(state, token)
   .then(response => {
@@ -286,7 +286,7 @@ const handleSubmission = e => {
       return console.log(response.error)
     }
     console.log(response)
-    Router.push(`/booking/order/${response.booking_id}`)
+    Router.replace(`/booking/order/${response.booking_id}`)
   })
   .catch(err => {
     console.log(err)
@@ -302,7 +302,6 @@ useEffect(() => {
 
   singleUser(isAuth() && isAuth()._id)
     .then((value) => {
-      console.log(value)
       dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
                  payload: value.result.name })
     })

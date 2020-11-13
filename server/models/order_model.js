@@ -8,19 +8,30 @@ const orderSchema = mongoose.Schema({
      ref:"Booking",
      unique:true
    },
-   razorpay_payment_id:{
-     type:String,
+   total_amount:{
+     type:Number
    },
-   razorpay_order_id:{
+   agent: {
+      type:ObjectId,
+      ref:"User"
+   },
+   order_type:{
      type:String
+   },
+   order_status:{
+     type:String,
+     enum:['ASSIGN_TO_ADMIN', 'ASSIGN_TO_AGENT','IN_PROGRESS','DONE','CANCELLED'],
+     default:'ASSIGN_TO_ADMIN'
    },
    payment_verified:{
      type:Boolean,
      default: false
    },
-   agent: {
-      type:ObjectId,
-      ref:"User"
+   razorpay_payment_id:{
+     type:String,
+   },
+   razorpay_order_id:{
+     type:String
    },
    del_flag:{
      type:Boolean,

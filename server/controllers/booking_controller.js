@@ -51,6 +51,8 @@ exports.create_booking = (req, res) => {
               "Arr_" + pad(await Booking.countDocuments()+1, 10):
               "Dep_" + pad(await Booking.countDocuments()+1, 10);
 
+
+
               const newBooking = Booking({
                     user,
                     pnr_number,

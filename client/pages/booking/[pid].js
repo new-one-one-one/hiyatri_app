@@ -10,9 +10,9 @@ const TrainBooking = ({ data, query }) => {
   const booking = new BookingClass();
   booking.addBooking(data)
   return <Layout>
-           <Private>
+
             <BookingComponent data={booking.getBooking()} query={query}/>
-           </Private>
+     
          </Layout>
 }
 

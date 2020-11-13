@@ -3,9 +3,6 @@ const { ObjectId } = mongoose.Schema;
 
 
 const bookingSchema = mongoose.Schema({
-        booking_id:{
-          type:String,
-        },
         user:{
           type:ObjectId,
           required:true
@@ -58,12 +55,12 @@ const bookingSchema = mongoose.Schema({
           ref:"Porter",
           required:true
         },
-        total_amount:{
-          type:Number
-        },
-        booking_status:{
+        booking_id:{
           type:String,
-          enum:['']
+        },
+        total_amount:{
+          type:Number,
+          default:0
         },
         del_flag:{
           type:Boolean,

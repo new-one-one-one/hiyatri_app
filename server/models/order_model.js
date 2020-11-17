@@ -20,7 +20,7 @@ const orderSchema = mongoose.Schema({
    },
    order_status:{
      type:String,
-     enum:['ASSIGN_TO_ADMIN', 'ASSIGN_TO_AGENT','IN_PROGRESS','DONE','CANCELLED'],
+     enum:['ASSIGN_TO_ADMIN', 'ASSIGN_TO_AGENT','IN_PROGRESS','COMPLETED','CANCELLED','NO_SHOW'],
      default:'ASSIGN_TO_ADMIN'
    },
    payment_verified:{

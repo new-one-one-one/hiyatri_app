@@ -5,7 +5,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
-import firebase from '../../helpers/firebase';
 import Router from 'next/router';
 import Recaptcha from 'react-recaptcha';
 import OutlinedInput from '@material-ui/core/OutlinedInput';

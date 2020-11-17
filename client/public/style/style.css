@@ -4,7 +4,8 @@
  -------------- */
  .MuiAppBar-root{
   background-color: #2a306c!important;
-   box-shadow:0px 0px 0px 0px!important;
+  z-index: 5000!important;
+  box-shadow:0px 0px 0px 0px!important;
  }
 
 body{
@@ -24,6 +25,10 @@ body{
 .col-md-6{
   padding-left: 10px!important;
   padding-right: 10px!important;
+}
+.col-md-4{
+  padding-left: 0px!important;
+  padding-right: 0px!important;
 }
 .col-md-7{
   padding-left: 0px!important;
@@ -162,15 +167,15 @@ body{
  Homepage styling
  ---------------- */
  .hp-curve{
-   background-color:#30336B;
+   /* background-color:#30336B; */
    height:180px;
    /* border-radius:0px 0px 90px 90px; */
  }
 .hp-welcome{
   position:absolute;
   top:100px;
-  left:70px;
-  right:70px;
+  left:8%;
+  right:8%;
   padding: 18px;
   border-radius: 20px;
   box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
@@ -275,7 +280,7 @@ body{
     border-radius: 20px;
     min-height: 220px;
     position: absolute;
-    top: 35%;
+    top: 28%;
   }
 }
 .hp-input{
@@ -318,15 +323,66 @@ body{
 .mb-hp-welcome{
   /* opacity: 0.85; */
 }
-
-
-
-
-
-
-
-
-
+.hp-mg-container{
+  margin-top: 400px;
+}
+@media (max-width:767px) {
+  .hp-mg-container{
+    margin-top: 500px;
+  }
+}
+.hp-mg-text{
+  font-size: 14px;
+  margin-top: 10px;
+  letter-spacing: 0.6px;
+  font-weight: 400;
+  opacity: 75%;
+  color: #303030;
+}
+.hp-mg-title{
+  font-size: 20px;
+  color: #2a306c;
+  font-weight: 600;
+  padding: 0px;
+}
+.hp-service-container{
+  margin-top: 60px;
+}
+.hp-mg-heading{
+  text-align: center;
+  font-size: 30px;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  font-weight: 400!important;
+}
+.hp-service-heading{
+  text-align: center;
+  font-size: 30px;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  font-weight: 400!important;
+}
+.hp-service-card{
+  padding: 20px;
+  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
+  margin: 20px 20px 20px 20px;
+}
+.hp-card-title{
+font-size: 20px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.17;
+letter-spacing: 0.72px;
+text-align: left;
+color: #2a306c;
+}
+@media (min-width:767px) {
+  .hp-mg-inner{
+    padding-left: 100px;
+    padding-top: 30px;
+  }
+}
 
 
 /* ---------------

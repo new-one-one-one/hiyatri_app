@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
   },
   user_type:{
     type:String,
-    enum:['USER','AGENT','ADMIN'],
+    enum:['USER','AGENT','ADMIN', 'SUPER_ADMIN'],
     default:'USER'
   },
   del_flag:{

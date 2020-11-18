@@ -3,7 +3,7 @@ const Booking = require("../models/booking_model");
 const Razorpay = require('razorpay');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
-
+var request = require('request');
 
 //Create an instace of razorpay
 var razorpay = new Razorpay({
@@ -63,6 +63,15 @@ module.exports.create_order = (req,res) => {
 
 // VERIFY PAYMENT
 module.exports.verify_order = (req, res) => {
+
+const send_successful_sms = () => {
+
+}
+
+
+
+
+
   const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
   console.log(razorpay_payment_id, razorpay_order_id, razorpay_signature)
   // generate signature with razorpay_payment_id and razorpay_order_id
@@ -83,11 +92,28 @@ if(isSignatureValid){
               error: err
             })
           }
-        return res.status(200).json({
-          message: 'Payment verified successfuly',
-          status:"ok"
-        })
-        })
+          var options = {
+            'method': 'POST',
+            'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS\n`,
+            'headers': {
+              'Cookie': '__cfduid=db7883e7eb7ba3f64d5936752539e004e1605672337'
+            },
+            formData: {
+              'From': 'HBSSMS',
+              'To': '9140283163',
+              'TemplateName': 'Booking successful',
+              'VAR1': 'Aman',
+              'VAR2': 'Arr_0021'
+            }
+          };
+          request(options, function (error, response) {
+            if (error) throw new Error(error);
+            return res.status(200).json({
+              message: 'Payment verified successfuly',
+              status:"ok"
+            })
+          });
+      })
   }
 return res.status(400).json({
   message: 'Payment verification failed'

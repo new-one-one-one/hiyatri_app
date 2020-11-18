@@ -3,6 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
+import Drawer from '../Drawer'
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -36,8 +37,9 @@ const matches = useMediaQuery(theme.breakpoints.up("lg"));
                     {matches ? (
                     <Typography />
                     ) : (
-                    <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
+                      <Drawer />
                     )}
+
                 </Toolbar>
             </AppBar>
          </>

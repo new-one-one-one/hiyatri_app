@@ -7,6 +7,9 @@
   z-index: 5000!important;
   box-shadow:0px 0px 0px 0px!important;
  }
+ .MuiDrawer-paper {
+   top:70px!important;
+}
 
 body{
   background-color: #FDFDFD;

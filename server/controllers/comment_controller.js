@@ -1,6 +1,6 @@
 const Comment_schema = require('../models/comment_model');
 exports.create_comment = (req, res) =>{
-    console.log("Create Comment called", req.body);
+
     const {
         pnr_number,
         comment_by,

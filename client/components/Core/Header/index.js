@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Drawer from '../Drawer'
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Link from 'next/link';
 
 
 const useStyles = makeStyles(theme =>
@@ -32,7 +33,11 @@ const matches = useMediaQuery(theme.breakpoints.up("lg"));
             <AppBar position='fixed' className={classes.root}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                    <img className="icons" src="/images/logo.png" className="h-logo"/>
+                      <Link href='/'>
+                         <a>
+                           <img className="icons" src="/images/logo.png" className="h-logo"/>
+                        </a>
+                      </Link>
                     </Typography>
                     {matches ? (
                     <Typography />

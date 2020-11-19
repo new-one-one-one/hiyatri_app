@@ -104,7 +104,7 @@ const Homepage = () => {
                                           placeholder="Phone no."
                                           className="hp-input mt-2 mb-2"
                                           fullWidth
-                                         
+
                                           />
                                          </div>
                                          <div className="col-md-6">

@@ -358,11 +358,8 @@ const ParticularPnr = ({requestedPnr}) => {
             </div>
                    </Paper>
             )}
-             */}
-
-
-         
-              <div className={classes.comment_root}>
+             */}         
+        <div className={classes.comment_root}>
              {comments.map((comment)=>{ 
               return ( 
 
@@ -370,7 +367,7 @@ const ParticularPnr = ({requestedPnr}) => {
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header"
                 >
                  <Grid container xs={12} justify="space-between">  
-                  <Typography className={classes.comment_heading}>{comment.created_at}</Typography>
+                  <Typography className={classes.comment_heading}>{comment.created_at.substring(0,10)}</Typography>
               <Typography className={classes.comment_secondaryHeading}>{comment.comment_by}, For {comment.facilityType}</Typography>
                 </Grid>
                 </AccordionSummary>

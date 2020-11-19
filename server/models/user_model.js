@@ -8,27 +8,23 @@ const userSchema = mongoose.Schema({
     trim: true,
     max: 32
   },
-  email:{
-    type: String,
-    trim: true,
-    lowercase: true
-  },
+  // email:{
+  //   type: String,
+  //   trim: true,
+  //   lowercase: true
+  // },
   phone_number:{
     type: String,
     required: true,
     unique:true,
     max:20,
   },
-  user_type:{
-    type: ObjectId,
-    ref:"User_Type",
-    // required:true
-  },
+  user_type: String,
   del_flag:{
     type: Boolean,
     default: false
   }
 
-}, { timestamp: true })
+})
 
 module.exports = mongoose.model("User", userSchema);

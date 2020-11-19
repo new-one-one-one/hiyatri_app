@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {Paper} from "@material-ui/core";
 import {Theme, makeStyles, createStyles} from "@material-ui/core/styles";
 import {Grid,Input,Dialog, Select, InputLabel, DialogActions, DialogContent, FormControlLabel, Box,Button, TextField,Typography,Divider} from "@material-ui/core";
@@ -6,15 +7,18 @@ import TrainIcon from '@material-ui/icons/Train';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-
 import Checkbox from '@material-ui/core/Checkbox';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {useForm} from 'react-hook-form';
-import  {createComment} from '../../../actions/comments';
+import { useForm } from 'react-hook-form';
+import { create_comment, comment_list } from '../../../actions/comments';
+import { assign_agent, agent_list } from '../../../actions/order';
+import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -161,31 +165,54 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
+
+
 const BookingDetail = ({ data }) => {
-
-  console.log(data)
-
-  // const data = requestedPnr.res[0];
-  // const passenger = data.passenger_details;
-  // const station = data.booking_information.reservation_upto;
-
   const width= 900;
-
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [commentBox, openCommentBox] = React.useState(false);
+  const [agents, setAgents] = useState([]);
+  const [assignee, setAssignee] = useState();
+  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [commentText, setCommentText] = useState();
+  const [commentBox, openCommentBox] = useState(false);
+  const [commentList, setCommentList] = useState([]);
 
   const changeDropDown = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
  const {register,handleSubmit } = useForm();
-  const commentSubmit = (result) =>{
-    // result.pnr_number= data.pnr_number;
-    // createComment(result);
-    openCommentBox(false);
 
+
+  const assignToAgent = () => {
+    let orderId = data.response._id;
+     assign_agent(orderId, assignee)
+        .then(response => {
+          if(response.error){
+            return console.log(response.error)
+          }
+          setOpen(false)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
   }
+
+  const addComment = (e) => {
+    e.preventDefault()
+    create_comment({ order: data.response._id, comment_by: isAuth() && isAuth()._id, comment: commentText })
+      .then(response => {
+        if(response.error){
+          return console.log(response.error)
+        }
+        openCommentBox(false)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+
   const getMyService = (needed, type)=>{
     switch(type) {
       case "wheel":
@@ -224,6 +251,29 @@ const BookingDetail = ({ data }) => {
     }
   }
 
+useEffect(() => {
+  agent_list()
+    .then(response => {
+      if(response.error){
+         return console.log(response.error)
+      }
+      setAgents(response.agents)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+    comment_list()
+      .then(response => {
+        if(response.error){
+           return console.log(response.error)
+        }
+          setCommentList(response.comments)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+},[])
 
 
 
@@ -329,42 +379,8 @@ const BookingDetail = ({ data }) => {
         <br></br>
          {/* Comments paragraph */}
          <div>Comments </div>
-
-            {/* {(width >= 800) &&(
-              <Paper className={classes.Services}>
-            <div className={classes.comment}>
-              <Grid spacing={4} xs={12}>
-              <Grid container xs={12} justify="space-between">
-                  <Typography  variant="body1" align="left">Wheel chair number - 9994333445</Typography>
-              </Grid>
-              <Grid container xs={12} justify="space-between">
-                  <Box p={1}>
-                    <Box width="30%">
-
-                    </Box>
-
-                  </Box>
-                  <Typography variant="subtitle2"  align="left"></Typography>
-                  <Typography variant="subtitle2" color="textSecondary"  align="center">Puneet Singhal, Admin</Typography>
-                  <Typography variant="subtitle2"  align="right">Time</Typography>
-              </Grid>
-              </Grid>
-              <Divider variant="middle"/>
-              <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
-                  <Typography variant="subtitle2"  align="left"></Typography>
-                    <Button variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
-                        Add Comment
-                    </Button>
-              </Grid>
-            </div>
-                   </Paper>
-            )}
-             */}
-
-
-
               <div className={classes.comment_root}>
-             {[{}].map((comment)=>{
+             {commentList.map((comment)=>{
               return (
 
               <Accordion expanded={expanded === comment.comment_by} onChange={changeDropDown(comment.comment_by)}>
@@ -372,7 +388,7 @@ const BookingDetail = ({ data }) => {
                 >
                  <Grid container xs={12} justify="space-between">
                   <Typography className={classes.comment_heading}>{comment.created_at}</Typography>
-              <Typography className={classes.comment_secondaryHeading}>{comment.comment_by}, For {comment.facilityType}</Typography>
+              <Typography className={classes.comment_secondaryHeading}>{comment.comment_by}</Typography>
                 </Grid>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -398,7 +414,7 @@ const BookingDetail = ({ data }) => {
 
             <br></br>
         </Grid>
-        {/* This is for promocode part */}
+
         <Grid item xs={12} sm={3}>
           <Paper className={classes.promocode}>
                 <Box p={1}>
@@ -412,7 +428,7 @@ const BookingDetail = ({ data }) => {
         </Grid>
        </Grid>
     </div>
-    {/* This is for adding a comment */}
+
 
     <Dialog
         fullWidth
@@ -422,26 +438,21 @@ const BookingDetail = ({ data }) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <form onSubmit={handleSubmit(commentSubmit)}>
+        <form>
         <DialogTitle className={classes.headFootAgent} id="scroll-dialog-title">Adding Comment</DialogTitle>
         <DialogContent dividers>
           <DialogContentText
             id="scroll-dialog-description"
             tabIndex={10}
           >
-          <Typography>Admin or Agent</Typography>
-          <FormControl>
-          <TextField id="outlined-basic" inputRef={register} name="comment_by" label="Creator" variant="outlined" /> <br></br>
-          <TextField id="outlined-basic" inputRef={register} name="facilityType" label="For Service" variant="outlined" />  <br></br>
-          {/* <TextareaAutosize name="comment" cols={10}  ref={register}  rowsMin={3} placeholder="write your comment here" /> */}
-          <TextField
+           <FormControl>
+           <TextField
           id="outlined-multiline-static"
           label="Comment"
+          onChange={(e) => setCommentText(e.target.value)}
           multiline
           style={{width:'40ch'}}
           rows={4}
-          inputRef={register}
-          name="comment"
           variant="outlined"
         />
           </FormControl>
@@ -449,7 +460,7 @@ const BookingDetail = ({ data }) => {
          </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={()=>{openCommentBox(false);window.location.reload(false)}} type="submit" variant="contained" color="primary">
+          <Button onClick={addComment} type="submit" variant="contained" color="primary">
             Submit
           </Button>
           <Button onClick={()=>openCommentBox(false)} variant="contained" color="secondary">
@@ -460,7 +471,7 @@ const BookingDetail = ({ data }) => {
       </Dialog>
 
 
-    {/*  THis is for adding agent  */}
+
     <Dialog
         fullWidth
         style={{minHeight:"600px"}}
@@ -475,20 +486,23 @@ const BookingDetail = ({ data }) => {
             tabIndex={10}
           >
         <FormControl style={{minWidth:"80%"}} variant="outlined">
-        <InputLabel  htmlFor="outlined-age-native-simple">Assignee</InputLabel>
-        <Select native value=""
-          label="Assignee"
-          inputProps={{
-            name: 'assignee',
-            id: 'outlined-age-native-simple',
+        <Autocomplete
+          onChange={(event, newValue) => {
+            if(newValue){
+                setAssignee(newValue._id)
+            }
           }}
-        >
-          <option aria-label="None" value="" />
-          <option value={"joefjfojjfojfofje"}>joefjfojjfojfofje</option>
-          <option value={"joefjfojjfojfofje"}>neognobneronobner</option>
-          <option value={"joefjfojjfojfofje"}>ngioejgogjogjegogj</option>
-        </Select>
-
+          options={agents}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+           <TextField
+             {...params}
+             className=""
+             variant="outlined"
+             label="Assignee"
+           />
+          )}
+          />
           <br></br>
          <TextField id="outlined-multiline-static"  label="Comments"
           multiline  fullWidth  rowsMax={10}  rows={5} placeholder="write you comments here"
@@ -497,7 +511,7 @@ const BookingDetail = ({ data }) => {
         <FormControlLabel
         control={
           <Checkbox
-            checked={true}   // you can create a state or add to reducer for state change
+            checked={true}
             name="canView"
             color="primary"
           />
@@ -511,7 +525,7 @@ const BookingDetail = ({ data }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={()=>setOpen(false)} variant="contained" color="primary">
+          <Button onClick={assignToAgent} variant="contained" color="primary">
             Assign
           </Button>
           <Button onClick={()=>setOpen(false)} variant="contained" color="secondary">

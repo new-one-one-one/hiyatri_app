@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
-export const createComment = (data) => {
-    console.log(data, "Comemnt data");
-    return fetch(`${process.env.NEXT_PUBLIC_API}/booking/admin/addComment`, {
+
+export const create_comment = (data) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/comment/create`, {
         method: 'POST',
         headers: {
            'Content-Type': 'application/json',
@@ -15,11 +15,16 @@ export const createComment = (data) => {
         .catch(err => console.log(err));
 };
 
-/*
-pnr_number,
-        comment_by,
-        comment,
-        facility_type
-
-post format
-*/
+export const comment_list = (data) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/comment/list`, {
+        method: 'GET',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};

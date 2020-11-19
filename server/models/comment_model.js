@@ -1,10 +1,19 @@
-const mongoose = require('mongoose'),
-    Schema   = mongoose.Schema;
-const commentSchema = new  Schema({
-    pnr_number:String,
-    comment_by :String ,
-    comment:String,
-    facilityType:String,
-    created_at:{type:Date, default:Date.now},
-});
-module.exports = mongoose.model('Comment', commentSchema);
+
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
+
+const commentSchema = mongoose.Schema({
+   order: {
+     type: ObjectId,
+     ref:"Order"
+   },
+   comment_by:{
+     type: ObjectId,
+     ref:"User"
+   },
+   comment: {
+     type:String
+   }
+}, { timestamp:true })
+
+module.exports = mongoose.model("Comment", commentSchema);

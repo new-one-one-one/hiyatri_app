@@ -1,4 +1,5 @@
 const Order = require("../models/order_model");
+const User = require("../models/user_model");
 const Booking = require("../models/booking_model");
 const Razorpay = require('razorpay');
 const { v4: uuidv4 } = require('uuid');
@@ -63,14 +64,6 @@ module.exports.create_order = (req,res) => {
 
 // VERIFY PAYMENT
 module.exports.verify_order = (req, res) => {
-
-const send_successful_sms = () => {
-
-}
-
-
-
-
 
   const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
   console.log(razorpay_payment_id, razorpay_order_id, razorpay_signature)
@@ -194,4 +187,40 @@ module.exports.get_all_orders = async (req, res) => {
       response: list
     })
  })
+}
+
+
+module.exports.assign_agent = (req, res) => {
+     const order_id = req.params.order_id;
+     const agent_id = req.params.agent_id;
+     Order.findByIdAndUpdate(order_id, {agent: agent_id}, { new: true })
+       .exec((err, result) => {
+         if(err){
+           return res.status(400).json({
+             error: err
+           })
+         }
+         if(!result){
+           return res.status(200).json({
+             message: "Please provide valid orderId and agentId"
+           })
+         }
+         res.status(200).json({
+            result
+         })
+       })
+}
+
+module.exports.agent_list = (req, res) => {
+   User.find({ user_type: "AGENT"})
+     .exec((err, response) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       return res.status(200).json({
+         agents: response
+       })
+     })
 }

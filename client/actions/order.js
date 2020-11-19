@@ -62,3 +62,33 @@ import fetch from 'isomorphic-fetch';
         })
         .catch(err => console.log(err));
   };
+
+  export const assign_agent = (orderId,agentId,token) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/assign/agent/${orderId}/${agentId}`, {
+        method: 'PATCH',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+  };
+
+  export const agent_list = (token) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/agent/list`, {
+        method: 'GET',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+  };

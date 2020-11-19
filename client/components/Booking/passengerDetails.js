@@ -50,28 +50,28 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                         </Select>
                         </td>
                         <td>
-                          <span>Yes</span>
+                          <span>No</span>
                           <Switch
                            color="primary"
                            checked={item.meet_and_greet}
                            onChange={handleChange("passenger_detail_meet_and_greet", index)}/>
-                          <span>No</span>
+                          <span>Yes</span>
                         </td>
                         <td>
-                          <span>Yes</span>
+                          <span>No</span>
                           <Switch
                           color="primary"
                            checked={item.wheel_chair}
                            onChange={handleChange("passenger_detail_wheel_chair", index)}  />
-                           <span>No</span>
+                           <span>Yes</span>
                         </td>
                         <td>
-                          <span>Yes</span>
+                          <span>No</span>
                           <Switch
                           color="primary"
                            checked={item.golf_cart}
                            onChange={handleChange("passenger_detail_golf_cart", index)} />
-                           <span>No</span>
+                           <span>Yes</span>
                         </td>
                     </tr>
                }

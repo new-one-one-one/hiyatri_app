@@ -7,6 +7,10 @@
   z-index: 5000!important;
   box-shadow:0px 0px 0px 0px!important;
  }
+ .MuiDrawer-paper {
+   top:70px!important;
+
+}
 
 body{
   background-color: #FDFDFD;
@@ -158,7 +162,7 @@ body{
 @media (max-width: 767px) {
   .h-logo{
      margin-top: 10px;
-     width: 189.2px;
+     width: 145.2px;
      height: 58.5px;
      object-fit: contain;
   }
@@ -685,24 +689,24 @@ color: #2a306c;
     background-color: #ffffff;
 }
 .bd-btn-agent{
-  background-color: #4fc3f7;
-  padding: 15px 20px 15px 20px;
-  color: white;
-  min-width: 200px;
-  font-weight: bold;
-  border-radius: 6px;
-  border: 0px;
-  margin:3px 3px 15px;
+  background-color: #4fc3f7!important;
+  padding: 15px 20px 15px 20px!important;
+  color: white!important;
+  min-width: 200px!important;
+  font-weight: bold!important;
+  border-radius: 6px!important;
+  border: 0px!important;
+  margin:3px 3px 15px!important;
 }
 .bd-btn-cancel{
-  background-color: white;
-  padding: 15px 20px 15px 20px;
-  color: #4fc3f7;
-  margin: 3px;
-  min-width: 200px;
-  font-weight: bold;
-  border-radius: 6px;
-  border: 1px solid #4fc3f7;
+  background-color: white!important;
+  padding: 15px 20px 15px 20px!important;
+  color: #4fc3f7!important;
+  margin: 3px!important;
+  min-width: 200px!important;
+  font-weight: bold!important;
+  border-radius: 6px!important;
+  border: 1px solid #4fc3f7!important;
 }
 .bd-agent-container{
   width: 250px;
@@ -730,4 +734,16 @@ color: #2a306c;
   padding-left: 10px!important;
   padding-right: 10px!important;
   margin: 0px!important;
+}
+
+
+
+/* ---------------
+     Login
+----------------- */
+.lg-container{
+  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
+  text-align: center;
+  padding: 10px!important;
+  max-width: 350px;
 }

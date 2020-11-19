@@ -1,9 +1,10 @@
 const Order = require("../models/order_model");
+const User = require("../models/user_model");
 const Booking = require("../models/booking_model");
 const Razorpay = require('razorpay');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
-
+var request = require('request');
 
 //Create an instace of razorpay
 var razorpay = new Razorpay({
@@ -63,6 +64,7 @@ module.exports.create_order = (req,res) => {
 
 // VERIFY PAYMENT
 module.exports.verify_order = (req, res) => {
+
   const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
   console.log(razorpay_payment_id, razorpay_order_id, razorpay_signature)
   // generate signature with razorpay_payment_id and razorpay_order_id
@@ -83,11 +85,28 @@ if(isSignatureValid){
               error: err
             })
           }
-        return res.status(200).json({
-          message: 'Payment verified successfuly',
-          status:"ok"
-        })
-        })
+          var options = {
+            'method': 'POST',
+            'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS\n`,
+            'headers': {
+              'Cookie': '__cfduid=db7883e7eb7ba3f64d5936752539e004e1605672337'
+            },
+            formData: {
+              'From': 'HBSSMS',
+              'To': '9140283163',
+              'TemplateName': 'Booking successful',
+              'VAR1': 'Aman',
+              'VAR2': 'Arr_0021'
+            }
+          };
+          request(options, function (error, response) {
+            if (error) throw new Error(error);
+            return res.status(200).json({
+              message: 'Payment verified successfuly',
+              status:"ok"
+            })
+          });
+      })
   }
 return res.status(400).json({
   message: 'Payment verification failed'
@@ -168,4 +187,40 @@ module.exports.get_all_orders = async (req, res) => {
       response: list
     })
  })
+}
+
+
+module.exports.assign_agent = (req, res) => {
+     const order_id = req.params.order_id;
+     const agent_id = req.params.agent_id;
+     Order.findByIdAndUpdate(order_id, {agent: agent_id}, { new: true })
+       .exec((err, result) => {
+         if(err){
+           return res.status(400).json({
+             error: err
+           })
+         }
+         if(!result){
+           return res.status(200).json({
+             message: "Please provide valid orderId and agentId"
+           })
+         }
+         res.status(200).json({
+            result
+         })
+       })
+}
+
+module.exports.agent_list = (req, res) => {
+   User.find({ user_type: "AGENT"})
+     .exec((err, response) => {
+       if(err){
+         return res.status(400).json({
+           error: err
+         })
+       }
+       return res.status(200).json({
+         agents: response
+       })
+     })
 }

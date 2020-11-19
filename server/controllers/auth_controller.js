@@ -86,7 +86,7 @@ module.exports.verify_otp = async (req, res) => {
           }
           const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
           res.cookie('token', token, { expiresIn: '7d' });
-          const user = { _id: data._id, phone_number: data.phone_number}
+          const user = { _id: data._id, phone_number: data.phone_number, user_type: data.user_type}
           return res.status(200).json({
              message: "Verified successfuly",
              token: token,

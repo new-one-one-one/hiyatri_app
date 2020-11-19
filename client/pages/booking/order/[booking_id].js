@@ -1,5 +1,5 @@
 import Layout from '../../../components/Core/Layout';
-import Private from '../../../components/Core/Private';
+// import Private from '../../../components/Core/Private';
 import { withRouter } from 'next/router';
 import Order from '../../../components/Order';
 import { get_booking_by_id } from '../../../actions/booking';
@@ -7,9 +7,9 @@ import { get_booking_by_id } from '../../../actions/booking';
 const FinalOrder = ({ data }) => {
   return <>
             <Layout>
-               <Private>
+
                  <Order data={data} />
-               </Private>
+ 
             </Layout>
          </>
 }

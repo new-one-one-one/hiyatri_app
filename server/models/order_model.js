@@ -9,14 +9,17 @@ const orderSchema = mongoose.Schema({
      unique:true
    },
    total_amount:{
-     type:Number
+     type:Number,
+     default:null
    },
    agent: {
       type:ObjectId,
-      ref:"User"
+      ref:"User",
+      default:null
    },
    order_type:{
-     type:String
+     type:String,
+     default:null
    },
    order_status:{
      type:String,
@@ -29,9 +32,11 @@ const orderSchema = mongoose.Schema({
    },
    razorpay_payment_id:{
      type:String,
+     default:null
    },
    razorpay_order_id:{
-     type:String
+     type:String,
+     default:null
    },
    del_flag:{
      type:Boolean,

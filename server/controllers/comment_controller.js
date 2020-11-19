@@ -1,23 +1,31 @@
-const Comment_schema = require('../models/comment_model');
-exports.create_comment = (req, res) =>{
-    console.log("Create Comment called", req.body);
-    const {
-        pnr_number,
-        comment_by,
-        comment,
-        facility_type
-    }   =  req.body;
-    const addComment = new Comment_schema({
-        pnr_number,
-        comment_by,
-        comment,
-        facility_type
-    })
-    addComment.save((err, result) => {
-        if(err){
-          return res.status(400).json({
-          error: errorHandler(err)
-          })
-    }})
+const Comment = require('../models/comment_model');
 
+module.exports.create_comment = (req, res) => {
+   const { order, comment, comment_by } = req.body;
+   const newComment = Comment({ order, comment, comment_by})
+         newComment.save((err, result) => {
+           if(err){
+             return res.status(400).json({
+               error: err
+             })
+           }
+           res.status(200).json({
+             message: "comment successfuly"
+           })
+     })
+}
+
+module.exports.comment_list = (req, res) => {
+  Comment.find()
+   .sort({ createdAt: -1})
+   .exec((err, response) => {
+     if(err){
+       return  res.status(400),json({
+         error: err
+       })
+     }
+   res.status(200).json({
+      comments: response
+    })
+  })
 }

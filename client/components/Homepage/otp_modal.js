@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     sendingOTP({phone_number: state.phone_number})
     .then(response => {
       if(response.error){
-        conosle.log(response.error)
+        return console.log(response.error)
       }
       dispatch({ type: ACTIONS.SEND, data: true })
       dispatch({ type: ACTIONS.SESSION_ID, data: response.session_id })

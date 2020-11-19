@@ -4,12 +4,14 @@ const userSchema = mongoose.Schema({
   name:{
     type:String,
     trim:true,
-    max:32
+    max:32,
+    default:""
   },
   email:{
     type:String,
     trim:true,
-    lowercase:true
+    lowercase:true,
+    default:""
   },
   phone_number:{
     type:String,

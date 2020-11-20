@@ -747,3 +747,36 @@ color: #2a306c;
   padding: 10px!important;
   max-width: 350px;
 }
+
+/* --------------
+   USER CRUD
+----------------- */
+.rootUserList{
+  padding-top: 6%;
+  padding-left:4%;
+  padding-right: 8%;
+}
+.fieldsUserAdd{
+  padding-left: 3%;
+  padding-top: 3%;
+}
+.containerUserAdd{
+  height: 150px;
+}
+.dropdownStyle{
+  border-radius: 3px;
+  height: 60px;
+  font-size: 3ex;
+  border-color: grey;
+  color: grey;
+}
+
+.buttonUserAdd{
+  font-size: 3ex;
+}
+
+.usersListposition{
+  margin-top: 50px;
+  margin-left: 4%;
+  margin-right:8%;
+}

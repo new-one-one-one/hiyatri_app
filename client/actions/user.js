@@ -16,11 +16,13 @@ export const singleUser = (id, token) => {
 };
 
 
-export const getUsers = () => {
+export const getUsers = (token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/users/all`, {
             method:"GET",
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                'Content-Type': 'application/json;charset=utf-8',
+                Accept: 'application/json',
+                Authorization: `Bearer ${token}`
               },
         }).then(response =>{
             return response.json();
@@ -30,12 +32,13 @@ export const getUsers = () => {
 }
 
 
-export const addUser = (newUser) => {
+export const addUser = (newUser,token) => {
         return fetch(`${process.env.NEXT_PUBLIC_API}/admin/addUser`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
                 Accept: 'application/json',
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(newUser)
         })
@@ -45,12 +48,13 @@ export const addUser = (newUser) => {
             .catch(err => console.log(err));
 };
 
-export const removeUser = (contact) => {
+export const removeUser = (contact,token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/admin/removeUser`, {
         method: 'POST',
         headers: {
            'Content-Type': 'application/json',
             Accept: 'application/json',
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(contact)
     })

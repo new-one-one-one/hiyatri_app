@@ -3,7 +3,6 @@ import cookie from 'js-cookie';
 
 
 export const sendingOTP = user => {
-  console.log(user)
     return fetch(`${process.env.NEXT_PUBLIC_API}/send/otp`, {
         method: 'POST',
         headers: {

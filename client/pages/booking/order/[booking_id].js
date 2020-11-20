@@ -1,27 +1,32 @@
+import { useEffect, useState } from 'react';
+import { getCookie } from '../../../actions/auth';
 import Layout from '../../../components/Core/Layout';
-// import Private from '../../../components/Core/Private';
+import Private from '../../../components/Core/Protect/private';
 import { withRouter } from 'next/router';
 import Order from '../../../components/Order';
 import { get_booking_by_id } from '../../../actions/booking';
 
-const FinalOrder = ({ data }) => {
+const FinalOrder = ({ router }) => {
+  const [data, setData] = useState();
+  const token = getCookie('token');
+
+  useEffect(() => {
+     get_booking_by_id(router.query.booking_id, token)
+      .then(response => {
+         setData(response)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },[router])
+
   return <>
+          <Private>
             <Layout>
-
-                 <Order data={data} />
- 
+              {data && data.response && <Order data={data} />}
             </Layout>
+          </Private>
          </>
-}
-
-FinalOrder.getInitialProps = ({ query }) => {
-  return  get_booking_by_id(query.booking_id)
-  .then(data => {
-     return { data }
-  })
-  .catch(err => {
-     return console.log(err)
-  })
 }
 
 

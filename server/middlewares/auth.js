@@ -30,9 +30,51 @@ exports.adminMiddleware = (req, res, next) => {
             });
         }
 
-        if (user.role !== "Admin") {
+        if (user.user_type !== "ADMIN") {
             return res.status(400).json({
                 error: 'Admin resource. Access denied'
+            });
+        }
+
+        req.profile = user;
+        next();
+    });
+};
+
+
+exports.agentMiddleware = (req, res, next) => {
+    const agentUserId = req.user._id;
+    User.findById({ _id: agentUserId }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        }
+
+        if (user.user_type !== "AGENT") {
+            return res.status(400).json({
+                error: 'Agent resource. Access denied'
+            });
+        }
+
+        req.profile = user;
+        next();
+    });
+};
+
+
+exports.superAdminMiddleware = (req, res, next) => {
+    const superAdminUserId = req.user._id;
+    User.findById({ _id: superAdminUserId }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        }
+
+        if (user.user_type !== "SUPER_ADMIN") {
+            return res.status(400).json({
+                error: 'Super Admin resource. Access denied'
             });
         }
 

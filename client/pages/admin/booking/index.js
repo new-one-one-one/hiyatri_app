@@ -1,20 +1,33 @@
+import { useEffect, useState } from 'react';
+import { getCookie } from '../../../actions/auth';
 import Layout from '../../../components/Core/Layout';
 import BookingList from '../../../components/Admin/Booking/bookingList';
 import { order_list } from '../../../actions/order';
+import Admin from '../../../components/Core/Protect/admin'
 
 
 const Bookings = ({ list }) => {
-  return  <Layout>
-             <BookingList list={list} />
-          </Layout>
+  const [bookingList, setBookingList] = useState();
+  const token = getCookie('token');
+
+   useEffect(() => {
+      order_list(token)
+       .then(response => {
+          setBookingList(response.response)
+       })
+       .catch((err) => {
+         console.log(err)
+       })
+   },[])
+
+  return  <>
+           <Admin>
+             <Layout>
+               <BookingList list={bookingList} />
+             </Layout>
+           </Admin>
+          </>
 }
-Bookings.getInitialProps = () => {
-  return order_list()
-  .then(data => {
-     return { list: data.response }
-  })
-  .catch(err => {
-     return { error: err }
-  })
-}
+
+
 export default Bookings;

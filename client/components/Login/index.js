@@ -7,34 +7,29 @@ import Recaptcha from 'react-recaptcha';
 import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
 
 const Login = () => {
-  const {register, errors,handleSubmit} = useForm()
 
-  const [state, setState] = useState({
-    phone_number:"",
-    otp_code:"",
-    session_id:"",
-    recaptcha_check: false,
-    otp_sent: false
-  });
-
-
-
+const {register, errors,handleSubmit} = useForm()
+const [phone_number, set_phone_number] = useState("");
+const [otp_code, set_otp_code] = useState("");
+const [session_id, set_session_id] = useState("");
+const [recaptcha_check, set_recaptcha_check] = useState(false);
+const [otp_sent, set_otp_sent] = useState(false);
 
   const onSubmit = (data) => {
-    sendingOTP(state)
+    sendingOTP({ phone_number })
     .then(response => {
       if(response.error){
         return consle.log(response.error)
       }
-      setState({...state, session_id: response.session_id })
-      setState({...state, otp_sent: true })
+      set_session_id(response.session_id)
+      set_otp_sent(true)
     })
     .catch((err) => {
     })
   }
 
   const verify = () => {
-    verifyingOTP(state)
+    verifyingOTP({ otp_code, session_id, phone_number })
     .then(response => {
       if(response.error){
         return console.log(response.error)
@@ -47,32 +42,23 @@ const Login = () => {
 
   const verifyCallback = (response) => {
      if(response){
-         setState({...state, recaptcha_check: true })
+        set_recaptcha_check(true)
      }
   }
 
-
-  const handleChange  = name => e => {
-        if(name==="phone"){
-           setState({...state, phone_number: e.target.value })
-        }
-        if(name==="otp"){
-           setState({...state, otp_code: e.target.value })
-        }
-  }
 
   return <>
            <div className="mt-5 pt-5 p-3">
              <div className="row justify-content-center">
                <div className="col-md-4 lg-container">
 
-                  {!state.otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
+                  {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                        name="phone_number"
                        label="Phone number"
                        fullWidth
                        className="mb-1 mt-1"
-                       onChange={handleChange("phone")}
+                       onChange={e =>  set_phone_number(e.target.value)}
                        variant="outlined"
                        inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                        error={errors.phone_number ?true:false}
@@ -89,20 +75,20 @@ const Login = () => {
                          variant="contained"
                          color="primary"
                          size="large"
-                         disabled={!state.recaptcha_check}
+                         disabled={!recaptcha_check}
                          onClick={handleSubmit(onSubmit)}
                          className="m-2">
                          Continue
                      </Button>
                   </form>}
 
-                   {state.otp_sent && <form>
+                   {otp_sent && <form>
                        <TextField
                         name="otp"
                         label="OTP"
                         className="mb-1 mt-1"
                         fullWidth
-                        onChange={handleChange("otp")}
+                        onChange={e => set_otp_code(e.target.value)}
                         variant="outlined"
                          />
                          <Button

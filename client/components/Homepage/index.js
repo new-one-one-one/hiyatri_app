@@ -6,8 +6,9 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import StaticData from './static_data';
 import {useForm} from 'react-hook-form';
+import { isAuth } from '../../actions/auth';
 
 
 
@@ -60,11 +61,13 @@ const Homepage = () => {
 
   return <>
             {<div className="hp-curve" />}
-            <div className="hp-welcome">
+             <div className="hp-welcome">
                <div className="mb-hp-welcome d-sm-block d-md-none">
-                  <img src="/images/home_welcome_mobile.jpg" width="100%" />
+                  <img src="/images/home_welcome_mobile.jpg" width="100%"  />
                </div>
+
                <div className="hp-welcome-inner">
+                 {!isAuth() && <>
                   <div className="row justify-content-center">
                      <div className="col-md-7 hp-inp-outer">
                                 <div className="hp-inp-container">
@@ -124,86 +127,16 @@ const Homepage = () => {
                                            <Modal state={state} submit={handleSubmit(onSubmit)}/>
                                          </div>
                                      </div>
-                                </div>
-                     </div>
+                              </div>
+                      </div>
                   </div>
+                </>}
                </div>
-               <div className="text-center d-sm-block d-md-none">
+               {!isAuth() && <div className="text-center d-sm-block d-md-none">
                  {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
-               </div>
+               </div>}
             </div>
-
-            <div className="hp-mg-container container">
-              <h1 className="hp-mg-heading">MEET & GREET</h1>
-              <div className="row col justify-content-center">
-                  <div className="col-md-4">
-                    <section>
-                      <img src="images/meet_greet.png" className="" width="100%"/>
-                    </section>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="hp-mg-inner">
-                       <heading className="hp-mg-title">India’s Only Meet & Greet Service</heading>
-                       <section className="hp-mg-text">
-                          We ensure an easy, fast and hassle free journey throughout major Cities in India.
-                          Our Meet & Greet service will help bypass long lines, remove language barriers and make passing through the railway station easy.
-                          Our agents assist passengers through all the railway station formalities and helping complete procedures at security, baggage collection and drop off.
-                          Available to all passengers, on any train and in any ticket class.
-                        </section>
-                    </div>
-                  </div>
-              </div>
-            </div>
-
-            <div className="hp-service-container container">
-            <h1 className="hp-service-heading">OUR SERVICES</h1>
-            <div className="row col justify-content-center">
-                <div className="col-md-3 hp-service-card">
-                 <h2 className="hp-card-title">Arrival</h2>
-                 <section>
-                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                 Lorem Ipsum has been the industry’s standard dummy text
-                 </section>
-                </div>
-                <div className="col-md-3 hp-service-card">
-                <h2 className="hp-card-title">Departure</h2>
-                <section>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry’s standard dummy text
-                </section>
-                </div>
-                <div className="col-md-3 hp-service-card">
-                <h2 className="hp-card-title">Cab Service</h2>
-                 <section>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry’s standard dummy text
-                </section>
-                </div>
-                <div className="col-md-3 hp-service-card">
-                <h2 className="hp-card-title">Buggage Service</h2>
-                 <section>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry’s standard dummy text
-                </section>
-                </div>
-                <div className="col-md-3 hp-service-card">
-                <h2 className="hp-card-title">Buggage Guaruntee</h2>
-                 <section>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry’s standard dummy text
-                </section>
-                </div>
-                <div className="col-md-3 hp-service-card">
-                <h2 className="hp-card-title">Other Services</h2>
-                 <section>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry’s standard dummy text
-                </section>
-                </div>
-            </div>
-
-            </div>
-
+            <StaticData />
          </>
 }
 export default Homepage;

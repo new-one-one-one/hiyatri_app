@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useForm } from 'react-hook-form';
 import { create_comment, comment_list } from '../../../actions/comments';
 import { assign_agent, agent_list } from '../../../actions/order';
+import { getCookie } from '../../../actions/order';
 import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -177,6 +178,7 @@ const BookingDetail = ({ data }) => {
   const [commentText, setCommentText] = useState();
   const [commentBox, openCommentBox] = useState(false);
   const [commentList, setCommentList] = useState([]);
+  const token = getCookie("token");
 
   const changeDropDown = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -186,7 +188,7 @@ const BookingDetail = ({ data }) => {
 
   const assignToAgent = () => {
     let orderId = data.response._id;
-     assign_agent(orderId, assignee)
+     assign_agent(orderId, assignee, token)
         .then(response => {
           if(response.error){
             return console.log(response.error)
@@ -200,7 +202,7 @@ const BookingDetail = ({ data }) => {
 
   const addComment = (e) => {
     e.preventDefault()
-    create_comment({ order: data.response._id, comment_by: isAuth() && isAuth()._id, comment: commentText })
+    create_comment({ order: data.response._id, comment_by: isAuth() && isAuth()._id, comment: commentText }, token)
       .then(response => {
         if(response.error){
           return console.log(response.error)
@@ -252,7 +254,7 @@ const BookingDetail = ({ data }) => {
   }
 
 useEffect(() => {
-  agent_list()
+  agent_list(token)
     .then(response => {
       if(response.error){
          return console.log(response.error)
@@ -263,7 +265,7 @@ useEffect(() => {
       console.log(err)
     })
 
-    comment_list()
+    comment_list(token)
       .then(response => {
         if(response.error){
            return console.log(response.error)

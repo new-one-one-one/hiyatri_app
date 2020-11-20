@@ -20,44 +20,44 @@ const BookingList = ({ list }) => {
   const [state, setState] = useState();
 
   const createState = (skip, take) => {
-      return {
-          items: list && list.slice(skip, skip + take),
-          total: list && list.length,
-          skip: skip,
-          pageSize: take,
-          pageable: state ? state.pageable : {
-              buttonCount: 5,
-              info: false,
-              type: 'numeric',
-              pageSizes: true,
-              previousNext: false
-          }
-      };
+    return {
+      items: list && list.slice(skip, skip + take),
+      total: list && list.length,
+      skip: skip,
+      pageSize: take,
+      pageable: state ? state.pageable : {
+          buttonCount: 5,
+          info: false,
+          type: 'numeric',
+          pageSizes: true,
+          previousNext: false
+      }
+    }
   }
 
      useEffect(() => {
-       setState(createState(0, 10))
-     },[])
+          setState(createState(0, 10))
+     },[list])
 
 
     const pageChange = (event) => {
         setState(createState(event.page.skip, event.page.take));
     }
-    
+
   const MyEditCommandCell = props => (
             <EditCommandCell {...props} />
         );
 
     return (
         <div className="pt-5 p-2 mt-5">
-            <Grid
+            {state && <Grid
                 style={{ height: '60vh' }}
-                data={state && state.items}
+                data={state.items}
                 onPageChange={pageChange}
-                total={state && state.total}
-                skip={state && state.skip}
-                pageable={state && state.pageable}
-                pageSize={state && state.pageSize}>
+                total={state.total}
+                skip={state.skip}
+                pageable={state.pageable}
+                pageSize={state.pageSize}>
                 <Column field="booking_id"  title="Booking Id"/>
                 <Column field="booking_status" title="Status" />
                 <Column field="" title="Assigned to" />
@@ -65,7 +65,7 @@ const BookingList = ({ list }) => {
                 <Column field="time" title="Time of Arr/Dep" />
                 <Column field="booking_type" title="Booking Type" />
                 <Column cell={MyEditCommandCell} title="Action"  />
-            </Grid>
+            </Grid>}
         </div >
     );
 }

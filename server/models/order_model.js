@@ -8,6 +8,10 @@ const orderSchema = mongoose.Schema({
      ref:"Booking",
      unique:true
    },
+   user:{
+     type:ObjectId,
+     ref:"User"
+   },
    total_amount:{
      type:Number,
      default:null

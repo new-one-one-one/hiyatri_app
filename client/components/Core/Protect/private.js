@@ -1,14 +1,14 @@
 import React,{ useEffect } from 'react';
 import Router from 'next/router';
-import { isAuth } from '../../actions/auth';
+import { isAuth } from '../../../actions/auth';
 
-const SUPER_ADMIN = ({ children }) => {
+const Private = ({ children }) => {
     useEffect(() => {
-        if (!isAuth() && isAuth().user_type === "SUPER_ADMIN") {
+        if (!isAuth()) {
             Router.push(`/`);
         }
     }, []);
     return <>{children}</>;
 };
 
-export default SUPER_ADMIN;
+export default Private;

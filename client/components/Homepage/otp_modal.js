@@ -164,7 +164,6 @@ const useStyles = makeStyles((theme) => ({
               placeholder="Phone no."
               className="hp-input mb-2 mt-2 pt-1"
               fullWidth
-              startAdornment={<InputAdornment position="start">+91</InputAdornment>}
               />
 
               <Recaptcha

@@ -32,12 +32,14 @@ export const create_booking = (data, token) => {
         .catch(err => console.log(err));
 };
 
- 
-export const get_booking_by_id = (booking_id) =>{
+
+export const get_booking_by_id = (booking_id,token) =>{
     return fetch(`${process.env.NEXT_PUBLIC_API}/booking/single/${booking_id}`, {
         method:"GET",
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
           },
     }).then(response =>{
         return response.json();

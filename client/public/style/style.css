@@ -171,15 +171,15 @@ body{
  Homepage styling
  ---------------- */
  .hp-curve{
-   /* background-color:#30336B; */
-   height:180px;
-   /* border-radius:0px 0px 90px 90px; */
+   background-color:#30336B;
+   height:250px;
+   border-radius:0% 0% 50% 50% / 0% 0% 52% 52%
  }
 .hp-welcome{
   position:absolute;
-  top:100px;
-  left:8%;
-  right:8%;
+  top:80px;
+  left:7%;
+  right:7%;
   padding: 18px;
   border-radius: 20px;
   box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
@@ -188,17 +188,35 @@ body{
 }
 
 .hp-welcome-inner{
-  min-height: 300px;
+  min-height: 260px;
+}
+.hp-welcome-text-c{
+  text-align: center;
+  padding-top: 80px;
+}
+.hp-sub-1{
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+
+.hp-sub-2{
+  font-size: 14px;
+  font-weight: 600;
+  color: #d9d9d9;
 }
 
 @media (min-width:767px) {
+  .hp-welcome-text-c{
+    text-align: center;
+    padding-top: 20px;
+  }
   .hp-welcome-inner{
-    object-fit: contain;
     border-radius: 20px;
     height: 400px;
-    background-color: #252b6a;
     box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
-    background-image: url('/images/home_welcome.png');
+    background-image: url('/images/home_welcome.gif');
+    background-position: center;
     background-repeat: no-repeat;
     opacity:1;
     border-radius: 20px;
@@ -325,22 +343,26 @@ body{
   }
 }
 .mb-hp-welcome{
-  /* opacity: 0.85; */
+    background-image: url('/images/home_welcome_mobile.gif');
+    width: 100%!important;
+    border-radius: 10px;
+    background-position: center;
+    height: 230px!important;
 }
 .hp-mg-container{
-  margin-top: 400px;
+  margin-top: 330px;
 }
 @media (max-width:767px) {
   .hp-mg-container{
-    margin-top: 500px;
+    margin-top: 385px;
   }
 }
 .hp-mg-text{
-  font-size: 14px;
-  margin-top: 10px;
+  font-size: 15px;
+  margin-top: 15px;
   letter-spacing: 0.6px;
   font-weight: 400;
-  opacity: 75%;
+  /* opacity: 75%; */
   color: #303030;
 }
 .hp-mg-title{
@@ -351,25 +373,65 @@ body{
 }
 .hp-service-container{
   margin-top: 60px;
+  padding-bottom: 80px;
 }
 .hp-mg-heading{
-  text-align: center;
+  padding-left: 40%;
   font-size: 30px;
   margin-top: 100px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-weight: 400!important;
+  position: relative;
 }
+.hp-mg-heading::after {
+    background-color: #2a306c;
+    bottom: 40;
+    content: '';
+    display: block;
+    height: 3px;
+    position: absolute;
+    width: 70px;
+}
+
 .hp-service-heading{
-  text-align: center;
+  padding-left: 40%;
   font-size: 30px;
   margin-top: 100px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-weight: 400!important;
+  position: relative;
 }
+@media (max-width:767px) {
+  .hp-service-heading{
+    padding-left: 20%;
+  }
+  .hp-mg-heading{
+    padding-left: 20%;
+  }
+}
+.hp-service-heading::after {
+    background-color: #2a306c;
+    bottom: 40;
+    content: '';
+    display: block;
+    height: 3px;
+    /* left: 14%; */
+    position: absolute;
+    /* transform: translate(-0%,0); */
+    width: 70px;
+}
+
+
+/* .hp-title{
+  position: absolute;
+  width: 80px;
+  height: 1px;
+ border-bottom: 4px solid #2a306c;
+} */
 .hp-service-card{
   padding: 20px;
   box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
-  margin: 20px 20px 20px 20px;
+  margin: 10px 10px 10px 10px;
 }
 .hp-card-title{
 font-size: 20px;
@@ -384,8 +446,17 @@ color: #2a306c;
 @media (min-width:767px) {
   .hp-mg-inner{
     padding-left: 100px;
+    padding-top: 0px;
+  }
+}
+@media (max-width:767px) {
+  .hp-mg-inner{
     padding-top: 30px;
   }
+}
+.hp-icons{
+  margin-right: 10px;
+  font-size: 25px;
 }
 
 
@@ -654,12 +725,69 @@ color: #2a306c;
           Footer
   ------------------ */
 .footer{
+  padding: 25px 10px 10px 10px;
   width: 100%;
-  height: 187px;
+  /* height: 157px; */
   border: solid 1px #707070;
   background-color: #2a306c;
 }
+.footer-field{
+  text-align: center;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+@media (max-width:767px) {
+  .footer-field{
+    padding: 10px;
+  }
+  .footer-field-left{
+    padding: 10px;
+    text-align: center!important;
 
+  }
+  .footer-field-right{
+    padding: 10px;
+    text-align: center!important;
+  }
+}
+.footer-field-left{
+  text-align: left;
+  padding-top: 10px;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  color: #ffffff;
+}
+.footer-field-right{
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  color: #ffffff;
+  text-align: right;
+}
+@media (min-width: 767px) {
+  .footer-field-left{
+    padding-left: 80px!important;
+    padding-top: 50px!important;
+  }
+  .footer-field-right{
+    padding-right: 75px!important;
+    padding-top: 30px!important;
+    text-align: right!important;
+  }
+}
+
+.footer-icons{
+  margin: 10px;
+}
 
 /* -----------------
    Booking Details

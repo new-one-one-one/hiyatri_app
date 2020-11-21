@@ -63,11 +63,18 @@ const Homepage = () => {
             {<div className="hp-curve" />}
              <div className="hp-welcome">
                <div className="mb-hp-welcome d-sm-block d-md-none">
-                  <img src="/images/home_welcome_mobile.jpg" width="100%"  />
+                  <div className="hp-welcome-text-c">
+                  <section className="hp-sub-1">India’s Only Meet & Greet Services</section>
+                  <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
+                  </div>
                </div>
 
                <div className="hp-welcome-inner">
                  {!isAuth() && <>
+                  <div className="hp-welcome-text-c d-lg-block d-xl-block d-none d-md-block d-lg-none">
+                  <section className="hp-sub-1">India’s Only Meet & Greet Services</section>
+                  <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
+                  </div>
                   <div className="row justify-content-center">
                      <div className="col-md-7 hp-inp-outer">
                                 <div className="hp-inp-container">

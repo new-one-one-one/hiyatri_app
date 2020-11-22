@@ -106,7 +106,7 @@ const useStyles = makeStyles(Theme =>
       borderRadius:"4px 4px 0px 0px",
       marginLeft:"2%",
       marginRight:"2%",
-      backgroundColor:"#000066",
+      backgroundColor:"#2a306c",
       color:"white"
     },
     wholeList:{
@@ -117,14 +117,17 @@ const useStyles = makeStyles(Theme =>
     mobileButton:{
     maringBottom:"0%",
     width:"100%",
-    backgroundColor:"#00FFFF",
+    backgroundColor:"#04bdbd",
     color:"white",
     fontWeight:"bold",
     marginTop:"10px",
     height:"40px"
     },
     buttonMobile:{
-      background:"#00FFFF",
+      padding:"5px!important",
+      color:"white!important",
+      fontWeight:800,
+      background:"#04bdbd!important",
       top:'auto',
       bottom:0
     }

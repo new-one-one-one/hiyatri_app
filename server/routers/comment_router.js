@@ -9,7 +9,7 @@ const { requireSignin,
         adminMiddleware } = require("../middlewares/auth");
 
 //Admin Routes
-router.post('/comment/create',requireSignin, authMiddleware, adminMiddleware, create_comment);
-router.get('/comment/list', requireSignin, authMiddleware, adminMiddleware, comment_list);
+router.post('/comment/create', create_comment);
+router.get('/comment/list',   comment_list);
 
 module.exports = router;

@@ -30,7 +30,7 @@ exports.adminMiddleware = (req, res, next) => {
             });
         }
 
-        if (user.user_type !== "ADMIN") {
+        if ((user.user_type !== "ADMIN") || (user.user_type !== "SUPER_ADMIN")) {
             return res.status(400).json({
                 error: 'Admin resource. Access denied'
             });

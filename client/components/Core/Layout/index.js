@@ -13,7 +13,10 @@ const Layout = ({ children }) => {
     return (
         <>
         <Header />
+         <div className="layout">
         {children}
+        </div>
+        <Footer />
         </>
     );
 };

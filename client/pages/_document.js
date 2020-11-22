@@ -6,6 +6,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
       <Head>
+      <link rel="icon" type="image/png"  href="/images/logo.png" />
       <script SameSite="None" src="https://checkout.razorpay.com/v1/checkout.js" />
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </Head>

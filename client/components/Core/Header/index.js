@@ -40,7 +40,10 @@ const matches = useMediaQuery(theme.breakpoints.up("lg"));
                       </Link>
                     </Typography>
                     {matches ? (
+                    <>
                     <Typography />
+                    <Drawer />
+                    </>
                     ) : (
                       <Drawer />
                     )}

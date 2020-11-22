@@ -16,14 +16,14 @@ const { requireSignin,
 
 
 // User Routes
-router.post("/order/create/:booking_id", requireSignin, authMiddleware, create_order);
-router.post('/order/verify', requireSignin, authMiddleware, verify_order);
+router.post("/order/create",   create_order);
+router.post('/order/verify',   verify_order);
 
 
 //Admin Routes
-router.get('/order/list', requireSignin, authMiddleware, adminMiddleware, get_all_orders);
-router.get('/order/single/:booking_id', requireSignin, authMiddleware, adminMiddleware, get_single_order);
-router.patch('/order/assign/agent/:order_id/:agent_id', requireSignin, authMiddleware, adminMiddleware,assign_agent)
-router.get('/order/agent/list', requireSignin, authMiddleware, adminMiddleware, agent_list)
+router.get('/order/list',  get_all_orders);
+router.get('/order/single/:booking_id',   get_single_order);
+router.patch('/order/assign/agent/:order_id/:agent_id',  assign_agent)
+router.get('/order/agent/list',   agent_list)
 
 module.exports = router;

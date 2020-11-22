@@ -17,6 +17,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           variant="outlined"
                           name="passenger_detail_name"
                           placeholder={item.passenger_name}
+                          value={item.passenger_name}
                           onChange={handleChange("passenger_detail_name", index)}
                           inputRef={register({ required: true, minLength:2})}
                           error={errors.passenger_detail_name ?true:false}
@@ -32,8 +33,9 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           value={item.age}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None" value="" />
-                          <option value="option1">Sr citizen (above 60)</option>
-                          <option value="option2">Adult(12yrs -60yrs)</option>
+                          <option value="Sr citizen(above 60)">Sr citizen(above 60)</option>
+                          <option value="Adult(12yrs -60yrs)">Adult(12yrs -60yrs)</option>
+                          <option value="Children(upto 12 years)">Children(upto 12 years)</option>
                         </Select>
                         </td>
                         <td>
@@ -42,6 +44,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           className="pl-2"
                           fullWidth
                           native
+                          required={true}
                           value={item.gender}
                           onChange={handleChange("passenger_detail_gender", index)}>
                           <option aria-label="None" value="" />
@@ -60,7 +63,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                         <td>
                           <span>No</span>
                           <Switch
-                          color="primary"
+                           color="primary"
                            checked={item.wheel_chair}
                            onChange={handleChange("passenger_detail_wheel_chair", index)}  />
                            <span>Yes</span>
@@ -84,10 +87,10 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                 <thead>
                   <tr>
                     <th>Seat No.</th>
-                    <th>Passenger Name</th>
-                    <th>Age Group</th>
-                    <th>Gender</th>
-                    <th>Meet & Greet *<br />(500 Per Person)</th>
+                    <th>Passenger Name*</th>
+                    <th>Age Group*</th>
+                    <th>Gender*</th>
+                    <th>Meet & Greet<br />(500 Per Person)</th>
                     <th>Wheel Chair<br />(80 Per Person)</th>
                     <th>Golf Cart<br />(80 Per Person)</th>
                   </tr>

@@ -48,10 +48,10 @@ const [otp_sent, set_otp_sent] = useState(false);
 
 
   return <>
-           <div className="mt-5 pt-5 p-3">
+           <div className="pt-5">
              <div className="row justify-content-center">
                <div className="col-md-4 lg-container">
-
+                    <h2>Please Login</h2>
                   {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                        name="phone_number"

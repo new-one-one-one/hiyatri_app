@@ -15,7 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useForm } from 'react-hook-form';
 import { create_comment, comment_list } from '../../../actions/comments';
 import { assign_agent, agent_list } from '../../../actions/order';
-import { getCookie } from '../../../actions/order';
+import { getCookie } from '../../../actions/auth';
 import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';

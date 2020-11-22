@@ -11,11 +11,11 @@ const { requireSignin,
         adminMiddleware } = require("../middlewares/auth");
 
 //Admin Routes
-router.get("/user/:id", requireSignin, authMiddleware,adminMiddleware, single_user);
-router.get('/users/all', requireSignin, authMiddleware,adminMiddleware, get_user);
+router.get("/user/:id",   single_user);
+router.get('/users/all',   get_user);
 
 //Super Admin Routes
-router.post('/admin/addUser', requireSignin, authMiddleware, create_user);
-router.post('/admin/removeUser', requireSignin, authMiddleware, delete_user)
+router.post('/admin/addUser',   create_user);
+router.post('/admin/removeUser',  delete_user)
 
 module.exports = router;

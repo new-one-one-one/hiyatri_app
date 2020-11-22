@@ -1,13 +1,15 @@
 import fetch from 'isomorphic-fetch';
 
-  export const create_order = (booking_id, token) => {
-    return fetch(`${process.env.NEXT_PUBLIC_API}/order/create/${booking_id}`, {
+  export const create_order = (order, token) => {
+    // console.log(order)
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/create`, {
         method: 'POST',
         headers: {
            'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${token}`
-        }
+        },
+        body: JSON.stringify(order)
     })
         .then(response => {
             return response.json();

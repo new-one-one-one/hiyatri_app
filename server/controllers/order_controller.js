@@ -1,6 +1,8 @@
 const Order = require("../models/order_model");
 const User = require("../models/user_model");
 const Booking = require("../models/booking_model");
+const Cab = require("../models/cab_model");
+const Porter = require("../models/porter_model");
 const Razorpay = require('razorpay');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
@@ -12,53 +14,109 @@ var razorpay = new Razorpay({
  key_secret: process.env.RAZORPAY_KEY_SECRET
 })
 
+const pad = (number, length) => {
+    var str = '' + number;
+    while (str.length < length) {
+        str = '0' + str;
+    }
+    return str;
+}
 
 // CREATE PAYMENT
 module.exports.create_order = (req,res) => {
- const { booking_id } = req.params;
- Booking.findOne({ _id: booking_id })
-      .exec((err, response) => {
-        if(err){
-          res.status(400).json({
-            error: err
-          })
-        }
 
-        const options = {
-        amount: 2*100,
-        currency: "INR",
-        receipt: uuidv4(),
-        payment_capture: '1'
-        };
-    // initiate razorpay order
-       razorpay.orders.create(options, async (err, rzp_order) => {
-         if(err){
-           return res.status(400).json({
-             error: err
-           })
-         }
-       const order_type = response.booking_information.is_arrival ? "Arrival":"Departure"
-        const newOrder = Order({
-              booking: booking_id,
-              order_type,
-              user:response.user,
-              total_amount: response.total_amount,
-              pnr_number: response.pnr_number,
-              razorpay_order_id: rzp_order.id
-           })
-           newOrder.save((err, result) => {
+   const {
+   user,
+   pnr_number,
+   booking_information,
+   passenger_contact_information,
+   passenger_details,
+   cab_service_detail,
+   porter_service_detail,
+   } = req.body;
+
+const newCab = Cab({
+     user,
+     pnr_number,
+     cab_service_detail
+   })
+
+ newCab.save((err, cab) => {
+     if(err){
+       return res.status(400).json({
+       error: err
+       })
+     }
+     const newPorter = Porter({
+           user,
+           pnr_number,
+           porter_service_detail  })
+
+       newPorter.save(async (err, porter) => {
              if(err){
                return res.status(400).json({
-                 error: err
+               error: err
                })
              }
-             res.status(200).json({
-               _id: rzp_order.id,
-               message: "Order created successfuly"
+
+         const booking_id = booking_information.is_arrival ?
+         "Arr_" + pad(await Booking.countDocuments()+1, 10):
+         "Dep_" + pad(await Booking.countDocuments()+1, 10);
+
+         const newBooking = Booking({
+               user,
+               pnr_number,
+               booking_id,
+               booking_information,
+               passenger_contact_information,
+               passenger_details,
+               cab_service: cab._id,
+               porter_service: porter._id })
+
+           newBooking.save((err, booking) => {
+               if(err){
+                 return res.status(400).json({
+                 error: err
+                 })
+               }
+               const options = {
+               amount: 2*100,
+               currency: "INR",
+               receipt: uuidv4(),
+               payment_capture: '1'
+               };
+
+           // initiate razorpay order
+              razorpay.orders.create(options, async (err, rzp_order) => {
+                if(err){
+                  return res.status(400).json({
+                    error: err
+                  })
+                }
+              const order_type = booking.booking_information.is_arrival ? "Arrival":"Departure"
+               const newOrder = Order({
+                     booking: booking._id,
+                     order_type,
+                     user:booking.user,
+                     total_amount: booking.total_amount,
+                     pnr_number: booking.pnr_number,
+                     razorpay_order_id: rzp_order.id
+                  })
+                  newOrder.save((err, result) => {
+                    if(err){
+                      return res.status(400).json({
+                        error: err
+                      })
+                    }
+                    res.status(200).json({
+                      _id: rzp_order.id,
+                      message: "Order created successfuly"
+                    })
+                 })
              })
-           })
-        })
-    })
+          })
+      })
+  })
 }
 
 
@@ -165,7 +223,7 @@ module.exports.get_all_orders = async (req, res) => {
   .populate({ path: 'booking', select:'booking_information booking_id' })
   .select('order_type order_status')
   .sort({ updatedAt: -1 })
- .exec((err, response) => {
+  .exec((err, response) => {
     if(err){
       return res.status(400).json({
         error: err
@@ -191,7 +249,7 @@ module.exports.get_all_orders = async (req, res) => {
 module.exports.assign_agent = (req, res) => {
      const order_id = req.params.order_id;
      const agent_id = req.params.agent_id;
-     Order.findByIdAndUpdate(order_id, {agent: agent_id}, { new: true })
+     Order.findByIdAndUpdate(order_id, {agent: agent_id, order_status:"ASSIGN_TO_AGENT"}, { new: true })
        .exec((err, result) => {
          if(err){
            return res.status(400).json({

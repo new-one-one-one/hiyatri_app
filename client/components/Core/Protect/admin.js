@@ -7,7 +7,7 @@ const Admin = ({ children }) => {
         if (!isAuth()) {
             return Router.push(`/`);
         }
-        if(isAuth() && !(isAuth().user_type === "Admin" || isAuth().user_type ==="SUPER_ADMIN")){
+        if(isAuth() && !(isAuth().user_type === "ADMIN" || isAuth().user_type ==="SUPER_ADMIN")){
              Router.push(`/`);
         }
     }, []);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -11,8 +11,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Link from 'next/link';
-import { isAuth } from '../../../actions/auth';
-
+import { isAuth,signout } from '../../../actions/auth';
+import Router from 'next/router';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import ViewListIcon from '@material-ui/icons/ViewList';
+import TrainIcon from '@material-ui/icons/Train';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import TableChartIcon from '@material-ui/icons/TableChart';
 
 const useStyles = makeStyles({
   list: {
@@ -28,9 +33,12 @@ const useStyles = makeStyles({
 
 const SideDrawer = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     right: false
   });
+
+  const [openAdminCollapse, setOpenAdminCollapse] = useState(false);
+
 
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -39,6 +47,10 @@ const SideDrawer = () => {
     }
     setState({ ...state, [anchor]: open });
   };
+
+  const handleOpenAdmin = () =>{
+   setOpenAdminCollapse(!openAdminCollapse);
+}
 
   const list = (anchor) => (
     <div
@@ -51,48 +63,53 @@ const SideDrawer = () => {
     >
  <List>
   {isAuth() && <div className="pl-4 pt-3 pb-3">{"+91-"+ (isAuth() && isAuth().phone_number)}</div>}
-   <Link href="/">
+
+   {isAuth() && <Link href="/">
       <a>
        <ListItem button>
-              <ListItemIcon> </ListItemIcon>
+              <ListItemIcon><TrainIcon color="black" /></ListItemIcon>
               <ListItemText primary="Book now" />
        </ListItem>
      </a>
-   </Link>
-   <ListItem button>
-          <ListItemIcon> </ListItemIcon>
-          <ListItemText primary="Orders" />
-   </ListItem>
+   </Link>}
+   {isAuth() && <ListItem button>
+          <ListItemIcon><ViewListIcon color="black"/></ListItemIcon>
+          <ListItemText primary="My Bookings" />
+   </ListItem>}
    {!isAuth() && <Link href="/login">
      <a>
        <ListItem button>
-              <ListItemIcon> </ListItemIcon>
+              <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
               <ListItemText primary="Login" />
        </ListItem>
     </a>
    </Link>}
 
-   <Divider />
-   <ListItem button>
-          <ListItemIcon> </ListItemIcon>
-          <ListItemText primary="About us" />
-   </ListItem>
+  <br />
+  <Divider />
+  {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/booking">
+    <a>
+      <ListItem button>
+             <ListItemIcon><TableChartIcon color="black" /></ListItemIcon>
+             <ListItemText primary="Booking List" />
+      </ListItem>
+   </a>
+  </Link>}
 
 
-    <ListItem button>
-           <ListItemIcon> </ListItemIcon>
-           <ListItemText primary="Contact us" />
-    </ListItem>
-
-    <ListItem button>
-           <ListItemIcon> </ListItemIcon>
-           <ListItemText primary="Policy privacy" />
-    </ListItem>
   <div className={classes.grow} />
-  {isAuth() && <ListItem button>
-         <ListItemIcon> </ListItemIcon>
+  {isAuth() && <ListItem button onClick={() => signout(() => Router.replace(`/`))}>
+         <ListItemIcon><ExitToAppIcon color="black" /></ListItemIcon>
          <ListItemText primary="Logout" />
   </ListItem>}
+
+
+
+
+
+
+
+
 
  </List>
     </div>

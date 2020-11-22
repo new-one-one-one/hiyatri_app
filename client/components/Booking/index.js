@@ -10,8 +10,10 @@ import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Router from 'next/router';
+import HashLoader from "react-spinners/HashLoader";
+import { ToastContainer, toast } from 'react-toastify';
 import { create_booking } from '../../actions/booking';
-import { getCookie, isAuth } from "../../actions/auth";
+import { getCookie, isAuth, setLocalStorage } from "../../actions/auth";
 import { singleUser } from "../../actions/user";
 import {useForm} from 'react-hook-form';
 
@@ -26,11 +28,12 @@ if (typeof s !== 'string') return ''
 return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+
 const initialData = {
   user: "",
   pnr_number: "",
   booking_information: {
-    is_arrival: false,
+    is_arrival: null,
     boarding_station: {
        date: data.boarding_station.date,
        time: data.boarding_station.time,
@@ -52,15 +55,15 @@ const initialData = {
  },
   passenger_details: data.passenger_details[0],
   cab_service_detail: {
-    cab_service_opted: true,
-    destination: "",
-    number_of_passengers: 0,
-    luggage_bags: 0,
-    number_of_cab: 0,
+    cab_service_opted: null,
+    destination: null,
+    number_of_passengers: null,
+    luggage_bags: null,
+    number_of_cab: null,
     total_amount: 0
 },
   porter_service_detail: {
-    porter_service_opted: true,
+    porter_service_opted: null,
     number_of_large_bags: null,
     number_of_medium_bags: null,
     number_of_small_bags: null,
@@ -70,8 +73,10 @@ const initialData = {
 
 
 const ACTIONS = {
+  STATE:"state",
   USER:"user_id",
   PNR:"pnr",
+  IS_ARRIVAL:"is_arrival",
   PASSENGER_CONTACT_INFO:{
     NAME:"name",
     PRIMARY:"primary_number",
@@ -103,10 +108,11 @@ const ACTIONS = {
   }
 }
 
-
-
 const reducer = (state, action) => {
   switch (action.type) {
+
+    case ACTIONS.STATE:
+       return action.payload
 
     /* User id */
     case ACTIONS.USER:
@@ -115,6 +121,12 @@ const reducer = (state, action) => {
    /* PNR */
     case ACTIONS.PNR:
       return {...state, pnr_number: action.payload }
+
+  /* Is arrival */
+    case ACTIONS.IS_ARRIVAL:
+      return {...state, booking_information: {
+        ...state.booking_information,
+        is_arrival: action.payload  }}
 
     /* Passenger contact information */
     case ACTIONS.PASSENGER_CONTACT_INFO.PRIMARY:
@@ -237,16 +249,35 @@ const handleChange = (value1, value2) => e => {
                sidx: value2 })
   }
   if(value1 === "passenger_detail_meet_and_greet"){
+    if(!e.target.checked){
+      dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
+                 payload: e.target.checked,
+                 sidx: value2 })
+
+     dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+                payload: e.target.checked,
+                sidx: value2 })
+
+    dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
+               payload: e.target.checked,
+               sidx: value2 })
+    }
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
                payload: e.target.checked,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_wheel_chair"){
+    if(!state.passenger_details[value2].meet_and_greet){
+      return;
+    }
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
                payload: e.target.checked,
                sidx: value2 })
   }
   if(value1 === "passenger_detail_golf_cart"){
+    if(!state.passenger_details[value2].meet_and_greet){
+      return;
+    }
     dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
                payload: e.target.checked,
                sidx: value2 })
@@ -279,39 +310,56 @@ const handleChange = (value1, value2) => e => {
 
 
 
+const bookingFromLS = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  if (localStorage.getItem("Booking")) {
+    return JSON.parse(localStorage.getItem("Booking"));
+  } else {
+    return false;
+  }
+};
+
+
+
+
 const handleSubmission = e => {
-  create_booking(state, token)
-  .then(response => {
-    if(response.error){
-      return console.log(response.error)
-    }
-    console.log(response)
-    Router.replace(`/booking/order/${response.booking_id}`)
-  })
-  .catch(err => {
-    console.log(err)
-  })
+   setLocalStorage("Booking", state)
+   Router.push(`/booking/order/`)
 }
 
 
 useEffect(() => {
+  if(bookingFromLS()){
+     return dispatch({ type: ACTIONS.STATE,
+               payload: bookingFromLS() })
+  }
    dispatch({ type: ACTIONS.USER,
              payload: isAuth() && isAuth()._id })
+
    dispatch({ type: ACTIONS.PNR,
               payload: query.pnr })
 
-  singleUser(isAuth() && isAuth()._id)
-    .then((value) => {
-      dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
-                 payload: value.result.name })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  let is_arrival = query.pid==="arrival"?true:
+                 query.pid==="departure"?false:null;
+
+  dispatch({ type: ACTIONS.IS_ARRIVAL,
+               payload: is_arrival })
+
+  // singleUser(isAuth() && isAuth()._id)
+  //   .then((value) => {
+  //     dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
+  //                payload: value.result.name })
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
 },[])
 
-
+ 
 return <>
+        <ToastContainer />
          <div className="main-div">
             <form>
               <div className="container-div">
@@ -322,10 +370,6 @@ return <>
                               <span>
                                 {capitalize(query.pid)} - PNR No. - {data.pnr_number}
                               </span>
-                              <img
-                                onClick={() => alert("editing")}
-                                src="/images/edit_icon.svg"
-                                alt="editIcon" />
                           </div>
                           <span>
                              No. of Passengers - {data.passenger_details[0] && data.passenger_details[0].length}
@@ -361,10 +405,9 @@ return <>
                       <span>Porter Service</span>
                       <Switch
                       onChange={handleChange("porter_service_opted")}
-                      value={state.porter_service_detail.porter_opted} />
-                      <PorterService
-                      handleChange={handleChange} />
-
+                      value={state.porter_service_detail.porter_service_opted} />
+                      {state.porter_service_detail.porter_service_opted && <PorterService
+                      handleChange={handleChange} />}
                       {matches ? (
                       <div className="payable-amt-section">
                       <>
@@ -376,6 +419,7 @@ return <>
                           </span>
                         </div>
                         <Button
+                        className="md-btn"
                         onClick={handleSubmit(handleSubmission)}
                         variant="outlined"
                         type="submit"
@@ -388,6 +432,7 @@ return <>
                         <Button
                           onClick={handleSubmit(handleSubmission)}
                           variant="outlined"
+                          className="md-btn"
                           type="submit">
                            REVIEW YOUR BOOKING & PAY &#x20b9;4580
                         </Button>

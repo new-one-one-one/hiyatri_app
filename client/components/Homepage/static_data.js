@@ -4,7 +4,7 @@ const StaticData = () => {
               <div className="hp-mg-heading">MEET & GREET</div>
               <div className="row col justify-content-center mt-5">
                   <div className="col-md-4">
-                    <section>
+                    <section className="hp-mg-img-container">
                       <img src="images/meet_greet.png" className="" width="100%"/>
                     </section>
                   </div>

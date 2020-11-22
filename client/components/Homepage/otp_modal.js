@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -10,7 +10,10 @@ import Recaptcha from 'react-recaptcha';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
-
+import { get_details_by_pnr } from '../../actions/booking';
+import { ToastContainer, toast } from 'react-toastify';
+import OtpInput from 'react-otp-input';
+import HashLoader from "react-spinners/HashLoader";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     zIndex:3000,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: '0px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 3, 6),
   },
@@ -36,16 +39,17 @@ const useStyles = makeStyles((theme) => ({
     session_id: "",
     otp_code:"",
     send_btn:false,
-    error:""
   }
+
+
+
 
   const ACTIONS = {
     MODAL:"modal",
     RECAPTCHA:"recaptcha",
     SESSION_ID:"session_id",
     OTP_CODE:"otp_code",
-    SEND:"send_btn",
-    ERROR:"error"
+    SEND:"send_btn"
   }
 
   const reducer = (state, action) => {
@@ -60,13 +64,12 @@ const useStyles = makeStyles((theme) => ({
           return {...state, session_id: action.data}
         case  ACTIONS.SEND:
           return {...state, send_btn: action.data}
-        case  ACTIONS.ERROR:
-          return {...state,  error: action.data}
         default:
             return state
       }
   }
   const [data, dispatch] = useReducer(reducer, initialData)
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleClose = () => {
     dispatch({ type: ACTIONS.MODAL, data: false })
@@ -75,8 +78,9 @@ const useStyles = makeStyles((theme) => ({
 
 
   const handleChange = (e) => {
-    dispatch({ type: ACTIONS.OTP_CODE, data: e.target.value })
+    dispatch({ type: ACTIONS.OTP_CODE, data: e })
   }
+
   const onSubmission = () => {
        submit()
       if(state.phone_number.length !== 10){
@@ -85,10 +89,19 @@ const useStyles = makeStyles((theme) => ({
       if(state.pnr_number.length !== 10){
         return;
       }
-      if(!state.status){
-        return;
-      }
-     dispatch({ type: ACTIONS.MODAL, data: true })
+      setShowSpinner(true)
+       get_details_by_pnr(state.pnr_number)
+        .then(response => {
+          setShowSpinner(false);
+          if(response.status==="error"){
+            return toast.error(response.message)
+          }
+          dispatch({ type: ACTIONS.MODAL, data: true })
+        })
+        .catch((err) => {
+          toast.error("Something went wrong! Try after sometime.")
+        })
+
   }
 
 
@@ -99,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
       if(response.error){
         return console.log(response.error)
       }
+      toast.success(response.message)
       dispatch({ type: ACTIONS.SEND, data: true })
       dispatch({ type: ACTIONS.SESSION_ID, data: response.session_id })
     })
@@ -106,12 +120,15 @@ const useStyles = makeStyles((theme) => ({
     })
   }
 
-
   const verify = () => {
    verifyingOTP({ phone_number: state.phone_number, session_id: data.session_id, otp_code: data.otp_code })
    .then(response => {
+     if(!response){
+       return toast.error("Something went wrong! Try after sometime.")
+     }
      if(response.error){
-         return dispatch({ type: ACTIONS.ERROR, data: response.error})
+        toast.error(response.error)
+      return  console.log(response.error)
      }
       authenticate(response, () => {
           Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
@@ -125,10 +142,15 @@ const useStyles = makeStyles((theme) => ({
      }
   }
 
-
-
   return (
     <div>
+      <div className="hp-loader">
+        <HashLoader
+        size={150}
+        color={"blue"}
+        loading={showSpinner} />
+      </div>
+
      <div className="d-sm-block d-md-none">
        <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
           Continue
@@ -159,6 +181,8 @@ const useStyles = makeStyles((theme) => ({
               <OutlinedInput
               variant="outlined"
               type="Number"
+              disabled={true}
+              startAdornment={<InputAdornment position="start">+91</InputAdornment>}
               error={false}
               value={state.phone_number}
               placeholder="Phone no."
@@ -168,36 +192,33 @@ const useStyles = makeStyles((theme) => ({
 
               <Recaptcha
                 className="mb-2 mt-2 pt-1"
-                sitekey="6Le9rd8ZAAAAAMM-XB7SMhZUQCHa6OCbXry-nlWL"
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY}
                 render="explicit"
-                verifyCallback={verifyCallback}
-                />
+                verifyCallback={verifyCallback} />
+
 
               <Button
                 onClick={send}
                 disabled={!data.recaptcha}
                 variant="contained"
-                className="  m-2">SEND OTP</Button>
+                className="md-btn m-2">SEND OTP</Button>
               </div>}
 
-              {data.send_btn && <div>
-              <small>{`OTP has been sent to +91 ${state.phone_number}`}</small>
-              <TextField
-              variant="outlined"
-              className="hp-input mb-2 mt-2 pt-1"
-              label="OTP"
-              fullWidth
-              onChange={handleChange}/>
-              <br />
-
-              <small>{data.error}</small>
-              <br />
-              <Button variant="contained" className="m-2 md-btn" onClick={verify}>
-              Verify OTP
+              {data.send_btn && <div className="text-center">
+              <OtpInput
+                value={data.otp_code}
+                containerStyle="m-otp-input"
+                inputStyle="m-otp-input-each"
+                onChange={handleChange}
+                numInputs={6}
+                separator={<span></span>}
+              />
+              <Button variant="contained" className="m-2 md-btn mt-4" onClick={verify}>
+                Verify OTP
               </Button>
-              <Button variant="contained" className="m-2 md-btn">
-              Resend OTP
-              </Button>
+              {/*<Button variant="contained" className="m-2 md-btn">
+                Resend OTP
+              </Button>*/}
               </div>}
           </div>
         </Fade>

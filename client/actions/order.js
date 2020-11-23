@@ -94,3 +94,18 @@ import fetch from 'isomorphic-fetch';
         })
         .catch(err => console.log(err));
   };
+
+
+  
+export const get_user_bookings = (user_id)=>{
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/all/${user_id}`, {
+        method:"GET",
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+    }).then(response =>{
+        return response.json();
+    }).catch(err => {
+        return err;
+        });
+}

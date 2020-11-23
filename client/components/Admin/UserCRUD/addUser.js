@@ -28,7 +28,8 @@ const ListofUser = ()=>{
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                         inputProps={{maxLength:10, style:{fontSize:20}}}
                         error={errors.phone_number ?true:false}
-                        InputLabelProps={{style:{fontSize:20}}}
+                        size="small"
+                        InputLabelProps={{style:{fontSize:15,padding:"7px 0px 0px 0px"}}}
 
                         helperText={errors.phone_number? "Phone number is Invalid":""}
 
@@ -38,10 +39,11 @@ const ListofUser = ()=>{
                         <TextField
                             name="name" label="User Name"
                             variant="outlined"
+                            size="small"
                             inputRef={register({required: true , minLength:1})}
                             inputProps={{maxLength:20, style:{fontSize:20}}}
                             error={errors.name?true:false}
-                            InputLabelProps={{style:{fontSize:20}}}
+                            InputLabelProps={{style:{fontSize:15,padding:"7px 0px 0px 0px"}}}
                             helperText={errors.name?"Please Enter the name":""}
                         />
                     </Grid>
@@ -50,10 +52,10 @@ const ListofUser = ()=>{
                         <select className="dropdownStyle"
                             fullWidth
                             value={user}
+                            size="small"
                             name="user_type"
                             onChange={handleChange}
-                            ref={register({required:true})}
-                            >
+                            ref={register({required:true})}>
                             <option value="">None</option>
                             <option value="ADMIN">Admin</option>
                             <option value="AGENT">Agent</option>

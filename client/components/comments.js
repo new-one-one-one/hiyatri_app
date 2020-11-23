@@ -16,7 +16,7 @@ function App() {
           <input name="pnr_number" type="string" ref={register}></input>
           <input name="comment_by" type="string" ref={register}></input>
           <input name="facilityType" type="string" ref={register}></input>
-       
+
     facilityType:String,
           <TextareaAutosize name="comment" aria-label="minimum height" ref={register}  rowsMin={3} placeholder="Minimum 3 rows" />
            <button type="submit">Submit</button>
@@ -24,6 +24,6 @@ function App() {
       </div>
     );
   }
-  
+
 
 export default App;

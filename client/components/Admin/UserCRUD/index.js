@@ -29,16 +29,16 @@ const UserListComponent = ({usersList}) => {
         }
 
     return (
-        <div className="pt-5">
+        <div className="">
             <UserAddition/>
             <div className="usersListposition">
             <Table size='small'>
                 <TableBody>
                     <TableRow  component="th" scope="row" padding="none">
-                        <TableCell  id="name" scope="row" align="center" padding="none">Name</TableCell>
-                        <TableCell align="center">Category</TableCell>
-                        <TableCell align="center">Contact Number</TableCell>
-                        <TableCell align="center">
+                        <TableCell  id="name" scope="row" align="center" padding="none" style={{color:"white"}}>Name</TableCell>
+                        <TableCell align="center" style={{color:"white"}}>Category</TableCell>
+                        <TableCell align="center" style={{color:"white"}}>Contact Number</TableCell>
+                        <TableCell align="center" style={{color:"white"}}>
                         Actions
                         </TableCell>
                     </TableRow>

@@ -9,13 +9,10 @@ const useStyles = makeStyles({
         marginRight:"10%",
         minWidth: 300,
     },
-    
-    pos: {
-      marginBottom: 12,
-    },
     particularBooking:{
-        marginBottom:"1%",
-        minWidth:"350px"
+        marginBottom:"5%",
+        // textAlign:"center",
+        minWidth:"300px"
     },
     details:{
         position:"center",
@@ -23,14 +20,8 @@ const useStyles = makeStyles({
         paddingRight:"15%",
     }
   });
-  
-
 
 const ShowAllBookings = (data) =>{
-    console.log(data, "Data got from here");
-    console.log(data.data)
-
-
     const myStatus= (status) =>{
         switch (status){
             case "ASSIGN_TO_ADMIN": return (
@@ -46,9 +37,9 @@ const ShowAllBookings = (data) =>{
             )
             case 'IN_PROGRESS':return (
                     <div>
-                        <Button color="secondary" disabled={true}>IN progress</Button>
+                        <Button color="secondary" disabled={true}>In progress</Button>
                     </div>
-            )        
+            )
          }
     }
 
@@ -69,7 +60,6 @@ const ShowAllBookings = (data) =>{
                             <Divider variant="fullWidth"/>
                             <br/>
                         <div className={classes.details}>
-                            
                             <Grid container xs={12} justify="space-between" alignItems="center">
                                 <Typography  variant="body2"  align="left">Date :</Typography>
                                 <Typography  variant="body2" align="right">{boarding_station.date}</Typography>
@@ -83,8 +73,8 @@ const ShowAllBookings = (data) =>{
                                 <Typography  variant="body2" align="right">{booking.pnr_number}</Typography>
                             </Grid>
                         </div>
-                            
-                    
+
+
                     </CardContent>
                     <CardActions>
                                {myStatus(allInfo.order_status)}
@@ -95,16 +85,15 @@ const ShowAllBookings = (data) =>{
     })
     }
     }
-    const classes = useStyles();    
+    const classes = useStyles();
     return (
         <div className={classes.root}>
-            <Grid container xs={12} spacing={6}>
+            <Grid container xs={12} spacing={4}>
                 {display(data)}
             </Grid>
-            
+
         </div>
     )
-} 
+}
 
 export default ShowAllBookings;
-

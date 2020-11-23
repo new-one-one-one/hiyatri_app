@@ -1,6 +1,6 @@
 import Layout from '../../components/Core/Layout';
 import Private from '../../components/Core/Protect/private';
-import BookingComponent from '../../components/Booking';
+import BookingComponent from '../../components/Booking/BookNow';
 import BookingClass from '../../helpers/booking';
 import Head from 'next/head';
 import { get_details_by_pnr } from '../../actions/booking';

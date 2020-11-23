@@ -18,10 +18,10 @@ import ViewListIcon from '@material-ui/icons/ViewList';
 import TrainIcon from '@material-ui/icons/Train';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import TableChartIcon from '@material-ui/icons/TableChart';
-
+import PeopleIcon from '@material-ui/icons/People';
 const useStyles = makeStyles({
   list: {
-    width: 200,
+    width: 220,
   },
   fullList: {
     width: 'auto',
@@ -72,10 +72,14 @@ const SideDrawer = () => {
        </ListItem>
      </a>
    </Link>}
-   {isAuth() && <ListItem button>
-          <ListItemIcon><ViewListIcon color="black"/></ListItemIcon>
-          <ListItemText primary="My Bookings" />
-   </ListItem>}
+   {isAuth() && <Link href="/booking/user/myBookings">
+      <a>
+       <ListItem button>
+            <ListItemIcon><ViewListIcon color="black"/></ListItemIcon>
+            <ListItemText primary="My Bookings" />
+       </ListItem>
+     </a>
+ </Link>}
    {!isAuth() && <Link href="/login">
      <a>
        <ListItem button>
@@ -87,6 +91,15 @@ const SideDrawer = () => {
 
   <br />
   <Divider />
+  {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/userCRUD">
+    <a>
+      <ListItem button>
+             <ListItemIcon><PeopleIcon color="black" /></ListItemIcon>
+             <ListItemText primary="Manage User" />
+      </ListItem>
+   </a>
+  </Link>}
+
   {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/booking">
     <a>
       <ListItem button>

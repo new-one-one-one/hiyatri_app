@@ -945,7 +945,11 @@ color: #2a306c;
 }
 
 .buttonUserAdd{
-  font-size: 3ex;
+  background-color: #00C4FF!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 10px 30px 10px 30px!important;
+  /* font-size: 3ex; */
 }
 
 .usersListposition{
@@ -979,7 +983,7 @@ color: #2a306c;
   margin-left:"10%";
   margin-right:"10%";
   min-width: 400;
-  
+
 }
 .all-booking-pos  {
   margin-bottom: 12;

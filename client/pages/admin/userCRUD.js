@@ -4,6 +4,15 @@ import UserListComponent from '../../components/Admin/UserCRUD';
 import { getUsers } from '../../actions/user';
 import { getCookie } from '../../actions/auth';
 import Admin from '../../components/Core/Protect/admin'
+import Head from 'next/head';
+
+const head = () => (
+      <Head>
+          <title>
+             {"Manage Users"} | {process.env.NEXT_PUBLIC_APP_NAME}
+          </title>
+       </Head>
+  );
 
 const UserCRUD = () => {
     const [usersList, setUsersList] = useState([]);
@@ -20,6 +29,7 @@ const UserCRUD = () => {
      },[])
 
     return <>
+           {head()}
             <Admin>
               <Layout>
                 <UserListComponent usersList={usersList} />

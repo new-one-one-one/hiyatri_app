@@ -6,8 +6,13 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
       <Head>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-status-bar-style" content="yes"/>
+      <meta name="apple-mobile-web-app-title" content="Hiyatri"/>
       <link rel="icon" type="image/png"  href="/images/logo.png" />
-      <script SameSite="None" src="https://checkout.razorpay.com/v1/checkout.js" />
+      <link rel="alternate" href="https://hiyatri.com" hrefLang="en-us" />
+      <link defer rel="dns-prefetch" href="https://hiyatri.com" />
+      <script samesite="None" src="https://checkout.razorpay.com/v1/checkout.js" />
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </Head>
         <body>

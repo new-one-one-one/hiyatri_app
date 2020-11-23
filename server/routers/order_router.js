@@ -6,7 +6,8 @@ const { create_order,
         get_all_orders,
         assign_agent,
         agent_list,
-        get_single_order } = require("../controllers/order_controller");
+        get_single_order,
+        get_user_all_orders } = require("../controllers/order_controller");
 
 const { requireSignin,
         authMiddleware,
@@ -25,5 +26,6 @@ router.get('/order/list',  get_all_orders);
 router.get('/order/single/:booking_id',   get_single_order);
 router.patch('/order/assign/agent/:order_id/:agent_id',  assign_agent)
 router.get('/order/agent/list',   agent_list)
+router.get('/order/all/:user', get_user_all_orders)
 
 module.exports = router;

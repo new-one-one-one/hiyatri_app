@@ -280,3 +280,24 @@ module.exports.agent_list = (req, res) => {
        })
      })
 }
+
+
+
+
+// show all booking  of useer
+
+module.exports.get_user_all_orders = (req, res) => {
+  Order.find({ user: req.params.user })
+  .populate({ path: 'booking', select:'booking_information passenger_contact_information pnr_number passenger_details booking_id', populate: { path: 'cab_service', select: 'cab_service_detail'}})
+  .populate({ path: 'booking', select:'booking_information passenger_contact_information pnr_number passenger_details booking_id', populate: { path: 'porter_service', select: 'porter_service_detail'}})
+  .exec((err, response) => {
+     if(err){
+       return res.status(400).json({
+         error: err
+       })
+     }
+     res.status(200).json({
+       response
+     })
+  })
+}

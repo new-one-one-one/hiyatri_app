@@ -967,3 +967,30 @@ color: #2a306c;
 }
 .m-otp-input{
 }
+
+
+
+/* ---------------
+ All booking modal
+ ---------------- */
+
+ .all-booking-root {
+  padding-top:"300px";
+  margin-left:"10%";
+  margin-right:"10%";
+  min-width: 400;
+  
+}
+.all-booking-pos  {
+  margin-bottom: 12;
+}
+.all-booking-particularBooking{
+  margin-bottom:"1%";
+  min-width:"350px";
+  width:"50%";
+}
+.allBookingDetails{
+  position:"center";
+  padding-left:"15%";
+  padding-right:"15%";
+}

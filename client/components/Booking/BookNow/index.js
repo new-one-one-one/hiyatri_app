@@ -12,9 +12,9 @@ import Grid from "@material-ui/core/Grid";
 import Router from 'next/router';
 import HashLoader from "react-spinners/HashLoader";
 import { ToastContainer, toast } from 'react-toastify';
-import { create_booking } from '../../actions/booking';
-import { getCookie, isAuth, setLocalStorage } from "../../actions/auth";
-import { singleUser } from "../../actions/user";
+import { create_booking } from '../../../actions/booking';
+import { getCookie, isAuth, setLocalStorage } from "../../../actions/auth";
+import { singleUser } from "../../../actions/user";
 import {useForm} from 'react-hook-form';
 
 
@@ -357,7 +357,7 @@ useEffect(() => {
   //   })
 },[])
 
- 
+
 return <>
         <ToastContainer />
          <div className="main-div">

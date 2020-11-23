@@ -2,13 +2,13 @@ import React,{ useEffect } from 'react';
 import Router from 'next/router';
 import { isAuth } from '../../../actions/auth';
 
-const Private = ({ children }) => {
+const Admin = ({ children }) => {
     useEffect(() => {
         if (!isAuth()) {
-            Router.push(`/`);
+            return Router.push(`/`);
         }
     }, []);
     return <>{children}</>;
 };
 
-export default Private;
+export default Admin;

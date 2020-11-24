@@ -282,10 +282,6 @@ module.exports.agent_list = (req, res) => {
 }
 
 
-
-
-// show all booking  of useer
-
 module.exports.get_user_all_orders = (req, res) => {
   Order.find({ user: req.params.user })
   .populate({ path: 'booking', select:'booking_information passenger_contact_information pnr_number passenger_details booking_id', populate: { path: 'cab_service', select: 'cab_service_detail'}})
@@ -300,4 +296,20 @@ module.exports.get_user_all_orders = (req, res) => {
        response
      })
   })
+}
+
+
+module.exports.update_order_status = (req, res) => {
+  const { orderId, order_status } = req.params;
+  Order.findByIdAndUpdate(orderId, {order_status},{ new: true })
+    .exec((err, response) => {
+      if(err){
+        return res.statud(400).json({
+          error: err
+        })
+      }
+      res.status(200).json({
+        message: "Order status updated"
+      })
+    })
 }

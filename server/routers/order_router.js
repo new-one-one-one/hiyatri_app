@@ -7,6 +7,7 @@ const { create_order,
         assign_agent,
         agent_list,
         get_single_order,
+        update_order_status,
         get_user_all_orders } = require("../controllers/order_controller");
 
 const { requireSignin,
@@ -19,7 +20,7 @@ const { requireSignin,
 // User Routes
 router.post("/order/create",   create_order);
 router.post('/order/verify',   verify_order);
-
+router.patch('/order/update/:orderId/:order_status', update_order_status)
 
 //Admin Routes
 router.get('/order/list',  get_all_orders);
@@ -27,5 +28,6 @@ router.get('/order/single/:booking_id',   get_single_order);
 router.patch('/order/assign/agent/:order_id/:agent_id',  assign_agent)
 router.get('/order/agent/list',   agent_list)
 router.get('/order/all/:user', get_user_all_orders)
+
 
 module.exports = router;

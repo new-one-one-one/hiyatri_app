@@ -998,3 +998,11 @@ color: #2a306c;
   padding-left:"15%";
   padding-right:"15%";
 }
+
+
+/* --------------
+   Cancel Modal
+---------------- */
+.cm-title{
+  font-size: 20px;
+}

@@ -23,7 +23,7 @@ module.exports.get_booking_by_id = (req, res) => {
 
 
 
-var ObjectId = require('mongoose').Types.ObjectId; 
+var ObjectId = require('mongoose').Types.ObjectId;
 
 f = (result) =>{
   const data = [];
@@ -59,8 +59,7 @@ exports.get_user_bookings = (req, res) =>{
             }
         )
       console.log(data);
-      return Promise.all(data).then(()=> res.status(200).json(data));     
+      return Promise.all(data).then(()=> res.status(200).json(data));
     }
   })
 }
-

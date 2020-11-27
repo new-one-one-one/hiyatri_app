@@ -21,7 +21,7 @@ import TableChartIcon from '@material-ui/icons/TableChart';
 import PeopleIcon from '@material-ui/icons/People';
 const useStyles = makeStyles({
   list: {
-    width: 220,
+    width: 220
   },
   fullList: {
     width: 'auto',
@@ -38,8 +38,6 @@ const SideDrawer = () => {
   });
 
   const [openAdminCollapse, setOpenAdminCollapse] = useState(false);
-
-
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -115,14 +113,10 @@ const SideDrawer = () => {
          <ListItemIcon><ExitToAppIcon color="black" /></ListItemIcon>
          <ListItemText primary="Logout" />
   </ListItem>}
-
-
-
-
-
-
-
-
+  <hr />
+  <div className="drawer-logo">
+      
+  </div>
 
  </List>
     </div>
@@ -130,7 +124,6 @@ const SideDrawer = () => {
 
   return (
     <div>
-
         <Button onClick={toggleDrawer('right', true)}>
           <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
         </Button>

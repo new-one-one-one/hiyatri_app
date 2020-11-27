@@ -18,15 +18,70 @@ import { singleUser } from "../../../actions/user";
 import {useForm} from 'react-hook-form';
 
 
-const TrainBooking = ({ data, query }) => {
+const TrainBooking = ({ data, query, modify, order }) => {
 const theme = useTheme();
 const token = getCookie('token');
 const matches = useMediaQuery(theme.breakpoints.up("md"));
-const {register, errors,handleSubmit} = useForm();
+const {register, errors, handleSubmit} = useForm();
 const capitalize = (s) => {
 if (typeof s !== 'string') return ''
 return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+
+
+const getServiceAmount = (service_name, category) => {
+    if(service_name === "meet_and_greet"){
+          if(category === "Sr citizen(above 60)"){
+            return process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE
+          }
+          if(category === "Adult(12yrs-60yrs)"){
+            return process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE
+          }
+          if(category === "Children(upto 12 years)"){
+            return process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE
+          }
+    }
+    if(service_name === "wheel_chair"){
+         return process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE;
+    }
+    if(service_name === "golf_cart"){
+          if(category === "Sr citizen(above 60)"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+          }
+          if(category === "Adult(12yrs-60yrs)"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
+          }
+          if(category === "Children(upto 12 years)"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE
+          }
+    }
+    if(service_name === "luggage_bags"){
+          if(category === "BELOW_7KG"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+          }
+          if(category === "7KG_TO_20KG"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
+          }
+          if(category === "20KG_TO_30KG"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE
+          }
+    }
+
+    if(service_name === "luggage_gaurantee"){
+          if(category === "BELOW_7KG"){
+            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE
+          }
+          if(category === "7KG_TO_20KG"){
+            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE
+          }
+          if(category === "20KG_TO_30KG"){
+            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE
+          }
+    }
+}
+
+
 
 
 const initialData = {
@@ -68,7 +123,8 @@ const initialData = {
     number_of_medium_bags: null,
     number_of_small_bags: null,
     total_amount: 0
-}
+},
+ total_amount: null
 }
 
 
@@ -89,7 +145,17 @@ const ACTIONS = {
     GENDER:"passenger_detail_gender",
     MEETGREET:"passenger_detail_meet_and_greet",
     WHEELCHAIR:"passenger_detail_wheel_chair",
-    GOLFCART:"passenger_detail_golf_cart"
+    GOLFCART:"passenger_detail_golf_cart",
+    BILL:{
+      MEETGREET:"mg_price",
+      WHEELCHAIR:"wl_price",
+      GOLFCART:"gc_price",
+      TOTAL:"passenger_total_bill",
+      TOTAL_ZERO:"total_zero",
+      MEETGREET_ZERO:"meet_and_greet_zero",
+      GOLFCART_ZERO:"golf_cart_zero",
+      WHEELCHAIR_ZERO:"wheel_chair_zero",
+    }
   },
   CAB_SERVICE:{
     OPTED:"cab_copted",
@@ -153,36 +219,102 @@ const reducer = (state, action) => {
         if(action.sidx != idx) return value;
         return {...value, passenger_name: action.payload }})
         return {...state, passenger_details: pass_detail_name}
+
     case ACTIONS.PASSENGER_DETAIL.AGE:
        const pass_detail_age = state.passenger_details
        .map((value, idx) => {
         if(action.sidx != idx) return value;
-        return {...value, age: action.payload }})
+        return {...value, age_group: action.payload }})
         return {...state, passenger_details: pass_detail_age}
+
     case ACTIONS.PASSENGER_DETAIL.GENDER:
        const pass_detail_gender = state.passenger_details
        .map((value, idx) => {
         if(action.sidx != idx) return value;
         return {...value, gender: action.payload }})
         return {...state, passenger_details: pass_detail_gender}
+
     case ACTIONS.PASSENGER_DETAIL.MEETGREET:
        const pass_detail_meetgreet = state.passenger_details
        .map((value, idx) => {
         if(action.sidx != idx) return value;
         return {...value, meet_and_greet: action.payload }})
         return {...state, passenger_details: pass_detail_meetgreet}
+
     case ACTIONS.PASSENGER_DETAIL.WHEELCHAIR:
        const pass_detail_wheelchair = state.passenger_details
        .map((value, idx) => {
         if(action.sidx != idx) return value;
         return {...value, wheel_chair: action.payload }})
         return {...state, passenger_details: pass_detail_wheelchair}
+
     case ACTIONS.PASSENGER_DETAIL.GOLFCART:
        const pass_detail_golfcart = state.passenger_details
        .map((value, idx) => {
         if(action.sidx != idx) return value;
         return {...value, golf_cart: action.payload }})
         return {...state, passenger_details: pass_detail_golfcart}
+
+    case ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET:
+       const pass_detail_bill_meetgreet = state.passenger_details
+       .map((value, idx) => {
+        if(action.sidx != idx) return value;
+        return {...value, bill: {...value.bill, meet_and_greet: parseFloat(value.bill.meet_and_greet) + parseFloat(action.payload) } }})
+        return {...state, passenger_details: pass_detail_bill_meetgreet }
+
+
+    case ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR:
+       const pass_detail_bill_wheelchair = state.passenger_details
+       .map((value, idx) => {
+        if(action.sidx != idx) return value;
+        return {...value, bill: {...value.bill, wheel_chair: parseFloat(value.bill.wheel_chair) + parseFloat(action.payload) } }})
+        return {...state, passenger_details: pass_detail_bill_wheelchair }
+
+    case ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART:
+       const pass_detail_bill_golfcart = state.passenger_details
+       .map((value, idx) => {
+        if(action.sidx != idx) return value;
+        return {...value, bill: {...value.bill, golf_cart: parseFloat(value.bill.golf_cart) + parseFloat(action.payload) } }})
+        return {...state, passenger_details: pass_detail_bill_golfcart }
+
+    case ACTIONS.PASSENGER_DETAIL.BILL.TOTAL:
+      const pass_detail_bill_total = state.passenger_details
+      .map((value, idx) => {
+       if(action.sidx != idx) return value;
+       return {...value, bill: {...value.bill, total: parseFloat(value.bill.total) + parseFloat(action.payload) } }})
+       return {...state, passenger_details: pass_detail_bill_total}
+
+
+   case ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET_ZERO:
+      const pass_detail_bill_meetgreet_zero = state.passenger_details
+      .map((value, idx) => {
+       if(action.sidx != idx) return value;
+       return {...value, bill: {...value.bill, meet_and_greet: 0} }})
+       return {...state, passenger_details: pass_detail_bill_meetgreet_zero }
+
+     case ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO:
+        const pass_detail_bill_golfcart_zero = state.passenger_details
+        .map((value, idx) => {
+         if(action.sidx != idx) return value;
+         return {...value, bill: {...value.bill, golf_cart: 0 } }})
+         return {...state, passenger_details: pass_detail_bill_golfcart_zero }
+
+
+     case ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO:
+        const pass_detail_bill_wheel_chair_zero = state.passenger_details
+        .map((value, idx) => {
+         if(action.sidx != idx) return value;
+         return {...value, bill: {...value.bill, wheel_chair: 0 } }})
+         return {...state, passenger_details: pass_detail_bill_wheel_chair_zero }
+
+
+     case ACTIONS.PASSENGER_DETAIL.BILL.TOTAL_ZERO:
+       const pass_detail_bill_total_zero = state.passenger_details
+       .map((value, idx) => {
+        if(action.sidx != idx) return value;
+        return {...value, bill: {...value.bill, total: 0 } }})
+        return {...state, passenger_details: pass_detail_bill_total_zero}
+
 
   /* CAB services  */
     case ACTIONS.CAB_SERVICE.OPTED:
@@ -216,95 +348,203 @@ const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
   /* Passenger contact information */
   if(value1 === "passenger_name"){
-     dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
-                payload: e.target.value })
+              dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
+                        payload: e.target.value })
   }
   if(value1 === "passenger_primary_number"){
-     dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.PRIMARY,
-                payload: e.target.value })
+              dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.PRIMARY,
+                        payload: e.target.value })
   }
   if(value1 === "passenger_secondary_number"){
-    dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.SECONDARY,
-               payload: e.target.value })
+              dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.SECONDARY,
+                         payload: e.target.value })
   }
   if(value1 === "passenger_email"){
-    dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.EMAIL,
-               payload: e.target.value })
+              dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.EMAIL,
+                         payload: e.target.value })
   }
 
   /* Passengers details */
   if(value1 === "passenger_detail_name"){
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.NAME,
-               payload: e.target.value,
-               sidx: value2 })
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.NAME,
+                         payload: e.target.value,
+                         sidx: value2 })
   }
   if(value1 === "passenger_detail_age"){
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.AGE,
-               payload: e.target.value,
-               sidx: value2 })
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.AGE,
+                         payload: e.target.value,
+                         sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
+                        payload: false,
+                        sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+                        payload: false,
+                        sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
+                        payload: false,
+                        sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET_ZERO,
+                        sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO,
+                        sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
+                        sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL_ZERO,
+                        sidx: value2 })
+
+
+
+
   }
   if(value1 === "passenger_detail_gender"){
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.GENDER,
-               payload: e.target.value,
-               sidx: value2 })
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.GENDER,
+                         payload: e.target.value,
+                         sidx: value2 })
   }
   if(value1 === "passenger_detail_meet_and_greet"){
-    if(!e.target.checked){
-      dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
+       if(!e.target.checked){
+               // e.target.value is false
+             dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
+                         payload: e.target.checked,
+                         sidx: value2 })
+
+             dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
+                       payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
+                       sidx: value2 })
+
+             dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                       payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
+                       sidx: value2 })
+
+            dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+                        payload: e.target.checked,
+                        sidx: value2 })
+
+            dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
+                       payload: e.target.checked,
+                       sidx: value2 })
+          return;
+      }
+      if(state.passenger_details[value2].age_group){
+        dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
+                   payload: e.target.checked,
+                   sidx: value2 })
+
+        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
+                  payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
+                  sidx: value2 })
+
+        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                  payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
+                  sidx: value2 })
+        return;
+      }
+        toast.error("Please select age group")
+  }
+  if(value1 === "passenger_detail_wheel_chair"){
+        if(!state.passenger_details[value2].meet_and_greet){
+          return;
+        }
+        if(!e.target.checked){
+                    dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+                           payload: e.target.checked,
+                           sidx: value2 })
+
+                    dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
+                    payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
+                    sidx: value2 })
+
+                  dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                        payload: -getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
+                        sidx: value2 })
+            return;
+        }
+
+        if(state.passenger_details[value2].age_group){
+          dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
                  payload: e.target.checked,
                  sidx: value2 })
 
-     dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
+                payload: getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
+                sidx: value2 })
+
+          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                payload: getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
+                sidx: value2 })
+          return;
+        }
+        toast.error("Please select age group")
+  }
+  if(value1 === "passenger_detail_golf_cart"){
+        if(!state.passenger_details[value2].meet_and_greet){
+          return;
+        }
+
+        if(!e.target.checked){
+                    dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
+                           payload: e.target.checked,
+                           sidx: value2 })
+
+                    dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART,
+                    payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
+                    sidx: value2 })
+
+                  dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                        payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
+                        sidx: value2 })
+            return;
+        }
+
+       if(state.passenger_details[value2].age_group){
+         dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
                 payload: e.target.checked,
                 sidx: value2 })
 
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-               payload: e.target.checked,
-               sidx: value2 })
-    }
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-               payload: e.target.checked,
-               sidx: value2 })
+         dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART,
+              payload: getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
+              sidx: value2 })
+
+         dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+              payload: getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
+              sidx: value2 })
+          return;
+       }
+         console.log("Please select age group first")
   }
-  if(value1 === "passenger_detail_wheel_chair"){
-    if(!state.passenger_details[value2].meet_and_greet){
-      return;
-    }
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-               payload: e.target.checked,
-               sidx: value2 })
-  }
-  if(value1 === "passenger_detail_golf_cart"){
-    if(!state.passenger_details[value2].meet_and_greet){
-      return;
-    }
-    dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-               payload: e.target.checked,
-               sidx: value2 })
-  }
+
+
+
 
   /* CAB services */
   if(value1 === "cab_service_opted"){
-    dispatch({ type: ACTIONS.CAB_SERVICE.OPTED,
-               payload: e.target.checked })
+           dispatch({ type: ACTIONS.CAB_SERVICE.OPTED,
+                     payload: e.target.checked })
   }
 
   /* Porter Service */
   if(value1 === "porter_service_opted"){
-    dispatch({ type: ACTIONS.PORTER_SERVICE.OPTED,
-               payload: e.target.checked })
+           dispatch({ type: ACTIONS.PORTER_SERVICE.OPTED,
+                     payload: e.target.checked })
   }
   if(value1 === "porter_service_lg_bags"){
-    dispatch({ type: ACTIONS.PORTER_SERVICE.LARGE_BAG,
-               payload: e.target.value })
+           dispatch({ type: ACTIONS.PORTER_SERVICE.LARGE_BAG,
+                     payload: e.target.value })
   }
   if(value1 === "porter_service_md_bags"){
-    dispatch({ type: ACTIONS.PORTER_SERVICE.MEDIUM_BAG,
-               payload: e.target.value })
+           dispatch({ type: ACTIONS.PORTER_SERVICE.MEDIUM_BAG,
+                     payload: e.target.value })
   }
   if(value1 === "porter_service_sm_bags"){
-    dispatch({ type: ACTIONS.PORTER_SERVICE.SMALL_BAG,
-               payload: e.target.value })
+           dispatch({ type: ACTIONS.PORTER_SERVICE.SMALL_BAG,
+                     payload: e.target.value })
   }
 }
 
@@ -323,10 +563,21 @@ const bookingFromLS = () => {
 
 
 
-
 const handleSubmission = e => {
    setLocalStorage("Booking", state)
+   if(modify){
+     return Router.push(`/booking/modify/order/${query.order_id}`)
+   }
    Router.push(`/booking/order/`)
+}
+
+
+const totalBill = () => {
+    let passenger_bill = state && state.passenger_details.map((passenger, i) => {
+            return passenger.bill.total
+   })
+    let total = passenger_bill.reduce((a, b) => a + b)
+    console.log("passenger_bill", passenger_bill)
 }
 
 
@@ -346,16 +597,33 @@ useEffect(() => {
 
   dispatch({ type: ACTIONS.IS_ARRIVAL,
                payload: is_arrival })
-
-  // singleUser(isAuth() && isAuth()._id)
-  //   .then((value) => {
-  //     dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
-  //                payload: value.result.name })
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
 },[])
+
+useEffect(() => {
+  if(modify && order){
+     dispatch({ type: ACTIONS.STATE,
+              payload: order })
+
+      dispatch({ type: ACTIONS.USER,
+                payload: isAuth() && isAuth()._id })
+
+      dispatch({ type: ACTIONS.PNR,
+                 payload: query.pnr })
+
+     let is_arrival = query.pid==="arrival"?true:
+                    query.pid==="departure"?false:null;
+
+     dispatch({ type: ACTIONS.IS_ARRIVAL,
+                  payload: is_arrival })
+  }
+
+},[order])
+
+
+useEffect(() => {
+  totalBill()
+},[state])
+
 
 
 return <>
@@ -405,18 +673,15 @@ return <>
                       <span>Porter Service</span>
                       <Switch
                       onChange={handleChange("porter_service_opted")}
-                      value={state.porter_service_detail.porter_service_opted} />
+                      value={state.porter_service_detail.porter_service_opted}
+                       />
                       {state.porter_service_detail.porter_service_opted && <PorterService
                       handleChange={handleChange} />}
                       {matches ? (
                       <div className="payable-amt-section">
                       <>
                         <div>
-                          <span>Payable Amount</span>
-                          <br />
-                          <span  >
-                          &#x20b9; 4580
-                          </span>
+
                         </div>
                         <Button
                         className="md-btn"
@@ -430,11 +695,11 @@ return <>
                       </div>
                       ) : (
                         <Button
-                          onClick={handleSubmit(handleSubmission)}
-                          variant="outlined"
-                          className="md-btn"
-                          type="submit">
-                           REVIEW YOUR BOOKING & PAY &#x20b9;4580
+                            onClick={handleSubmit(handleSubmission)}
+                            variant="outlined"
+                            className="md-btn"
+                            type="submit">
+                           REVIEW YOUR BOOKING & Pay
                         </Button>
                       )}
                   </div>

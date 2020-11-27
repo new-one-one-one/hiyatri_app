@@ -27,8 +27,16 @@ const orderSchema = mongoose.Schema({
    },
    order_status:{
      type:String,
-     enum:['ASSIGN_TO_ADMIN', 'ASSIGN_TO_AGENT','IN_PROGRESS','COMPLETED','CANCELLED','NO_SHOW'],
-     default:'ASSIGN_TO_ADMIN'
+     enum:['ASSIGN_TO_ADMIN',
+           'ASSIGN_TO_AGENT',
+           'IN_PROGRESS',
+           'COMPLETED',
+           'FAILED',
+           'CANCELLED_BY_ADMIN',
+           'CANCELLED_BY_AGENT',
+           'CANCELLED_BY_USER',
+           'NO_SHOW'],
+     default:'FAILED'
    },
    payment_verified:{
      type:Boolean,
@@ -42,10 +50,18 @@ const orderSchema = mongoose.Schema({
      type:String,
      default:null
    },
+   razorpay_refund_id:{
+     type:String,
+     default:null
+   },
+   is_modified:{
+     type: Boolean,
+     default: false
+   },
    del_flag:{
      type:Boolean,
      default:false
    },
-}, { timestamp:true })
+}, { timestamps:true })
 
 module.exports = mongoose.model("Order", orderSchema);

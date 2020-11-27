@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
-  export const create_order = (order, token) => {
+  export const create_order = (order,orderId, token) => {
     // console.log(order)
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/create`, {
         method: 'POST',
@@ -9,7 +9,7 @@ import fetch from 'isomorphic-fetch';
             Accept: 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(order)
+        body: JSON.stringify({order, orderId})
     })
         .then(response => {
             return response.json();
@@ -48,6 +48,23 @@ import fetch from 'isomorphic-fetch';
         })
         .catch(err => console.log(err));
   };
+
+  export const single_order_by_id = (order_id, token) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/get/single/${order_id}`, {
+        method: 'GET',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+  };
+
+
 
   export const verify_order = (data, token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/verify`, {
@@ -114,6 +131,21 @@ export const get_user_bookings = (user_id)=>{
   export const update_order_status = (orderId,order_status,token) => {
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/update/${orderId}/${order_status}`, {
         method: 'PATCH',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+  };
+
+  export const cancel_order = (orderId, token) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/cancel/${orderId}`, {
+        method: 'POST',
         headers: {
            'Content-Type': 'application/json',
             Accept: 'application/json',

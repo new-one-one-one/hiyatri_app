@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {Paper} from "@material-ui/core";
 import TrainIcon from '@material-ui/icons/Train';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -27,7 +27,7 @@ const AquaBlueCheckBox = withStyles({
   checked: {},
 })(CheckboxProps => <Checkbox color="default" />);
 
-const FinalOrder = ({ data }) => {
+const FinalOrder = ({ data, query }) => {
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -40,9 +40,11 @@ const [orderStatus, setorderStatus] = useState({
   show: false
 });
 
+
+const order_id = query && query.order_id;
 const order = (e) => {
     e.preventDefault()
-    create_order(data)
+    create_order(data, order_id)
        .then(response => {
          if(response.error){
            return console.log(response.error)
@@ -55,11 +57,12 @@ const order = (e) => {
        })
 }
 
+console.log(data && data.total_amount*100)
 
 const paymentHandler = (orderId) => {
     const options = {
     key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
-    amount: 100,
+    amount: data && data.total_amount*100,
     currency: 'INR',
     name: 'Payments',
     order_id: orderId,
@@ -108,7 +111,7 @@ const showPassengers = () => {
                  {item.passenger_name}
                </Typography>
                <Typography  variant="body1" align="right">
-                 Rs.580
+                 {item.age_group}  <b>₹{item.bill.total}</b>
                </Typography>
                </Grid>
                </div>
@@ -119,7 +122,7 @@ const showPassengers = () => {
                         {item.meet_and_greet?"Meet & Greet":""}
                      </Typography>
                      <Typography  variant="body2" align="right">
-                      {item.meet_and_greet?"Rs. 500":""}
+                      {item.meet_and_greet?`₹${item.bill.meet_and_greet}`:""}
                      </Typography>
                  </Grid>
                  <Grid container xs={12} justify="space-between" className="p-1">
@@ -127,7 +130,7 @@ const showPassengers = () => {
                         {item.wheel_chair?"Wheel Chair":""}
                      </Typography>
                      <Typography  variant="body2" align="right">
-                       {item.wheel_chair?"Rs. 500":""}
+                       {item.wheel_chair?`₹${item.bill.wheel_chair}`:""}
                      </Typography>
                  </Grid>
                  <Grid container xs={12} justify="space-between" className="p-1">
@@ -135,7 +138,7 @@ const showPassengers = () => {
                         {item.golf_cart?"Golf cart":""}
                      </Typography>
                      <Typography  variant="body2" align="right">
-                      {item.golf_cart?"Rs. 500":""}
+                      {item.golf_cart?`₹${item.bill.golf_cart}`:""}
                      </Typography>
                  </Grid>
                </div>
@@ -294,7 +297,7 @@ return  <>
                                      Total Cost
                                   </Box>
                                   <Box p={1} flexShrink={0}>
-                                     Rs. 2000
+                                     ₹{data && data.total_amount}
                                   </Box>
                               </Box>
                               <Box display="flex" p={0} bgcolor="background.paper">
@@ -306,7 +309,7 @@ return  <>
                                      </p>
                                   </Box>
                                   <Box p={1} flexShrink={0}>
-                                    - Rs. 500
+
                                   </Box>
                               </Box>
                               <Divider variant="middle"/>
@@ -315,7 +318,7 @@ return  <>
                                         Final Cost
                                       </Box>
                                       <Box p={1} flexShrink={0}>
-                                         Rs. 1500
+                                         ₹{data && data.total_amount}
                                       </Box>
                                   </Box>
                             {width>500 && (

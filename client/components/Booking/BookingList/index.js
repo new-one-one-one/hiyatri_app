@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import {Card, Typography,ButtonGroup, CardContent,Button,Grid, CardActions,Box, Divider} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 import BookingCard from './bookingCard';
 

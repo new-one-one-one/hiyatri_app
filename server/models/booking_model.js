@@ -60,12 +60,12 @@ const bookingSchema = mongoose.Schema({
         },
         total_amount:{
           type:Number,
-          default:0
+          default:1000
         },
         del_flag:{
           type:Boolean,
           default:false
         }
-}, { timestamp:true })
+}, { timestamps:true })
 
 module.exports = mongoose.model("Booking", bookingSchema);

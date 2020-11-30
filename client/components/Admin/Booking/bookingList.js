@@ -18,7 +18,6 @@ const EditCommandCell = props => {
 
 const BookingList = ({ list }) => {
   const [state, setState] = useState();
-
   const createState = (skip, take) => {
     return {
       items: list && list.slice(skip, skip + take),
@@ -60,7 +59,7 @@ const BookingList = ({ list }) => {
                 pageSize={state.pageSize}>
                 <Column field="booking_id"  title="Booking Id"/>
                 <Column field="booking_status" title="Status" />
-                <Column field="" title="Assigned to" />
+                <Column field="agent.name" title="Assigned to" />
                 <Column field="date"  title="Date of Arr/Dep"/>
                 <Column field="time" title="Time of Arr/Dep" />
                 <Column field="booking_type" title="Booking Type" />

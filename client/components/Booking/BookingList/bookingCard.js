@@ -1,6 +1,8 @@
 import {Card, Typography,ButtonGroup, CardContent,Button,Grid, CardActions,Box, Divider} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import CancelModal from './cancelModal';
+import Router from 'next/router';
+import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment'
 
 const useStyles = makeStyles({
     root: {
@@ -22,16 +24,24 @@ const useStyles = makeStyles({
   });
 
 const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_arrival }) => {
+  const classes = useStyles();
+  let pickuptime = is_arrival?reservation_upto.date+" "+reservation_upto.time:
+                    boarding_station.date+" " +boarding_station.time;
+  let start = new Date(moment(Date.now()).format("YYYY-MM-DD h:mm"));
+  let end = new Date(moment(pickuptime,"DD-MM-YYYY h:mm").format("YYYY-MM-DD h:mm"));
+  const duration = moment(end).diff(moment(start),'hours');
 
-  const myStatus= (status, id) =>{
+
+
+  const myStatus= (status, id, pnr) =>{
       switch (status){
           case "ASSIGN_TO_ADMIN": return (
                                           <div className="row justify-content-center">
                                                <div className="col-5">
-                                                 <Button color="primary" variant="contained">Modify</Button>
+                                                 <Button color="primary" variant="contained" onClick={() => Router.replace(`/booking/modify/${id}?pnr=${pnr}&pid=${is_arrival?"arrival":"departure"}&modify=${true}`)}>Modify</Button>
                                                </div>
                                                <div className="col-5">
-                                                 <CancelModal id={id} />
+                                                 <CancelModal id={id} duration={24} />
                                                </div>
                                           </div>
                               )
@@ -49,8 +59,10 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
   }
 
 
-  const classes = useStyles();
-    return <Grid item>
+
+
+
+return <Grid item>
                <Card className={classes.particularBooking}>
                    <CardContent>
                    <Typography  variant="body1">
@@ -78,7 +90,7 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
 
                    </CardContent>
                    <CardActions>
-                              {myStatus(allInfo.order_status,allInfo._id)}
+                              {myStatus(allInfo.order_status,allInfo._id, booking.pnr_number)}
                    </CardActions>
                </Card>
        </Grid>

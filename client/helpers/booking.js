@@ -38,12 +38,18 @@ class Booking {
                                     time: data.reservation_upto.time};
         const passInfo = data.pass_info.map((pass, i) => {
         return {passenger_name: "",
+                bill:{
+                  meet_and_greet:0,
+                  wheel_chair:0,
+                  golf_cart:0,
+                  total:0
+                },
                 seat_number: pass.booking_status_details,
                 age_group:"",
                 gender:"",
-                meet_and_greet:true,
-                wheel_chair:true,
-                golf_cart:true }})
+                meet_and_greet:false,
+                wheel_chair:false,
+                golf_cart:false }})
         booking.passenger_details.push(passInfo)
         booking.train_name = data.train_name;
         booking.train_number = data.train_number;

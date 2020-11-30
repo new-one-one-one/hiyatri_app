@@ -7,10 +7,10 @@ const PorterService = ({ handleChange }) => {
           <table>
             <thead>
                 <tr>
-                  <th>No. of Large Bags</th>
-                  <th>No. of Medium Bags</th>
-                  <th>No. of Small Bags</th>
-                  <th>Price</th>
+                  <th>No. of Large Bags(20kg-30kg)</th>
+                  <th>No. of Medium Bags(7kg-20kg)</th>
+                  <th>No. of Small Bags(Below 7KG)</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -30,9 +30,7 @@ const PorterService = ({ handleChange }) => {
                    type="number"
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>
-                <td style={{ width: "20%" }}>
-                 &#x20b9;300
-                </td>
+                 
               </tr>
             </tbody>
           </table>
@@ -42,7 +40,6 @@ const PorterService = ({ handleChange }) => {
                 Baggage Gurantee
               </span>
               <span>
-                Starting &#x20b9;20 Per Bag*
               </span>
             </div>
           </div>

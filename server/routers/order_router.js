@@ -7,7 +7,9 @@ const { create_order,
         assign_agent,
         agent_list,
         get_single_order,
+        get_single_order_by_id,
         update_order_status,
+        cancel_order,
         get_user_all_orders } = require("../controllers/order_controller");
 
 const { requireSignin,
@@ -18,9 +20,11 @@ const { requireSignin,
 
 
 // User Routes
-router.post("/order/create",   create_order);
-router.post('/order/verify',   verify_order);
-router.patch('/order/update/:orderId/:order_status', update_order_status)
+router.post("/order/create", create_order);
+router.post('/order/verify', verify_order);
+router.post('/order/cancel/:orderId', cancel_order);
+router.patch('/order/update/:orderId/:order_status', update_order_status);
+router.get('/order/get/single/:order_id', get_single_order_by_id);
 
 //Admin Routes
 router.get('/order/list',  get_all_orders);

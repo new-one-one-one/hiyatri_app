@@ -171,7 +171,8 @@ const ACTIONS = {
     MEDIUM_BAG:"porter_medium_bags",
     SMALL_BAG:"porter_small_bags",
     TOTAL_AMOUNT:"porter_price"
-  }
+  },
+  TOTAL_AMOUNT: "total_amount"
 }
 
 const reducer = (state, action) => {
@@ -183,6 +184,10 @@ const reducer = (state, action) => {
     /* User id */
     case ACTIONS.USER:
        return {...state, user: action.payload }
+
+     /* Total Amount*/
+    case ACTIONS.TOTAL_AMOUNT:
+      return {...state, total_amount: action.payload }
 
    /* PNR */
     case ACTIONS.PNR:
@@ -419,9 +424,34 @@ const handleChange = (value1, value2) => e => {
                        payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
                        sidx: value2 })
 
+// console.log(state.passenger_details[value2].golf_cart, state.passenger_details[value2].wheel_chair)
+
+             if(state.passenger_details[value2].wheel_chair){
+               dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
+               payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
+               sidx: value2 })
+
+               dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                         payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
+                         sidx: value2 })
+             }
+
+             if(state.passenger_details[value2].golf_cart){
+               dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART,
+               payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
+               sidx: value2 })
+
+               dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                         payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
+                         sidx: value2 })
+             }
+
+
+
              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
                        payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
                        sidx: value2 })
+
 
             dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
                         payload: e.target.checked,
@@ -577,7 +607,8 @@ const totalBill = () => {
             return passenger.bill.total
    })
     let total = passenger_bill.reduce((a, b) => a + b)
-    console.log("passenger_bill", passenger_bill)
+
+       return total;
 }
 
 
@@ -619,10 +650,10 @@ useEffect(() => {
 
 },[order])
 
-
 useEffect(() => {
-  totalBill()
-},[state])
+   dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: totalBill() })
+},[state.passenger_details])
+
 
 
 
@@ -672,6 +703,7 @@ return <>
 
                       <span>Porter Service</span>
                       <Switch
+                      disabled={true}
                       onChange={handleChange("porter_service_opted")}
                       value={state.porter_service_detail.porter_service_opted}
                        />
@@ -681,7 +713,9 @@ return <>
                       <div className="payable-amt-section">
                       <>
                         <div>
-
+                           <span>Payable amount:</span>
+                           <br />
+                           <b>₹{totalBill()}</b>
                         </div>
                         <Button
                         className="md-btn"
@@ -699,7 +733,7 @@ return <>
                             variant="outlined"
                             className="md-btn"
                             type="submit">
-                           REVIEW YOUR BOOKING & Pay
+                            {`REVIEW YOUR BOOKING & Pay ₹${totalBill()}`}
                         </Button>
                       )}
                   </div>

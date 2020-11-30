@@ -30,7 +30,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           className="pl-2"
                           fullWidth
                           native
-                          value={item.age}
+                          value={item.age_group}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None" value="" />
                           <option value="Sr citizen(above 60)">Sr citizen(above 60)</option>

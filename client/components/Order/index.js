@@ -39,7 +39,7 @@ const [orderStatus, setorderStatus] = useState({
   status:"",
   show: false
 });
-const [totalCost, setTotalCost] = useState();
+
 
 const order_id = query && query.order_id;
 const order = (e) => {
@@ -57,23 +57,12 @@ const order = (e) => {
        })
 }
 
-const totalBill = () => {
-    let passenger_bill = data && data.passenger_details.map((passenger, i) => {
-            return passenger.bill.total
-   })
-    let total = passenger_bill.reduce((a, b) => a + b)
-    return total;
-}
-useEffect(() => {
- setTotalCost(totalBill())
-},[data])
-
-
+console.log(data && data.total_amount*100)
 
 const paymentHandler = (orderId) => {
     const options = {
     key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
-    amount: totalCost*100,
+    amount: data && data.total_amount*100,
     currency: 'INR',
     name: 'Payments',
     order_id: orderId,
@@ -308,7 +297,7 @@ return  <>
                                      Total Cost
                                   </Box>
                                   <Box p={1} flexShrink={0}>
-                                     ₹{totalCost}
+                                     ₹{data && data.total_amount}
                                   </Box>
                               </Box>
                               <Box display="flex" p={0} bgcolor="background.paper">
@@ -329,7 +318,7 @@ return  <>
                                         Final Cost
                                       </Box>
                                       <Box p={1} flexShrink={0}>
-                                         ₹{totalCost}
+                                         ₹{data && data.total_amount}
                                       </Box>
                                   </Box>
                             {width>500 && (

@@ -27,6 +27,7 @@ const pad = (number, length) => {
 module.exports.create_order = (req,res) => {
   const {
   user,
+  total_amount,
   pnr_number,
   booking_information,
   passenger_contact_information,
@@ -177,7 +178,7 @@ module.exports.create_order = (req,res) => {
 
   // *****  User is booking for fresh new order
                const options = {
-               amount: 1000*100,
+               amount: total_amount*100,
                currency: "INR",
                receipt: uuidv4(),
                payment_capture: '1'
@@ -267,7 +268,7 @@ return res.status(400).json({
 
 
 
- 
+
 
 
 

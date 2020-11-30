@@ -43,6 +43,7 @@ const CancelModal = ({ id, duration })  => {
        })
   }
 
+ 
   const handleOpen = () => {
     cancellationCharge()
     setOpen(true);

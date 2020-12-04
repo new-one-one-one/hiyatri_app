@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   const onSubmission = () => {
-       submit()
+      submit()
       if(state.phone_number.length !== 10){
         return;
       }

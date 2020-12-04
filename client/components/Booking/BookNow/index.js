@@ -604,7 +604,7 @@ const handleSubmission = e => {
 
 const totalBill = () => {
     let passenger_bill = state && state.passenger_details.map((passenger, i) => {
-            return passenger.bill.total
+            return passenger.bill && passenger.bill.total
    })
     let total = passenger_bill.reduce((a, b) => a + b)
 
@@ -653,6 +653,7 @@ useEffect(() => {
 useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: totalBill() })
 },[state.passenger_details])
+
 
 
 

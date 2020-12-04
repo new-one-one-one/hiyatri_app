@@ -4,6 +4,8 @@ import { single_order_by_id } from '../../../actions/order';
 import { get_details_by_pnr } from '../../../actions/booking';
 import BookingClass from '../../../helpers/booking';
 import BookingComponent from '../../../components/Booking/BookNow';
+import Layout from '../../../components/Core/Layout';
+import Private from '../../../components/Core/Protect/private';
 
 const ModifyOrder = ({ data, query }) => {
   const booking = new BookingClass();
@@ -22,11 +24,15 @@ const ModifyOrder = ({ data, query }) => {
 
 
   return <>
+        <Private>
+          <Layout>
            <BookingComponent
                data={booking.getBooking()}
                query={query}
                modify={query.modify}
                order={order}  />
+         </Layout>
+       </Private>
          </>
 }
 

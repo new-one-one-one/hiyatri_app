@@ -22,7 +22,8 @@ const [otp_sent, set_otp_sent] = useState(false);
     sendingOTP({ phone_number })
     .then(response => {
       if(response.error){
-        return consle.log(response.error)
+        toast.error(response.error)
+        return console.log(response.error)
       }
       toast.success(response.message)
       set_session_id(response.session_id)

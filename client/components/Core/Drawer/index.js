@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -28,111 +28,106 @@ const useStyles = makeStyles({
   },
   grow: {
     flexGrow: 1,
+  },
+  hamburger:{
+    border:"0px solid white"
+  },
+  drawerBottom:{
+    textAlign: "center",
+    padding: "10px 0px 40px 0px",
+    backgroundColor:"rgb(42,48,108)",
+    position: "fixed",
+    height: "40px",
+    bottom: "0px",
+    width: "220px",
   }
 });
 
-const SideDrawer = () => {
+const SideDrawer = ({ close, status }) => {
   const classes = useStyles();
-  const [state, setState] = useState({
-    right: false
-  });
+  const [state, setState] = useState(false);
 
-  const [openAdminCollapse, setOpenAdminCollapse] = useState(false);
+  useEffect(() => {
+     setState(close)
+  },[close])
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
+  const toggleDrawer = () => {
+    if(state){
+        setState(false)
+       return status(false)
     }
-    setState({ ...state, [anchor]: open });
+    setState(true)
+    status(true)
   };
 
-  const handleOpenAdmin = () =>{
-   setOpenAdminCollapse(!openAdminCollapse);
-}
-
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
- <List>
-  {isAuth() && <div className="pl-4 pt-3 pb-3">{"+91-"+ (isAuth() && isAuth().phone_number)}</div>}
-
-   {isAuth() && <Link href="/">
-      <a>
-       <ListItem button>
-              <ListItemIcon><TrainIcon color="black" /></ListItemIcon>
-              <ListItemText primary="Book now" />
-       </ListItem>
-     </a>
-   </Link>}
-   {isAuth() && <Link href="/booking/user/myBookings">
-      <a>
-       <ListItem button>
-            <ListItemIcon><ViewListIcon color="black"/></ListItemIcon>
-            <ListItemText primary="My Bookings" />
-       </ListItem>
-     </a>
- </Link>}
-   {!isAuth() && <Link href="/login">
-     <a>
-       <ListItem button>
-              <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
-              <ListItemText primary="Login" />
-       </ListItem>
-    </a>
-   </Link>}
-
-  <br />
-  <Divider />
-  {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/userCRUD">
-    <a>
-      <ListItem button>
-             <ListItemIcon><PeopleIcon color="black" /></ListItemIcon>
-             <ListItemText primary="Manage User" />
-      </ListItem>
-   </a>
-  </Link>}
-
-  {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/booking">
-    <a>
-      <ListItem button>
-             <ListItemIcon><TableChartIcon color="black" /></ListItemIcon>
-             <ListItemText primary="Booking List" />
-      </ListItem>
-   </a>
-  </Link>}
-
-
-  <div className={classes.grow} />
-  {isAuth() && <ListItem button onClick={() => signout(() => Router.replace(`/`))}>
-         <ListItemIcon><ExitToAppIcon color="black" /></ListItemIcon>
-         <ListItemText primary="Logout" />
-  </ListItem>}
-  <hr />
-  <div className="drawer-logo">
-      
-  </div>
-
- </List>
+  const list = () => (
+    <div className={classes.list}>
+         <List>
+          {isAuth() && <div className="pl-4 pt-3 pb-3">{"+91-"+ (isAuth() && isAuth().phone_number)}</div>}
+           {isAuth() && <Link href="/">
+              <a>
+               <ListItem button>
+                      <ListItemIcon><TrainIcon color="black" /></ListItemIcon>
+                      <ListItemText primary="Book now" />
+               </ListItem>
+             </a>
+           </Link>}
+           {isAuth() && <Link href="/booking/user/myBookings">
+              <a>
+               <ListItem button>
+                    <ListItemIcon><ViewListIcon color="black"/></ListItemIcon>
+                    <ListItemText primary="My Bookings" />
+               </ListItem>
+             </a>
+         </Link>}
+           {!isAuth() && <Link href="/login">
+             <a>
+               <ListItem button>
+                      <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
+                      <ListItemText primary="Login" />
+               </ListItem>
+            </a>
+           </Link>}
+          <br />
+          <Divider />
+          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/userCRUD">
+            <a>
+              <ListItem button>
+                     <ListItemIcon><PeopleIcon color="black" /></ListItemIcon>
+                     <ListItemText primary="Manage User" />
+              </ListItem>
+           </a>
+          </Link>}
+          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/booking">
+            <a>
+              <ListItem button>
+                     <ListItemIcon><TableChartIcon color="black" /></ListItemIcon>
+                     <ListItemText primary="Booking List" />
+              </ListItem>
+           </a>
+          </Link>}
+          <div className={classes.grow} />
+          {isAuth() && <ListItem button onClick={() => signout(() => Router.replace(`/`))}>
+                 <ListItemIcon><ExitToAppIcon color="black" /></ListItemIcon>
+                 <ListItemText primary="Logout" />
+          </ListItem>}
+          <hr />
+          <div className={classes.drawerBottom} />
+         </List>
     </div>
   );
 
   return (
     <div>
-        <Button onClick={toggleDrawer('right', true)}>
-          <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
+        <Button onClick={toggleDrawer} className={classes.hamburger}>
+           <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
         </Button>
         <SwipeableDrawer
           anchor={'right'}
-          open={state['right']}
-          onClose={toggleDrawer('right', false)}
-          onOpen={toggleDrawer('right', true)}>
-          {list('right')}
+          open={state}
+          onClose={toggleDrawer}
+          onOpen={toggleDrawer}>
+          {list()}
         </SwipeableDrawer>
     </div>
   );

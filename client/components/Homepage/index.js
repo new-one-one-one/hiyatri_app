@@ -116,14 +116,14 @@ const Homepage = () => {
                  inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                  onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                  error={errors.PNR_NUMBER?true:false}
-                 helperText={errors.PNR_NUMBER?"PNR number is Invalid":""}
+                 helperText={errors.PNR_NUMBER?"Valid PNR number is required":""}
                  onChange={handleChange("pnr")}
-                 className="hp-input mt-2 mb-2"
+                 className="hp-input "
                  placeholder="PNR No."
                  fullWidth />
 
 
-                <div className="text-center">
+                <div className="text-center hp-mb-continue-btn">
                 <Button variant="contained" className="hp-inpt-btn" onClick={handleSubmit(onpnrSubmit)}>
                   Continue
                 </Button>
@@ -176,7 +176,7 @@ const showFormWhenNotLoggedIn = () => {
                            inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                            error={errors.phone_number ?true:false}
                            InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                           helperText={errors.phone_number? "Phone number is Invalid":""}
+                           helperText={errors.phone_number? state.phone_number? "Phone number is invalid":"Phone number is required":""}
                            onChange={handleChange("phone")}
                            onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                            placeholder="Phone no."
@@ -192,21 +192,21 @@ const showFormWhenNotLoggedIn = () => {
                           name="pnr_number"
                           inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                           error={errors.pnr_number?true:false}
-                          helperText={errors.pnr_number?"PNR number is Invalid":""}
+                          helperText={errors.pnr_number?state.pnr_number? "PNR number is invalid":"PNR number is required":""}
                           onChange={handleChange("pnr")}
                           onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                           className="hp-input mt-2 mb-2"
                           placeholder="PNR No."
                           fullWidth/>
                           </div>
-                          <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none pt-4">
+                          <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none hp-continue-btn">
                             <Modal state={state} submit={handleSubmit(onSubmit)}/>
                           </div>
                       </div>
                </div>
        </div>
    </div>
-   <div className="text-center d-sm-block d-md-none mt-2">
+   <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
       {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
    </div>
    </>

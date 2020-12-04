@@ -38,6 +38,12 @@ const bookingSchema = mongoose.Schema({
         passenger_details:[{
           _id:String,
           seat_number:String,
+          bill:{
+            golf_cart:Number,
+            meet_and_greet:Number,
+            wheel_chair: Number,
+            total:Number
+          },
           passenger_name:String,
           age_group:String,
           gender:{ type: String, enum:['Male','Female']},
@@ -60,7 +66,7 @@ const bookingSchema = mongoose.Schema({
         },
         total_amount:{
           type:Number,
-          default:1000
+          default:0
         },
         del_flag:{
           type:Boolean,

@@ -46,7 +46,9 @@ class Booking {
                 },
                 seat_number: pass.booking_status_details,
                 age_group:"",
+                age_group_error:"",
                 gender:"",
+                gender_error:"",
                 meet_and_greet:false,
                 wheel_chair:false,
                 golf_cart:false }})

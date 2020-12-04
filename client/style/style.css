@@ -22,6 +22,10 @@
 .MuiSwitch-colorPrimary.Mui-checked{
   color: #50c8dc!important;
 }
+button:focus {
+    outline: 0px dotted!important;
+    outline: 0px auto -webkit-focus-ring-color!important;
+}
 a{
   color: black!important;
 }
@@ -108,12 +112,12 @@ body{
   pointer-events: none;
 }
 #nprogress .bar {
-  background: #29d;
+  background: white;
   position: fixed;
-  z-index: 1031;
+  z-index: 9031;
   top: 0;
   left: 0;
-  border: 1px solid #29d!important;
+  border: 1px solid dodgerblue!important;
   width: 100%;
   height: 1px!important;
 }
@@ -123,7 +127,7 @@ body{
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  box-shadow: 0 0 10px white, 0 0 5px white;
   opacity: 1.0;
   -webkit-transform: rotate(3deg) translate(0px, -4px);
       -ms-transform: rotate(3deg) translate(0px, -4px);
@@ -132,17 +136,17 @@ body{
 #nprogress .spinner {
   display: block;
   position: fixed;
-  z-index: 1031;
+  z-index: 8031;
   top: 15px;
   right: 15px;
 }
 #nprogress .spinner-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   box-sizing: border-box;
   border: solid 1px transparent;
-  border-top-color: #29d;
-  border-left-color: #29d;
+  border-top-color: white;
+  border-left-color: white;
   border-radius: 50%;
   -webkit-animation: nprogress-spinner 400ms linear infinite;
           animation: nprogress-spinner 400ms linear infinite;
@@ -306,7 +310,7 @@ body{
   min-width: 300px!important;
   padding:10px!important;
   background-color: white;
-  height: 230px!important;
+  height: 180px!important;
   border-radius: 10px;
   box-shadow: #E9ECEE .6px 0.3rem 0.5rem 0rem;
 }
@@ -316,8 +320,11 @@ body{
     box-shadow: white 0px 0px 0px 0px!important;
   }
 }
-.hp-inp-outer{
 
+@media (max-width:767px) {
+  .hp-inp-outer{
+      padding-bottom: 60px;
+  }
 }
 .hp-heading{
   font-size: 28px;
@@ -336,6 +343,18 @@ body{
   top:40%;
   z-index: 2000;
   left: 40%;
+}
+
+
+.hp-continue-btn{
+  position: absolute;
+  bottom: -10px;
+}
+.hp-mb-continue-btn{
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  bottom: -20px;
 }
 
 @media (min-width:767px) {
@@ -1009,17 +1028,4 @@ color: #2a306c;
 ---------------- */
 .cm-title{
   font-size: 20px;
-}
-
-.drawer-logo{
-  text-align: center;
-  padding: 10px 0px 40px 0px;
-  background-color:rgb(42,48,108);
-  position: fixed;
-  height: 40px;
-  bottom: 0px;
-  width: 220px;
-  /* padding: 0px 30px 0px 40px; */
-
-
 }

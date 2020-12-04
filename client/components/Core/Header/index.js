@@ -1,4 +1,5 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useEffect, useState } from 'react';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -26,11 +27,20 @@ const useStyles = makeStyles(theme =>
 );
 
 const Header = () => {
-const theme = useTheme();
-const classes = useStyles();
-const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  const theme = useTheme();
+  const classes = useStyles();
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  const [state, setState] = useState(false);
+
+
+  const handleDrawer = () => {
+      if(state){
+        setState(!state)
+      }
+  }
+
   return  <>
-            <AppBar position='fixed' className={classes.root}>
+            <AppBar position='fixed' className={classes.root} onClick={handleDrawer}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                       <Link href='/'>
@@ -42,10 +52,10 @@ const matches = useMediaQuery(theme.breakpoints.up("lg"));
                     {matches ? (
                     <>
                     <Typography />
-                    <Drawer />
+                    <Drawer close={state} status={(status) => setState(status)} />
                     </>
                     ) : (
-                      <Drawer />
+                      <Drawer close={state} status={(status) => setState(status)} />
                     )}
 
                 </Toolbar>

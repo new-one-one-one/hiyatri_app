@@ -26,17 +26,20 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                         </td>
                         <td>
                         <Select
-                          variant="outlined"
-                          className="pl-2"
-                          fullWidth
-                          native
-                          value={item.age}
-                          onChange={handleChange("passenger_detail_age", index)}>
-                          <option aria-label="None" value="" />
-                          <option value="Sr citizen(above 60)">Sr citizen(above 60)</option>
-                          <option value="Adult(12yrs -60yrs)">Adult(12yrs -60yrs)</option>
-                          <option value="Children(upto 12 years)">Children(upto 12 years)</option>
-                        </Select>
+                            variant="outlined"
+                            value={item.age}
+                            required={true}
+                            onChange={handleChange("passenger_detail_age", index)}
+                            inputProps={{
+                              name: 'age_group',
+                              id: 'outlined-age-native-simple',
+                            }}
+                            fullWidth
+                          >
+                            <option value="Senior(Above 60)">Senior(Above 60)</option>
+                            <option value="Adult(12yrs to 60yr)">Adult(12yrs to 60yr)</option>
+                            <option value="Children(upto 12 years)">Children(upto 12 years)</option>
+                          </Select>
                         </td>
                         <td>
                         <Select

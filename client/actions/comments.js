@@ -16,8 +16,8 @@ export const create_comment = (data,token) => {
         .catch(err => console.log(err));
 };
 
-export const comment_list = (data,token) => {
-    return fetch(`${process.env.NEXT_PUBLIC_API}/comment/list`, {
+export const comment_list = (token, order_id) => {
+    return fetch(`${process.env.NEXT_PUBLIC_API}/comment/list/${order_id}`, {
         method: 'GET',
         headers: {
            'Content-Type': 'application/json',
@@ -26,7 +26,9 @@ export const comment_list = (data,token) => {
         }
     })
         .then(response => {
+            console.log(response)
             return response.json();
         })
         .catch(err => console.log(err));
 };
+

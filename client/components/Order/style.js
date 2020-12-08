@@ -130,6 +130,12 @@ const useStyles = makeStyles(Theme =>
       background:"#04bdbd!important",
       top:'auto',
       bottom:0
+    },
+
+    porterDetails:{
+      marginLeft:"20px",
+      marginRight:"20px",
+      marginTop:"10px"
     }
   }));
 

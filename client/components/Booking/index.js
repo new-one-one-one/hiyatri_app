@@ -109,6 +109,7 @@ const ACTIONS = {
 }
 
 const reducer = (state, action) => {
+  console.log(state.passenger_details, "------------------------STate------------------")
   switch (action.type) {
 
     case ACTIONS.STATE:
@@ -153,12 +154,14 @@ const reducer = (state, action) => {
         if(action.sidx != idx) return value;
         return {...value, passenger_name: action.payload }})
         return {...state, passenger_details: pass_detail_name}
+
     case ACTIONS.PASSENGER_DETAIL.AGE:
        const pass_detail_age = state.passenger_details
        .map((value, idx) => {
         if(action.sidx != idx) return value;
-        return {...value, age: action.payload }})
+        return {...value, age_group: action.payload }})
         return {...state, passenger_details: pass_detail_age}
+
     case ACTIONS.PASSENGER_DETAIL.GENDER:
        const pass_detail_gender = state.passenger_details
        .map((value, idx) => {

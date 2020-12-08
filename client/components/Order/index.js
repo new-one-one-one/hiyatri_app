@@ -28,6 +28,8 @@ const AquaBlueCheckBox = withStyles({
 })(CheckboxProps => <Checkbox color="default" />);
 
 const FinalOrder = ({ data }) => {
+
+  console.log(data, "DDDDDDDDDDDDDDDDDAAAAAARRRRRRRR")
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -97,7 +99,52 @@ const paymentHandler = (orderId) => {
     razorpay.open()
 }
 
-
+const displayPorterServiceDetails = (porter) =>{
+  if(porter.porter_service_opted!==null)
+    return (
+      <div>
+        <Box className={classes.headingPart} p={2}>
+          <Typography>
+              Porter Services
+          </Typography>
+        </Box>
+        <Paper elevation={4} className={classes.porterDetails}>
+        <Grid container spacing={2}>
+                  <Grid container>
+                      <Grid  item sm={3} className="pl-4">
+                        <b>Large Bags</b>
+                      </Grid>
+                      <Grid  item sm={3}>
+                        <b>Medium Bags</b>
+                      </Grid>
+                      <Grid  item sm={3}>
+                          <b>Small Bags</b>
+                      </Grid>
+                      <Grid  item sm={3}>
+                          <b>Total Cost</b>
+                      </Grid>
+                  </Grid>
+                  <Grid container spacing={1}>
+                      <Grid item sm={3} className="pl-4">
+                          {porter.number_of_large_bags} 
+                      </Grid>
+                      <Grid  item sm={3}>
+                          {porter.number_of_medium_bags}
+                      </Grid>
+                      <Grid  item sm={3}>
+                            {porter.number_of_small_bags}
+                      </Grid>
+                      <Grid  item sm={3}>
+                            300
+                      </Grid>
+                </Grid>
+          </Grid>
+        </Paper>
+        <br></br>
+      </div>
+      
+    )
+}
 
 const showPassengers = () => {
      return data.passenger_details.map((item, i) => {
@@ -153,7 +200,7 @@ return  <>
       <h5>Summary</h5>
       <Grid container spacing={3}>
           <Grid item xs={12} sm={8}>
-               <Paper className={classes.orderFull}>
+               <Paper elevation={4} className={classes.orderFull}>
                         <br />
                         <Box className={classes.headingPart} p={2}>
                             <Typography>
@@ -196,34 +243,14 @@ return  <>
                            {showPassengers()}
                         </Paper>
                         <br />
-                        </Paper>
+                </Paper>
                         <br/>
-                        {/*<Paper className={classes.Services}>
-                                <Box className={classes.headingPart} p={1}>
-                                  <Typography>
-                                    Other Services
-                                  </Typography>
-                                </Box>
-                                <Paper className={classes.particularOrder} variant="outlined">
-                                      <Box display="flex" p={0} bgcolor="background.paper">
-                                            <Box p={1} width="100%">
-                                            {data.cab_service.cab_service_opted?"CAB service":""}
-                                            </Box>
-                                            <Box p={1}>
-                                            {data.cab_service.cab_service_opted?"Rs. 2000":""}
-                                            </Box>
-                                      </Box>
-                                      <Divider />
-                                      <Box display="flex" p={0}>
-                                            <Box p={1} width="100%">
-                                            {data.cab_service.cab_service_opted?"Porter service":""}
-                                            </Box>
-                                            <Box p={1} flexShrink={1}>
-                                            {data.cab_service.cab_service_opted?"Rs. 1000":""}
-                                            </Box>
-                                      </Box>
-                                </Paper>
-                        </Paper>*/}
+                   {displayPorterServiceDetails(data.porter_service_detail)}
+                    
+
+              
+                        
+                        
                         <FormControlLabel
                         control={
                         <AquaBlueCheckBox

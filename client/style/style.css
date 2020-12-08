@@ -22,12 +22,15 @@
 .MuiSwitch-colorPrimary.Mui-checked{
   color: #50c8dc!important;
 }
+.MuiList-padding{
+  padding-top: 0px!important;
+}
 button:focus {
     outline: 0px dotted!important;
     outline: 0px auto -webkit-focus-ring-color!important;
 }
 a{
-  color: black!important;
+  color: black;
 }
 body{
   background-color: #FDFDFD;

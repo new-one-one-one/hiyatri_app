@@ -1,6 +1,7 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useEffect, useState } from 'react';
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,6 +9,8 @@ import Drawer from '../Drawer'
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from 'next/link';
+import { isAuth } from '../../../actions/auth'
+import Router from "next/router";
 
 
 const useStyles = makeStyles(theme =>
@@ -23,6 +26,10 @@ const useStyles = makeStyles(theme =>
       flexGrow: 1,
       color: "#00C4FF",
     },
+    loginBtn:{
+      background:"transparent!important",
+      color:"white"
+    }
   })
 );
 
@@ -52,7 +59,8 @@ const Header = () => {
                     {matches ? (
                     <>
                     <Typography />
-                    <Drawer close={state} status={(status) => setState(status)} />
+                     {!isAuth() && <Button variant="contained" className={classes.loginBtn} onClick={() => Router.push('/login')}>Login</Button>}
+                     {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
                     </>
                     ) : (
                       <Drawer close={state} status={(status) => setState(status)} />

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { get_user_bookings } from '../../../actions/order';
-import { isAuth } from '../../../actions/auth';
-import Layout from '../../../components/Core/Layout';
-import BookingsDisplay from '../../../components/Booking/BookingList';
-import Private from '../../../components/Core/Protect/private';
-
+import { get_user_bookings } from '../../actions/order';
+import { isAuth } from '../../actions/auth';
+import Layout from '../../components/Core/Layout';
+import BookingsDisplay from '../../components/Booking/BookingList';
+import Private from '../../components/Core/Protect/private';
 import Head from 'next/head';
 
 const head = () => (

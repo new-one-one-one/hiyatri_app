@@ -4,6 +4,15 @@ import Layout from '../../../components/Core/Layout';
 import BookingList from '../../../components/Admin/Booking/bookingList';
 import { order_list } from '../../../actions/order';
 import Admin from '../../../components/Core/Protect/admin'
+import Head from 'next/head';
+
+const head = () => (
+      <Head>
+          <title>
+             {"Manage Bookings"} | {process.env.NEXT_PUBLIC_APP_NAME}
+          </title>
+       </Head>
+  );
 
 
 const Bookings = ({ list }) => {
@@ -21,6 +30,7 @@ const Bookings = ({ list }) => {
    },[])
 
   return  <>
+           {head()}
            <Admin>
              <Layout>
                <BookingList list={bookingList} />

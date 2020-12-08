@@ -12,7 +12,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Link from 'next/link';
 import { isAuth,signout } from '../../../actions/auth';
-import Router from 'next/router';
+import Router, {withRouter} from 'next/router';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import TrainIcon from '@material-ui/icons/Train';
@@ -32,6 +32,9 @@ const useStyles = makeStyles({
   hamburger:{
     border:"0px solid white"
   },
+  menu:{
+    color: "black"
+  },
   drawerBottom:{
     textAlign: "center",
     padding: "10px 0px 40px 0px",
@@ -43,7 +46,7 @@ const useStyles = makeStyles({
   }
 });
 
-const SideDrawer = ({ close, status }) => {
+const SideDrawer = ({ close, status, router }) => {
   const classes = useStyles();
   const [state, setState] = useState(false);
 
@@ -60,49 +63,54 @@ const SideDrawer = ({ close, status }) => {
     status(true)
   };
 
+  const currentTabStyle = (path, url) => {
+    if(path === url){
+      return { backgroundColor: "rgb(42,48,108)", color:"white" }
+    }
+  }
+
   const list = () => (
     <div className={classes.list}>
          <List>
-          {isAuth() && <div className="pl-4 pt-3 pb-3">{"+91-"+ (isAuth() && isAuth().phone_number)}</div>}
+          {isAuth() && <div className="pl-5 pt-3 pb-3 pr-4">{"+91-"+ (isAuth() && isAuth().phone_number)}</div>}
            {isAuth() && <Link href="/">
-              <a>
-               <ListItem button>
+              <a className={classes.menu}>
+               <ListItem button style={currentTabStyle("/", router.pathname)}>
                       <ListItemIcon><TrainIcon color="black" /></ListItemIcon>
                       <ListItemText primary="Book now" />
                </ListItem>
              </a>
            </Link>}
-           {isAuth() && <Link href="/booking/user/myBookings">
-              <a>
-               <ListItem button>
-                    <ListItemIcon><ViewListIcon color="black"/></ListItemIcon>
+           {isAuth() && <Link href="/booking/my_bookings">
+              <a className={classes.menu}>
+               <ListItem button style={currentTabStyle("/booking/my_bookings", router.pathname)}>
+                    <ListItemIcon><ViewListIcon color="black" /></ListItemIcon>
                     <ListItemText primary="My Bookings" />
                </ListItem>
              </a>
          </Link>}
            {!isAuth() && <Link href="/login">
-             <a>
-               <ListItem button>
+             <a className={classes.menu}>
+               <ListItem button style={currentTabStyle("/login", router.pathname)} className="mt-1">
                       <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
                       <ListItemText primary="Login" />
                </ListItem>
             </a>
            </Link>}
-          <br />
-          <Divider />
-          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/userCRUD">
-            <a>
-              <ListItem button>
+
+          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/manage_user">
+            <a className={classes.menu}>
+              <ListItem button style={currentTabStyle("/admin/manage_user", router.pathname)}>
                      <ListItemIcon><PeopleIcon color="black" /></ListItemIcon>
                      <ListItemText primary="Manage User" />
               </ListItem>
            </a>
           </Link>}
           {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/booking">
-            <a>
-              <ListItem button>
+            <a className={classes.menu}>
+              <ListItem button style={currentTabStyle("/admin/booking", router.pathname)}>
                      <ListItemIcon><TableChartIcon color="black" /></ListItemIcon>
-                     <ListItemText primary="Booking List" />
+                     <ListItemText primary="Manage Booking" />
               </ListItem>
            </a>
           </Link>}
@@ -111,8 +119,8 @@ const SideDrawer = ({ close, status }) => {
                  <ListItemIcon><ExitToAppIcon color="black" /></ListItemIcon>
                  <ListItemText primary="Logout" />
           </ListItem>}
-          <hr />
-          <div className={classes.drawerBottom} />
+
+          {/*<div className={classes.drawerBottom} />*/}
          </List>
     </div>
   );
@@ -133,4 +141,4 @@ const SideDrawer = ({ close, status }) => {
   );
 }
 
-export default SideDrawer;
+export default withRouter(SideDrawer);

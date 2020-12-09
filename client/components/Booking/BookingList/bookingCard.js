@@ -41,7 +41,7 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
                                                  <Button color="primary" variant="contained" onClick={() => Router.replace(`/booking/modify/${id}?pnr=${pnr}&pid=${is_arrival?"arrival":"departure"}&modify=${true}`)}>Modify</Button>
                                                </div>
                                                <div className="col-5">
-                                                 <CancelModal id={id} duration={24} />
+                                                 <CancelModal id={id} duration={duration} />
                                                </div>
                                           </div>
                               )

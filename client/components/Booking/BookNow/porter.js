@@ -1,7 +1,8 @@
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
-const PorterService = ({ handleChange }) => {
+const PorterService = ({ handleChange, state }) => {
   return <>
           <div className="porter-Service">
           <table>
@@ -18,24 +19,34 @@ const PorterService = ({ handleChange }) => {
                 <td>
                   <OutlinedInput
                   type="number"
+                  value={state.porter_service_detail.large_bags.unit}
                    onChange={handleChange("porter_service_lg_bags")} />
                 </td>
                 <td>
                   <OutlinedInput
                   type="number"
+                  value={state.porter_service_detail.medium_bags.unit}
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
                 <td>
                   <OutlinedInput
                    type="number"
+                   value={state.porter_service_detail.small_bags.unit}
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>
-                 
+
               </tr>
             </tbody>
           </table>
           <div className="baggage-container">
-            <input  className="baggage-input" type="checkbox"/>
+          <Checkbox
+             className="baggage-input"
+             checked={state.porter_service_detail.baggage_garanteed.baggage_garanteed_opted}
+             onChange={handleChange("baggage_garanteed_opted")}
+              name="checkedB"
+              color="primary"
+          />
+
               <span className="baggage-text">
                 Baggage Gurantee
               </span>

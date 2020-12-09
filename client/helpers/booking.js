@@ -44,7 +44,7 @@ class Booking {
                   golf_cart:0,
                   total:0
                 },
-                seat_number: pass.booking_status_details,
+                seat_number: pass.current_status_details,
                 age_group:"",
                 age_group_error:"",
                 gender:"",

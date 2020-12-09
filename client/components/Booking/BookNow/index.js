@@ -119,7 +119,6 @@ const initialData = {
 },
   porter_service_detail: {
     porter_service_opted: null,
-    porter_bill:0,
     large_bags:{
       unit:0,
       total: 0
@@ -802,7 +801,7 @@ useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
 },[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
 
- 
+
 
 return <>
         <ToastContainer />

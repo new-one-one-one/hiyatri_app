@@ -38,7 +38,7 @@ module.exports.create_order = (req,res) => {
 
 
 //if req.body.orderId is provided then user is modifying the order
-
+console.log(porter_service_detail)
   const newCab = Cab({
        user,
        pnr_number,

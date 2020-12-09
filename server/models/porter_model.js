@@ -15,21 +15,39 @@ const porterSchema = mongoose.Schema({
             required:true
         },
         porter_service_detail:{
+            baggage_garanteed:{
+              baggage_garanteed_opted:{
+                type:Boolean,
+                default:false
+              },
+              large_bags:{
+                 unit: Number,
+                 total: Number
+              },
+              medium_bags:{
+                unit: Number,
+                total: Number
+              },
+              small_bags:{
+                unit: Number,
+                total: Number
+              },
+            },
             porter_service_opted:{
               type:Boolean,
               default:false
             },
-            number_of_large_bags:{
-              type:Number,
-              default:0
+            large_bags:{
+               unit: Number,
+               total: Number
             },
-            number_of_medium_bags:{
-              type:Number,
-              default:0
+            medium_bags:{
+              unit: Number,
+              total: Number
             },
-            number_of_small_bags:{
-              type:Number,
-              default:0
+            small_bags:{
+              unit: Number,
+              total: Number
             },
             total_amount:{
               type:Number,

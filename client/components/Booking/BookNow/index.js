@@ -119,10 +119,33 @@ const initialData = {
 },
   porter_service_detail: {
     porter_service_opted: null,
-    number_of_large_bags: null,
-    number_of_medium_bags: null,
-    number_of_small_bags: null,
-    total_amount: 0
+    large_bags:{
+      unit:0,
+      total: 0
+    },
+    medium_bags:{
+      unit:0,
+      total: 0
+    },
+    small_bags: {
+      unit:0,
+      total: 0
+    },
+    baggage_garanteed: {
+      baggage_garanteed_opted: false,
+      large_bags: {
+        unit: 0,
+        total: 0
+      },
+      medium_bags: {
+        unit: 0,
+        total: 0
+      },
+      small_bags: {
+        unit: 0,
+        total: 0
+      }
+    }
 },
  total_amount: null
 }
@@ -170,7 +193,16 @@ const ACTIONS = {
     LARGE_BAG:"porter_large_bags",
     MEDIUM_BAG:"porter_medium_bags",
     SMALL_BAG:"porter_small_bags",
-    TOTAL_AMOUNT:"porter_price"
+    PORTER_BILL:"porter_bill",
+    PORTER_BILL_ZERO:"porter_bill_zero",
+    BAGGAGE_GARANTEED:{
+      OPTED: "baggage_garanteed_opted",
+      LARGE_BAG:"bg_large_bags",
+      MEDIUM_BAG:"bg_medium_bags",
+      SMALL_BAG:"bg_small_bags",
+      BG_BILL:"bg_bill",
+      BG_BILL_ZERO:"bg_bill_zero"
+    }
   },
   TOTAL_AMOUNT: "total_amount"
 }
@@ -327,6 +359,7 @@ const reducer = (state, action) => {
          ...state.cab_service_detail,
          cab_service_opted: action.payload }}
 
+
   /* Porter services */
     case ACTIONS.PORTER_SERVICE.OPTED:
        return {...state, porter_service_detail: {
@@ -335,19 +368,81 @@ const reducer = (state, action) => {
     case ACTIONS.PORTER_SERVICE.LARGE_BAG:
        return {...state, porter_service_detail: {
          ...state.porter_service_detail,
-         number_of_large_bags: action.payload }}
+         large_bags: {...state.porter_service_detail.large_bags,
+           unit: parseInt(action.payload),
+           total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE*action.payload)} }}
     case ACTIONS.PORTER_SERVICE.MEDIUM_BAG:
        return {...state, porter_service_detail: {
        ...state.porter_service_detail,
-       number_of_medium_bags: action.payload }}
+       medium_bags: {...state.porter_service_detail.medium_bags,
+         unit: parseInt(action.payload),
+         total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE*action.payload)} }}
     case ACTIONS.PORTER_SERVICE.SMALL_BAG:
        return {...state, porter_service_detail: {
        ...state.porter_service_detail,
-       number_of_small_bags: action.payload }}
+       small_bags: {...state.porter_service_detail.small_bags,
+         unit: parseInt(action.payload),
+         total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE*action.payload)} }}
+
+    case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.OPTED:
+        return {...state, porter_service_detail: {
+        ...state.porter_service_detail,
+        baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
+          baggage_garanteed_opted: action.payload} }}
+
+
+    case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.LARGE_BAG:
+       return {...state, porter_service_detail: {
+         ...state.porter_service_detail,
+         baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
+           ...state.porter_service_detail.baggage_garanteed,
+           large_bags:{
+             unit: parseInt(action.payload),
+             total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE*action.payload) }} }}
+
+
+    case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.MEDIUM_BAG:
+      return {...state, porter_service_detail: {
+        ...state.porter_service_detail,
+        baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
+          ...state.porter_service_detail.baggage_garanteed,
+          medium_bags:{
+            unit: parseInt(action.payload),
+            total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE*action.payload)  }} }}
+
+
+   case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.SMALL_BAG:
+       return {...state, porter_service_detail: {
+         ...state.porter_service_detail,
+         baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
+           ...state.porter_service_detail.baggage_garanteed,
+           small_bags:{
+             unit: parseInt(action.payload),
+             total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE*action.payload)  }} }}
+
+
+
+   case ACTIONS.PORTER_SERVICE.PORTER_BILL:
+      // return {...state, porter_service_detail: {
+      //   ...state.porter_service_detail,
+      //     porter_bill: 1  } }
+
+
+   // case ACTIONS.PORTER_SERVICE.PORTER_BILL_ZERO:
+   //      return {...state, total_amount: parseFloat(state.total_amount) + parseFloat(action.payload) }
+
+
+   // case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.BG_BILL:
+   //    return {...state, total_amount: parseFloat(state.total_amount) + parseFloat(action.payload) }
+   //
+   // case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.BG_BILL_ZERO:
+   //     return {...state, total_amount: parseFloat(state.total_amount) + parseFloat(action.payload) }
+
      default:
         return state
   }
 }
+
 
 const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
@@ -424,7 +519,6 @@ const handleChange = (value1, value2) => e => {
                        payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
                        sidx: value2 })
 
-// console.log(state.passenger_details[value2].golf_cart, state.passenger_details[value2].wheel_chair)
 
              if(state.passenger_details[value2].wheel_chair){
                dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
@@ -563,18 +657,49 @@ const handleChange = (value1, value2) => e => {
   if(value1 === "porter_service_opted"){
            dispatch({ type: ACTIONS.PORTER_SERVICE.OPTED,
                      payload: e.target.checked })
+
+            if(!e.target.checked){
+                 dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() })
+            }
   }
   if(value1 === "porter_service_lg_bags"){
            dispatch({ type: ACTIONS.PORTER_SERVICE.LARGE_BAG,
+                     payload: !e.target.value?0:e.target.value })
+
+           dispatch({ type: ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.LARGE_BAG,
                      payload: e.target.value })
+
+
   }
   if(value1 === "porter_service_md_bags"){
            dispatch({ type: ACTIONS.PORTER_SERVICE.MEDIUM_BAG,
+                     payload: !e.target.value?0:e.target.value })
+
+           dispatch({ type: ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.MEDIUM_BAG,
                      payload: e.target.value })
   }
   if(value1 === "porter_service_sm_bags"){
            dispatch({ type: ACTIONS.PORTER_SERVICE.SMALL_BAG,
+                     payload: !e.target.value?0:e.target.value })
+
+
+           dispatch({ type: ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.SMALL_BAG,
                      payload: e.target.value })
+  }
+
+  if(value1 === "baggage_garanteed_opted"){
+           dispatch({ type: ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.OPTED,
+                     payload: e.target.checked })
+
+          if(e.target.checked){
+            return dispatch({ type: ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.BG_BILL,
+                      payload: baggageBill() })
+          }
+
+          if(!e.target.checked){
+             return dispatch({ type: ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.BG_BILL_ZERO,
+                       payload: -baggageBill() })
+           }
   }
 }
 
@@ -592,7 +717,6 @@ const bookingFromLS = () => {
 };
 
 
-
 const handleSubmission = e => {
    setLocalStorage("Booking", state)
    if(modify){
@@ -602,15 +726,38 @@ const handleSubmission = e => {
 }
 
 
-const totalBill = () => {
-    let passenger_bill = state && state.passenger_details.map((passenger, i) => {
+const passengerBill = () => {
+    let passenger_bill = state && state.passenger_details && state.passenger_details.map((passenger, i) => {
             return passenger.bill && passenger.bill.total
    })
-    let total = passenger_bill.reduce((a, b) => a + b)
+    let total = passenger_bill && passenger_bill.reduce((a, b) => a + b)
 
        return total;
 }
 
+
+const porterBill = () => {
+      if(!state.porter_service_detail.porter_service_opted){
+        return 0;
+      }
+      let bill = [];
+      bill.push(state.porter_service_detail.large_bags.total);
+      bill.push(state.porter_service_detail.medium_bags.total);
+      bill.push(state.porter_service_detail.small_bags.total);
+      return bill.reduce((a,b) => a + b);
+}
+
+
+const baggageBill = () => {
+  if(!state.porter_service_detail.baggage_garanteed.baggage_garanteed_opted){
+    return 0;
+  }
+  let bill = [];
+      bill.push(state.porter_service_detail.baggage_garanteed.large_bags.total)
+      bill.push(state.porter_service_detail.baggage_garanteed.medium_bags.total)
+      bill.push(state.porter_service_detail.baggage_garanteed.small_bags.total)
+      return bill.reduce((a,b) => a + b)
+}
 
 useEffect(() => {
   if(bookingFromLS()){
@@ -651,10 +798,8 @@ useEffect(() => {
 },[order])
 
 useEffect(() => {
-   dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: totalBill() })
-},[state.passenger_details])
-
-
+   dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
+},[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
 
 
 
@@ -704,19 +849,21 @@ return <>
 
                       <span>Porter Service</span>
                       <Switch
-                      disabled={true}
+                      disabled={false}
                       onChange={handleChange("porter_service_opted")}
-                      value={state.porter_service_detail.porter_service_opted}
-                       />
+                      value={state.porter_service_detail.porter_service_opted} />
+
                       {state.porter_service_detail.porter_service_opted && <PorterService
+                      state={state}
                       handleChange={handleChange} />}
+                      <br />
                       {matches ? (
                       <div className="payable-amt-section">
                       <>
                         <div>
                            <span>Payable amount:</span>
                            <br />
-                           <b>₹{totalBill()}</b>
+                           <b>₹{state.total_amount}</b>
                         </div>
                         <Button
                         className="md-btn"
@@ -734,7 +881,7 @@ return <>
                             variant="outlined"
                             className="md-btn"
                             type="submit">
-                            {`REVIEW YOUR BOOKING & Pay ₹${totalBill()}`}
+                            {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
                         </Button>
                       )}
                   </div>

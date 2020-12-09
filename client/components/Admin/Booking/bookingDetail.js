@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft:"5%",
       marginRight:"5%",
       marginTop:"5%",
+      outline:"none"
     },
     paper: {
       padding: 20,
@@ -145,6 +146,11 @@ const useStyles = makeStyles((theme) => ({
       bottom:0
 
     },
+    porterDetails:{
+      marginLeft:"20px",
+      marginRight:"20px",
+      marginTop:"10px"
+    },
     comment:{
         paddingLeft:"25px",
         paddingRight:"25px",
@@ -169,6 +175,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data }) => {
+  console.log(data, "fata got")
   const width= 900;
   const classes = useStyles();
   const [agents, setAgents] = useState([]);
@@ -186,7 +193,7 @@ const BookingDetail = ({ data }) => {
  const {register,handleSubmit } = useForm();
 
 
-  const assignToAgent = () => {
+  const assignToAgent = (e) => {
     let orderId = data.response._id;
      assign_agent(orderId, assignee, token)
         .then(response => {
@@ -198,11 +205,12 @@ const BookingDetail = ({ data }) => {
         .catch((err) => {
           console.log(err)
         })
+      addComment(e)
   }
 
   const addComment = (e) => {
     e.preventDefault()
-    create_comment({ order: data.response._id, comment_by: isAuth() && isAuth()._id, comment: commentText }, token)
+    create_comment({ order: data.response._id, comment_by: isAuth() && isAuth()._id, comment: commentText}, token)
       .then(response => {
         if(response.error){
           return console.log(response.error)
@@ -212,7 +220,8 @@ const BookingDetail = ({ data }) => {
       .catch((err) => {
         console.log(err)
       })
-  }
+      window.location.reload(false)
+    }
 
 
   const getMyService = (needed, type)=>{
@@ -222,7 +231,7 @@ const BookingDetail = ({ data }) => {
             return (<div className={classes.innerDetails} >
                   <Grid container xs={12} justify="space-between">
                         <Typography  variant="body2"  align="left">Get wheel chari</Typography>
-                        <Typography  variant="body2" align="right">Wheel Chair</Typography>
+                        <Typography  variant="body2" align="right">500</Typography>
                   </Grid>
                 </div>
                  )
@@ -233,7 +242,7 @@ const BookingDetail = ({ data }) => {
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Golf cart</Typography>
-                      <Typography  variant="body2" align="right">Wheel Chair</Typography>
+                      <Typography  variant="body2" align="right">400</Typography>
                 </Grid>
               </div>
                )
@@ -244,7 +253,7 @@ const BookingDetail = ({ data }) => {
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Meet & Greet</Typography>
-                      <Typography  variant="body2" align="right">Wheel Chair</Typography>
+                      <Typography  variant="body2" align="right">300</Typography>
                 </Grid>
               </div>
                )
@@ -265,7 +274,7 @@ useEffect(() => {
       console.log(err)
     })
 
-    comment_list(token)
+    comment_list(token, data.response._id)
       .then(response => {
         if(response.error){
            return console.log(response.error)
@@ -277,7 +286,44 @@ useEffect(() => {
       })
 },[])
 
+const displayPorterServiceDetails = (porter) =>{
+  if(porter.porter_service_opted!==null)
+    return (
+      <div>
+        <Grid container spacing={2}>
+                  <Grid container>
+                      <Grid  item sm={3} className="pl-4">
+                        <b>Large Bags</b>
+                      </Grid>
+                      <Grid  item sm={3}>
+                        <b>Medium Bags</b>
+                      </Grid>
+                      <Grid  item sm={3}>
+                          <b>Small Bags</b>
+                      </Grid>
+                      <Grid  item sm={3}>
+                          <b>Total Cost</b>
+                      </Grid>
+                  </Grid>
+                  <Grid container spacing={1}>
+                      <Grid item sm={3} className="pl-4">
+                          {porter.number_of_large_bags}
+                      </Grid>
+                      <Grid  item sm={3}>
+                          {porter.number_of_medium_bags}
+                      </Grid>
+                      <Grid  item sm={3}>
+                            {porter.number_of_small_bags}
+                      </Grid>
+                      <Grid  item sm={3}>
+                            300
+                      </Grid>
+                </Grid>
+          </Grid>
+      </div>
 
+    )
+}
 
   return (
   <div>
@@ -293,9 +339,6 @@ useEffect(() => {
                       <Box p={1} width="100%">
                         BOOKING-ID : {data.response.booking.booking_id}
                       </Box >
-                      <Box p={1}>
-                        Pending
-                      </Box>
             </Box>
 
              <Paper variant="outlined" className={classes.particularOrder}>
@@ -342,7 +385,7 @@ useEffect(() => {
                       <div className={classes.outerDetails}>
                         <Grid container xs={12} justify="space-between">
                               <Typography  variant="body1" align="left">{val.passenger_name}</Typography>
-                              <Typography  variant="body1" align="left">67 years, Male</Typography>
+                <Typography  variant="body1" align="left">{val.age_group}</Typography>
                         </Grid>
                       </div>
                       <Divider/>
@@ -359,7 +402,7 @@ useEffect(() => {
           </Paper>
         <br></br>
         <Paper className={classes.Services}>
-          <Box className={classes.headingPart} p={1} bgcolor="#000066">
+        <Box className={classes.headingPart} p={1} bgcolor="#000066">
                       <Typography>Other Services</Typography>
           </Box>
 
@@ -378,28 +421,46 @@ useEffect(() => {
          </Paper>
         </Paper>
         <br></br>
+        <Paper className={classes.Services}>
+            <Box className={classes.headingPart} p={1} bgcolor="#000066">
+                      <Typography>Porter Services</Typography>
+            </Box>
+            <Paper className={classes.particularOrder} variant="outlined">
+              {displayPorterServiceDetails(data.response.booking.porter_service.porter_service_detail)}
+            </Paper>
+        </Paper>
+
         <br></br>
-         {/* Comments paragraph */}
+
+        {/* Comments paragraph */}
          <div>Comments </div>
               <div className={classes.comment_root}>
              {commentList.map((comment)=>{
-              return (
+                  const temp_date =new Date(comment.createdAt);
+                  const date = {
+                      keyTime : temp_date.getTime(),
+                      hours   : temp_date.getHours(),
+                      mins    : temp_date.getMinutes(),
+                      day     : temp_date.getDate(),
+                      month   : temp_date.getMonth(),
+                      fullYear: temp_date.getFullYear()
+                  }
 
-              <Accordion expanded={expanded === comment.comment_by} onChange={changeDropDown(comment.comment_by)}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header"
-                >
-                 <Grid container xs={12} justify="space-between">
-                  <Typography className={classes.comment_heading}>{comment.created_at}</Typography>
-              <Typography className={classes.comment_secondaryHeading}>{comment.comment_by}</Typography>
-                </Grid>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                      {comment.comment}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-              )
+                  return (
+                    <Accordion expanded={expanded === date.keyTime} onChange={changeDropDown(date.keyTime)}>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Grid container xs={12} justify="space-between">
+                          <Typography className={classes.comment_heading}>{date.hours}:{date.mins} {date.hours>12 ? "PM" : "AM"} , {date.day}-{date.month}-{date.fullYear}</Typography>
+                          <Typography className={classes.comment_secondaryHeading}>{comment.comment_by.name}</Typography>
+                      </Grid>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography>
+                            {comment.comment}
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                  )
              })}
 
               <Divider/>
@@ -417,17 +478,47 @@ useEffect(() => {
             <br></br>
         </Grid>
 
-        <Grid item xs={12} sm={3}>
-          <Paper className={classes.promocode}>
-                <Box p={1}>
-                  <Button variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
-                </Box>
-                <Box p={1}>
-                   <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
-                </Box>
+
+        {(data.response.order_status!=='COMPLETED') && (
+            <Grid item xs={12} sm={3}>
+              {(data.response.order_status!=='ASSIGN_TO_AGENT') &&
+                ( <div>
+                    <Paper className={classes.promocode}>
+                      <Box p={1}>
+                        <Button variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
+                      </Box>
+                      <Box p={1}>
+                        <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
+                      </Box>
+                    </Paper>
+                    <br></br>
+                  </div>
+              )}
+              <Paper className={classes.promocode}>
+              <div style={{padding:"10px"}}>
+                <Grid container xs={12} justify="space-between">
+                  <Typography  variant="body2" align="left">Current Status : </Typography>
+                  <Typography  variant="subtitle" align="right">{data.response.order_status}</Typography>
+                </Grid>
+                <Grid container xs={12} justify="space-between">
+                  <Typography  variant="body2" align="left">Assigned To: </Typography>
+                  <Typography  variant="subtitle" align="right">{ data.response.agent?data.response.agent.name:"None"} </Typography>
+                </Grid>
+              </div>
+            {(data.response.order_status!=='ASSIGN_TO_AGENT')}
+              <div>
+              </div>
+
+              {(data.response.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
+                  <Box p={1}>
+                     <Button variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
+                  </Box>
+              </div>)}
 
           </Paper>
-        </Grid>
+            </Grid>
+        )}
+
        </Grid>
     </div>
 
@@ -472,8 +563,7 @@ useEffect(() => {
       </form>
       </Dialog>
 
-
-
+{/* Comments got agent doing  :::; ;::: ;:: ;: :: */}
     <Dialog
         fullWidth
         style={{minHeight:"600px"}}
@@ -506,20 +596,15 @@ useEffect(() => {
           )}
           />
           <br></br>
-         <TextField id="outlined-multiline-static"  label="Comments"
-          multiline  fullWidth  rowsMax={10}  rows={5} placeholder="write you comments here"
+          <TextField
+          id="outlined-multiline-static"
+          label="Comment"
+          onChange={(e) => setCommentText(e.target.value)}
+          multiline
+          style={{width:'40ch'}}
+          rows={4}
           variant="outlined"
         />
-        <FormControlLabel
-        control={
-          <Checkbox
-            checked={true}
-            name="canView"
-            color="primary"
-          />
-        }
-        label="Viewable by all users"
-      />
 
       </FormControl>
 

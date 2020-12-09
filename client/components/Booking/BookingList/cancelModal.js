@@ -43,7 +43,7 @@ const CancelModal = ({ id, duration })  => {
        })
   }
 
- 
+
   const handleOpen = () => {
     cancellationCharge()
     setOpen(true);
@@ -53,6 +53,7 @@ const CancelModal = ({ id, duration })  => {
     setOpen(false);
   };
 
+console.log(duration)
   const cancellationCharge = () => {
         if(duration<0){
           return setCancellation({ timeLeft: duration, msg:"no refund"})

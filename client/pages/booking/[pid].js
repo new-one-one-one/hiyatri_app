@@ -20,6 +20,7 @@ import { getCookie } from '../../actions/auth';
 
 const TrainBooking = ({ data, query }) => {
   const booking = new BookingClass();
+ 
   booking.addBooking(data)
   return <>
            {head()}

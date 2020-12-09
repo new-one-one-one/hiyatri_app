@@ -737,7 +737,7 @@ const passengerBill = () => {
 
 
 const porterBill = () => {
-      if(!state.porter_service_detail.porter_service_opted){
+      if(!(state && state.porter_service_detail && state.porter_service_detail.porter_service_opted)){
         return 0;
       }
       let bill = [];
@@ -749,7 +749,7 @@ const porterBill = () => {
 
 
 const baggageBill = () => {
-  if(!state.porter_service_detail.baggage_garanteed.baggage_garanteed_opted){
+  if(!(state && state.porter_service_detail && state.porter_service_detail.baggage_garanteed && state.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)){
     return 0;
   }
   let bill = [];

@@ -2,7 +2,7 @@ import {TextField,InputAdornment} from '@material-ui/core';
 
 const PassengerContactInformation = ({ handleChange, data, register, errors }) => {
 return <>
-  <div className="contact-Information">
+  <div className="contact-Information shadow">
       <table>
         <thead>
           <tr>

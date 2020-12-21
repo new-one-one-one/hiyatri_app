@@ -22,8 +22,16 @@
 .MuiSwitch-colorPrimary.Mui-checked{
   color: #50c8dc!important;
 }
+
+.MuiFormControlLabel-root {
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+}
 .MuiList-padding{
   padding-top: 0px!important;
+}
+.MuiPaper-root{
+ box-shadow: 0px 0px 0px -0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0)!important;
 }
 button:focus {
     outline: 0px dotted!important;
@@ -76,11 +84,10 @@ body{
 
 
  table td{
-
      padding:2% !important;
      border-left:1px solid #8588AA;
      border-bottom: 1px solid #8588AA;
-     border-right: 1px solid #8588AA;
+     border: 1px solid #8588AA;
      width: 120px ;
  }
 
@@ -575,11 +582,11 @@ color: #2a306c;
 
 
  .main-div {
-   flex-direction: column;
-   flex-flow: column;
+   /* flex-direction: column;
+   flex-flow: column; */
    /* padding-top: 100px; */
-   min-height: 100%;
-   background-color: #f2f2f2;
+   /* min-height: 100%; */
+   /* background-color: #f2f2f2; */
  }
 
 
@@ -637,10 +644,10 @@ color: #2a306c;
  .booking-Information{
      padding:1% !important;
      border-radius: 10px;
-     box-shadow: 0px 0px 12px grey ;
+     /* box-shadow: 0px 0px 12px grey ; */
      margin:2% 0% 2% 0%;
      padding-top:1% ;
-     background-color: white;
+     /* background-color: white; */
      overflow-x: auto;
  }
 
@@ -648,10 +655,10 @@ color: #2a306c;
  .contact-Information{
      padding:1% !important;
      border-radius: 10px;
-     box-shadow: 0px 0px 12px  grey ;
+     /* box-shadow: 0px 0px 12px  grey ; */
      margin:2% 0% 4% 0%;
      padding-top:1% ;
-     background-color: white;
+     /* background-color: white; */
      overflow-x: auto;
  }
 
@@ -659,10 +666,10 @@ color: #2a306c;
  .Passenger-Details{
      padding:2% !important;
      border-radius: 10px;
-     box-shadow: 0px 0px 12px  grey ;
+     /* box-shadow: 0px 0px 12px  grey ; */
      margin:2% 0% 4% 0%;
      padding-top:1% ;
-     background-color: white;
+     /* background-color: white; */
      overflow-x: auto;
  }
 
@@ -686,16 +693,27 @@ color: #2a306c;
  /* porter Service */
 
 
- .porter-Service{
+ .porter-container{
      padding:1% !important;
      border-radius: 10px;
-     box-shadow: 0px 0px 12px  grey ;
-     margin:2% 0% 4% 0%;
+     /* box-shadow: 0px 0px 12px  grey ; */
+     /* margin:2% 0% 4% 0%; */
      padding-top:1% ;
+     margin-top: 30px;
      background-color: white;
      overflow-x: auto;
  }
 
+ .porter-service{
+     padding:1% !important;
+     border-radius: 10px;
+     /* box-shadow: 0px 0px 12px  grey ; */
+     margin:2% 0% 4% 0%;
+     padding-top:1% ;
+     margin-top: 30px;
+     /* background-color: white; */
+     overflow-x: auto;
+ }
 
 
 
@@ -779,13 +797,14 @@ color: #2a306c;
      margin-left: 0.1%;
    }
 
-
+   .order-title{
+     padding-left: 5%!important;
+   }
 
 @media (min-width:767px) {
-  .order-container{
-    padding-top: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
+  .order-title{
+    font-weight: 600;
+    padding-left: 5%!important;
   }
 }
 
@@ -794,7 +813,7 @@ color: #2a306c;
           Footer
   ------------------ */
 .footer{
-  margin-top: 20px;
+  margin-top: 100px;
   padding: 25px 10px 10px 10px;
   width: 100%;
   /* height: 157px; */
@@ -1031,4 +1050,38 @@ color: #2a306c;
 ---------------- */
 .cm-title{
   font-size: 20px;
+}
+
+
+
+
+.o-services-title{
+
+ margin: 20px 0px 20px 0px;
+ font-family: HelveticaNeue;
+ font-size: 14px;
+ font-weight: 600;
+ font-stretch: normal;
+ font-style: normal;
+ line-height: 1.19;
+ letter-spacing: 0.8px;
+ text-align: left;
+
+}
+.o-terms-condition{
+font-size: 13px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+letter-spacing: 0.8px;
+text-align: left;
+color: #00c4ff;
+}
+.o-booknow-btn{
+ width: 100%;
+ height: 45px;
+ background-color: #00c4ff!important;
+ color: white!important;
+ margin: 24px 5px 0 8px;
+ object-fit: contain;
 }

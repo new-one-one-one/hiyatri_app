@@ -84,8 +84,8 @@ module.exports.verify_otp = async (req, res) => {
               error: err
             })
           }
-          const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-          res.cookie('token', token, { expiresIn: '1d' });
+          const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+          res.cookie('token', token, { expiresIn: '7d' });
           const user = { _id: data._id, phone_number: data.phone_number, user_type: data.user_type}
           return res.status(200).json({
              message: "Verified successfuly",
@@ -94,8 +94,8 @@ module.exports.verify_otp = async (req, res) => {
           })
         })
       }
-      const token = jwt.sign({ _id: result._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-      res.cookie('token', token, { expiresIn: '1d' });
+      const token = jwt.sign({ _id: result._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      res.cookie('token', token, { expiresIn: '7d' });
       const user = { _id: result._id, phone_number: result.phone_number, user_type: result.user_type }
       return res.status(200).json({
            message: "Verified successfuly",

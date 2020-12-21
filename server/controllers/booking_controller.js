@@ -22,12 +22,10 @@ module.exports.get_booking_by_id = (req, res) => {
 }
 
 
-
 var ObjectId = require('mongoose').Types.ObjectId;
 
 f = (result) =>{
   const data = [];
-  console.log("f called")
    result.forEach((r)=>{
               Booking.findById({"_id":ObjectId(r.booking)}, (err, new_result)=>{
                 new_result["order_status"]=r.order_status;

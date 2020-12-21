@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
   export const create_order = (order,orderId, token) => {
-    // console.log(order)
     return fetch(`${process.env.NEXT_PUBLIC_API}/order/create`, {
         method: 'POST',
         headers: {
@@ -16,6 +15,25 @@ import fetch from 'isomorphic-fetch';
         })
         .catch(err => console.log(err));
   };
+
+
+  export const modify_order = (data,original,token) => {
+    console.log(original)
+    return fetch(`${process.env.NEXT_PUBLIC_API}/order/modify`, {
+        method: 'POST',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ data, original})
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+  };
+
 
 
   export const order_list = (token) => {
@@ -63,7 +81,6 @@ import fetch from 'isomorphic-fetch';
         })
         .catch(err => console.log(err));
   };
-
 
 
   export const verify_order = (data, token) => {

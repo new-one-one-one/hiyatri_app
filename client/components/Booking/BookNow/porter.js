@@ -4,7 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 const PorterService = ({ handleChange, state }) => {
   return <>
-          <div className="porter-Service">
+          <div className="porter-service shadow">
           <table>
             <thead>
                 <tr>

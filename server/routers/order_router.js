@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { create_order,
+        modify_order,
         verify_order,
         get_all_orders,
         assign_agent,
@@ -22,9 +23,11 @@ const { requireSignin,
 // User Routes
 router.post("/order/create", create_order);
 router.post('/order/verify', verify_order);
+router.post('/order/modify', modify_order);
 router.post('/order/cancel/:orderId', cancel_order);
 router.patch('/order/update/:orderId/:order_status', update_order_status);
 router.get('/order/get/single/:order_id', get_single_order_by_id);
+
 
 //Admin Routes
 router.get('/order/list',  get_all_orders);

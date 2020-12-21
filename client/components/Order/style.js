@@ -6,10 +6,10 @@ const useStyles = makeStyles(Theme =>
       flexGrow: 1,
     },
     outerPass:{
-    border:"2px solid #283593",
-    borderRadius:"10px",
+    border:"1px solid #283593",
+    borderRadius:"5px",
     margin:"10px 0px 20px 0px",
-    padding:"20px 10px 20px 10px"
+    padding:"10px 10px 10px 10px"
     },
     AppBarColor:{
       background:"#000066"
@@ -49,9 +49,9 @@ const useStyles = makeStyles(Theme =>
       width:"600px",
       minWidth:"400px",
       maxWidth:"1000px",
-      WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
-      MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
-      boxShadow:"2px 2px 2px 2px #9E9E9E"
+      // WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
+      // MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
+      // boxShadow:"2px 2px 2px 2px #9E9E9E"
     },
     particularOrder: {
       flex:1,
@@ -60,41 +60,52 @@ const useStyles = makeStyles(Theme =>
       marginBottom:"3%",
       paddingLeft:"5px",
       paddingRight:"5px",
-    border:"2px solid #283593",
-      borderWidth:"1.5px",
+      borderRadius:"0px 0px 5px 5px",
+      borderRight:"1px solid #283593",
+      borderLeft:"1px solid #283593",
+      borderBottom:"1px solid #283593",
       paddingBottom:"10px",
-      paddingTop:"10px"
+      paddingTop:"15px"
     },
     innerDetails:{
       padding:"4px 8px 1px 5px",
-      color:"grey",
-    },
-    promocode:{
-      WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
-      MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
-      boxShadow:"2px 2px 2px 2px #9E9E9E",
-      paddingTop:"10px",
-      // maxHeight:"50px",
-      minHeight:"50px",
-      paddingLeft:"2px",
+
+      opacity: "0.75",
+      fontFamily: "HelveticaNeue",
+
+      fontWeight: "normal",
+      fontStretch: "normal",
+      fontStyle: "normal",
+      lineHeight: "1.13",
+      letterSpacing: "normal",
+      textAlign: "left"
 
     },
+    // promocode:{
+    //   WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
+    //   MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
+    //   boxShadow:"2px 2px 2px 2px #9E9E9E",
+    //   paddingTop:"10px",
+    //   // maxHeight:"50px",
+    //   minHeight:"50px",
+    //   paddingLeft:"2px",
+    //
+    // },
 
     orderFull:{
-      WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
-      MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
-      boxShadow:"2px 2px 2px 2px #9E9E9E",
+      // WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
+      // MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
+      // boxShadow:"2px 2px 2px 2px #9E9E9E",
       borderRadius:"10px",
-
-
-
     },
+
     Services :{
-      WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
-      MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
-      boxShadow:"2px 2px 2px 2px #9E9E9E",
+      // WebkitBoxShadow:"2px 2px 2px 2px #9E9E9E",
+      // MozBoxShadow :"2px 2px 2px 2px #9E9E9E",
+      // boxShadow:"2px 2px 2px 2px #9E9E9E",
       paddingTop:"10px",
       paddingBottom:"5px",
+      marginBottom:'10px',
       borderRadius:"10px",
     },
 
@@ -102,10 +113,16 @@ const useStyles = makeStyles(Theme =>
       padding:"10px 8px 2px 5px",
       color:"#000066",
     },
-    headingPart:{
+    headingPart1:{
       borderRadius:"4px 4px 0px 0px",
       marginLeft:"2%",
       marginRight:"2%",
+      backgroundColor:"#2a306c",
+      color:"white"
+    },
+    headingPart2:{
+      padding:"15px 25px 15px 25px",
+      borderRadius:"4px 4px 0px 0px",
       backgroundColor:"#2a306c",
       color:"white"
     },

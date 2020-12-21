@@ -8,7 +8,7 @@ const BookingInformation = ({ data, query }) => {
   const departure = query.pid === "departure";
 
   return (
-    <div className="booking-Information">
+    <div className="booking-Information shadow">
       <table>
         <thead>
           <tr>

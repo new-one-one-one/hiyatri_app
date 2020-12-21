@@ -15,6 +15,7 @@ const ModifyOrder = ({ data, query }) => {
   useEffect(() => {
      single_order_by_id(query.order_id)
        .then(response => {
+         console.log('modify_order', response.response)
            setOrder(response.response)
        })
        .catch((err) => {

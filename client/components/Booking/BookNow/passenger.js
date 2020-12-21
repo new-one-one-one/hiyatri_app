@@ -91,7 +91,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
         }
 
   return <>
-          <div className="Passenger-Details">
+          <div className="Passenger-Details shadow">
               <table>
                 <thead>
                   <tr>

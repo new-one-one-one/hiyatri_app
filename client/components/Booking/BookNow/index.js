@@ -1,6 +1,6 @@
-import BookingInformation from "./bookingInformation";
-import PassengerInformation from "./passengerContact";
-import PassengerDetails from "./passengerDetails";
+import BookingInformation from "./booking";
+import PassengerInformation from "./contact";
+import PassengerDetails from "./passenger";
 import PorterService from "./porter";
 import CabService from "./cab";
 import { useReducer, useEffect } from "react";
@@ -27,7 +27,6 @@ const capitalize = (s) => {
 if (typeof s !== 'string') return ''
 return s.charAt(0).toUpperCase() + s.slice(1)
 }
-
 
 
 const getServiceAmount = (service_name, category) => {
@@ -703,6 +702,7 @@ const handleChange = (value1, value2) => e => {
   }
 }
 
+// console.log(state.porter_service_detail.porter_service_opted)
 
 
 const bookingFromLS = () => {
@@ -849,9 +849,9 @@ return <>
 
                       <span>Porter Service</span>
                       <Switch
-                      disabled={false}
+                      color="primary"
                       onChange={handleChange("porter_service_opted")}
-                      value={state.porter_service_detail.porter_service_opted} />
+                      checked={state.porter_service_detail.porter_service_opted} />
 
                       {state.porter_service_detail.porter_service_opted && <PorterService
                       state={state}

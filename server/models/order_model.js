@@ -50,13 +50,9 @@ const orderSchema = mongoose.Schema({
      type:String,
      default:null
    },
-   razorpay_refund_id:{
-     type:String,
-     default:null
-   },
-   is_modified:{
-     type: Boolean,
-     default: false
+   modified_attempt: {
+    type: Number,
+    default:0
    },
    del_flag:{
      type:Boolean,

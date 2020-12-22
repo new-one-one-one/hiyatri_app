@@ -201,63 +201,11 @@ body{
 /* ---------------
  Homepage styling
  ---------------- */
- .hp-curve{
-   background-color:#30336B;
-   height:250px;
-   border-radius:0% 0% 50% 50% / 0% 0% 52% 52%
- }
-.hp-welcome{
-  position:absolute;
-  top:80px;
-  left:7%;
-  right:7%;
-  padding: 18px;
-  border-radius: 20px;
-  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
-  background-color: #ffffff;
-  z-index: 1000;
-}
 
-.hp-welcome-inner{
-  /* min-height: 260px; */
-}
-.hp-welcome-text-c{
-  text-align: center;
-  padding-top: 80px;
-}
-.hp-sub-1{
-  font-size: 20px;
-  font-weight: 500;
-  color: white;
-}
 
-.hp-sub-2{
-  font-size: 14px;
-  font-weight: 600;
-  color: #d9d9d9;
-}
 
-@media (min-width:767px) {
-  .hp-welcome-text-c{
-    text-align: center;
-    padding-top: 20px;
-  }
-  .hp-welcome-inner{
-    border-radius: 20px;
-    height: 400px;
-    box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
-    background-image: url('/images/home_welcome.gif');
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity:1;
-    border-radius: 20px;
-  }
-}
-@media (max-width: 767px) {
-  .hp-welcome{
-    /* min-height:400px; */
-  }
-}
+
+
 
 .hp-mg{
   margin-top: 260px;
@@ -348,24 +296,9 @@ body{
   font-weight: 600;
   letter-spacing: 0.66px
 }
-.hp-loader{
-  position: fixed;
-  top:40%;
-  z-index: 2000;
-  left: 40%;
-}
 
+ 
 
-.hp-continue-btn{
-  position: absolute;
-  bottom: -10px;
-}
-.hp-mb-continue-btn{
-  position: absolute;
-  left: 30%;
-  right: 30%;
-  bottom: -20px;
-}
 
 @media (min-width:767px) {
   .hp-inp-outer{
@@ -396,29 +329,7 @@ body{
   font-weight: bold!important;
   padding: 10px 30px 10px 30px!important;
 }
-@media (max-width:767px) {
-  .hp-inpt-btn-c{
-    left: 30%;
-  }
-  .hp-welcome{
-  position:absolute;
-  /* top:80px; */
-  left:10px;
-  right:10px;
-  padding: 10px;
-  border-radius: 20px 20px 0px 0px;
-  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
-  /* background-color: #ffffff; */
-  /* z-index: 1100; */
-  }
-}
-.mb-hp-welcome{
-    background-image: url('/images/home_welcome_mobile.gif');
-    width: 100%!important;
-    border-radius: 10px;
-    background-position: center;
-    height: 230px!important;
-}
+
 .hp-mg-container{
   margin-top: 330px;
 }
@@ -933,10 +844,6 @@ color: #2a306c;
   background-color: #ffffff;
 }
 
-#btns-text{
-  text-transform: none;
-}
-
 @media (max-width:767px) {
   .bd-agent-container{
     margin-top: 20px;
@@ -1049,220 +956,12 @@ color: #2a306c;
 }
 
 
-/* ------------------------------ */
-/* ------F I L T E R S----------- */
-/* ------------------------------ */
-
-.filters-container{
-  height: 40px;
-  display: flex;
-  margin-top: 50px;
-  background-color: silver;
-}
-
-
-.filters{
-  margin-left: 20%;
-}
-
-.filter-btn{
-  text-align: left;
-
-  box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
-  background-color:#00C4FF;
-  color: white;
-  letter-spacing: 0.3ex;
-  font-size: 18px;
-  border:none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 40px;
-  width: 320px;
-}
-
-.filter-status{
-  padding-left: 20px;
-}
-
-.filter-content{
-  display: none;
-  position: absolute;
-  min-width: 300px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-
-}
-
-
-.filter-content button{
-  color: black;
-  padding: 20px 20px;
-  text-decoration: none;
-  display: block;
-}
-
-.filter-content button:hover{
-  background-color: #000066;
-  color: white;
-}
-
-.filters:hover .filter-content{
-  display: block;
-}
-
-.filter-option{
-  width: 300px;
-  border:none;
-  height: 38px;
-  line-height: 5px;
-}
-
-.filter-option:active:after .filter-content{
-  display: none;
-}
-
-
-.filters-1{
-  margin-left: 100px;
-
-}
-
-
-.filter-btn-1{
-  text-align: left;
- box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
-  background-color:#00C4FF;
-  color: white;
-  letter-spacing: 0.3ex;
-  font-size: 18px;
-  border:none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 40px;
-  width: 200px;
-}
-
-.filter-status-1{
-  padding-left: 5px;
-}
-
-.filter-content-1{
-  display: none;
-  position: absolute;
-  min-width: 200px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-
-}
-
-
-.filter-content-1 button{
-  color: black;
-  padding: 20px 20px;
-  text-decoration: none;
-  display: block;
-}
-
-.filter-content-1 button:hover{
-  background-color: #000066;
-  color: white;
-}
-
-.filters-1:hover .filter-content-1{
-  display: block;
-}
-
-.filter-option-1{
-  width: 200px;
-  border:none;
-  height: 38px;
-  line-height: 5px;
-}
-
-.filter-option-1:active:after .filter-content-1{
-  display: none;
-}
-
-
-
-.filters-2{
-  margin-left: 100px;
-}
-
-.filter-btn-2{
-  text-align: left;
-  box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
-  background-color:#00C4FF;
-  color: white;
-  letter-spacing: 0.3ex;
-  font-size: 18px;
-  border:none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 40px;
-  width: 250px;
-}
-
-.filter-status-2{
-  padding-left: 20px;
-}
-
-.filter-content-2{
-  display: none;
-  position: absolute;
-  min-width: 200px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-
-}
-
-
-.filter-content-2 button{
-  color: black;
-  padding: 20px 20px;
-  text-decoration: none;
-  display: block;
-}
-
-.filter-content-2 button:hover{
-  background-color: #000066;
-  color: white;
-  width: auto;
-}
-
-.filters-2:hover .filter-content-2{
-  display: block;
-}
-
-.filter-option-2{
-  width: auto;
-  min-width: 200px;
-    border:none;
-  height: 38px;
-  line-height: 5px;
-  text-align: center;
-}
-
-.filter-option-2:active:after .filter-content-2{
-  display: none;
-}
-
-
-
-
 /* --------------
    Cancel Modal
 ---------------- */
 .cm-title{
   font-size: 20px;
 }
-
 
 
 
@@ -1297,8 +996,3 @@ color: #00c4ff;
  margin: 24px 5px 0 8px;
  object-fit: contain;
 }
-
-.reEnter-action{
-  marginTop:"200px"
-}
- 

@@ -360,7 +360,11 @@ useEffect(() => {
   //   })
 },[])
 
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 90e29fcba2b33466264d04c8017e595c43e500fc
 return <>
         <ToastContainer />
          <div className="main-div">

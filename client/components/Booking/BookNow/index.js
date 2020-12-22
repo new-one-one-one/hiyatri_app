@@ -18,7 +18,9 @@ import { singleUser } from "../../../actions/user";
 import {useForm} from 'react-hook-form';
 
 
-const TrainBooking = ({ data, query, modify, order }) => {
+const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
+  console.log(data, query, pnrWorked);
+
 const theme = useTheme();
 const token = getCookie('token');
 const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -79,9 +81,6 @@ const getServiceAmount = (service_name, category) => {
           }
     }
 }
-
-
-
 
 const initialData = {
   user: "",
@@ -800,6 +799,7 @@ useEffect(() => {
 useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
 },[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
+
 
 
 

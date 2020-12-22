@@ -175,7 +175,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data }) => {
-  console.log(data, "fata got")
+
+
+
   const width= 900;
   const classes = useStyles();
   const [agents, setAgents] = useState([]);
@@ -192,8 +194,8 @@ const BookingDetail = ({ data }) => {
   };
  const {register,handleSubmit } = useForm();
 
-
   const assignToAgent = (e) => {
+
     let orderId = data.response._id;
      assign_agent(orderId, assignee, token)
         .then(response => {
@@ -461,13 +463,14 @@ const displayPorterServiceDetails = (porter) =>{
                       </AccordionDetails>
                     </Accordion>
                   )
+
              })}
 
               <Divider/>
               <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="body1"  align="right">
-                  <Button variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
+                  <Button  id="btns-text" variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
                         Add Comment
                     </Button>
                   </Typography>
@@ -477,7 +480,7 @@ const displayPorterServiceDetails = (porter) =>{
 
             <br></br>
         </Grid>
-
+ 
 
         {(data.response.order_status!=='COMPLETED') && (
             <Grid item xs={12} sm={3}>
@@ -514,6 +517,7 @@ const displayPorterServiceDetails = (porter) =>{
                      <Button variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
                   </Box>
               </div>)}
+
 
           </Paper>
             </Grid>

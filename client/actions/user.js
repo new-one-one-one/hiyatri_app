@@ -63,3 +63,4 @@ export const removeUser = (contact,token) => {
         })
         .catch(err => console.log(err));
 }
+

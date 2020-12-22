@@ -2,9 +2,6 @@
 /* -------------
  General styling
  -------------- */
- .k-header{
-   color: white!important;
- }
  .MuiAppBar-root{
   background-color: #2a306c!important;
   z-index: 5000!important;
@@ -21,10 +18,6 @@
 }
 .MuiSwitch-colorPrimary.Mui-checked{
   color: #50c8dc!important;
-}
-button:focus {
-    outline: 0px dotted!important;
-    outline: 0px auto -webkit-focus-ring-color!important;
 }
 a{
   color: black!important;
@@ -112,12 +105,12 @@ body{
   pointer-events: none;
 }
 #nprogress .bar {
-  background: white;
+  background: #29d;
   position: fixed;
-  z-index: 9031;
+  z-index: 1031;
   top: 0;
   left: 0;
-  border: 1px solid dodgerblue!important;
+  border: 1px solid #29d!important;
   width: 100%;
   height: 1px!important;
 }
@@ -127,7 +120,7 @@ body{
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px white, 0 0 5px white;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
   opacity: 1.0;
   -webkit-transform: rotate(3deg) translate(0px, -4px);
       -ms-transform: rotate(3deg) translate(0px, -4px);
@@ -136,17 +129,17 @@ body{
 #nprogress .spinner {
   display: block;
   position: fixed;
-  z-index: 8031;
+  z-index: 1031;
   top: 15px;
   right: 15px;
 }
 #nprogress .spinner-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   box-sizing: border-box;
   border: solid 1px transparent;
-  border-top-color: white;
-  border-left-color: white;
+  border-top-color: #29d;
+  border-left-color: #29d;
   border-radius: 50%;
   -webkit-animation: nprogress-spinner 400ms linear infinite;
           animation: nprogress-spinner 400ms linear infinite;
@@ -310,7 +303,7 @@ body{
   min-width: 300px!important;
   padding:10px!important;
   background-color: white;
-  height: 180px!important;
+  height: 230px!important;
   border-radius: 10px;
   box-shadow: #E9ECEE .6px 0.3rem 0.5rem 0rem;
 }
@@ -320,11 +313,8 @@ body{
     box-shadow: white 0px 0px 0px 0px!important;
   }
 }
+.hp-inp-outer{
 
-@media (max-width:767px) {
-  .hp-inp-outer{
-      padding-bottom: 60px;
-  }
 }
 .hp-heading{
   font-size: 28px;
@@ -343,18 +333,6 @@ body{
   top:40%;
   z-index: 2000;
   left: 40%;
-}
-
-
-.hp-continue-btn{
-  position: absolute;
-  bottom: -10px;
-}
-.hp-mb-continue-btn{
-  position: absolute;
-  left: 30%;
-  right: 30%;
-  bottom: -20px;
 }
 
 @media (min-width:767px) {
@@ -911,10 +889,6 @@ color: #2a306c;
   background-color: #ffffff;
 }
 
-#btns-text{
-  text-transform: none;
-}
-
 @media (max-width:767px) {
   .bd-agent-container{
     margin-top: 20px;
@@ -941,7 +915,6 @@ color: #2a306c;
      Login
 ----------------- */
 .lg-container{
-  border-bottom: 5px solid #4b5692;
   box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
   text-align: center;
   padding: 10px!important;
@@ -972,11 +945,7 @@ color: #2a306c;
 }
 
 .buttonUserAdd{
-  background-color: #00C4FF!important;
-  color: white!important;
-  font-weight: bold!important;
-  padding: 10px 30px 10px 30px!important;
-  /* font-size: 3ex; */
+  font-size: 3ex;
 }
 
 .usersListposition{
@@ -1010,7 +979,7 @@ color: #2a306c;
   margin-left:"10%";
   margin-right:"10%";
   min-width: 400;
-
+  
 }
 .all-booking-pos  {
   margin-bottom: 12;
@@ -1024,223 +993,4 @@ color: #2a306c;
   position:"center";
   padding-left:"15%";
   padding-right:"15%";
-}
-
-
-/* ------------------------------ */
-/* ------F I L T E R S----------- */
-/* ------------------------------ */
-
-.filters-container{
-  height: 40px;
-  display: flex;
-  margin-top: 50px;
-  background-color: silver;
-}
-
-
-.filters{
-  margin-left: 20%;  
-}
-
-.filter-btn{
-  text-align: left;
-
-  box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
-  background-color:#00C4FF;
-  color: white;
-  letter-spacing: 0.3ex;
-  font-size: 18px;
-  border:none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 5px; 
-  height: 40px;
-  width: 320px;
-}
-
-.filter-status{
-  padding-left: 20px;
-}
-
-.filter-content{
-  display: none;
-  position: absolute;
-  min-width: 300px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-
-}
-
-
-.filter-content button{
-  color: black;
-  padding: 20px 20px;
-  text-decoration: none;
-  display: block;
-}
-
-.filter-content button:hover{
-  background-color: #000066;
-  color: white;
-}
-
-.filters:hover .filter-content{
-  display: block;
-}
-
-.filter-option{
-  width: 300px;
-  border:none;
-  height: 38px;
-  line-height: 5px;
-}
-
-.filter-option:active:after .filter-content{
-  display: none;
-}
-
-
-.filters-1{
-  margin-left: 100px;
-
-}
-
-
-.filter-btn-1{
-  text-align: left;
- box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
-  background-color:#00C4FF;
-  color: white;
-  letter-spacing: 0.3ex;
-  font-size: 18px;
-  border:none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 5px; 
-  height: 40px;
-  width: 200px;
-}
-
-.filter-status-1{
-  padding-left: 5px;
-}
-
-.filter-content-1{
-  display: none;
-  position: absolute;
-  min-width: 200px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-
-}
-
-
-.filter-content-1 button{
-  color: black;
-  padding: 20px 20px;
-  text-decoration: none;
-  display: block;
-}
-
-.filter-content-1 button:hover{
-  background-color: #000066;
-  color: white;
-}
-
-.filters-1:hover .filter-content-1{
-  display: block;
-}
-
-.filter-option-1{
-  width: 200px;
-  border:none;
-  height: 38px;
-  line-height: 5px;
-}
-
-.filter-option-1:active:after .filter-content-1{
-  display: none;
-}
-
-
-
-.filters-2{
-  margin-left: 100px;  
-}
-
-.filter-btn-2{
-  text-align: left;
-  box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
-  background-color:#00C4FF;
-  color: white;
-  letter-spacing: 0.3ex;
-  font-size: 18px;
-  border:none;
-  outline: none;
-  cursor: pointer;
-  border-radius: 5px; 
-  height: 40px;
-  width: 250px;
-}
-
-.filter-status-2{
-  padding-left: 20px;
-}
-
-.filter-content-2{
-  display: none;
-  position: absolute;
-  min-width: 200px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-
-}
-
-
-.filter-content-2 button{
-  color: black;
-  padding: 20px 20px;
-  text-decoration: none;
-  display: block;
-}
-
-.filter-content-2 button:hover{
-  background-color: #000066;
-  color: white;
-  width: auto;
-}
-
-.filters-2:hover .filter-content-2{
-  display: block;
-}
-
-.filter-option-2{
-  width: auto;
-  min-width: 200px;
-    border:none;
-  height: 38px;
-  line-height: 5px;
-  text-align: center;
-}
-
-.filter-option-2:active:after .filter-content-2{
-  display: none;
-}
-
-
-
-
-/* --------------
-   Cancel Modal
----------------- */
-.cm-title{
-  font-size: 20px;
-}
-
-.reEnter-action{
-  marginTop:"200px"
 }

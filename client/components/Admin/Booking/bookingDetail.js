@@ -169,6 +169,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data }) => {
+  
   const width= 900;
   const classes = useStyles();
   const [agents, setAgents] = useState([]);
@@ -184,8 +185,6 @@ const BookingDetail = ({ data }) => {
     setExpanded(isExpanded ? panel : false);
   };
  const {register,handleSubmit } = useForm();
-
-
   const assignToAgent = () => {
     let orderId = data.response._id;
      assign_agent(orderId, assignee, token)
@@ -293,9 +292,6 @@ useEffect(() => {
                       <Box p={1} width="100%">
                         BOOKING-ID : {data.response.booking.booking_id}
                       </Box >
-                      <Box p={1}>
-                        Pending
-                      </Box>
             </Box>
 
              <Paper variant="outlined" className={classes.particularOrder}>
@@ -385,7 +381,7 @@ useEffect(() => {
              {commentList.map((comment)=>{
               return (
 
-              <Accordion expanded={expanded === comment.comment_by} onChange={changeDropDown(comment.comment_by)}>
+              <Accordion expanded={expanded === comment.created_at} onChange={changeDropDown(comment.created_at)}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1bh-content" id="panel1bh-header"
                 >
                  <Grid container xs={12} justify="space-between">
@@ -406,7 +402,7 @@ useEffect(() => {
               <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="body1"  align="right">
-                  <Button variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
+                  <Button  id="btns-text" variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
                         Add Comment
                     </Button>
                   </Typography>
@@ -419,11 +415,12 @@ useEffect(() => {
 
         <Grid item xs={12} sm={3}>
           <Paper className={classes.promocode}>
+                
                 <Box p={1}>
-                  <Button variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
+                   <Button id="btns-text" variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
                 </Box>
                 <Box p={1}>
-                   <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
+                  <Button id="btns-text" variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
                 </Box>
 
           </Paper>

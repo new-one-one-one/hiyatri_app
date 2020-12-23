@@ -92,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
       setShowSpinner(true)
        get_details_by_pnr(state.pnr_number)
         .then(response => {
+          console.log(response)
           setShowSpinner(false);
           if(response.status==="error"){
             return toast.error(response.message)

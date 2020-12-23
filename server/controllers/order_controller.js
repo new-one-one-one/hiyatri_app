@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 const request = require('request');
 const moment = require("moment");
+const { send_email } = require('../utils/sendEmail');
 
 //Create an instace of razorpay
 var razorpay = new Razorpay({
@@ -23,7 +24,6 @@ const pad = (number, length) => {
     }
     return str;
 }
-
 
 
 // CREATE PAYMENT
@@ -128,6 +128,7 @@ module.exports.create_order = async (req,res) => {
                           error: err
                         })
                       }
+                      send_email('mailmeaktiwari@gmail.com', 'TEST', 'test', '<a>Test</a>').catch(console.error)
                       return res.status(200).json({
                         _id: rzp_order.id,
                         message: "Order created successfuly"

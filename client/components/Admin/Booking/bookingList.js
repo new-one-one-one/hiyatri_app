@@ -54,7 +54,7 @@ const EditCommandCell = props => {
 
 const BookingList = ({ list }) => {
     const classes = useStyles();
-  const [state, setState] = useState({});
+  const [state, setState] = useState();
   const [filter_type , filterData] = useState("DISPLAY_All");
   const [booking_type, setBooking] = useState("All");
   const [agent_name, setAgent] = useState("All_AGENTS");
@@ -97,12 +97,13 @@ const BookingList = ({ list }) => {
     }
   }
 
+
     useEffect(() => {
         setState(createState(0, 10))
     },[list, filter_type, booking_type, agent_name])
 
 
-    // Fetching agent list
+
     useEffect(()=>{
         agent_list(token)
             .then(response => {
@@ -122,88 +123,92 @@ const BookingList = ({ list }) => {
   const MyEditCommandCell = props => (
             <EditCommandCell {...props} />
         );
+  const FilterBooking = () => {
+     return <div style={{ width: '100%' }}>
+      <Box display="flex" p={1} bgcolor="background.paper">
+          <Box p={1} width="20%">
+              <Typography variant="body2"> <FilterListIcon />  Filter </Typography>
+          </Box>
+          <Box p={1} width="45%">
+           <FormControl className={classes.formControl}>
+              <Typography variant="body2">
+                  <span style={{color:"grey", fontSize:"15px"}}>Booking Type: </span>
+                  <Select value={booking_type}  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
+                      <MenuItem value="" disabled>
+                      Select
+                      </MenuItem>
+                      <MenuItem value="All"> <button className="filter-option" onClick={()=>setBooking("All")} >All</button>  </MenuItem>
+                      <MenuItem value="Arrival"><button className="filter-option" onClick={()=>setBooking("Arrival")} >Arrival</button></MenuItem>
+                      <MenuItem value="Departure"> <button className="filter-option" onClick={()=>setBooking("Departure")} >Departure</button></MenuItem>
+                  </Select>
+              </Typography>
+
+              </FormControl>
+
+          </Box>
+          <Box p={1} width="50%">
+              <FormControl className={classes.formControl}>
+              <Typography variant="body2">
+
+              <span style={{color:"grey", fontSize:"15px"}}>Status:  </span>
+              <Select value={filter_type}
+               displayEmpty
+               style={{width:"200px", fontSize:"2ex"}}
+               disableUnderline inputProps={{ 'aria-label': 'Without label' }}
+               >
+                  <MenuItem value="" disabled>Booking Status</MenuItem>
+                  <MenuItem value="DISPLAY_All"><button className="filter-option" onClick={()=>filterData("DISPLAY_All")} >All</button>    </MenuItem>
+                  <MenuItem value="ASSIGN_TO_AGENT"> <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_AGENT")} >ASSIGN_TO_AGENT</button></MenuItem>
+                  <MenuItem value="COMPLETED"><button className="filter-option" onClick={()=>filterData("COMPLETED")} >COMPLETED</button></MenuItem>
+                  <MenuItem value="CANCELLED"><button className="filter-option" onClick={()=>filterData("CANCELLED")}>CANCELLED</button></MenuItem>
+                  <MenuItem value="ASSIGN_TO_ADMIN"><button className="filter-option" onClick={()=>filterData("ASSIGN_TO_ADMIN")}>ASSIGN_TO_ADMIN</button></MenuItem>
+              </Select>
+              </Typography>
+
+              </FormControl>
+          </Box>
+
+          <Box p={1} width="60%">
+          <FormControl className={classes.formControl}>
+              <Typography variant="body2">
+              <span style={{color:"grey", fontSize:"15px"}}>Assinged To : </span>
+              <Select value={agent_name}  displayEmpty style={{width:"200px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
+              <MenuItem value="All_AGENTS">
+                  <button className="filter-option" onClick={()=>setAgent("All_AGENTS")} >
+                      All Agents
+                  </button>
+              </MenuItem>
+                  {(all_agents) && all_agents.map(element => {
+                      return <MenuItem value={element.phone_number} >
+                                  <button className="filter-option" onClick={()=>setAgent(element.phone_number)} >
+                                      {element.name} ({element.phone_number})
+                                  </button>
+                              </MenuItem>
+                  })}
+              </Select>
+              </Typography>
+
+              </FormControl>
+
+          </Box>
+          <Box p={1} width="20%">
+              <Button style={{'color':"aqua"}} onClick={()=>{filterData("DISPLAY_All", setBooking("All"), setAgent("All_AGENTS"))}}><b>Clear Filter</b></Button>
+          </Box>
+
+      </Box>
+  </div>
+  }
+
+
     return (
         <div>
-
-           <div  className="container-fluid">
+           <div  className="container-fluid pt-1">
             <Divider />
-           <div style={{ width: '100%' }}>
-            <Box display="flex" p={1} bgcolor="background.paper">
-                <Box p={1} width="20%">
-                    <Typography variant="body2"> <FilterListIcon />  Filter </Typography>
-                </Box>
-                <Box p={1} width="45%">
-                 <FormControl className={classes.formControl}>
-                    <Typography variant="body2">
-                        <span style={{color:"grey", fontSize:"15px"}}>Booking Type: </span>
-                        <Select value={booking_type}  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
-                            <MenuItem value="" disabled>
-                            Select
-                            </MenuItem>
-                            <MenuItem value="All"> <button className="filter-option" onClick={()=>setBooking("All")} >All</button>  </MenuItem>
-                            <MenuItem value="Arrival"><button className="filter-option" onClick={()=>setBooking("Arrival")} >Arrival</button></MenuItem>
-                            <MenuItem value="Departure"> <button className="filter-option" onClick={()=>setBooking("Departure")} >Departure</button></MenuItem>
-                        </Select>
-                    </Typography>
-
-                    </FormControl>
-
-                </Box>
-                <Box p={1} width="50%">
-                    <FormControl className={classes.formControl}>
-                    <Typography variant="body2">
-
-                    <span style={{color:"grey", fontSize:"15px"}}>Status:  </span>
-                    <Select value={filter_type}
-                     displayEmpty
-                     style={{width:"200px", fontSize:"2ex"}}
-                     disableUnderline inputProps={{ 'aria-label': 'Without label' }}
-                     >
-                        <MenuItem value="" disabled>Booking Status</MenuItem>
-                        <MenuItem value="DISPLAY_All"><button className="filter-option" onClick={()=>filterData("DISPLAY_All")} >All</button>    </MenuItem>
-                        <MenuItem value="ASSIGN_TO_AGENT"> <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_AGENT")} >ASSIGN_TO_AGENT</button></MenuItem>
-                        <MenuItem value="COMPLETED"><button className="filter-option" onClick={()=>filterData("COMPLETED")} >COMPLETED</button></MenuItem>
-                        <MenuItem value="CANCELLED"><button className="filter-option" onClick={()=>filterData("CANCELLED")}>CANCELLED</button></MenuItem>
-                        <MenuItem value="ASSIGN_TO_ADMIN"><button className="filter-option" onClick={()=>filterData("ASSIGN_TO_ADMIN")}>ASSIGN_TO_ADMIN</button></MenuItem>
-                    </Select>
-                    </Typography>
-
-                    </FormControl>
-                </Box>
-
-                <Box p={1} width="60%">
-                <FormControl className={classes.formControl}>
-                    <Typography variant="body2">
-                    <span style={{color:"grey", fontSize:"15px"}}>Assinged To : </span>
-                    <Select value={agent_name}  displayEmpty style={{width:"200px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
-                    <MenuItem value="All_AGENTS">
-                        <button className="filter-option" onClick={()=>setAgent("All_AGENTS")} >
-                            All Agents
-                        </button>
-                    </MenuItem>
-                        {(all_agents) && all_agents.map(element => {
-                            return <MenuItem value={element.phone_number} >
-                                        <button className="filter-option" onClick={()=>setAgent(element.phone_number)} >
-                                            {element.name} ({element.phone_number})
-                                        </button>
-                                    </MenuItem>
-                        })}
-                    </Select>
-                    </Typography>
-
-                    </FormControl>
-
-                </Box>
-                <Box p={1} width="20%">
-                    <Button style={{'color':"aqua"}} onClick={()=>{filterData("DISPLAY_All", setBooking("All"), setAgent("All_AGENTS"))}}><b>Clear Filter</b></Button>
-                </Box>
-
-            </Box>
-        </div>
-        <Divider/>
-        <br></br>
+              {FilterBooking()}
+            <Divider/>
+            <br></br>
             {state && <Grid
-                style={{ height: '60vh' }}
+                style={{ height: '75vh' }}
                 data={state.items}
                 onPageChange={pageChange}
                 total={state.total}

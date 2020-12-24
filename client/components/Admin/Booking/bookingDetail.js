@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       marginLeft:"5%",
       marginRight:"5%",
-      marginTop:"5%",
+      marginTop:"2%",
       outline:"none"
     },
     paper: {

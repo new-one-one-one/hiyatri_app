@@ -5,11 +5,11 @@ import { getCookie, isAuth,removeLocalStorage } from "../../actions/auth";
 import { Grid,Button,AppBar,FormControlLabel,Checkbox} from "@material-ui/core";
 import { create_order, verify_order, modify_order, single_order_by_id } from '../../actions/order';
 import useStyles from './style';
-import OrderStatus from './status';
 import Checkout from './checkout';
 import Services from './services';
 import Summary from './summary';
 import TakenServices from './takenServices';
+import Router from 'next/router';
 
 
 const GreenCheckbox = withStyles({
@@ -30,7 +30,6 @@ const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
 const [originalOrder, setOriginalOrder] = useState();
-const [orderStatus, setorderStatus] = useState({ status:"",show: false });
 const order_id = query && query.order_id;
 const [termsChecked, setTermsChecked] = useState(false);
 
@@ -137,9 +136,11 @@ const paymentHandler = (orderId, amount) => {
          }
          if(result.status === "ok"){
            removeLocalStorage("Booking")
-           return setorderStatus({ ...orderStatus, status:"successfull", show: true});
+           Router.replace("/booking/my_bookings")
+           return;
          }
-         setorderStatus({ ...orderStatus, status:"failed", show: true});
+          Router.replace("/booking/my_bookings")
+         return;
        })
        .catch((err) => {
          console.log(err)
@@ -160,7 +161,6 @@ const terms = () => {
 }
 
 return  <>
-    {orderStatus.show ? <OrderStatus status={orderStatus}/>:
       <div className="mt-4">
         <h2 className="order-title">
          ORDER DETAIL
@@ -188,7 +188,7 @@ return  <>
             </Button>
           </AppBar>
         )}
-    </div>}
+    </div>
     </>
 }
 export default Payment;

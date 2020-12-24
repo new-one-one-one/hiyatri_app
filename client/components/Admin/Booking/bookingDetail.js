@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
     },
     AppBarColor:{
-      background:"#000066"
+      background:"#2a306c"
     },
     inputRoot: {
       color: 'inherit',
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom:"3%",
       paddingLeft:"5px",
       paddingRight:"5px",
-      borderColor:"#000066",
+      borderColor:"#2a306c",
       borderWidth:"1.5px",
       paddingBottom:"10px",
       paddingTop:"10px"
@@ -117,18 +117,18 @@ const useStyles = makeStyles((theme) => ({
     outerDetails:{
       // top right bottom left
       padding:"10px 8px 2px 5px",
-      color:"#000066",
+      color:"#2a306c",
     },
     headingPart:{
       borderRadius:"4px 4px 0px 0px",
       marginLeft:"2%",
       marginRight:"2%",
-      backgroundColor:"#000066",
+      backgroundColor:"#2a306c",
       color:"white"
     },
     wholeList:{
       paddingBottom:"5px",
-      borderColor:"#000066",
+      borderColor:"#2a306c",
       borderWidth:"1.5px",
     },
     mobileButton:{
@@ -185,6 +185,7 @@ const BookingDetail = ({ data }) => {
   const [commentText, setCommentText] = useState();
   const [commentBox, openCommentBox] = useState(false);
   const [commentList, setCommentList] = useState([]);
+  const [reload, setReload] = useState(false);
   const token = getCookie("token");
 
   const changeDropDown = (panel) => (isExpanded) => {
@@ -192,7 +193,6 @@ const BookingDetail = ({ data }) => {
   };
 
   const assignToAgent = (e) => {
-
     let orderId = data.response._id;
      assign_agent(orderId, assignee, token)
         .then(response => {
@@ -200,7 +200,7 @@ const BookingDetail = ({ data }) => {
             return console.log(response.error)
           }
           setOpen(false)
-        })  
+        })
         .catch((err) => {
           console.log(err)
         })
@@ -214,12 +214,12 @@ const BookingDetail = ({ data }) => {
         if(response.error){
           return console.log(response.error)
         }
+        setReload(!reload)
         openCommentBox(false)
       })
       .catch((err) => {
         console.log(err)
       })
-      window.location.reload(false)
     }
 
 
@@ -240,7 +240,7 @@ const BookingDetail = ({ data }) => {
         if(needed){
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
-                      <Typography  variant="body2"  align="left">Golf cart</Typography>             
+                      <Typography  variant="body2"  align="left">Golf cart</Typography>
                       <Typography  variant="body2" align="right">{(age==="Adult(12yrs to 60yr)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
                                                                   :(age==="Children(upto 12 years)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE
                                                                   :process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE))}</Typography>
@@ -289,7 +289,7 @@ useEffect(() => {
       .catch((err) => {
         console.log(err)
       })
-},[])
+},[reload])
 
 const getAgentName = (status)=>{
   if(status!==null){
@@ -301,7 +301,8 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  if(porter.porter_service_opted!==null)
+  console.log(porter)
+  if(porter.porter_service_opted)
     return (
       <div>
         <Grid container spacing={2}>
@@ -321,19 +322,19 @@ const displayPorterServiceDetails = (porter) =>{
                   </Grid>
                   <Grid container spacing={1}>
                       <Grid item sm={3} className="pl-4">
-                          {porter.number_of_large_bags}
+                          {porter.large_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                          {porter.number_of_medium_bags}
+                          {porter.medium_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                            {porter.number_of_small_bags}
+                            {porter.small_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                      {
-                       porter.porter_service_detail.baggage_garanteed.large_bags.total +
-                       porter.porter_service_detail.baggage_garanteed.medium_bags.total+
-                      porter.porter_service_detail.baggage_garanteed.small_bags.total
+                      ₹{
+                        porter.large_bags.total +
+                        porter.medium_bags.total+
+                       porter.small_bags.total
                         }
                       </Grid>
                 </Grid>
@@ -348,15 +349,15 @@ const displayPorterServiceDetails = (porter) =>{
     {/* Creating heading bar */}
     <div className={classes.root}>
       <h5>Summary</h5>
-      
+
       <Grid container spacing={3}>
         {/* This one is for All orders list for booking */}
-        
+
         <Grid item xs={12} sm={8}>
         <div className="shadow">
             <Paper className={classes.orderFull}>
               <br></br>
-            <Box className={classes.headingPart} display="flex" p={1} bgcolor="#000066">
+            <Box className={classes.headingPart} display="flex" p={1} bgcolor="#2a306c">
                       <Box p={1} width="100%">
                         BOOKING-ID : {data.response.booking.booking_id}
                       </Box >
@@ -431,7 +432,7 @@ const displayPorterServiceDetails = (porter) =>{
 
         <div className="shadow">
         <Paper className={classes.Services}>
-        <Box className={classes.headingPart} p={1} bgcolor="#000066">
+        <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
                       <Typography>Other Services</Typography>
           </Box>
 
@@ -462,7 +463,7 @@ const displayPorterServiceDetails = (porter) =>{
         {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
-                      <Box className={classes.headingPart} p={1} bgcolor="#000066">
+                      <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
                                 <Typography>Porter Services</Typography>
                       </Box>
                       <Paper className={classes.particularOrder} variant="outlined">
@@ -470,7 +471,7 @@ const displayPorterServiceDetails = (porter) =>{
                       </Paper>
                   </Paper>
               </div>
-         
+
         )}
         <br></br>
 
@@ -511,12 +512,12 @@ const displayPorterServiceDetails = (porter) =>{
              }
              else{
                return <></>
-             } 
+             }
             })
-             
+
             }
             </div>
-              
+
               <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="body1"  align="right">
@@ -530,20 +531,20 @@ const displayPorterServiceDetails = (porter) =>{
 
             <br></br>
         </Grid>
- 
+
 
         {(data.response.order_status!=='COMPLETED') && (
             <Grid item xs={12} sm={3}>
               {(data.response.order_status!=='ASSIGN_TO_AGENT') &&
                 ( <div className="shadow">
                     <Paper className={classes.promocode}>
-                      <Box p={1}>  
+                      <Box p={1}>
                         <Button variant="contained" size="large" id="btns-text" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
                       </Box>
                       <Box p={1}>
                         <Button  id="btns-text" variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
                       </Box>
-                     
+
                     </Paper>
                     <br></br>
                   </div>

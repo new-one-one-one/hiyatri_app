@@ -144,7 +144,7 @@ const showFormWhenNotLoggedIn = () => {
      <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
      </div>}
    <div className="row justify-content-center">
-      <div className="col-md-7 hp-inp-outer">
+      <div className="col-md-6 hp-inp-outer">
                  <div className="hp-inp-container">
                       <div className="hp-radio-btn text-center p-1">
                           <FormControl component="fieldset">

@@ -21,7 +21,6 @@ import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-
 const useStyles = makeStyles((theme) => ({
 
     grow: {
@@ -176,6 +175,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data }) => {
+  console.log(data.response.booking);
   const classes = useStyles();
   const [agent_name, setAgentName] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -223,14 +223,14 @@ const BookingDetail = ({ data }) => {
     }
 
 
-  const getMyService = (needed, type)=>{
+  const getMyService = (age,needed, type)=>{
     switch(type) {
       case "wheel":
           if(needed){
             return (<div className={classes.innerDetails} >
                   <Grid container xs={12} justify="space-between">
-                        <Typography  variant="body2"  align="left">Get wheel chari</Typography>
-                        <Typography  variant="body2" align="right">500</Typography>
+                        <Typography  variant="body2"  align="left">Get wheel chair</Typography>
+                        <Typography  variant="body2" align="right">{process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE}</Typography>
                   </Grid>
                 </div>
                  )
@@ -240,8 +240,10 @@ const BookingDetail = ({ data }) => {
         if(needed){
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
-                      <Typography  variant="body2"  align="left">Golf cart</Typography>
-                      <Typography  variant="body2" align="right">400</Typography>
+                      <Typography  variant="body2"  align="left">Golf cart</Typography>             
+                      <Typography  variant="body2" align="right">{(age==="Adult(12yrs to 60yr)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+                                                                  :(age==="Children(upto 12 years)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE
+                                                                  :process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE))}</Typography>
                 </Grid>
               </div>
                )
@@ -252,7 +254,11 @@ const BookingDetail = ({ data }) => {
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Meet & Greet</Typography>
-                      <Typography  variant="body2" align="right">300</Typography>
+                      <Typography  variant="body2" align="right">
+                          {(age==="Adult(12yrs to 60yr)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+                            :(age==="Children(upto 12 years)"?process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE
+                            :process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE))}
+                      </Typography>
                 </Grid>
               </div>
                )
@@ -324,7 +330,11 @@ const displayPorterServiceDetails = (porter) =>{
                             {porter.number_of_small_bags}
                       </Grid>
                       <Grid  item sm={3}>
-                            300
+                      {
+                       porter.porter_service_detail.baggage_garanteed.large_bags.total +
+                       porter.porter_service_detail.baggage_garanteed.medium_bags.total+
+                      porter.porter_service_detail.baggage_garanteed.small_bags.total
+                        }
                       </Grid>
                 </Grid>
           </Grid>
@@ -332,16 +342,18 @@ const displayPorterServiceDetails = (porter) =>{
 
     )
 }
-console.log(commentList)
 
   return (
   <div>
     {/* Creating heading bar */}
     <div className={classes.root}>
       <h5>Summary</h5>
+      
       <Grid container spacing={3}>
         {/* This one is for All orders list for booking */}
+        
         <Grid item xs={12} sm={8}>
+        <div className="shadow">
             <Paper className={classes.orderFull}>
               <br></br>
             <Box className={classes.headingPart} display="flex" p={1} bgcolor="#000066">
@@ -351,40 +363,40 @@ console.log(commentList)
             </Box>
 
              <Paper variant="outlined" className={classes.particularOrder}>
-          <div style={{marginLeft:"4%"}}>
-            <Grid style={{color:"grey"}}  container spacing={1}>
-                <Grid container spacing={3}>
-                    <Grid  item xs={4}>
-                     <b> Meeting Station:</b>
-                      <br />
-                     {data.response.booking.booking_information.is_arrival?data.response.booking.booking_information.boarding_station.station_name:data.response.booking.booking_information.reservation_upto.station_name}
-                    </Grid>
-                    <Grid  item xs={4}>
-                    <b> Time Of {data.response.booking.booking_information.is_arrival?"Arrival":"Departure"}</b>
-                    <br />
-                    {data.response.booking.booking_information.is_arrival?data.response.booking.booking_information.boarding_station.time:data.response.booking.booking_information.reservation_upto.time}
-                    </Grid>
-                    <Grid  item xs={4}>
-                    <b>Number of passengers:</b>
-                      <br />
-                      {data.response.booking.passenger_details.length}
-                    </Grid>
-                </Grid>
-            <Grid container spacing={1}>
-              <Grid  item xs={4}>
-                  {/* New Delhi  */}
+                  <div style={{marginLeft:"4%"}}>
+                    <Grid style={{color:"grey"}}  container spacing={1}>
+                        <Grid container spacing={3}>
+                            <Grid  item xs={4}>
+                            <b> Meeting Station:</b>
+                              <br />
+                            {data.response.booking.booking_information.is_arrival?data.response.booking.booking_information.boarding_station.station_name:data.response.booking.booking_information.reservation_upto.station_name}
+                            </Grid>
+                            <Grid  item xs={4}>
+                            <b> Time Of {data.response.booking.booking_information.is_arrival?"Arrival":"Departure"}</b>
+                            <br />
+                            {data.response.booking.booking_information.is_arrival?data.response.booking.booking_information.boarding_station.time:data.response.booking.booking_information.reservation_upto.time}
+                            </Grid>
+                            <Grid  item xs={4}>
+                            <b>Number of passengers:</b>
+                              <br />
+                              {data.response.booking.passenger_details.length}
+                            </Grid>
+                        </Grid>
+                    <Grid container spacing={1}>
+                      <Grid  item xs={4}>
+                          {/* New Delhi  */}
 
-              </Grid>
-              <Grid  item xs={2} >
-                <Typography align="center"> </Typography>
-              </Grid>
-              <Grid  item xs={4}>
-              <Typography align="right"> </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-               {/* ---------------------------------------- */}
-          </div>
+                      </Grid>
+                      <Grid  item xs={2} >
+                        <Typography align="center"> </Typography>
+                      </Grid>
+                      <Grid  item xs={4}>
+                      <Typography align="right"> </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                      {/* ---------------------------------------- */}
+                  </div>
               </Paper>
 
              {data.response.booking.passenger_details.map(val => {
@@ -398,9 +410,9 @@ console.log(commentList)
                         </Grid>
                       </div>
                       <Divider/>
-                      {getMyService(val.wheel_chair, "wheel")}
-                      {getMyService(val.golf_cart, "golf")}
-                      {getMyService(val.meet_and_greet, "meet")}
+                        {getMyService(val.age_group,val.wheel_chair, "wheel")}
+                        {getMyService(val.age_group,val.golf_cart, "golf")}
+                        {getMyService(val.age_group,val.meet_and_greet, "meet")}
                   </Paper>
                         )}
                })
@@ -409,7 +421,15 @@ console.log(commentList)
 
               <br></br>
           </Paper>
+         </div>
         <br></br>
+        {(
+          data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted ||
+          data.response.booking.porter_service.porter_service_detail.porter_service_opted||
+          data.response.booking.cab_service.cab_service_detail.cab_service_opted
+        )&&(
+
+        <div className="shadow">
         <Paper className={classes.Services}>
         <Box className={classes.headingPart} p={1} bgcolor="#000066">
                       <Typography>Other Services</Typography>
@@ -417,23 +437,30 @@ console.log(commentList)
 
           <Paper className={classes.particularOrder} variant="outlined">
           <Grid container style={{color:"#000066"}} spacing={10}>
+                    {(data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
                     <Grid  item xs={4}>
                      <b> Baggage Service </b>
                     </Grid>
-                    {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
+                    )}
+                    {(data.response.booking.porter_service.porter_service_detail.porter_service_opted)&&(
                       <Grid  item xs={4} >
                       <b> Porter Service  </b>
                       </Grid>
                     )}
+
+                    {(data.response.booking.cab_service.cab_service_detail.cab_service_opted!==null)&&(
                     <Grid  item xs={4}>
                     <b> Cab service </b>
                     </Grid>
+                    )}
                 </Grid>
          </Paper>
         </Paper>
+        </div>
+        )}
         <br></br>
         {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
-              <div>
+              <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#000066">
                                 <Typography>Porter Services</Typography>
@@ -450,6 +477,7 @@ console.log(commentList)
         {/* Comments paragraph */}
          <div>Comments </div>
               <div className={classes.comment_root}>
+              <div className="shadow">
              {commentList.map((comment)=>{
                 if(comment.order === data.response._id){
                   const temp_date =new Date(comment.createdAt);
@@ -462,11 +490,12 @@ console.log(commentList)
                       fullYear: temp_date.getFullYear()
                   }
                   return (
+                    <div>
                     <Accordion expanded={expanded === date.keyTime} onChange={changeDropDown(date.keyTime)}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                       <Grid container xs={12} justify="space-between">
                           <Typography className={classes.comment_heading}>{date.hours}:{date.mins} {date.hours>=12 ? "PM" : "AM"} , {date.day}-{date.month}-{date.fullYear}</Typography>
-                          <Typography className={classes.comment_secondaryHeading}>{comment.comment_by.name}</Typography>
+                          <Typography className={classes.comment_secondaryHeading}>{comment.comment_by.name}, {comment.comment_by.user_type}</Typography>
                       </Grid>
                       </AccordionSummary>
                       <AccordionDetails>
@@ -475,6 +504,8 @@ console.log(commentList)
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
+                    <Divider/>
+                    </div>
                   )
 
              }
@@ -484,11 +515,12 @@ console.log(commentList)
             })
              
             }
-              <Divider/>
+            </div>
+              
               <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="body1"  align="right">
-                  <Button  id="btns-text" variant="contained" color="primary" onClick={()=>{openCommentBox(true)}}>
+                  <Button  id="btns-text" variant="contained"  className="bd-btn-agent" onClick={()=>{openCommentBox(true)}}>
                         Add Comment
                     </Button>
                   </Typography>
@@ -503,8 +535,11 @@ console.log(commentList)
         {(data.response.order_status!=='COMPLETED') && (
             <Grid item xs={12} sm={3}>
               {(data.response.order_status!=='ASSIGN_TO_AGENT') &&
-                ( <div>
+                ( <div className="shadow">
                     <Paper className={classes.promocode}>
+                      <Box p={1}>  
+                        <Button variant="contained" size="large" id="btns-text" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
+                      </Box>
                       <Box p={1}>
                         <Button  id="btns-text" variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
                       </Box>
@@ -513,8 +548,9 @@ console.log(commentList)
                     <br></br>
                   </div>
               )}
+              <br></br>
               <Paper className={classes.promocode}>
-              <div style={{padding:"10px"}}>
+              <div className="shadow" style={{padding:"10px"}}>
                 <Grid container xs={12} justify="space-between">
                   <Typography  variant="body2" align="left">Current Status : </Typography>
                   <Typography  variant="subtitle" align="right">{data.response.order_status}</Typography>
@@ -524,13 +560,13 @@ console.log(commentList)
                   <Typography  variant="subtitle" align="right">{getAgentName(data.response.agent)} </Typography>
                 </Grid>
               </div>
-            {(data.response.order_status!=='ASSIGN_TO_AGENT')}
+                {(data.response.order_status!=='ASSIGN_TO_AGENT')}
               <div>
               </div>
 
               {(data.response.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
                   <Box p={1}>
-                     <Button variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
+                     <Button id="btns-text" variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
                   </Box>
               </div>)}
 
@@ -573,10 +609,10 @@ console.log(commentList)
          </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={addComment} type="submit" variant="contained" color="primary">
+          <Button onClick={addComment} id="btns-text" type="submit" variant="contained" color="primary">
             Submit
           </Button>
-          <Button onClick={()=>openCommentBox(false)} variant="contained" color="secondary">
+          <Button onClick={()=>openCommentBox(false)} id="btns-text" variant="contained" color="secondary">
             Cancel
           </Button>
         </DialogActions>
@@ -632,10 +668,10 @@ console.log(commentList)
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={assignToAgent} variant="contained" color="primary">
+          <Button onClick={assignToAgent} id="btns-text" variant="contained" color="primary">
             Assign
           </Button>
-          <Button onClick={()=>setOpen(false)} variant="contained" color="secondary">
+          <Button onClick={()=>setOpen(false)} id="btns-text" variant="contained" color="secondary">
             Cancel
           </Button>
         </DialogActions>

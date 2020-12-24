@@ -18,6 +18,7 @@ module.exports.create_comment = (req, res) => {
 module.exports.comment_list = (req, res) => {
   Comment.find()
    .sort({ createdAt: -1})
+   .populate("comment_by", "name phone_number user_type")
    .exec((err, response) => {
      if(err){
        return  res.status(400),json({

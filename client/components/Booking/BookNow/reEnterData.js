@@ -55,11 +55,9 @@ export default function FormDialog() {
     values.splice(i, 1);
     setFields(values);
   }
-
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };

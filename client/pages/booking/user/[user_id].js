@@ -23,4 +23,4 @@ UserAllBookings.getInitialProps = ({ query }) => {
     })
   }
 
-  export default withRouter(UserAllBookings);
+export default withRouter(UserAllBookings);

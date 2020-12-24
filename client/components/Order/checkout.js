@@ -6,12 +6,18 @@ import MuiAlert from '@material-ui/lab/Alert';
 
 
 const Checkout = ({ data, order,originalOrder, terms }) => {
-  console.log(terms)
+
   const classes = useStyles();
   const { width } = useWindowSize();
 
   function Alert(props) {
     return <MuiAlert  variant="filled" {...props} />;
+  }
+
+  const calculateConvenience = () => {
+     let price = originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount;
+     let convenience = (process.env.NEXT_PUBLIC_CONVENIENCE_FEE_RATE/100)*(originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount)
+     return convenience;
   }
 
   return <div className="shadow p-3">
@@ -36,6 +42,14 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
 
                       </Box>
                   </Box>
+                  <Box display="flex" p={0} bgcolor="background.paper">
+                      <Box p={1} width="100%">
+                         Convenience Fee
+                      </Box>
+                      <Box p={1} flexShrink={0}>
+                        ₹{calculateConvenience()}
+                      </Box>
+                  </Box>
                   <Divider variant="middle"/>
                       <Box display="flex" p={0} bgcolor="background.paper">
 
@@ -43,7 +57,7 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                             Final Cost
                           </Box>
                           <Box p={1} flexShrink={0}>
-                            ₹{originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount}
+                            ₹{(originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount) + calculateConvenience()}
                           </Box>
                       </Box>
                 {width>500 && (

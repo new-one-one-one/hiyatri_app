@@ -14,6 +14,7 @@ import { get_details_by_pnr } from '../../actions/booking';
 import { ToastContainer, toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
 import HashLoader from "react-spinners/HashLoader";
+import Countdown from "react-countdown";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -23,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     zIndex:3000,
+    borderRadius:"14px",
     backgroundColor: theme.palette.background.paper,
     border: '0px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 3, 6),
+    padding: theme.spacing(2, 2, 2),
   },
 }));
 
@@ -70,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
   }
   const [data, dispatch] = useReducer(reducer, initialData)
   const [showSpinner, setShowSpinner] = useState(false);
+  const [resend_otp, set_resend_otp] = useState(false);
+
 
   const handleClose = () => {
     dispatch({ type: ACTIONS.MODAL, data: false })
@@ -92,7 +95,6 @@ const useStyles = makeStyles((theme) => ({
       setShowSpinner(true)
        get_details_by_pnr(state.pnr_number)
         .then(response => {
-          console.log(response)
           setShowSpinner(false);
           if(response.status==="error"){
             return toast.error(response.message)
@@ -113,9 +115,9 @@ const useStyles = makeStyles((theme) => ({
       if(response.error){
         return console.log(response.error)
       }
-      toast.success(response.message)
       dispatch({ type: ACTIONS.SEND, data: true })
       dispatch({ type: ACTIONS.SESSION_ID, data: response.session_id })
+      set_resend_otp(true)
     })
     .catch((err) => {
     })
@@ -143,6 +145,30 @@ const useStyles = makeStyles((theme) => ({
      }
   }
 
+
+  const handleResendOTP = () => {
+       set_resend_otp(true)
+       onSubmit()
+  }
+
+
+
+    const renderer = ({ minutes, seconds, completed }) => {
+      if (completed) {
+         set_resend_otp(false)
+          return  "";
+      } else {
+        return (
+          <div className="otp-resend">
+            Resend OTP in {'00'}:{seconds}
+          </div>
+        );
+      }
+    };
+
+
+
+
   return (
     <div>
       <div className="hp-loader">
@@ -164,6 +190,7 @@ const useStyles = makeStyles((theme) => ({
        </Button>
      </div>
 
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -178,10 +205,13 @@ const useStyles = makeStyles((theme) => ({
       >
         <Fade in={data.open_modal}>
           <div className={classes.paper}>
+          <div className="lg-container">
+          <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
               {!data.send_btn && <div className="text-center">
               <OutlinedInput
               variant="outlined"
               type="Number"
+              size="small"
               disabled={true}
               startAdornment={<InputAdornment position="start">+91</InputAdornment>}
               error={false}
@@ -202,10 +232,11 @@ const useStyles = makeStyles((theme) => ({
                 onClick={send}
                 disabled={!data.recaptcha}
                 variant="contained"
-                className="md-btn m-2">SEND OTP</Button>
+                className="md-btn m-2">Continue</Button>
               </div>}
 
               {data.send_btn && <div className="text-center">
+              <div className="otp-msg">OTP has been sent to {state.phone_number}</div>
               <OtpInput
                 value={data.otp_code}
                 containerStyle="m-otp-input"
@@ -214,17 +245,23 @@ const useStyles = makeStyles((theme) => ({
                 numInputs={6}
                 separator={<span></span>}
               />
-              <Button variant="contained" className="m-2 md-btn mt-4" onClick={verify}>
-                Verify OTP
+
+              {resend_otp && <Countdown date={Date.now() + 30000} renderer={renderer}/>}
+              {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
+
+              <Button variant="contained" className="m-2 md-btn" onClick={verify}>
+                SUBMIT
               </Button>
               {/*<Button variant="contained" className="m-2 md-btn">
                 Resend OTP
               </Button>*/}
               </div>}
-          </div>
+           </div>
+         </div>
         </Fade>
       </Modal>
     </div>
+
   );
 }
 

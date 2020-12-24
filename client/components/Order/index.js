@@ -24,6 +24,9 @@ const GreenCheckbox = withStyles({
 
 
 const OrderPayment = ({ data, query }) => {
+
+
+  console.log(data)
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();

@@ -5,12 +5,6 @@ import {Grid} from '@material-ui/core';
 import BookingCard from './bookingCard';
 
 const useStyles = makeStyles({
-    root: {
-        marginTop:"100px",
-        marginLeft:"10%",
-        marginRight:"10%",
-        minWidth: 300,
-    },
     particularBooking:{
         marginBottom:"5%",
         // textAlign:"center",
@@ -26,8 +20,10 @@ const useStyles = makeStyles({
 
 
 const ShowAllBookings = (data) =>{
-    const display= (bookings)=>{
-        if(bookings!==undefined && bookings){
+    const classes = useStyles();
+
+    const display = (bookings) => {
+        if(bookings !== undefined && bookings){
         return bookings.data.response.map((allInfo)=>{
             const booking = allInfo.booking;
             const {boarding_station, reservation_upto,is_arrival} = booking.booking_information;
@@ -39,16 +35,18 @@ const ShowAllBookings = (data) =>{
                   reservation_upto={reservation_upto}
                   is_arrival={is_arrival}
                   />
-        )
-    })
+          )
+        })
+       }
     }
-    }
-    const classes = useStyles();
+
+
     return (
-        <div className={classes.root}>
-            <Grid container xs={12} spacing={4}>
-                {display(data)}
-            </Grid>
+        <div className="p-3">
+          <h2 className="order-title">My Bookings </h2>
+          <div className="row col justify-content-center">
+            {display(data)}
+          </div>
         </div>
     )
 }

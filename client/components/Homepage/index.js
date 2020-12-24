@@ -6,7 +6,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import StaticData from './static_data';
+import StaticData from './other_info';
 import {useForm} from 'react-hook-form';
 import { isAuth } from '../../actions/auth';
 import { get_details_by_pnr } from '../../actions/booking';
@@ -112,6 +112,7 @@ const Homepage = () => {
                  <TextField
                  variant="outlined"
                  type="Number"
+                 size="small"
                  name="PNR_NUMBER"
                  inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                  onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
@@ -173,6 +174,7 @@ const showFormWhenNotLoggedIn = () => {
                            variant="outlined"
                            name="phone_number"
                            type="Number"
+                           size="small"
                            inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                            error={errors.phone_number ?true:false}
                            InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
@@ -189,6 +191,7 @@ const showFormWhenNotLoggedIn = () => {
                           <TextField
                           variant="outlined"
                           type="Number"
+                          size="small"
                           name="pnr_number"
                           inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                           error={errors.pnr_number?true:false}

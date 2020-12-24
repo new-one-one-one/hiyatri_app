@@ -25,42 +25,42 @@ const StaticData = () => {
             <div className="hp-service-container container">
             <div className="hp-service-heading">OUR SERVICES</div>
             <div className="row col justify-content-center mt-5">
-                <div className="col-md-3 hp-service-card">
+                <div className="col-md-3 shadow hp-service-card">
                  <h2 className="hp-card-title"><i className="las la-subway hp-icons"></i>Arrival</h2>
                  <section>
                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                  Lorem Ipsum has been the industry’s standard dummy text
                  </section>
                 </div>
-                <div className="col-md-3 hp-service-card">
+                <div className="col-md-3 shadow hp-service-card">
                 <h2 className="hp-card-title"><i className="las la-subway hp-icons"></i>Departure</h2>
                 <section>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry’s standard dummy text
                 </section>
                 </div>
-                <div className="col-md-3 hp-service-card">
+                <div className="col-md-3 shadow hp-service-card">
                 <h2 className="hp-card-title"><i className="las la-taxi hp-icons"></i>Cab Service</h2>
                  <section>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry’s standard dummy text
                 </section>
                 </div>
-                <div className="col-md-3 hp-service-card">
+                <div className="col-md-3 shadow hp-service-card">
                 <h2 className="hp-card-title"><i className="las la-people-carry hp-icons"></i>Buggage Service</h2>
                  <section>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry’s standard dummy text
                 </section>
                 </div>
-                <div className="col-md-3 hp-service-card">
+                <div className="col-md-3 shadow hp-service-card">
                 <h2 className="hp-card-title"><i className="las la-handshake hp-icons"></i>Buggage Guaruntee</h2>
                  <section>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry’s standard dummy text
                 </section>
                 </div>
-                <div className="col-md-3 hp-service-card">
+                <div className="col-md-3 shadow hp-service-card">
                 <h2 className="hp-card-title"><i className="las la-cubes hp-icons"></i>Other Services</h2>
                  <section>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.

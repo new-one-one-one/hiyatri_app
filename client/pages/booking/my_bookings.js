@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { get_user_bookings } from '../../actions/order';
 import { isAuth } from '../../actions/auth';
 import Layout from '../../components/Core/Layout';
-import BookingsDisplay from '../../components/Booking/BookingList';
+import BookingsDisplay from '../../components/Booking/MyBookings';
 import Private from '../../components/Core/Protect/private';
 import Head from 'next/head';
 
@@ -30,9 +30,9 @@ const UserAllBookings = () => {
     return <>
             {head()}
             <Private>
-            <Layout>
-                 {bookings && <BookingsDisplay data={bookings}/>}
-            </Layout>
+              <Layout>
+                   {bookings && <BookingsDisplay data={bookings}/>}
+              </Layout>
             </Private>
            </>
 

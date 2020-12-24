@@ -89,14 +89,14 @@ const SideDrawer = ({ close, status, router }) => {
                </ListItem>
              </a>
          </Link>}
-           {!isAuth() && <Link href="/login">
+           {/*!isAuth() && <Link href="/login">
              <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/login", router.pathname)} className="mt-1">
                       <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
                       <ListItemText primary="Login" />
                </ListItem>
             </a>
-           </Link>}
+           </Link>*/}
 
           {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/manage_user">
             <a className={classes.menu}>

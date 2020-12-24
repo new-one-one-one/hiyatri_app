@@ -9,13 +9,12 @@ import { cancel_order } from '../../../actions/order';
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
-    margin:"10px",
     alignItems: 'center',
     justifyContent: 'center',
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
+    borderRadius:"10px",
     padding: theme.spacing(2, 4, 3),
   },
 }));
@@ -53,7 +52,6 @@ const CancelModal = ({ id, duration })  => {
     setOpen(false);
   };
 
-console.log(duration)
   const cancellationCharge = () => {
         if(duration<0){
           return setCancellation({ timeLeft: duration, msg:"no refund"})
@@ -69,7 +67,7 @@ console.log(duration)
 
   return (
     <div>
-      <Button color="secondary" variant="contained" onClick={handleOpen}>Cancel</Button>
+      <Button  className="can-btn" onClick={handleOpen}>Cancel</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -90,10 +88,10 @@ console.log(duration)
               <small>*on cancellation you will get the {cancellation.msg}</small>
               <div className="row justify-content-center pt-3">
                  <div className="col-4">
-                   <Button color="primary" variant="contained" onClick={handleClose}>No</Button>
+                   <Button  onClick={handleClose}>No</Button>
                  </div>
                  <div className="col-4">
-                   <Button color="primary" variant="contained" onClick={() => handleCancelBooking(id)}>Yes</Button>
+                   <Button   onClick={() => handleCancelBooking(id)}>Yes</Button>
                  </div>
               </div>
             </div>

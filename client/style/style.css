@@ -4,6 +4,9 @@
  .k-header{
    color: white!important;
  }
+ .MuiBackdrop-root{
+   background-color: rgb(0 0 0 / 58%)!important;
+ }
  .MuiAppBar-root{
   background-color: #2a306c!important;
   z-index: 5000!important;
@@ -307,7 +310,7 @@ body{
 .hp-inp-container{
   background-color: white;
   padding: 0px;
-  height: 217px;
+  height: 180px;
   border-radius: 20px;
 }
 .hp-inp-container-l{
@@ -332,7 +335,7 @@ body{
 
 @media (max-width:767px) {
   .hp-inp-outer{
-      padding-bottom: 60px;
+      padding-bottom: 30px;
   }
 }
 .hp-heading{
@@ -369,7 +372,7 @@ body{
 @media (min-width:767px) {
   .hp-inp-outer{
     border-radius: 20px;
-    min-height: 220px;
+    min-height: 190px;
     position: absolute;
     top: 28%;
   }
@@ -419,11 +422,11 @@ body{
     height: 230px!important;
 }
 .hp-mg-container{
-  margin-top: 330px;
+  margin-top: 280px;
 }
 @media (max-width:767px) {
   .hp-mg-container{
-    margin-top: 385px;
+    margin-top: 265px;
   }
 }
 .hp-mg-img-container{
@@ -448,7 +451,7 @@ body{
 }
 .hp-service-container{
   margin-top: 60px;
-  padding-bottom: 80px;
+  padding-bottom: 30px;
 }
 .hp-mg-heading{
   padding-left: 40%;
@@ -505,7 +508,7 @@ body{
 } */
 .hp-service-card{
   padding: 20px;
-  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
+  /* box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25); */
   margin: 10px 10px 10px 10px;
 }
 .hp-card-title{
@@ -962,11 +965,8 @@ color: #2a306c;
      Login
 ----------------- */
 .lg-container{
-  border-bottom: 5px solid #4b5692;
-  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
   text-align: center;
-  padding: 10px!important;
-  max-width: 350px;
+  max-width: 370px;
 }
 
 /* --------------
@@ -1008,17 +1008,15 @@ color: #2a306c;
 
 
 .m-otp-input-each{
-  font-weight: 700;
+
   background-color: white!important;
-  border-radius: 4px!important;
-  margin: 5px!important;
-  border: 1px solid #8c8c8c!important;
-  box-shadow: #E9ECEE 0px 0.30rem .3rem 0.2rem!important;
+  border-radius: 2px!important;
+  margin: 0px 7px!important;
+  border: solid 1px #d8d8d8!important;
   width: 40px!important;
   height: 40px!important;
 }
-.m-otp-input{
-}
+
 
 
 
@@ -1299,4 +1297,39 @@ color: #00c4ff;
 
 .reEnter-action{
   marginTop:"200px"
+}
+
+
+/* --------------
+  LOGIN MODAL
+---------------*/
+.login-modal-title{
+  font-weight: 300!important;
+}
+.otp-msg{
+  font-size: 14px;
+  padding: 0px 0px 20px 0px;
+}
+.otp-resend{
+  cursor: pointer;
+  padding: 15px 0px 15px 0px;
+  color: #00c4fe;
+  font-weight: 700;
+}
+
+.booking-card{
+  border-radius: 10px;
+  margin: 10px;
+}
+.can-btn{
+  background-color: #f5222d!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 3px 10px 3px 10px!important;
+}
+.mod-btn{
+  background-color: #00C4FF!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 3px 10px 3px 10px!important;
 }

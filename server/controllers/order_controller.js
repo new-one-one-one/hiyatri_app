@@ -65,8 +65,8 @@ module.exports.create_order = async (req,res) => {
          }
 
   const booking_id = booking_information.is_arrival ?
-  "Arr_" + pad(await Booking.countDocuments()+1, 10):
-  "Dep_" + pad(await Booking.countDocuments()+1, 10);
+  "Arr_" + pad(await Booking.countDocuments()+1, 5):
+  "Dep_" + pad(await Booking.countDocuments()+1, 5);
 
      await Booking({
      user,
@@ -466,6 +466,7 @@ module.exports.agent_list = (req, res) => {
 
 module.exports.get_user_all_orders = (req, res) => {
   Order.find({ user: req.params.user })
+  .sort({ createdAt: -1 })
   .populate({ path: 'booking',
               select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
               populate: { path: 'cab_service', select: 'cab_service_detail'}})

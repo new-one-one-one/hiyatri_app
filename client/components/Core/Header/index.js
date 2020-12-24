@@ -11,6 +11,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Link from 'next/link';
 import { isAuth } from '../../../actions/auth'
 import Router from "next/router";
+import LoginModal from './login_modal';
 
 
 const useStyles = makeStyles(theme =>
@@ -59,7 +60,7 @@ const Header = () => {
                     {matches ? (
                     <>
                     <Typography />
-                     {!isAuth() && <Button variant="contained" className={classes.loginBtn} onClick={() => Router.push('/login')}>Login</Button>}
+                     {!isAuth() && <LoginModal />}
                      {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
                     </>
                     ) : (

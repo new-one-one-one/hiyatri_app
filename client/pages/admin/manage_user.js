@@ -16,8 +16,9 @@ const head = () => (
 
 const UserCRUD = () => {
     const [usersList, setUsersList] = useState([]);
-    const token = getCookie('token');
+    const [reloadData , setReload] = useState(false);  
 
+    const token = getCookie('token');
      useEffect(() => {
         getUsers(token)
          .then(response => {
@@ -26,13 +27,18 @@ const UserCRUD = () => {
          .catch((err) => {
            console.log(err)
          })
-     },[])
+     },[reloadData])
+
+    const handleReload = () =>{
+      setReload(!reloadData);
+      
+    }
 
     return <>
            {head()}
             <Admin>
               <Layout>
-                <UserListComponent usersList={usersList} />
+                <UserListComponent usersList={usersList} reload={handleReload} />
               </Layout>
             </Admin>
            </>

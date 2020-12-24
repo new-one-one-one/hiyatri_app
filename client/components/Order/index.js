@@ -9,6 +9,7 @@ import OrderStatus from './status';
 import Checkout from './checkout';
 import Services from './services';
 import Summary from './summary';
+import TakenServices from './takenServices';
 
 
 const GreenCheckbox = withStyles({
@@ -24,6 +25,7 @@ const GreenCheckbox = withStyles({
 
 
 const OrderPayment = ({ data, query }) => {
+  console.log(data, "data")
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -170,9 +172,13 @@ return  <>
          <div className="row justify-content-center">
            <div className="col-md-8">
              <Summary data={data} />
-              {terms()}
+             <br></br>
+             <TakenServices data={data}/>
+             
+             {terms()} 
              <Services />
            </div>
+           
            <div className="col-md-3">
              <Checkout data={data} order={order} originalOrder={originalOrder} terms={termsChecked}/>
            </div>

@@ -836,10 +836,10 @@ return <>
 
                       <span className="sub-heading">Passenger's Details</span>
                       <PassengerDetails
-                      register={register}
-                      errors={errors}
-                      handleChange={handleChange}
-                      data={state}  />
+                        register={register}
+                        errors={errors}
+                        handleChange={handleChange}
+                        data={state}  />
 
                       {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
                       <Switch

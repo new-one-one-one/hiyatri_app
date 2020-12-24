@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useForm } from 'react-hook-form';
 import { create_comment, comment_list } from '../../../actions/comments';
 import { assign_agent, agent_list } from '../../../actions/order';
+import {getUsers, singleUser} from '../../../actions/user';
 import { getCookie } from '../../../actions/auth';
 import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
@@ -175,11 +176,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data }) => {
-
-
-
-  const width= 900;
   const classes = useStyles();
+  const [agent_name, setAgentName] = useState(null);
   const [agents, setAgents] = useState([]);
   const [assignee, setAssignee] = useState();
   const [expanded, setExpanded] = useState(false);
@@ -192,7 +190,6 @@ const BookingDetail = ({ data }) => {
   const changeDropDown = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
- const {register,handleSubmit } = useForm();
 
   const assignToAgent = (e) => {
 
@@ -203,7 +200,7 @@ const BookingDetail = ({ data }) => {
             return console.log(response.error)
           }
           setOpen(false)
-        })
+        })  
         .catch((err) => {
           console.log(err)
         })
@@ -288,6 +285,15 @@ useEffect(() => {
       })
 },[])
 
+const getAgentName = (status)=>{
+  if(status!==null){
+     singleUser(status).then((data)=>setAgentName(data.result.name));
+     return agent_name;
+  }else{
+    return "None"
+  }
+}
+
 const displayPorterServiceDetails = (porter) =>{
   if(porter.porter_service_opted!==null)
     return (
@@ -326,6 +332,7 @@ const displayPorterServiceDetails = (porter) =>{
 
     )
 }
+console.log(commentList)
 
   return (
   <div>
@@ -413,9 +420,11 @@ const displayPorterServiceDetails = (porter) =>{
                     <Grid  item xs={4}>
                      <b> Baggage Service </b>
                     </Grid>
-                    <Grid  item xs={4} >
-                    <b> Porter Service  </b>
-                    </Grid>
+                    {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
+                      <Grid  item xs={4} >
+                      <b> Porter Service  </b>
+                      </Grid>
+                    )}
                     <Grid  item xs={4}>
                     <b> Cab service </b>
                     </Grid>
@@ -423,21 +432,26 @@ const displayPorterServiceDetails = (porter) =>{
          </Paper>
         </Paper>
         <br></br>
-        <Paper className={classes.Services}>
-            <Box className={classes.headingPart} p={1} bgcolor="#000066">
-                      <Typography>Porter Services</Typography>
-            </Box>
-            <Paper className={classes.particularOrder} variant="outlined">
-              {displayPorterServiceDetails(data.response.booking.porter_service.porter_service_detail)}
-            </Paper>
-        </Paper>
-
+        {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
+              <div>
+                  <Paper className={classes.Services}>
+                      <Box className={classes.headingPart} p={1} bgcolor="#000066">
+                                <Typography>Porter Services</Typography>
+                      </Box>
+                      <Paper className={classes.particularOrder} variant="outlined">
+                        {displayPorterServiceDetails(data.response.booking.porter_service.porter_service_detail)}
+                      </Paper>
+                  </Paper>
+              </div>
+         
+        )}
         <br></br>
 
         {/* Comments paragraph */}
          <div>Comments </div>
               <div className={classes.comment_root}>
              {commentList.map((comment)=>{
+                if(comment.order === data.response._id){
                   const temp_date =new Date(comment.createdAt);
                   const date = {
                       keyTime : temp_date.getTime(),
@@ -447,12 +461,11 @@ const displayPorterServiceDetails = (porter) =>{
                       month   : temp_date.getMonth(),
                       fullYear: temp_date.getFullYear()
                   }
-
                   return (
                     <Accordion expanded={expanded === date.keyTime} onChange={changeDropDown(date.keyTime)}>
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                       <Grid container xs={12} justify="space-between">
-                          <Typography className={classes.comment_heading}>{date.hours}:{date.mins} {date.hours>12 ? "PM" : "AM"} , {date.day}-{date.month}-{date.fullYear}</Typography>
+                          <Typography className={classes.comment_heading}>{date.hours}:{date.mins} {date.hours>=12 ? "PM" : "AM"} , {date.day}-{date.month}-{date.fullYear}</Typography>
                           <Typography className={classes.comment_secondaryHeading}>{comment.comment_by.name}</Typography>
                       </Grid>
                       </AccordionSummary>
@@ -464,8 +477,13 @@ const displayPorterServiceDetails = (porter) =>{
                     </Accordion>
                   )
 
-             })}
-
+             }
+             else{
+               return <></>
+             } 
+            })
+             
+            }
               <Divider/>
               <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
@@ -488,11 +506,9 @@ const displayPorterServiceDetails = (porter) =>{
                 ( <div>
                     <Paper className={classes.promocode}>
                       <Box p={1}>
-                        <Button variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
+                        <Button  id="btns-text" variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
                       </Box>
-                      <Box p={1}>
-                        <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
-                      </Box>
+                     
                     </Paper>
                     <br></br>
                   </div>
@@ -505,7 +521,7 @@ const displayPorterServiceDetails = (porter) =>{
                 </Grid>
                 <Grid container xs={12} justify="space-between">
                   <Typography  variant="body2" align="left">Assigned To: </Typography>
-                  <Typography  variant="subtitle" align="right">{ data.response.agent?data.response.agent.name:"None"} </Typography>
+                  <Typography  variant="subtitle" align="right">{getAgentName(data.response.agent)} </Typography>
                 </Grid>
               </div>
             {(data.response.order_status!=='ASSIGN_TO_AGENT')}

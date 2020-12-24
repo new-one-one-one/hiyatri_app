@@ -64,7 +64,10 @@ const Header = () => {
                      {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
                     </>
                     ) : (
-                      <Drawer close={state} status={(status) => setState(status)} />
+                      <>
+                       {!isAuth() && <LoginModal />}
+                       {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                      </>
                     )}
 
                 </Toolbar>

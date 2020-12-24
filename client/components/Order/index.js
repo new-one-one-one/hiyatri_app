@@ -24,8 +24,8 @@ const GreenCheckbox = withStyles({
 
 
 
-const OrderPayment = ({ data, query }) => {
- 
+const Payment = ({ data, query }) => {
+
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -39,7 +39,6 @@ useEffect(() => {
     single_order_by_id(order_id)
       .then(response => {
         if(response.error){
-                console.log(response)
           return console.log(response.error)
         }
         setOriginalOrder(response.response)
@@ -174,7 +173,6 @@ return  <>
              <Summary data={data} />
              <br></br>
              <TakenServices data={data}/>
-
              {terms()}
              <Services />
            </div>
@@ -193,4 +191,4 @@ return  <>
     </div>}
     </>
 }
-export default OrderPayment;
+export default Payment;

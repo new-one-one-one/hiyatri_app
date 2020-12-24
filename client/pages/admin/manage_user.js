@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Core/Layout';
-import UserListComponent from '../../components/Admin/UserCRUD';
+import UserListComponent from '../../components/Admin/ManageUser';
 import { getUsers } from '../../actions/user';
 import { getCookie } from '../../actions/auth';
 import Admin from '../../components/Core/Protect/admin'
@@ -16,7 +16,7 @@ const head = () => (
 
 const UserCRUD = () => {
     const [usersList, setUsersList] = useState([]);
-    const [reloadData , setReload] = useState(false);  
+    const [reloadData , setReload] = useState(false);
 
     const token = getCookie('token');
      useEffect(() => {
@@ -31,7 +31,7 @@ const UserCRUD = () => {
 
     const handleReload = () =>{
       setReload(!reloadData);
-      
+
     }
 
     return <>

@@ -87,50 +87,6 @@ const Summary = ({ data }) => {
            })}
           </Paper>
      </Paper>
-          {/*<Paper className="porter-container">
-            <Box  className={classes.headingPart2}>
-              <Typography>
-                Porter Services
-              </Typography>
-            </Box>
-            <table>
-              <thead>
-                <tr>
-                  <th>No. of Large Bags(20kg-30kg)</th>
-                  <th>No. of Medium Bags(7kg-20kg)</th>
-                  <th>No. of Small Bags(Below 7KG)</th>
-                </tr>
-                </thead>
-              <tbody>
-                <tr>
-                  <td>
-                  {data.porter_service_detail.large_bags.unit}
-                  <b>(₹{data.porter_service_detail.large_bags.total})</b>
-                  </td>
-                  <td>
-                  {data.porter_service_detail.medium_bags.unit}
-                  <b>(₹{data.porter_service_detail.medium_bags.total})</b>
-                  </td>
-                  <td>
-                  {data.porter_service_detail.small_bags.unit}
-                  <b>(₹{data.porter_service_detail.small_bags.total})</b>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="baggage-container">
-            <Checkbox
-            className="baggage-input"
-            checked={data.porter_service_detail.baggage_garanteed.baggage_garanteed_opted}
-            name="checkedB"
-            color="primary"   />
-            <span className="baggage-text">
-            Baggage Gurantee
-            </span>
-            <span>
-            </span>
-            </div>
-          </Paper>*/}
         </div>
 }
 

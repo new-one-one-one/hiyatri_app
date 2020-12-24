@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
     tr :{
       height: 10
     }
-    
-  
+
+
   }));
-  
+
 
 
 
@@ -52,7 +52,7 @@ const EditCommandCell = props => {
 };
 
 
-const BookingList = ({ list }) => { 
+const BookingList = ({ list }) => {
     const classes = useStyles();
   const [state, setState] = useState({});
   const [filter_type , filterData] = useState("DISPLAY_All");
@@ -124,8 +124,8 @@ const BookingList = ({ list }) => {
         );
     return (
         <div>
-             
-           <div  className="pt-5 p-2 mt-5">
+
+           <div  className="container-fluid">
             <Divider />
            <div style={{ width: '100%' }}>
             <Box display="flex" p={1} bgcolor="background.paper">
@@ -136,7 +136,7 @@ const BookingList = ({ list }) => {
                  <FormControl className={classes.formControl}>
                     <Typography variant="body2">
                         <span style={{color:"grey", fontSize:"15px"}}>Booking Type: </span>
-                        <Select value={booking_type}  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>                  
+                        <Select value={booking_type}  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
                             <MenuItem value="" disabled>
                             Select
                             </MenuItem>
@@ -145,20 +145,20 @@ const BookingList = ({ list }) => {
                             <MenuItem value="Departure"> <button className="filter-option" onClick={()=>setBooking("Departure")} >Departure</button></MenuItem>
                         </Select>
                     </Typography>
-                    
+
                     </FormControl>
 
                 </Box>
                 <Box p={1} width="50%">
                     <FormControl className={classes.formControl}>
                     <Typography variant="body2">
-                    
+
                     <span style={{color:"grey", fontSize:"15px"}}>Status:  </span>
-                    <Select value={filter_type} 
-                     displayEmpty 
-                     style={{width:"200px", fontSize:"2ex"}} 
+                    <Select value={filter_type}
+                     displayEmpty
+                     style={{width:"200px", fontSize:"2ex"}}
                      disableUnderline inputProps={{ 'aria-label': 'Without label' }}
-                     >                  
+                     >
                         <MenuItem value="" disabled>Booking Status</MenuItem>
                         <MenuItem value="DISPLAY_All"><button className="filter-option" onClick={()=>filterData("DISPLAY_All")} >All</button>    </MenuItem>
                         <MenuItem value="ASSIGN_TO_AGENT"> <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_AGENT")} >ASSIGN_TO_AGENT</button></MenuItem>
@@ -167,37 +167,37 @@ const BookingList = ({ list }) => {
                         <MenuItem value="ASSIGN_TO_ADMIN"><button className="filter-option" onClick={()=>filterData("ASSIGN_TO_ADMIN")}>ASSIGN_TO_ADMIN</button></MenuItem>
                     </Select>
                     </Typography>
-                    
+
                     </FormControl>
                 </Box>
-                
+
                 <Box p={1} width="60%">
                 <FormControl className={classes.formControl}>
                     <Typography variant="body2">
                     <span style={{color:"grey", fontSize:"15px"}}>Assinged To : </span>
-                    <Select value={agent_name}  displayEmpty style={{width:"200px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>                  
+                    <Select value={agent_name}  displayEmpty style={{width:"200px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
                     <MenuItem value="All_AGENTS">
                         <button className="filter-option" onClick={()=>setAgent("All_AGENTS")} >
                             All Agents
-                        </button>   
+                        </button>
                     </MenuItem>
                         {(all_agents) && all_agents.map(element => {
                             return <MenuItem value={element.phone_number} >
                                         <button className="filter-option" onClick={()=>setAgent(element.phone_number)} >
                                             {element.name} ({element.phone_number})
-                                        </button>  
-                                    </MenuItem> 
-                        })} 
+                                        </button>
+                                    </MenuItem>
+                        })}
                     </Select>
                     </Typography>
-                    
+
                     </FormControl>
 
                 </Box>
                 <Box p={1} width="20%">
                     <Button style={{'color':"aqua"}} onClick={()=>{filterData("DISPLAY_All", setBooking("All"), setAgent("All_AGENTS"))}}><b>Clear Filter</b></Button>
                 </Box>
-                
+
             </Box>
         </div>
         <Divider/>
@@ -220,57 +220,8 @@ const BookingList = ({ list }) => {
             </Grid>}
             </div >
         </div>
-        
+
     );
 }
 
  export default BookingList;
-
-       {/* <section className="filters-container">
-             <div className="filters">
-                <button className="filter-btn">
-                    <div className="filter-status">
-                        <b>Status:</b> {filter_type}
-                    </div>
-                </button>
-                <div className="filter-content">
-                    <button className="filter-option" onClick={()=>filterData("DISPLAY_All")} >All</button>    
-                    <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_AGENT")} >ASSIGN_TO_AGENT</button>
-                    <button className="filter-option" onClick={()=>filterData("COMPLETED")} >COMPLETED</button>
-                    <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_ADMIN")}>ASSIGN_TO_ADMIN</button>
-                    <button className="filter-option" onClick={()=>filterData("CANCELLED")}>CANCELLED</button>
-                </div>
-            </div>
-            <div className="filters-1">
-                <button className="filter-btn-1">
-                    <div className="filter-status-1">
-                        <b>Type:</b> {booking_type}
-                    </div>
-                </button>
-                <div className="filter-content-1">
-                    <button className="filter-option-1" onClick={()=>setBooking("All")} >All</button>   
-                    <button className="filter-option-1" onClick={()=>setBooking("Arrival")} >Arrival</button>    
-                    <button className="filter-option-1" onClick={()=>setBooking("Departure")} >Departure</button>
-                </div>
-            </div>
-            <div className="filters-2">
-                <button className="filter-btn-2">
-                    <div className="filter-status-2">
-                        <b>Agent :</b> {agent_name}
-                    </div>
-                </button>
-                <div className="filter-content-2">
-                    <button className="filter-option-2" onClick={()=>setAgent("All_AGENTS")} >
-                        All Agents
-                    </button>   
-                    {(all_agents) && all_agents.map(element => {
-                        return <button className="filter-option-2" onClick={()=>setAgent(element.phone_number)} >
-                                    {element.name} ({element.phone_number})
-                                </button>   
-                    })} 
-                </div>
-            </div>
-         
-        
-        </section>    
-         */}

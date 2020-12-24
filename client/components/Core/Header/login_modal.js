@@ -108,7 +108,7 @@ export default function TransitionsModal() {
 
   return (
     <div>
-     <Button variant="contained" onClick={handleOpen}>Login</Button>
+     <Button className="login-btn" onClick={handleOpen}>Login</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

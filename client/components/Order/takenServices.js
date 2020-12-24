@@ -3,22 +3,21 @@ import {Paper} from "@material-ui/core";
 import useStyles from './style';
 
 const TakenServices = ({data}) => {
-    console.log(data.porter_service_detail, data.cab_service_detail)
   const toShow = data.porter_service_detail.porter_service_opted || data.cab_service_detail.cab_service_opted!==null;
   const classes = useStyles();
   return <>
-         
+
          {(toShow) && (
             <div className="shadow">
-         
+
                 <Paper className={classes.Services}>
-                   
+
                    <div style={{marginTop:"-10px"}}>
-                    <Box className={classes.headingPart} p={1} bgcolor="#000066">
+                    <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
                             <Typography style={{color:"white"}}>Other Services</Typography>
                         </Box>
                    </div>
-                   
+
                     <div style={{marginRight:"10px", marginLeft:"10px"}}>
                     <List>
                        {(data.porter_service_detail.porter_service_opted )
@@ -27,7 +26,7 @@ const TakenServices = ({data}) => {
                                Porter Service
                             </ListItemText>
                             <ListItemSecondaryAction>
-                            {
+                            ₹{
                                 data.porter_service_detail.large_bags.total +
                                 data.porter_service_detail.medium_bags.total+
                                 data.porter_service_detail.small_bags.total
@@ -35,17 +34,17 @@ const TakenServices = ({data}) => {
                             }
                             </ListItemSecondaryAction>
                         </ListItem>
-                        
-                        )} 
-                        
-                       
-                       {( data.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(   
+
+                        )}
+
+
+                       {( data.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
                         <ListItem>
                             <ListItemText>
                                 Baggage Gaurantee
                             </ListItemText>
                             <ListItemSecondaryAction>
-                                {
+                                ₹{
                                 data.porter_service_detail.baggage_garanteed.large_bags.total +
                                 data.porter_service_detail.baggage_garanteed.medium_bags.total+
                                 data.porter_service_detail.baggage_garanteed.small_bags.total
@@ -64,11 +63,11 @@ const TakenServices = ({data}) => {
                     </ListItem>
 
                     )}
-                        
+
                     </List>
                     </div>
                 </Paper>
-                
+
             </div>
          )}
         </>

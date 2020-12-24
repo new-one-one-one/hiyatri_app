@@ -13,7 +13,7 @@ const Steps = () => {
                    return <>
                          <ListItem>
                          <ListItemAvatar>
-                           <Avatar  style={{backgroundColor:"#000066"}}>
+                           <Avatar  style={{backgroundColor:"#2a306c"}}>
                              {i+1}
                            </Avatar>
                          </ListItemAvatar>

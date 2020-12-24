@@ -4,6 +4,13 @@
  .k-header{
    color: white!important;
  }
+ .k-button.k-primary{
+   background-color: #2A306C!important;
+   padding: 5px 10px 5px 10px!important;
+   border-color:white!important;
+   border-radius: 5px!important;
+   background-image: linear-gradient(rgba(0, 0,0, 0), rgba(0, 0, 0, 0))!important;
+ }
  .MuiBackdrop-root{
    background-color: rgb(0 0 0 / 58%)!important;
  }
@@ -1305,7 +1312,7 @@ color: #00c4ff;
   marginTop:"200px"
 }
 
- 
+
 
 /* --------------
   LOGIN MODAL
@@ -1343,4 +1350,8 @@ color: #00c4ff;
 
 #no-text-change{
   text-transform: none;
+}
+
+.login-btn{
+  color:white!important;
 }

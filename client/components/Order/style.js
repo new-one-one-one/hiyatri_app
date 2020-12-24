@@ -134,7 +134,7 @@ const useStyles = makeStyles(Theme =>
     mobileButton:{
     maringBottom:"0%",
     width:"100%",
-    backgroundColor:"#04bdbd",
+    backgroundColor:"#00c4ff",
     color:"white",
     fontWeight:"bold",
     marginTop:"10px",
@@ -144,7 +144,7 @@ const useStyles = makeStyles(Theme =>
       padding:"5px!important",
       color:"white!important",
       fontWeight:800,
-      background:"#04bdbd!important",
+      background:"#00c4ff!important",
       top:'auto',
       bottom:0
     }

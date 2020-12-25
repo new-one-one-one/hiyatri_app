@@ -181,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const BookingDetail = ({ data }) => {
+const BookingDetail = ({ data, reloadData }) => {
   const classes = useStyles();
   const [agent_name, setAgentName] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -199,12 +199,13 @@ const BookingDetail = ({ data }) => {
   };
 
   const assignToAgent = (e) => {
-    let orderId = data.response._id;
+    let orderId = data._id;
      assign_agent(orderId, assignee, token)
         .then(response => {
           if(response.error){
             return console.log(response.error)
           }
+          reloadData(!reload)
           setOpen(false)
         })
         .catch((err) => {
@@ -215,7 +216,7 @@ const BookingDetail = ({ data }) => {
 
   const addComment = (e) => {
     e.preventDefault()
-    create_comment({ order: data.response._id, comment_by: isAuth() && isAuth()._id, comment: commentText}, token)
+    create_comment({ order: data._id, comment_by: isAuth() && isAuth()._id, comment: commentText}, token)
       .then(response => {
         if(response.error){
           return console.log(response.error)
@@ -281,7 +282,7 @@ useEffect(() => {
       console.log(err)
     })
 
-    comment_list(token, data.response._id)
+    comment_list(token, data._id)
       .then(response => {
         if(response.error){
            return console.log(response.error)
@@ -303,7 +304,6 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  console.log(porter, "porter")
   if(porter.porter_service_opted || porter.baggage_garanteed_opted)
     return (
       <div>
@@ -346,6 +346,7 @@ const displayPorterServiceDetails = (porter) =>{
     )
 }
 
+console.log(data)
   return (
   <div>
     {/* Creating heading bar */}
@@ -361,7 +362,7 @@ const displayPorterServiceDetails = (porter) =>{
               <br></br>
             <Box className={classes.headingPart} display="flex" p={1} bgcolor="#2a306c">
                       <Box p={1} width="100%">
-                        BOOKING-ID : {data.response.booking.booking_id}
+                        BOOKING-ID : {data.booking.booking_id}
                       </Box >
             </Box>
 
@@ -372,17 +373,17 @@ const displayPorterServiceDetails = (porter) =>{
                             <Grid  item xs={4}>
                             <b> Meeting Station:</b>
                               <br />
-                            {data.response.booking.booking_information.is_arrival?data.response.booking.booking_information.boarding_station.station_name:data.response.booking.booking_information.reservation_upto.station_name}
+                            {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.station_name:data.booking.booking_information.reservation_upto.station_name}
                             </Grid>
                             <Grid  item xs={4}>
-                            <b> Time Of {data.response.booking.booking_information.is_arrival?"Arrival":"Departure"}</b>
+                            <b> Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}</b>
                             <br />
-                            {data.response.booking.booking_information.is_arrival?data.response.booking.booking_information.boarding_station.time:data.response.booking.booking_information.reservation_upto.time}
+                            {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.time:data.booking.booking_information.reservation_upto.time}
                             </Grid>
                             <Grid  item xs={4}>
                             <b>Number of passengers:</b>
                               <br />
-                              {data.response.booking.passenger_details.length}
+                              {data.booking.passenger_details.length}
                             </Grid>
                         </Grid>
                     <Grid container spacing={1}>
@@ -402,7 +403,7 @@ const displayPorterServiceDetails = (porter) =>{
                   </div>
               </Paper>
 
-             {data.response.booking.passenger_details.map(val => {
+             {data.booking.passenger_details.map(val => {
                 if(val.wheel_chair || val.golf_cart || val.meet_and_greet ){
                 return (
                     <Paper variant="outlined" className={classes.particularOrder}>
@@ -464,28 +465,28 @@ const displayPorterServiceDetails = (porter) =>{
         </div>
         )} */}
         <br></br>
-        {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
+        {(data.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
                                 <Typography>Porter Services</Typography>
                       </Box>
                       <Paper className={classes.particularOrder} variant="outlined">
-                        {displayPorterServiceDetails(data.response.booking.porter_service.porter_service_detail)}
+                        {displayPorterServiceDetails(data.booking.porter_service.porter_service_detail)}
                       </Paper>
                   </Paper>
               </div>
 
         )}
         <br></br>
-        {(data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null)&&(
+        {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
                                 <Typography>Baggage Services</Typography>
                       </Box>
                       <Paper className={classes.particularOrder} variant="outlined">
-                        {displayPorterServiceDetails(data.response.booking.porter_service.porter_service_detail.baggage_garanteed)}
+                        {displayPorterServiceDetails(data.booking.porter_service.porter_service_detail.baggage_garanteed)}
                       </Paper>
                   </Paper>
               </div>
@@ -496,7 +497,7 @@ const displayPorterServiceDetails = (porter) =>{
               <div className={classes.comment_root}>
               <div className="shadow">
              {commentList.map((comment)=>{
-                if(comment.order === data.response._id){
+                if(comment.order === data._id){
                   const temp_date =new Date(comment.createdAt);
                   const date = {
                       keyTime : temp_date.getTime(),
@@ -548,10 +549,9 @@ const displayPorterServiceDetails = (porter) =>{
             <br></br>
         </Grid>
 
-
-        {(data.response.order_status!=='COMPLETED') && (
+        {(data.order_status!=='COMPLETED') && (
             <Grid item xs={12} sm={3}>
-              {(data.response.order_status!=='ASSIGN_TO_AGENT') &&
+              {(data.order_status!=='ASSIGN_TO_AGENT') &&
                 ( <div className="shadow">
                     <Paper className={classes.promocode}>
                       <Box p={1}>
@@ -570,24 +570,22 @@ const displayPorterServiceDetails = (porter) =>{
               <div className="shadow" style={{padding:"10px"}}>
                 <Grid container xs={12} justify="space-between">
                   <Typography  variant="body2" align="left">Current Status : </Typography>
-                  <Typography  variant="subtitle" align="right">{data.response.order_status}</Typography>
+                  <Typography  variant="subtitle" align="right">{data.order_status}</Typography>
                 </Grid>
                 <Grid container xs={12} justify="space-between">
                   <Typography  variant="body2" align="left">Assigned To: </Typography>
-                  <Typography  variant="subtitle" align="right">{getAgentName(data.response.agent)} </Typography>
+                  <Typography  variant="subtitle" align="right">{getAgentName(data.agent)} </Typography>
                 </Grid>
               </div>
-                {(data.response.order_status!=='ASSIGN_TO_AGENT')}
+                {(data.order_status!=='ASSIGN_TO_AGENT')}
               <div>
               </div>
 
-              {(data.response.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
+              {(data.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
                   <Box p={1}>
                      <Button id="btns-text" variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
                   </Box>
               </div>)}
-
-
           </Paper>
             </Grid>
         )}

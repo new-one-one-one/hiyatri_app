@@ -81,6 +81,10 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom:"10px",
       paddingTop:"10px"
     },
+    input_agent:{
+      width:"300px"
+    },
+
     innerDetails:{
       padding:"4px 8px 1px 5px",
       color:"grey",
@@ -170,6 +174,9 @@ const useStyles = makeStyles((theme) => ({
       headFootAgent:{
         backgroundColor:"white"
       },
+      display_modal:{
+        borderRadius:"20px"
+      }
   }));
 
 
@@ -222,14 +229,14 @@ const BookingDetail = ({ data }) => {
     }
 
 
-  const getMyService = (age,needed, type)=>{
+  const getMyService = (needed, type, cost)=>{
     switch(type) {
       case "wheel":
           if(needed){
             return (<div className={classes.innerDetails} >
                   <Grid container xs={12} justify="space-between">
                         <Typography  variant="body2"  align="left">Get wheel chair</Typography>
-                        <Typography  variant="body2" align="right">{process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE}</Typography>
+                        <Typography  variant="body2" align="right">{cost}</Typography>
                   </Grid>
                 </div>
                  )
@@ -240,9 +247,7 @@ const BookingDetail = ({ data }) => {
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Golf cart</Typography>
-                      <Typography  variant="body2" align="right">{(age==="Adult(12yrs to 60yr)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
-                                                                  :(age==="Children(upto 12 years)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE
-                                                                  :process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE))}</Typography>
+                      <Typography  variant="body2" align="right">{cost}</Typography>
                 </Grid>
               </div>
                )
@@ -254,9 +259,7 @@ const BookingDetail = ({ data }) => {
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Meet & Greet</Typography>
                       <Typography  variant="body2" align="right">
-                          {(age==="Adult(12yrs to 60yr)"?process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
-                            :(age==="Children(upto 12 years)"?process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE
-                            :process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE))}
+                         {cost}
                       </Typography>
                 </Grid>
               </div>
@@ -300,8 +303,8 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  console.log(porter)
-  if(porter.porter_service_opted)
+  console.log(porter, "porter")
+  if(porter.porter_service_opted || porter.baggage_garanteed_opted)
     return (
       <div>
         <Grid container spacing={2}>
@@ -333,7 +336,7 @@ const displayPorterServiceDetails = (porter) =>{
                       ₹{
                         porter.large_bags.total +
                         porter.medium_bags.total+
-                       porter.small_bags.total
+                        porter.small_bags.total
                         }
                       </Grid>
                 </Grid>
@@ -410,9 +413,9 @@ const displayPorterServiceDetails = (porter) =>{
                         </Grid>
                       </div>
                       <Divider/>
-                        {getMyService(val.age_group,val.wheel_chair, "wheel")}
-                        {getMyService(val.age_group,val.golf_cart, "golf")}
-                        {getMyService(val.age_group,val.meet_and_greet, "meet")}
+                        {getMyService(val.wheel_chair, "wheel", val.bill.wheel_chair)}
+                        {getMyService(val.golf_cart, "golf",  val.bill.golf_cart)}
+                        {getMyService(val.meet_and_greet, "meet",  val.bill.meet_and_greet)}
                   </Paper>
                         )}
                })
@@ -423,7 +426,9 @@ const displayPorterServiceDetails = (porter) =>{
           </Paper>
          </div>
         <br></br>
-        {(
+
+        {/* NOt showing other services */}
+        {/* {(
           data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted ||
           data.response.booking.porter_service.porter_service_detail.porter_service_opted||
           data.response.booking.cab_service.cab_service_detail.cab_service_opted
@@ -457,7 +462,7 @@ const displayPorterServiceDetails = (porter) =>{
          </Paper>
         </Paper>
         </div>
-        )}
+        )} */}
         <br></br>
         {(data.response.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
               <div className="shadow">
@@ -473,7 +478,19 @@ const displayPorterServiceDetails = (porter) =>{
 
         )}
         <br></br>
+        {(data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null)&&(
+              <div className="shadow">
+                  <Paper className={classes.Services}>
+                      <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
+                                <Typography>Baggage Services</Typography>
+                      </Box>
+                      <Paper className={classes.particularOrder} variant="outlined">
+                        {displayPorterServiceDetails(data.response.booking.porter_service.porter_service_detail.baggage_garanteed)}
+                      </Paper>
+                  </Paper>
+              </div>
 
+        )}
         {/* Comments paragraph */}
          <div>Comments </div>
               <div className={classes.comment_root}>
@@ -583,6 +600,9 @@ const displayPorterServiceDetails = (porter) =>{
         fullWidth
         style={{minHeight:"600px"}}
         open={commentBox}
+        classes={{
+          paper:classes.display_modal
+        }}
         onClose={()=>openCommentBox(false)}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
@@ -609,7 +629,7 @@ const displayPorterServiceDetails = (porter) =>{
          </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={addComment} id="btns-text" type="submit" variant="contained" color="primary">
+          <Button onClick={addComment} className="bd-btn-submit" className="bd-btn-submit" id="btns-text" type="submit" variant="contained" color="primary">
             Submit
           </Button>
           <Button onClick={()=>openCommentBox(false)} id="btns-text" variant="contained" color="secondary">
@@ -624,6 +644,9 @@ const displayPorterServiceDetails = (porter) =>{
         fullWidth
         style={{minHeight:"600px"}}
         open={open}
+        classes={{
+          paper:classes.display_modal
+        }}
         onClose={()=>setOpen(false)}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
@@ -633,7 +656,7 @@ const displayPorterServiceDetails = (porter) =>{
             id="scroll-dialog-description"
             tabIndex={10}
           >
-        <FormControl style={{minWidth:"80%"}} variant="outlined">
+        <FormControl style={{minWidth:"80%"}}>
         <Autocomplete
           onChange={(event, newValue) => {
             if(newValue){
@@ -641,11 +664,11 @@ const displayPorterServiceDetails = (porter) =>{
             }
           }}
           options={agents}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(option) => option.name+"-("+option.phone_number+")"}
           renderInput={(params) => (
            <TextField
              {...params}
-             className=""
+             className={classes.input_agent}
              variant="outlined"
              label="Assignee"
            />
@@ -668,7 +691,7 @@ const displayPorterServiceDetails = (porter) =>{
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={assignToAgent} id="btns-text" variant="contained" color="primary">
+          <Button onClick={assignToAgent} className="bd-btn-submit" id="btns-text" variant="contained" color="primary">
             Assign
           </Button>
           <Button onClick={()=>setOpen(false)} id="btns-text" variant="contained" color="secondary">

@@ -24,13 +24,6 @@ const FinalOrder = () => {
 
   useEffect(() => {
    setData(bookingFromLS())
-   Router.events.on('routeChangeComplete', () => {
-       window.scroll({
-         top: 0,
-         left: 0,
-         behavior: 'smooth'
-       });
-     });
   },[])
 
   const head = () => (

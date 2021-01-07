@@ -504,6 +504,22 @@ module.exports.update_order_status = (req, res) => {
     })
 }
 
+
+
+module.exports.get_orders_for_agent=(req, res)=>{
+  const {agent_id}=req.params;
+  Order.find({agent:agent_id}).exec((err, orders)=>{
+    if(err)
+      return res.statud(400).json({
+        error: err
+      })
+    return res.status(200).json({
+      message: "all order",
+      orders:orders
+    })
+  })
+}
+
 module.exports.cancel_order = (req, res) => {
   const { orderId } = req.params;
   Order.findById(orderId)

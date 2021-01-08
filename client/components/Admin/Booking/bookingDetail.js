@@ -182,7 +182,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data }) => {
-  console.log(data.response.booking);
   const classes = useStyles();
   const [agent_name, setAgentName] = useState(null);
   const [agents, setAgents] = useState([]);

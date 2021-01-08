@@ -48,7 +48,6 @@ const Homepage = () => {
 
   const handleChange  = name => e => {
         if(name==="phone"){
-          console.log(e.target.value)
            dispatch({ type: ACTIONS.PHONE, data: e.target.value })
         }
         if(name==="pnr"){

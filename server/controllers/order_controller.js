@@ -556,7 +556,7 @@ module.exports.cancel_order = (req, res) => {
                  error: err
                })
              }
-             return order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
+             return Order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
                .exec((err, response) => {
                  if(err){
                    return res.statud(400).json({

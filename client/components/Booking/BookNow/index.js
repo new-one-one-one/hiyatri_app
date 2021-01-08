@@ -3,7 +3,7 @@ import PassengerInformation from "./contact";
 import PassengerDetails from "./passenger";
 import PorterService from "./porter";
 import CabService from "./cab";
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Switch from "@material-ui/core/Switch";
@@ -16,10 +16,18 @@ import { create_booking } from '../../../actions/booking';
 import { getCookie, isAuth, setLocalStorage } from "../../../actions/auth";
 import { singleUser } from "../../../actions/user";
 import {useForm} from 'react-hook-form';
-
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@material-ui/core";
 
 const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
-  console.log(data, query, pnrWorked);
+ 
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; 
+var yyyy = today.getFullYear();
+if(dd<10) dd='0'+dd; 
+if(mm<10) mm='0'+mm;
+today = dd+'-'+mm+'-'+yyyy;
+
 
 const theme = useTheme();
 const token = getCookie('token');
@@ -147,7 +155,6 @@ const initialData = {
 },
  total_amount: null
 }
-
 
 const ACTIONS = {
   STATE:"state",
@@ -700,10 +707,7 @@ const handleChange = (value1, value2) => e => {
            }
   }
 }
-
 // console.log(state.porter_service_detail.porter_service_opted)
-
-
 const bookingFromLS = () => {
   if (typeof window === "undefined") {
     return false;
@@ -723,8 +727,6 @@ const handleSubmission = e => {
    }
    Router.push(`/booking/order/`)
 }
-
-
 const passengerBill = () => {
     let passenger_bill = state && state.passenger_details && state.passenger_details.map((passenger, i) => {
             return passenger.bill && passenger.bill.total
@@ -733,8 +735,6 @@ const passengerBill = () => {
 
        return total;
 }
-
-
 const porterBill = () => {
       if(!(state && state.porter_service_detail && state.porter_service_detail.porter_service_opted)){
         return 0;
@@ -745,8 +745,6 @@ const porterBill = () => {
       bill.push(state.porter_service_detail.small_bags.total);
       return bill.reduce((a,b) => a + b);
 }
-
-
 const baggageBill = () => {
   if(!(state && state.porter_service_detail && state.porter_service_detail.baggage_garanteed && state.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)){
     return 0;
@@ -757,7 +755,6 @@ const baggageBill = () => {
       bill.push(state.porter_service_detail.baggage_garanteed.small_bags.total)
       return bill.reduce((a,b) => a + b)
 }
-
 useEffect(() => {
   if(bookingFromLS()){
      return dispatch({ type: ACTIONS.STATE,
@@ -800,10 +797,34 @@ useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
 },[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
 
+const showUavailabitlity = (reason, content ) =>{
+  return (
+      <Dialog open={true} keepMounted>
+      <DialogTitle><b>{reason} </b></DialogTitle>
+      <Divider />
+      <DialogContent>
+        <DialogContentText>
+          {content}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={()=>{Router.push("/")}} size="large" variant="contained" id="yes-btn">Close</Button>
+      </DialogActions>
+    </Dialog>   
+  )
+}
 
+var isValid = false;
+// checking about station code 
+if(query.pid!=="arrival")
+  isValid = data.boarding_station.station_code==="NDLS" || data.boarding_station.station_code==="NZM" ;
+else
+  isValid = data.reservation_upto.station_code==="NDLS" || data.reservation_upto.station_code==="NZM" ;
 
+isValid=isValid && (data.boarding_station.date>today); // checking about date
 
-return <>
+if(isValid && data.boarding_station.date>today){
+  return <>
         <ToastContainer />
          <div className="main-div">
             <form>
@@ -889,6 +910,20 @@ return <>
             </form>
          </div>
       </>
-  };
+}
+else if(data.boarding_station.date<today){
+  return <>
+        {showUavailabitlity("PNR Expired", "Your PNR is of previous date which has passed.! Click on below button, you will be redirected to the homepage shortly.")}
+        </>
+}
+else{
+  return <>
+         {showUavailabitlity("Service Unavailable", "Thank you for joining with us! But we are only supporting Hazart Nizzamuddin Station and New Delhi Station.Click on below button, you will be redirected to the homepage shortly.")}
+        </>
+}  
+
+
+
+};
 
 export default TrainBooking;

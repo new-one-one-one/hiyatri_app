@@ -26,7 +26,8 @@ const TrainBooking = ({ data, query }) => {
            <Private>
              <Layout>
                 {/* pnrWorked props is for finding out the working status */}
-                <BookingComponent data={booking.getBooking()} query={query} pnrWorked = {false}/>
+                <BookingComponent data={booking.getBooking()} query={query} pnrWorked={false}/>
+                
              </Layout>
            </Private>
          </>

@@ -1378,3 +1378,61 @@ color: #00c4ff;
   margin:13px 3px 15px!important;
 
 }
+
+
+/* ===================
+ Cancel ticket modal
+======================
+
+*/
+
+#yes-btn{
+  background-color: #00c4fe;
+  color:white;
+}
+
+#no-btn{
+  color:#00c4fe;
+  border-color: #00c4fe;
+  background-color: none;
+}
+
+#yes-btn, #no-btn{
+  width: 100px;
+  height: 40px;
+  font-weight:bold;
+  text-transform: none;
+}
+
+.on-cancellation{
+  color: gray;
+}
+
+#view_detail{
+  text-transform: none;
+  background-color: #00c4fe;
+  color: white;
+  font-size: small;
+  margin-left: 10px;
+  height: 20px;
+}
+
+.yoyoyo p{
+  display: inline-block;
+}
+
+#modify-btn{
+  text-transform: none;
+  color:#00c4fe;
+  letter-spacing: "0.2em";
+  border-color: #00c4fe;
+  border-radius: 6px;
+  width: 80px;
+}
+
+
+#btn-position{
+  margin-left: 100px;
+  padding-left: 100px;
+}
+ 

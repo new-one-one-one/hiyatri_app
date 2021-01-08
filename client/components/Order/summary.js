@@ -1,8 +1,11 @@
-import { Grid,OutlinedInput,Checkbox,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,ListItemAvatar,ListItem,CardContent,Typography,Divider,Paper,IconButton,AppBar,Toolbar,Menu,MenuItem} from "@material-ui/core";
+import { Grid,OutlinedInput,Checkbox,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,ListItemAvatar,ListItem,CardContent,Typography,Divider,Paper,IconButton,AppBar,Toolbar,Menu,MenuItem, useMediaQuery} from "@material-ui/core";
 import useStyles from './style';
+import {useTheme} from '@material-ui/core/styles';
 
 const Summary = ({ data }) => {
+  const theme = useTheme();
     const classes = useStyles();
+    const matches = useMediaQuery(theme.breakpoints.up("sm"));
   return <div className="shadow">
        <Paper  className={classes.orderFull}>
           <div className="pt-3" />
@@ -12,37 +15,61 @@ const Summary = ({ data }) => {
             </Typography>
           </Box>
           <Paper  className={classes.particularOrder}>
-            <Grid container spacing={1}>
-                 <Grid container spacing={3}>
-                  <Grid  item xs={4} className="pl-4">
-                     <b> Meeting Station</b>
-                  </Grid>
-                  <Grid  item xs={4}>
-                     <b>{`Time of ${data.booking_information.is_arrival?"arrival":"departure"}`}</b>
-                  </Grid>
-                  <Grid  item xs={4}>
-                     <b> Number of passengers </b>
+            {matches?
+              (<Grid container spacing={1}>
+                <Grid container spacing={3}>
+                 <Grid  item xs={4} className="pl-4">
+                    <b> Meeting Station</b>
                  </Grid>
+                 <Grid  item xs={4}>
+                    <b>{`Time of ${data.booking_information.is_arrival?"arrival":"departure"}`}</b>
                  </Grid>
-                 <Grid container spacing={1}>
-                  <Grid item xs={4} className="pl-4">
-                     {data.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:
-                      data.booking_information.boarding_station.station_name}
-                  </Grid>
-                  <Grid  item xs={2}>
-                     <Typography align="center">
-                     {data.booking_information.is_arrival?data.booking_information.reservation_upto.time:
-                      data.booking_information.boarding_station.time}
-                     </Typography>
-                  </Grid>
-                  <Grid  item xs={4}>
-                    <Typography align="right">
-                      {data.passenger_details.length}
-                    </Typography>
-                  </Grid>
+                 <Grid  item xs={4}>
+                    <b> Number of passengers </b>
                 </Grid>
-            </Grid>
+                </Grid>
+                <Grid container spacing={1}>
+                 <Grid item xs={4} className="pl-4">
+                    {data.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:
+                     data.booking_information.boarding_station.station_name}
+                 </Grid>
+                 <Grid  item xs={2}>
+                    <Typography align="center">
+                    {data.booking_information.is_arrival?data.booking_information.reservation_upto.time:
+                     data.booking_information.boarding_station.time}
+                    </Typography>
+                 </Grid>
+                 <Grid  item xs={4}>
+                   <Typography align="right">
+                     {data.passenger_details.length}
+                   </Typography>
+                 </Grid>
+               </Grid>
+           </Grid>
+           ):(
+            <div style={{marginLeft:"10px"}}> 
+              <Box display="flex">
+                <Box width="50%"><b>Station</b></Box>
+                <Box width="10%"><b>:</b></Box>
+                <Box width="50%">{data.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:
+                        data.booking_information.boarding_station.station_name}</Box>
+              </Box>
+              <Box display="flex">
+                  <Box width="50%"><b>Time</b></Box>
+                  <Box width="10%"><b>:</b></Box>
+                  <Box width="50%">{data.booking_information.is_arrival?data.booking_information.reservation_upto.time:
+                     data.booking_information.boarding_station.time}</Box>
+              </Box>
+              <Box display="flex">
+                  <Box width="50%"><b>Passengers</b></Box>
+                  <Box width="10%"><b>:</b></Box>
+                  <Box width="50%">{data.passenger_details.length}</Box>
+              </Box>
+            </div>
+            )}
+            
           </Paper>
+         
           <Paper  className="p-3">
              {data.passenger_details.map((item, i) => {
                return <div className={classes.outerPass}>

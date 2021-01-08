@@ -9,6 +9,7 @@ import Admin from '../../../../components/Core/Protect/admin'
 
 const BookingDetail = ({ router }) => {
   const [data, setData] = useState();
+  const [reload, setReload] = useState(null);
   const token = getCookie('token');
 
   useEffect(() => {
@@ -19,12 +20,13 @@ const BookingDetail = ({ router }) => {
       .catch((err) => {
         console.log(err)
       })
-  },[router])
+  },[router,reload])
 
+console.log(reload)
  return <>
          <Admin>
           <Layout>
-            {data && data.response && <BookingPage data={data} />}
+            {data && data.response && <BookingPage data={data.response} reloadData={(reloads) => setReload(!reloads)}/>}
           </Layout>
          </Admin>
         </>

@@ -563,6 +563,7 @@ module.exports.cancel_order = (req, res) => {
                      error: err
                    })
                  }
+                 console.log(response)
                  return res.status(200).json({
                    status:"Order cancelled successfuly",
                    message:`refunded amount ${order.total_amount}`

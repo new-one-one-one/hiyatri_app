@@ -53,19 +53,29 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                       <Link href='/'>
                          <a>
-                           <img className="icons" src="/images/logo.png" className="h-logo"/>
+                           <img className="icons" src="/images/logo-JPEG.jpeg" className="h-logo"/>
                         </a>
                       </Link>
                     </Typography>
                     {matches ? (
                     <>
                     <Typography />
-                     {!isAuth() && <LoginModal />}
+                     {!isAuth() && <i class="fas fa-user user-login-icon" />}
+                     {!isAuth() && <span><LoginModal /></span>}
+                     {isAuth() && <span>
+                      <i className="fas fa-user-lock user-icon" />
+                      <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
+                     </span>}
                      {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
                     </>
                     ) : (
                       <>
+                       {!isAuth() && <i class="fas fa-user user-login-icon" />}
                        {!isAuth() && <LoginModal />}
+                       {/*isAuth() && <span>
+                        <i className="fas fa-user-lock user-icon" />
+                        <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
+                       </span>*/}
                        {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
                       </>
                     )}

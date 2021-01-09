@@ -95,13 +95,13 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
               <table>
                 <thead>
                   <tr>
-                    <th>Seat No.</th>
-                    <th>Passenger Name*</th>
+                    <th style={{ width:"80px"}}>Seat No.</th>
+                    <th style={{ width:"170px"}}>Passenger Name*</th>
                     <th>Age Group*</th>
-                    <th>Gender*</th>
-                    <th>Meet & Greet </th>
-                    <th>Wheel Chair </th>
-                    <th>Golf Cart </th>
+                    <th style={{ width:"90px"}}>Gender*</th>
+                    <th style={{ width:"100px"}}>Meet & Greet </th>
+                    <th style={{ width:"100px"}}>Wheel Chair </th>
+                    <th style={{ width:"100px"}}>Golf Cart </th>
                   </tr>
                 </thead>
               <tbody>

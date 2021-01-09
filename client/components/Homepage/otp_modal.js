@@ -13,7 +13,7 @@ import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
 import { get_details_by_pnr } from '../../actions/booking';
 import { ToastContainer, toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
-import HashLoader from "react-spinners/HashLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 import Countdown from "react-countdown";
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
           if(response.status==="error"){
             return toast.error(response.message)
           }
+          send()
           dispatch({ type: ACTIONS.MODAL, data: true })
         })
         .catch((err) => {
@@ -139,11 +140,11 @@ const useStyles = makeStyles((theme) => ({
      })
   }
 
-  const verifyCallback = (response) => {
-     if(response){
-        dispatch({ type: ACTIONS.RECAPTCHA, data: true })
-     }
-  }
+  // const verifyCallback = (response) => {
+  //    if(response){
+  //       dispatch({ type: ACTIONS.RECAPTCHA, data: true })
+  //    }
+  // }
 
 
   const handleResendOTP = () => {
@@ -172,9 +173,9 @@ const useStyles = makeStyles((theme) => ({
   return (
     <div>
       <div className="hp-loader">
-        <HashLoader
+        <ClipLoader
         size={150}
-        color={"blue"}
+        color={"skyblue"}
         loading={showSpinner} />
       </div>
 
@@ -207,7 +208,7 @@ const useStyles = makeStyles((theme) => ({
           <div className={classes.paper}>
           <div className="lg-container">
           <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
-              {!data.send_btn && <div className="text-center">
+              {/*<div className="text-center">
               <OutlinedInput
               variant="outlined"
               type="Number"
@@ -230,10 +231,9 @@ const useStyles = makeStyles((theme) => ({
 
               <Button
                 onClick={send}
-                disabled={!data.recaptcha}
                 variant="contained"
                 className="md-btn m-2">Continue</Button>
-              </div>}
+              </div>*/}
 
               {data.send_btn && <div className="text-center">
               <div className="otp-msg">OTP has been sent to {state.phone_number}</div>

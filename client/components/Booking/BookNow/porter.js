@@ -19,19 +19,19 @@ const PorterService = ({ handleChange, state }) => {
                 <td>
                   <OutlinedInput
                   type="number"
-                  value={state.porter_service_detail.large_bags.unit}
+
                    onChange={handleChange("porter_service_lg_bags")} />
                 </td>
                 <td>
                   <OutlinedInput
                   type="number"
-                  value={state.porter_service_detail.medium_bags.unit}
+
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
                 <td>
                   <OutlinedInput
                    type="number"
-                   value={state.porter_service_detail.small_bags.unit}
+                 
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>
 

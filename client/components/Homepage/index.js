@@ -12,7 +12,8 @@ import { isAuth } from '../../actions/auth';
 import { get_details_by_pnr } from '../../actions/booking';
 import { ToastContainer, toast } from 'react-toastify';
 import Router from 'next/router';
-import HashLoader from "react-spinners/HashLoader";
+import ClipLoader from "react-spinners/ClipLoader";
+import Loader from 'react-loader-spinner'
 
 
 
@@ -51,6 +52,10 @@ const Homepage = () => {
            dispatch({ type: ACTIONS.PHONE, data: e.target.value })
         }
         if(name==="pnr"){
+          const pnrRegEx = new RegExp("^[0-9]*$")
+           if(!pnrRegEx){
+             return;
+           }
           dispatch({ type: ACTIONS.PNR, data: e.target.value })
         }
         if(name==="status"){
@@ -58,6 +63,7 @@ const Homepage = () => {
         }
 
   }
+  console.log(state.pnr_number)
 
   const onSubmit = (data) => {
      console.log(data)
@@ -86,7 +92,7 @@ const Homepage = () => {
       <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
     </div>}
 <div className="row justify-content-center">
-    <div className="col-md-5 col-sm-10 hp-inp-container-l-o">
+    <div className="col-md-4 col-sm-8 hp-inp-container-l-o text-center">
             <div className="row justify-content-center ">
                 <div className='hp-inp-container-l'>
                  <FormControl component="fieldset">
@@ -96,13 +102,11 @@ const Homepage = () => {
                     onChange={handleChange("status")}>
                    <FormControlLabel
                     value="arrival"
-                    control={<Radio
-                    color="primary"/>}
+                    control={<Radio color="primary"/>}
                     label="Arrival"/>
                    <FormControlLabel
                     value="departure"
-                    control={<Radio
-                    color="primary"/>}
+                    control={<Radio color="primary"/>}
                     label="Departure"
                     className="ml-5"/>
                  </RadioGroup>
@@ -110,7 +114,7 @@ const Homepage = () => {
 
                  <TextField
                  variant="outlined"
-                 type="Number"
+                 type="number"
                  size="small"
                  name="PNR_NUMBER"
                  inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
@@ -118,7 +122,7 @@ const Homepage = () => {
                  error={errors.PNR_NUMBER?true:false}
                  helperText={errors.PNR_NUMBER?"Valid PNR number is required":""}
                  onChange={handleChange("pnr")}
-                 className="hp-input "
+                 className="hp-input"
                  placeholder="PNR No."
                  fullWidth />
 
@@ -148,8 +152,6 @@ const showFormWhenNotLoggedIn = () => {
                       <div className="hp-radio-btn text-center p-1">
                           <FormControl component="fieldset">
                           <RadioGroup
-                             aria-label="gender"
-                             name="gender1"
                              row
                              value={state.status}
                              onChange={handleChange("status")}>
@@ -168,11 +170,11 @@ const showFormWhenNotLoggedIn = () => {
                           </FormControl>
                       </div>
                       <div className="row justify-content-center">
-                          <div className="col-md-6">
+                          <div className="col-md-5">
                            <TextField
                            variant="outlined"
                            name="phone_number"
-                           type="Number"
+                           type="number"
                            size="small"
                            inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                            error={errors.phone_number ?true:false}
@@ -186,10 +188,10 @@ const showFormWhenNotLoggedIn = () => {
 
                            />
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-5">
                           <TextField
                           variant="outlined"
-                          type="Number"
+                          type="number"
                           size="small"
                           name="pnr_number"
                           inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
@@ -218,10 +220,13 @@ const showFormWhenNotLoggedIn = () => {
   return <>
              <ToastContainer />
              <div className="hp-loader">
-               <HashLoader
-               size={150}
-               color={"blue"}
-               loading={showSpinner} />
+             <Loader
+                 type="Oval"
+                 color="#00bcd4"
+                 height={150}
+                 width={150}
+                 visible={showSpinner}
+              />
              </div>
              <div className="hp-curve" />
              <div className="hp-welcome">

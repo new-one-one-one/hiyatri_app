@@ -11,6 +11,7 @@ import OtpInput from 'react-otp-input';
 import { ToastContainer, toast } from 'react-toastify';
 import { sendingOTP, verifyingOTP, authenticate } from '../../../actions/auth';
 import Countdown from "react-countdown";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 
 
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:"8px",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(3, 7, 3),
+    padding: theme.spacing(5, 2, 5),
   },
 }));
 
@@ -105,7 +106,6 @@ export default function TransitionsModal() {
       }
     };
 
-
   return (
     <div>
      <Button className="login-btn" onClick={handleOpen}>Login</Button>
@@ -126,7 +126,7 @@ export default function TransitionsModal() {
           <ToastContainer />
             <div className="">
               <div className="row justify-content-center">
-                <div className="col-md-4 lg-container">
+                <div className="lg-container">
                      <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
                    {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                        <TextField
@@ -141,21 +141,20 @@ export default function TransitionsModal() {
                         onChange={e =>  set_phone_number(e.target.value)}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."
-                        className="hp-input mt-2 mb-2"
+                        className="login-modal-input mb-2 mt-2"
                         fullWidth />
 
-                        <Recaptcha
+                        {/*<Recaptcha
                           className="mb-2 mt-2 pt-1"
                           sitekey="6Le9rd8ZAAAAAMM-XB7SMhZUQCHa6OCbXry-nlWL"
                           render="explicit"
                           verifyCallback={verifyCallback}
-                          />
+                          />*/}
 
                       <Button
                           size="large"
-                          disabled={!recaptcha_check}
                           onClick={handleSubmit(onSubmit)}
-                          className="m-2 md-btn">
+                          className="m-2 login-modal-continue">
                           Continue
                       </Button>
                    </form>}
@@ -170,7 +169,7 @@ export default function TransitionsModal() {
                             numInputs={6}
                             separator={<span></span>}
                           />
-                          {resend_otp && <Countdown date={Date.now() + 30000} renderer={renderer}/>}
+                          {resend_otp && <Countdown date={Date.now() + 30000} renderer={renderer} />}
                           {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
                           <Button
                               variant="contained"

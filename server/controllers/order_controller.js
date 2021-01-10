@@ -243,15 +243,17 @@ if(isSignatureValid){
   //if generatedSignature matched with the given razorpay_signature then update the payment status to Verified
   const update_info = {razorpay_payment_id:  razorpay_payment_id, payment_verified: true, order_status:"ASSIGN_TO_ADMIN"}
   return   Order.findOneAndUpdate({ razorpay_order_id: razorpay_order_id },update_info,{ new: true })
+        .populate("booking")
         .exec((err, result) => {
           if(err || !result){
             return res.status(400).json({
               error: err
             })
           }
+          console.log(result)
           Transaction.findOneAndUpdate({ order_id: result._id }, {status: "SUCCESS"}, { new: true})
             .exec((err, transaction) => {
-              if(err || !result){
+              if(err || !transaction){
                 return res.status(400).json({
                   error: err
                 })
@@ -259,17 +261,14 @@ if(isSignatureValid){
 
               var options = {
                 'method': 'POST',
-                'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS\n`,
-                'headers': {
-                  'Cookie': '__cfduid=db7883e7eb7ba3f64d5936752539e004e1605672337'
-                },
+                'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
                 formData: {
                   'From': 'HIYBTS',
-                  'To': '9140283163',
-                  'TemplateName': 'Booking successful',
-                  'VAR1':'Aman',
-                  'VAR2':'Arr_0021',
-                  'VAR3': '<a href="https://hiyatri.com">check</a>'
+                  'To': result.booking.passenger_contact_information.primary_contact_number,
+                  'TemplateName': 'bookingSuccessful',
+                  'VAR1':result.booking.passenger_contact_information.name,
+                  'VAR2':result.booking.booking_id,
+                  'VAR3': "https://hiyatri.com"
                 }
               };
               request(options, function (error, response) {

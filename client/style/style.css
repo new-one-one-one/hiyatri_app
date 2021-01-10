@@ -439,7 +439,15 @@ input[type=number]::-webkit-outer-spin-button {
   /* box-shadow: #E9ECEE 0px 0.20rem .3rem 0.1rem; */
 }
 .hp-radio-btn{
-  /* padding: 17px 17px 7px 19px; */
+ padding-top: 23px;
+ padding-bottom: 10px;
+}
+@media (max-width:767px) {
+  .hp-radio-btn{
+   padding-top: 5px;
+   padding-bottom: 0px;
+
+  }
 }
 .hp-inpt-btn-c{
   /* position: absolute!important;

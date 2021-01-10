@@ -27,6 +27,7 @@ const UserAllBookings = () => {
        return console.log(err)
     })
   },[])
+ 
     return <>
             {head()}
             <Private>

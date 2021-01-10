@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
-
-
   const ACTIONS = {
     MODAL:"modal",
     RECAPTCHA:"recaptcha",
@@ -79,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
   };
 
 
-
   const handleChange = (e) => {
     dispatch({ type: ACTIONS.OTP_CODE, data: e })
   }
@@ -105,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
         .catch((err) => {
           toast.error("Something went wrong! Try after sometime.")
         })
-
   }
 
 

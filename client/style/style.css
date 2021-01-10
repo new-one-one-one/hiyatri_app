@@ -52,7 +52,7 @@ a{
   color: black;
 }
 body{
-  background-color: #FDFDFD;
+  /* background-color: #f6f6f640!important; */
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -249,7 +249,22 @@ input[type=number]::-webkit-outer-spin-button {
   text-align: center;
   padding-top: 80px;
 }
+.hp-style{
+  text-align: center;
+  padding-top: 10px;
+}
 .hp-sub-1{
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+
+.hp-subs-2{
+  font-size: 14px;
+  font-weight: 600;
+  color: #d9d9d9;
+}
+.hp-subs-1{
   font-size: 20px;
   font-weight: 500;
   color: white;
@@ -261,6 +276,19 @@ input[type=number]::-webkit-outer-spin-button {
   color: #d9d9d9;
 }
 
+@media (max-width:767px) {
+  .hp-sub-1{
+    font-size: 0px;
+    font-weight: 500;
+    color: white;
+  }
+
+  .hp-sub-2{
+    font-size: 0px;
+    font-weight: 600;
+    color: white;
+  }
+}
 @media (min-width:767px) {
   .hp-welcome-text-c{
     text-align: center;
@@ -277,11 +305,7 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 20px;
   }
 }
-@media (max-width: 767px) {
-  .hp-welcome{
-    /* min-height:400px; */
-  }
-}
+
 
 .hp-mg{
   margin-top: 260px;
@@ -333,24 +357,23 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: white;
   padding: 0px;
   height: 180px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .hp-inp-container-l{
   max-width: 350px!important;
 }
 .hp-inp-container-l-o{
-  position: absolute;
-  /* top:20%!important; */
   min-width: 300px!important;
-  padding:10px!important;
+  padding:25px!important;
   background-color: white;
   height: 180px!important;
-  border-radius: 10px;
+  border-radius: 0px 0px 10px 10px;
   box-shadow: #E9ECEE .6px 0.3rem 0.5rem 0rem;
 }
 @media (min-width:767px) {
   .hp-inp-container-l-o{
     margin-top: 20px;
+    border-radius: 10px 10px 10px 10px;
     box-shadow: white 0px 0px 0px 0px!important;
   }
 }
@@ -439,7 +462,7 @@ input[type=number]::-webkit-outer-spin-button {
   left:10px;
   right:10px;
   padding: 10px;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 20px 20px 20px 20px;
   box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
   /* background-color: #ffffff; */
   /* z-index: 1100; */

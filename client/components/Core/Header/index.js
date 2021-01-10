@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { isAuth } from '../../../actions/auth'
 import Router from "next/router";
 import LoginModal from './login_modal';
+import dynamic from 'next/dynamic'
 
 
 const useStyles = makeStyles(theme =>
@@ -60,16 +61,19 @@ const Header = () => {
                     {matches ? (
                     <>
                     <Typography />
-                     {!isAuth() && <i class="fas fa-user user-login-icon" />}
-                     {!isAuth() && <span><LoginModal /></span>}
-                     {isAuth() && <span>
-                      <i className="fas fa-user-lock user-icon" />
-                      <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
-                     </span>}
-                     {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                    <div className="header-menu row">
+                       {!isAuth() && <i class="fas fa-user user-login-icon" />}
+                       {!isAuth() && <span><LoginModal /></span>}
+                       {isAuth() && <span>
+                        <i className="fas fa-user-lock user-icon" />
+                        <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
+                       </span>}
+                       {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                     </div>
                     </>
                     ) : (
                       <>
+                          <div className="header-menu row">
                        {!isAuth() && <i class="fas fa-user user-login-icon" />}
                        {!isAuth() && <LoginModal />}
                        {/*isAuth() && <span>
@@ -77,6 +81,7 @@ const Header = () => {
                         <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
                        </span>*/}
                        {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                       </div>
                       </>
                     )}
 

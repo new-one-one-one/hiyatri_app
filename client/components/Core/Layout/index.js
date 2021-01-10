@@ -1,7 +1,10 @@
 import Router from "next/router";
 import NProgress from "nprogress";
-import Header from '../Header';
 import Footer from '../Footer'
+import dynamic from 'next/dynamic'
+const Header = dynamic(() => import('../Header'), {
+  ssr: false,
+})
 
 Router.onRouteChangeStart = url => NProgress.start();
 Router.onRouteChangeComplete = url => NProgress.done();

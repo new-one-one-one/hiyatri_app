@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/Drawer';
 import {Button, ListItemAvatar, Avatar} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -25,6 +25,10 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import TrainOutlinedIcon from '@material-ui/icons/TrainOutlined';
+const SwipeableDrawer = dynamic(() => import('@material-ui/core/Drawer'), {
+  ssr: false,
+})
+
 const useStyles = makeStyles({
   list: {
     width: 220
@@ -158,5 +162,6 @@ const SideDrawer = ({ close, status, router }) => {
     </div>
   );
 }
+
 
 export default withRouter(SideDrawer);

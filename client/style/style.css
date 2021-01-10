@@ -207,6 +207,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .h-logo{
   border-radius: 20%;
+  position: fixed;
+  left: 15px;
+  top: 1px;
    height: 68px;
    width: 140px;
    margin-top: 1px;
@@ -221,6 +224,11 @@ input[type=number]::-webkit-outer-spin-button {
     height: 65px;
     width: 92px;
   }
+}
+.header-menu{
+  position: fixed;
+  top: 22px;
+  right: 30px;
 }
 /* ---------------
  Homepage styling
@@ -1500,6 +1508,7 @@ color: #00c4ff;
   font-size: 16px;
 }
 .user-login-icon{
+  margin-top: 6px;
   font-size: 22px;
 }
 .login-modal-input{

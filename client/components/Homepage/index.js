@@ -2,7 +2,7 @@ import { useReducer, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import {TextField,InputAdornment} from '@material-ui/core';
 import Modal from './otp_modal';
-import Radio from '@material-ui/core/Radio';
+// import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,6 +15,7 @@ import Router from 'next/router';
 import ClipLoader from "react-spinners/ClipLoader";
 import Loader from 'react-loader-spinner'
 import useWindowSize from '../../helpers/windowDimension';
+import { Radio } from 'antd';
 
 const Homepage = () => {
   const {register, errors,handleSubmit} = useForm()
@@ -93,21 +94,11 @@ const Homepage = () => {
         <div className="col-md-4 col-sm-8 hp-inp-container-l-o text-center">
                 <div className="row justify-content-center ">
                     <div className='hp-inp-container-l'>
-                     <FormControl component="fieldset">
-                     <RadioGroup
-                        row
-                        value={state.status}
-                        onChange={handleChange("status")}>
-                       <FormControlLabel
-                        value="arrival"
-                        control={<Radio color="primary"/>}
-                        label="Arrival"/>
-                       <FormControlLabel
-                        value="departure"
-                        control={<Radio color="primary"/>}
-                        label="Departure"
-                        className="ml-5"/>
-                     </RadioGroup>
+                     <FormControl component="fieldset" className="mb-3">
+                         <Radio.Group onChange={handleChange("status")} value={state.status}>
+                          <Radio value="arrival">Arrival</Radio>
+                          <Radio value={"departure"}>Departure</Radio>
+                        </Radio.Group>
                      </FormControl>
 
                      <TextField
@@ -147,24 +138,12 @@ const showFormWhenNotLoggedIn = () => {
      <div className="row justify-content-center">
         <div className="col-md-6 col-sm-12 hp-inp-outer">
                    <div className="hp-inp-container">
-                        <div className="hp-radio-btn text-center p-1">
+                        <div className="hp-radio-btn text-center p-4">
                             <FormControl component="fieldset">
-                            <RadioGroup
-                               row
-                               value={state.status}
-                               onChange={handleChange("status")}>
-                              <FormControlLabel
-                               value="arrival"
-                               control={<Radio
-                               color="primary"/>}
-                               label="Arrival"/>
-                              <FormControlLabel
-                               value="departure"
-                               control={<Radio
-                               color="primary"/>}
-                               label="Departure"
-                               className="ml-5"/>
-                            </RadioGroup>
+                              <Radio.Group onChange={handleChange("status")} value={state.status}>
+                               <Radio value="arrival">Arrival</Radio>
+                               <Radio value={"departure"}>Departure</Radio>
+                             </Radio.Group>
                             </FormControl>
                         </div>
                         <div className="row justify-content-center">

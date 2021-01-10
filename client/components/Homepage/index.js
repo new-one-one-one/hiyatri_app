@@ -138,7 +138,7 @@ const showFormWhenNotLoggedIn = () => {
      <div className="row justify-content-center">
         <div className="col-md-6 col-sm-12 hp-inp-outer">
                    <div className="hp-inp-container">
-                        <div className="hp-radio-btn text-center p-4">
+                        <div className="hp-radio-btn text-center">
                             <FormControl component="fieldset">
                               <Radio.Group onChange={handleChange("status")} value={state.status}>
                                <Radio value="arrival">Arrival</Radio>

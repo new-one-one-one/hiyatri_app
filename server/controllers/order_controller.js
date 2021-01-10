@@ -256,32 +256,31 @@ if(isSignatureValid){
                   error: err
                 })
               }
-                  return res.status(200).json({
+
+              var options = {
+                'method': 'POST',
+                'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS\n`,
+                'headers': {
+                  'Cookie': '__cfduid=db7883e7eb7ba3f64d5936752539e004e1605672337'
+                },
+                formData: {
+                  'From': 'HIYBTS',
+                  'To': '9140283163',
+                  'TemplateName': 'Booking successful',
+                  'VAR1':'Aman',
+                  'VAR2':'Arr_0021',
+                  'VAR3': '<a href="https://hiyatri.com">check</a>'
+                }
+              };
+              request(options, function (error, response) {
+                console.log(error)
+                if (error) throw new Error(error);
+                return res.status(200).json({
                   message: 'Payment verified successfuly',
                   status:"ok"
                 })
-            })
-          // var options = {
-          //   'method': 'POST',
-          //   'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS\n`,
-          //   'headers': {
-          //     'Cookie': '__cfduid=db7883e7eb7ba3f64d5936752539e004e1605672337'
-          //   },
-          //   formData: {
-          //     'From': 'HBSSMS',
-          //     'To': '9140283163',
-          //     'TemplateName': 'Booking successful',
-          //     'VAR1': 'Aman',
-          //     'VAR2': 'Arr_0021'
-          //   }
-          // };
-          // request(options, function (error, response) {
-          //   if (error) throw new Error(error);
-          //   return res.status(200).json({
-          //     message: 'Payment verified successfuly',
-          //     status:"ok"
-          //   })
-          // });
+              });
+          })
       })
   }
 return res.status(400).json({

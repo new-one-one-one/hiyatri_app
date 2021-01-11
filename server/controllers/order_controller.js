@@ -507,7 +507,9 @@ module.exports.update_order_status = (req, res) => {
 module.exports.get_orders_for_agent=(req, res)=>{
   const {agent_id}=req.params;
   Order.find({agent:agent_id})
-  .populate("booking")
+  .populate({ path: 'booking',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .exec((err, orders)=>{
     if(err)
       return res.statud(400).json({

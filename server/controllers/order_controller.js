@@ -506,7 +506,9 @@ module.exports.update_order_status = (req, res) => {
 
 module.exports.get_orders_for_agent=(req, res)=>{
   const {agent_id}=req.params;
-  Order.find({agent:agent_id}).exec((err, orders)=>{
+  Order.find({agent:agent_id})
+  .populate("booking")
+  .exec((err, orders)=>{
     if(err)
       return res.statud(400).json({
         error: err

@@ -144,8 +144,8 @@ const useStyles = makeStyles((theme) => ({
 
 
   const handleResendOTP = () => {
-       set_resend_otp(true)
-       onSubmit()
+        onSubmit()
+        set_resend_otp(true)
   }
 
 
@@ -203,7 +203,6 @@ const useStyles = makeStyles((theme) => ({
         <Fade in={data.open_modal}>
           <div className={classes.paper}>
           <div className="lg-container">
-          <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
               {/*<div className="text-center">
               <OutlinedInput
               variant="outlined"

@@ -230,7 +230,7 @@ const useStyles = makeStyles((theme) => ({
                 className="md-btn m-2">Continue</Button>
               </div>*/}
 
-              {data.send_btn && <div className="text-center">
+              {<div className="text-center">
               <div className="otp-msg">OTP has been sent to {state.phone_number}</div>
               <OtpInput
                 value={data.otp_code}

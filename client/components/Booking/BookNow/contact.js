@@ -8,7 +8,7 @@ return <>
           <tr>
             <th>Name*</th>
             <th>Primary Mobile Number*</th>
-            <th>Secondary Mobile No.</th>
+            <th>Back up Mobile No.</th>
             <th>Email ID</th>
           </tr>
         </thead>
@@ -20,7 +20,6 @@ return <>
               variant="outlined"
               type="text"
               name="passenger_name"
-              value={data.passenger_contact_information.name}
               onChange={handleChange("passenger_name")}
               inputRef={register({required: true, minLength:2})}
               error={errors.passenger_name ?true:false}
@@ -46,7 +45,6 @@ return <>
               <TextField
                fullWidth
                variant="outlined"
-               value={data.passenger_contact_information.passenger_secondary_number}
                onChange={handleChange("passenger_secondary_number")}
                type="number" />
             </td>
@@ -54,7 +52,6 @@ return <>
               <TextField
                fullWidth
                variant="outlined"
-               value={data.passenger_contact_information.passenger_email}
                onChange={handleChange("passenger_email")}
                type="email" />
             </td>

@@ -10,7 +10,7 @@ import Services from './services';
 import Summary from './summary';
 import TakenServices from './takenServices';
 import Router from 'next/router';
-
+import Loader from 'react-loader-spinner'
 
 const GreenCheckbox = withStyles({
   root: {
@@ -32,6 +32,7 @@ const classes = useStyles();
 const [originalOrder, setOriginalOrder] = useState();
 const order_id = query && query.order_id;
 const [termsChecked, setTermsChecked] = useState(false);
+const [loader, setLoader] = useState(false);
 
 useEffect(() => {
   if(order_id){
@@ -46,10 +47,19 @@ useEffect(() => {
         console.log(err)
       })
   }
+
+  Router.events.on('routeChangeComplete', () => {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    });
 },[])
 
 
 const order = (e) => {
+  setLoader(true)
  e.preventDefault()
   if(!order_id){
     return create_order(data)
@@ -57,6 +67,7 @@ const order = (e) => {
          if(response.error){
            return console.log(response.error)
          }
+         setLoader(false)
          paymentHandler(response._id)
        })
        .catch((err) => {
@@ -108,6 +119,7 @@ const updateOrder = () => {
          })
 }
 
+
 const paymentHandler = (orderId, amount) => {
     const options = {
     key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
@@ -116,8 +128,8 @@ const paymentHandler = (orderId, amount) => {
     name: 'Payments',
     order_id: orderId,
     prefill: {
-      contact: isAuth() && isAuth().mobile,
-      email: isAuth() && isAuth().email
+      contact: isAuth() && isAuth().phone_number,
+      email: data && data.passenger_contact_information.email_id
     },
     theme: {
     color: '#2a306c',
@@ -161,6 +173,15 @@ const terms = () => {
 }
 
 return  <>
+      <div className="hp-loader">
+      <Loader
+          type="Oval"
+          color="#00bcd4"
+          height={150}
+          width={150}
+          visible={loader}
+       />
+      </div>
       <div className="mt-4">
         <h2 className="order-title">
          ORDER DETAIL

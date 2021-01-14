@@ -13,7 +13,7 @@ import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
 import { get_details_by_pnr } from '../../actions/booking';
 import { ToastContainer, toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
-import HashLoader from "react-spinners/HashLoader";
+import ClipLoader from "react-spinners/ClipLoader";
 import Countdown from "react-countdown";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,8 +41,6 @@ const useStyles = makeStyles((theme) => ({
     otp_code:"",
     send_btn:false,
   }
-
-
 
 
   const ACTIONS = {
@@ -79,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
   };
 
 
-
   const handleChange = (e) => {
     dispatch({ type: ACTIONS.OTP_CODE, data: e })
   }
@@ -99,12 +96,12 @@ const useStyles = makeStyles((theme) => ({
           if(response.status==="error"){
             return toast.error(response.message)
           }
+          send()
           dispatch({ type: ACTIONS.MODAL, data: true })
         })
         .catch((err) => {
           toast.error("Something went wrong! Try after sometime.")
         })
-
   }
 
 
@@ -139,16 +136,19 @@ const useStyles = makeStyles((theme) => ({
      })
   }
 
-  const verifyCallback = (response) => {
-     if(response){
-        dispatch({ type: ACTIONS.RECAPTCHA, data: true })
-     }
-  }
+
+  
+
+  // const verifyCallback = (response) => {
+  //    if(response){
+  //       dispatch({ type: ACTIONS.RECAPTCHA, data: true })
+  //    }
+  // }
 
 
   const handleResendOTP = () => {
-       set_resend_otp(true)
-       onSubmit()
+        onSubmit()
+        set_resend_otp(true)
   }
 
 
@@ -172,9 +172,9 @@ const useStyles = makeStyles((theme) => ({
   return (
     <div>
       <div className="hp-loader">
-        <HashLoader
+        <ClipLoader
         size={150}
-        color={"blue"}
+        color={"skyblue"}
         loading={showSpinner} />
       </div>
 
@@ -206,36 +206,9 @@ const useStyles = makeStyles((theme) => ({
         <Fade in={data.open_modal}>
           <div className={classes.paper}>
           <div className="lg-container">
-          <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
-              {!data.send_btn && <div className="text-center">
-              <OutlinedInput
-              variant="outlined"
-              type="Number"
-              size="small"
-              disabled={true}
-              startAdornment={<InputAdornment position="start">+91</InputAdornment>}
-              error={false}
-              value={state.phone_number}
-              placeholder="Phone no."
-              className="hp-input mb-2 mt-2 pt-1"
-              fullWidth
-              />
+            
 
-              <Recaptcha
-                className="mb-2 mt-2 pt-1"
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY}
-                render="explicit"
-                verifyCallback={verifyCallback} />
-
-
-              <Button
-                onClick={send}
-                disabled={!data.recaptcha}
-                variant="contained"
-                className="md-btn m-2">Continue</Button>
-              </div>}
-
-              {data.send_btn && <div className="text-center">
+            {<div className="text-center">
               <div className="otp-msg">OTP has been sent to {state.phone_number}</div>
               <OtpInput
                 value={data.otp_code}
@@ -266,3 +239,31 @@ const useStyles = makeStyles((theme) => ({
 }
 
 export default Modalbox;
+
+
+  {/*<div className="text-center">
+              <OutlinedInput
+              variant="outlined"
+              type="Number"
+              size="small"
+              disabled={true}
+              startAdornment={<InputAdornment position="start">+91</InputAdornment>}
+              error={false}
+              value={state.phone_number}
+              placeholder="Phone no."
+              className="hp-input mb-2 mt-2 pt-1"
+              fullWidth
+              />
+
+              <Recaptcha
+                className="mb-2 mt-2 pt-1"
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY}
+                render="explicit"
+                verifyCallback={verifyCallback} />
+
+
+              <Button
+                onClick={send}
+                variant="contained"
+                className="md-btn m-2">Continue</Button>
+              </div>*/}

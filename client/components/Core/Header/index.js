@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { isAuth } from '../../../actions/auth'
 import Router from "next/router";
 import LoginModal from './login_modal';
+import dynamic from 'next/dynamic'
 
 
 const useStyles = makeStyles(theme =>
@@ -53,20 +54,34 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                       <Link href='/'>
                          <a>
-                           <img className="icons" src="/images/logo.png" className="h-logo"/>
+                           <img className="icons" src="/images/logo-JPEG.jpeg" className="h-logo"/>
                         </a>
                       </Link>
                     </Typography>
                     {matches ? (
                     <>
                     <Typography />
-                     {!isAuth() && <LoginModal />}
-                     {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                    <div className="header-menu row">
+                       {!isAuth() && <i class="fas fa-user user-login-icon" />}
+                       {!isAuth() && <span><LoginModal /></span>}
+                       {isAuth() && <span>
+                        <i className="fas fa-user-lock user-icon" />
+                        <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
+                       </span>}
+                       {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                     </div>
                     </>
                     ) : (
                       <>
+                          <div className="header-menu row">
+                       {!isAuth() && <i class="fas fa-user user-login-icon" />}
                        {!isAuth() && <LoginModal />}
+                       {/*isAuth() && <span>
+                        <i className="fas fa-user-lock user-icon" />
+                        <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
+                       </span>*/}
                        {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                       </div>
                       </>
                     )}
 

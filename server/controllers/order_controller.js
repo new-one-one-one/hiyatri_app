@@ -243,45 +243,43 @@ if(isSignatureValid){
   //if generatedSignature matched with the given razorpay_signature then update the payment status to Verified
   const update_info = {razorpay_payment_id:  razorpay_payment_id, payment_verified: true, order_status:"ASSIGN_TO_ADMIN"}
   return   Order.findOneAndUpdate({ razorpay_order_id: razorpay_order_id },update_info,{ new: true })
+        .populate("booking")
         .exec((err, result) => {
           if(err || !result){
             return res.status(400).json({
               error: err
             })
           }
+          console.log(result)
           Transaction.findOneAndUpdate({ order_id: result._id }, {status: "SUCCESS"}, { new: true})
             .exec((err, transaction) => {
-              if(err || !result){
+              if(err || !transaction){
                 return res.status(400).json({
                   error: err
                 })
               }
-                  return res.status(200).json({
+
+              var options = {
+                'method': 'POST',
+                'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
+                formData: {
+                  'From': 'HIYBTS',
+                  'To': result.booking.passenger_contact_information.primary_contact_number,
+                  'TemplateName': 'bookingSuccessful',
+                  'VAR1':result.booking.passenger_contact_information.name,
+                  'VAR2':result.booking.booking_id,
+                  'VAR3': "https://hiyatri.com"
+                }
+              };
+              request(options, function (error, response) {
+                console.log(error)
+                if (error) throw new Error(error);
+                return res.status(200).json({
                   message: 'Payment verified successfuly',
                   status:"ok"
                 })
-            })
-          // var options = {
-          //   'method': 'POST',
-          //   'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS\n`,
-          //   'headers': {
-          //     'Cookie': '__cfduid=db7883e7eb7ba3f64d5936752539e004e1605672337'
-          //   },
-          //   formData: {
-          //     'From': 'HBSSMS',
-          //     'To': '9140283163',
-          //     'TemplateName': 'Booking successful',
-          //     'VAR1': 'Aman',
-          //     'VAR2': 'Arr_0021'
-          //   }
-          // };
-          // request(options, function (error, response) {
-          //   if (error) throw new Error(error);
-          //   return res.status(200).json({
-          //     message: 'Payment verified successfuly',
-          //     status:"ok"
-          //   })
-          // });
+              });
+          })
       })
   }
 return res.status(400).json({
@@ -504,6 +502,27 @@ module.exports.update_order_status = (req, res) => {
     })
 }
 
+
+
+module.exports.get_orders_for_agent=(req, res)=>{
+  const {agent_id}=req.params;
+  Order.find({agent:agent_id})
+  .sort({ updatedAt: -1 })
+  .populate({ path: 'booking',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              populate: { path: 'porter_service', select: 'porter_service_detail'}})
+  .exec((err, orders)=>{
+    if(err)
+      return res.statud(400).json({
+        error: err
+      })
+    return res.status(200).json({
+      message: "all order",
+      orders:orders
+    })
+  })
+}
+
 module.exports.cancel_order = (req, res) => {
   const { orderId } = req.params;
   Order.findById(orderId)
@@ -540,13 +559,14 @@ module.exports.cancel_order = (req, res) => {
                  error: err
                })
              }
-             return order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
+             return Order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
                .exec((err, response) => {
                  if(err){
                    return res.statud(400).json({
                      error: err
                    })
                  }
+                 console.log(response)
                  return res.status(200).json({
                    status:"Order cancelled successfuly",
                    message:`refunded amount ${order.total_amount}`

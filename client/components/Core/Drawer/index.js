@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
+import {Button, ListItemAvatar, Avatar} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -19,6 +19,16 @@ import TrainIcon from '@material-ui/icons/Train';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import PeopleIcon from '@material-ui/icons/People';
+import PhoneRoundedIcon from '@material-ui/icons/PhoneRounded';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import TrainOutlinedIcon from '@material-ui/icons/TrainOutlined';
+const SwipeableDrawer = dynamic(() => import('@material-ui/core/Drawer'), {
+  ssr: false,
+})
+
 const useStyles = makeStyles({
   list: {
     width: 220
@@ -72,21 +82,31 @@ const SideDrawer = ({ close, status, router }) => {
   const list = () => (
     <div className={classes.list}>
          <List>
-          {isAuth() && <div className="pl-5 pt-3 pb-3 pr-4">{"+91-"+ (isAuth() && isAuth().phone_number)}</div>}
+         <ListItem  style={{backgroundColor:"#000066" ,color:"white"}}>
+           <ListItemAvatar>
+             <Avatar>
+               <PhoneRoundedIcon/>
+             </Avatar>
+           </ListItemAvatar>
+                <ListItemText primary={isAuth() && <div>{"+91-"+ (isAuth() && isAuth().phone_number)}</div>} />
+          </ListItem>
+           <Divider />
            {isAuth() && <Link href="/">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/", router.pathname)}>
-                      <ListItemIcon><TrainIcon color="black" /></ListItemIcon>
+                      <ListItemIcon><TrainOutlinedIcon/></ListItemIcon>
                       <ListItemText primary="Book now" />
                </ListItem>
+              <Divider />
              </a>
            </Link>}
            {isAuth() && <Link href="/booking/my_bookings">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/booking/my_bookings", router.pathname)}>
-                    <ListItemIcon><ViewListIcon color="black" /></ListItemIcon>
+                    <ListItemIcon><FormatListBulletedIcon/></ListItemIcon>
                     <ListItemText primary="My Bookings" />
                </ListItem>
+               <Divider />
              </a>
          </Link>}
            {/*!isAuth() && <Link href="/login">
@@ -101,22 +121,24 @@ const SideDrawer = ({ close, status, router }) => {
           {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/manage_user">
             <a className={classes.menu}>
               <ListItem button style={currentTabStyle("/admin/manage_user", router.pathname)}>
-                     <ListItemIcon><PeopleIcon color="black" /></ListItemIcon>
+                     <ListItemIcon><PeopleOutlineIcon /></ListItemIcon>
                      <ListItemText primary="Manage User" />
               </ListItem>
+              <Divider />
            </a>
           </Link>}
           {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/booking">
             <a className={classes.menu}>
               <ListItem button style={currentTabStyle("/admin/booking", router.pathname)}>
-                     <ListItemIcon><TableChartIcon color="black" /></ListItemIcon>
+                     <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
                      <ListItemText primary="Manage Booking" />
               </ListItem>
+              <Divider />
            </a>
           </Link>}
           <div className={classes.grow} />
           {isAuth() && <ListItem button onClick={() => signout(() => Router.replace(`/`))}>
-                 <ListItemIcon><ExitToAppIcon color="black" /></ListItemIcon>
+                 <ListItemIcon><PowerSettingsNewIcon/></ListItemIcon>
                  <ListItemText primary="Logout" />
           </ListItem>}
 
@@ -140,5 +162,6 @@ const SideDrawer = ({ close, status, router }) => {
     </div>
   );
 }
+
 
 export default withRouter(SideDrawer);

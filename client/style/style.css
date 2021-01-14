@@ -16,15 +16,16 @@
  }
  .MuiAppBar-root{
   background-color: #2a306c!important;
+  /* background-color: white!important; */
   z-index: 5000!important;
   box-shadow:0px 0px 0px 0px!important;
  }
  .MuiDrawer-paper {
    top:70px!important;
 }
-.MuiRadio-colorPrimary.Mui-checked{
+/* .MuiRadio-colorPrimary.Mui-checked{
   color: #40a9ff!important
-}
+} */
 .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track{
   background-color:#40a9ff!important;
 }
@@ -51,8 +52,18 @@ a{
   color: black;
 }
 body{
-  background-color: #FDFDFD;
+  /* background-color: #f6f6f640!important; */
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
+
+
 .layout{
   padding-top: 70px;
   min-height: 80vh!important;
@@ -195,18 +206,29 @@ body{
  ---------------- */
 
 .h-logo{
-   width: 189.2px;
-   margin-top: 5px;
-   height: 65px;
+  border-radius: 20%;
+  position: fixed;
+  left: 15px;
+  top: 1px;
+   height: 68px;
+   width: 140px;
+   margin-top: 1px;
    object-fit: contain;
 }
 @media (max-width: 767px) {
   .h-logo{
-     margin-top: 10px;
-     width: 145.2px;
-     height: 58.5px;
-     object-fit: contain;
+      border-radius: 5%!important;
+    /* height: 100%;
+    width: 50%; */
+    margin-top: 2px;
+    height: 65px;
+    width: 92px;
   }
+}
+.header-menu{
+  position: fixed;
+  top: 22px;
+  right: 30px;
 }
 /* ---------------
  Homepage styling
@@ -235,7 +257,22 @@ body{
   text-align: center;
   padding-top: 80px;
 }
+.hp-style{
+  text-align: center;
+  padding-top: 10px;
+}
 .hp-sub-1{
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+
+.hp-subs-2{
+  font-size: 14px;
+  font-weight: 600;
+  color: #d9d9d9;
+}
+.hp-subs-1{
   font-size: 20px;
   font-weight: 500;
   color: white;
@@ -247,6 +284,19 @@ body{
   color: #d9d9d9;
 }
 
+@media (max-width:767px) {
+  .hp-sub-1{
+    font-size: 0px;
+    font-weight: 500;
+    color: white;
+  }
+
+  .hp-sub-2{
+    font-size: 0px;
+    font-weight: 600;
+    color: white;
+  }
+}
 @media (min-width:767px) {
   .hp-welcome-text-c{
     text-align: center;
@@ -263,11 +313,7 @@ body{
     border-radius: 20px;
   }
 }
-@media (max-width: 767px) {
-  .hp-welcome{
-    /* min-height:400px; */
-  }
-}
+
 
 .hp-mg{
   margin-top: 260px;
@@ -319,24 +365,23 @@ body{
   background-color: white;
   padding: 0px;
   height: 180px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .hp-inp-container-l{
   max-width: 350px!important;
 }
 .hp-inp-container-l-o{
-  position: absolute;
-  /* top:20%!important; */
   min-width: 300px!important;
-  padding:10px!important;
+  padding:25px!important;
   background-color: white;
   height: 180px!important;
-  border-radius: 10px;
+  border-radius: 0px 0px 10px 10px;
   box-shadow: #E9ECEE .6px 0.3rem 0.5rem 0rem;
 }
 @media (min-width:767px) {
   .hp-inp-container-l-o{
     margin-top: 20px;
+    border-radius: 10px 10px 10px 10px;
     box-shadow: white 0px 0px 0px 0px!important;
   }
 }
@@ -360,9 +405,17 @@ body{
 }
 .hp-loader{
   position: fixed;
-  top:40%;
+  top:45%;
   z-index: 2000;
-  left: 40%;
+  left: 45%;
+  right: 45%;
+  /* bottom: 45%; */
+}
+@media (max-width:767px) {
+  .hp-loader{
+    left: 30%;
+    right: 30%;
+  }
 }
 
 
@@ -387,13 +440,22 @@ body{
 }
 .hp-input{
   background-color: white!important;
+  max-width: 250px;
   /* margin: 5px 5px 5px 0px; */
   border-radius: 10px!important;
   border: 0px solid black!important;
   /* box-shadow: #E9ECEE 0px 0.20rem .3rem 0.1rem; */
 }
 .hp-radio-btn{
-  /* padding: 17px 17px 7px 19px; */
+ padding-top: 23px;
+ padding-bottom: 10px;
+}
+@media (max-width:767px) {
+  .hp-radio-btn{
+   padding-top: 5px;
+   padding-bottom: 0px;
+
+  }
 }
 .hp-inpt-btn-c{
   /* position: absolute!important;
@@ -416,7 +478,7 @@ body{
   left:10px;
   right:10px;
   padding: 10px;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 20px 20px 20px 20px;
   box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
   /* background-color: #ffffff; */
   /* z-index: 1100; */
@@ -1319,6 +1381,7 @@ color: #00c4ff;
   LOGIN MODAL
 ---------------*/
 .login-modal-title{
+  font-size: 30px;
   font-weight: 300!important;
 }
 .otp-msg{
@@ -1371,9 +1434,99 @@ color: #00c4ff;
   padding: 15px 20px 15px 20px!important;
   color: white!important;
   min-width: 100px!important;
+<<<<<<< HEAD
   max-height: 37px;
   font-weight: bold!important;
   border-radius: 6px!important;
   border: 0px!important;
   margin:13px 3px 15px!important;
+=======
+  font-weight: bold!important;
+  border-radius: 6px!important;
+  max-height: 37px;
+  border: 0px!important;
+
+  margin:13px 3px 15px!important;
+
+}
+
+
+/* ===================
+ Cancel ticket modal
+======================
+
+*/
+
+#yes-btn{
+  background-color: #00c4fe;
+  color:white;
+}
+
+#no-btn{
+  color:#00c4fe;
+  border-color: #00c4fe;
+  background-color: none;
+}
+
+#yes-btn, #no-btn{
+  width: 100px;
+  height: 40px;
+  font-weight:bold;
+  text-transform: none;
+}
+
+.on-cancellation{
+  color: gray;
+}
+
+#view_detail{
+  text-transform: none;
+  background-color: #00c4fe;
+  color: white;
+  font-size: small;
+  margin-left: 10px;
+  height: 20px;
+}
+
+.yoyoyo p{
+  display: inline-block;
+}
+
+#modify-btn{
+  text-transform: none;
+  color:#00c4fe;
+  letter-spacing: "0.2em";
+  border-color: #00c4fe;
+  border-radius: 6px;
+  width: 80px;
+}
+
+
+#btn-position{
+  margin-left: 100px;
+  padding-left: 100px;
+}
+
+.user-icon{
+  font-size: 28px;
+  margin-right: 10px;
+}
+.user-phone{
+  font-size: 16px;
+}
+.user-login-icon{
+  margin-top: 6px;
+  font-size: 22px;
+}
+.login-modal-input{
+  max-width: 250px;
+}
+.login-modal-continue{
+  background-color: #00C4FF!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 10px 30px 10px 30px!important;
+  width: 200px;
+  margin-top: 20px;
+>>>>>>> a4018bb97d1e49f4d1f8f766ed87c77f93908af5
 }

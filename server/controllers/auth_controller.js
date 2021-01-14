@@ -111,3 +111,44 @@ module.exports.verify_otp = async (req, res) => {
       })
    })
 }
+
+
+module.exports.admin_agent_authentication=async (req, res)=>{
+  const {phone_number, password } =  req.body;  
+  User.findOne({ phone_number: phone_number })
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          err:err
+        })
+      }
+      if(!result){
+        return res.status(400).json({
+          message:"You have not registered yet"
+      })
+    }
+      else{
+        if(password!==process.env.ADMIN_PASSWORD){
+          return res.status(400).json({
+            message:"Incorrect password"
+          })
+        }
+        else if(result.user_type==="ADMIN" || result.user_type==="AGENT"){
+          const token = jwt.sign({ _id: result._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+          res.cookie('token', token, { expiresIn: '7d' });
+          const user = { _id: result._id, phone_number: result.phone_number, user_type: result.user_type }
+          return res.status(200).json({
+               message: "Verified successfuly",
+               token: token,
+               user: user,
+               res:"OK"
+            })
+        }
+        else{
+          return res.status(400).json({
+            message:"Don't have privelage"
+          })
+        }
+      }
+    })
+}

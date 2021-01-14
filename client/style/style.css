@@ -1434,6 +1434,13 @@ color: #00c4ff;
   padding: 15px 20px 15px 20px!important;
   color: white!important;
   min-width: 100px!important;
+<<<<<<< HEAD
+  max-height: 37px;
+  font-weight: bold!important;
+  border-radius: 6px!important;
+  border: 0px!important;
+  margin:13px 3px 15px!important;
+=======
   font-weight: bold!important;
   border-radius: 6px!important;
   max-height: 37px;
@@ -1521,4 +1528,5 @@ color: #00c4ff;
   padding: 10px 30px 10px 30px!important;
   width: 200px;
   margin-top: 20px;
+>>>>>>> a4018bb97d1e49f4d1f8f766ed87c77f93908af5
 }

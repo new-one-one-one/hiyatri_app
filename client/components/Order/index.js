@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { withStyles } from "@material-ui/core/styles";
 import useWindowSize from '../../helpers/windowDimension';
 import { getCookie, isAuth,removeLocalStorage } from "../../actions/auth";
-import { Grid,Button,AppBar,FormControlLabel,Checkbox} from "@material-ui/core";
+import { Grid,Button,AppBar,FormControlLabel,Checkbox, Modal, Fade,Box} from "@material-ui/core";
 import { create_order, verify_order, modify_order, single_order_by_id } from '../../actions/order';
 import useStyles from './style';
 import Checkout from './checkout';
@@ -11,6 +11,8 @@ import Summary from './summary';
 import TakenServices from './takenServices';
 import Router from 'next/router';
 import Loader from 'react-loader-spinner'
+import { Backdrop } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 const GreenCheckbox = withStyles({
   root: {
@@ -25,7 +27,6 @@ const GreenCheckbox = withStyles({
 
 
 const Payment = ({ data, query }) => {
-
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -33,7 +34,7 @@ const [originalOrder, setOriginalOrder] = useState();
 const order_id = query && query.order_id;
 const [termsChecked, setTermsChecked] = useState(false);
 const [loader, setLoader] = useState(false);
-
+const [successBooking, setBookingSuccess] = useState(false);
 useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
@@ -148,7 +149,7 @@ const paymentHandler = (orderId, amount) => {
          }
          if(result.status === "ok"){
            removeLocalStorage("Booking")
-           Router.replace("/booking/my_bookings")
+           {setBookingSuccess(true)}
            return;
          }
           Router.replace("/booking/my_bookings")
@@ -209,7 +210,36 @@ return  <>
             </Button>
           </AppBar>
         )}
+        
     </div>
+
+    <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={successBooking}
+        closeAfterTransition
+      >
+        <Paper elevation={3}>
+
+       
+        <Fade in={successBooking}>
+          <div className={classes.paper}>
+            <div className="text-center">
+              <font className="cm-title"><h4><b> Congratulations! Booking Successfull.</b></h4></font>
+                <Box display="flex" p={2}>
+                 <Box p={1} width="100%">
+                  <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingSuccess(false); Router.push('/')}}>Ok</Button>
+                 </Box>
+                  
+                     
+                </Box>
+                  
+            </div>
+          </div>
+        </Fade>
+        </Paper>
+      </Modal>
     </>
 }
 export default Payment;

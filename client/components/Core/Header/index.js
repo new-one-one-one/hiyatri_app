@@ -62,10 +62,15 @@ const Header = () => {
                     <>
                     <Typography />
                     <div className="header-menu row">
+                       
                        {!isAuth() && <i class="fas fa-user user-login-icon" />}
                        {!isAuth() && <span><LoginModal /></span>}
                        {isAuth() && <span>
-                        <i className="fas fa-user-lock user-icon" />
+                      
+                 
+                       { isAuth().user_type!=="ADMIN"&& <i className="fas fa-user-lock user-icon" />}
+                       { isAuth().user_type==="ADMIN"&&  <i className="fas fa-user-lock user-icon"><small style={{fontSize:"0.6em"}}> Admin</small></i> }
+                        
                         <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
                        </span>}
                        {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}

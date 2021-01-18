@@ -812,12 +812,11 @@ const compare_date_time = (details) =>{
   var onthatDay = Date.UTC(details.date[2], details.date[1], details.date[0],details.hrs, details.mins);
   return (onthatDay-today)/3600000 >= 8 ? true : false ; 
 
-
 }
 
 
-var isValid = false;
-var validDay=false;
+var isValid = true;
+var validDay=true;
 
 // checking about station code 
 if(query.pid!=="arrival"){

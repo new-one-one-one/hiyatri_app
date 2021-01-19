@@ -1,6 +1,7 @@
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import Tooltip from '@material-ui/core/Tooltip';
+import InfoIcon from '@material-ui/icons/Info';
 
 const PorterService = ({ handleChange, state }) => {
 
@@ -49,7 +50,7 @@ const PorterService = ({ handleChange, state }) => {
           />
 
               <span className="baggage-text">
-                Baggage Gurantee
+                Baggage Guarantee
               </span>
               <span>
               </span>

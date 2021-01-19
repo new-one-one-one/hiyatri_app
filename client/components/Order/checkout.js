@@ -38,11 +38,11 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                            Apply Coupon ?
                          </p>
                       </Box>
-                      <Box p={1} flexShrink={0}>
-
+                      <Box p={2} flexShrink={1}>
+                      <TextField  size="small"/>
                       </Box>
                   </Box>
-       
+
                   <Divider variant="middle"/>
                       <Box display="flex" p={0} bgcolor="background.paper">
 

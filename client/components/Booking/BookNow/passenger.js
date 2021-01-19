@@ -8,12 +8,22 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
     const showPassengerDetail = () => {
           return data.passenger_details ? data.passenger_details.map(
             (item, index) => {
+              let passenger_detail_seat = errors[`passenger_detail_seat${index}`];
               let passenger_detail_name = errors[`passenger_detail_name${index}`];
               let passenger_detail_age_group = errors[`passenger_detail_age_group${index}`];
               let passenger_detail_gender = errors[`passenger_detail_gender${index}`];
               return <tr key={index}>
                         <td>
-                          {item.seat_number}
+                        <TextField
+                         variant="outlined"
+                         name={`passenger_detail_seat${index}`}
+                         value={item.seat_number}
+                         onChange={handleChange("passenger_detail_seat", index)}
+                         inputRef={register({ required: true, minLength:2})}
+                         error={passenger_detail_name ?true:false}
+                         helperText={passenger_detail_name? "Passenger seat is required":""}
+                         />
+
                         </td>
                         <td>
                          <TextField
@@ -38,9 +48,9 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           value={item.age_group}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None"  />
-                          <option value="Sr citizen(above 60)">Sr citizen(above 60)</option>
-                          <option value="Adult(12yrs-60yrs)">Adult(12yrs-60yrs)</option>
-                          <option value="Children(upto 12 years)">Children(upto 12 years)</option>
+                          <option value="Sr citizen(above 60)">Sr citizen (above 58 years)</option>
+                          <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
+                          <option value="Children(upto 12 years)">Children (upto 12 years)</option>
                         </Select>
                         {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>This is required!</FormHelperText>}
                         </td>
@@ -95,7 +105,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
               <table>
                 <thead>
                   <tr>
-                    <th style={{ width:"80px"}}>Seat No.</th>
+                    <th style={{ width:"120px"}}>Seat No.</th>
                     <th style={{ width:"160px"}}>Passenger Name*</th>
                     <th style={{ width:"170px"}}>Age Group*</th>
                     <th style={{ width:"85px"}}>Gender*</th>

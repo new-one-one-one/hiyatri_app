@@ -31,6 +31,7 @@ const SwipeableDrawer = dynamic(() => import('@material-ui/core/Drawer'), {
 
 const useStyles = makeStyles({
   list: {
+    paddingTop:28,
     width: 220
   },
   fullList: {
@@ -82,7 +83,7 @@ const SideDrawer = ({ close, status, router }) => {
   const list = () => (
     <div className={classes.list}>
          <List>
-         <ListItem  style={{backgroundColor:"#000066" ,color:"white"}}>
+         <ListItem>
            <ListItemAvatar>
              <Avatar>
                <PhoneRoundedIcon/>

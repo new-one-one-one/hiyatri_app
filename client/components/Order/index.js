@@ -210,7 +210,7 @@ return  <>
             </Button>
           </AppBar>
         )}
-        
+
     </div>
 
     <Modal
@@ -222,7 +222,7 @@ return  <>
       >
         <Paper elevation={3}>
 
-       
+
         <Fade in={successBooking}>
           <div className={classes.paper}>
             <div className="text-center">
@@ -231,10 +231,7 @@ return  <>
                  <Box p={1} width="100%">
                   <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingSuccess(false); Router.push('/')}}>Ok</Button>
                  </Box>
-                  
-                     
-                </Box>
-                  
+                </Box>  
             </div>
           </div>
         </Fade>

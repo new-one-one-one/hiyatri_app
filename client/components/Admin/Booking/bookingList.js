@@ -5,6 +5,7 @@ import {agent_list} from './../../../actions/order';
 import { getCookie } from '../../../actions/auth';
 import {Box, MenuItem, Typography,Select, FormControl, Button, makeStyles, Divider} from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { CSVLink, CSVDownload } from "react-csv";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,10 +44,10 @@ const EditCommandCell = props => {
     return (
         <td>
             <button
-                className="k-button k-primary"
+                id="design-admin-list"
                 onClick={() => Router.push(`/admin/booking/detail/${props.dataItem._id}`)}>
                 View Details
-      </button>
+            </button>
         </td>
     );
 };
@@ -125,9 +126,11 @@ const BookingList = ({ list }) => {
         );
   const FilterBooking = () => {
      return <div style={{ width: '100%' }}>
+
       <Box display="flex" p={1} bgcolor="background.paper">
           <Box p={1} width="20%">
-              <Typography variant="body2"> <FilterListIcon />  Filter </Typography>
+              <Typography variant="body2"> <FilterListIcon />
+              Filter </Typography>
           </Box>
           <Box p={1} width="45%">
            <FormControl className={classes.formControl}>
@@ -158,10 +161,15 @@ const BookingList = ({ list }) => {
                >
                   <MenuItem value="" disabled>Booking Status</MenuItem>
                   <MenuItem value="DISPLAY_All"><button className="filter-option" onClick={()=>filterData("DISPLAY_All")} >All</button>    </MenuItem>
-                  <MenuItem value="ASSIGN_TO_AGENT"> <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_AGENT")} >ASSIGN_TO_AGENT</button></MenuItem>
                   <MenuItem value="COMPLETED"><button className="filter-option" onClick={()=>filterData("COMPLETED")} >COMPLETED</button></MenuItem>
-                  <MenuItem value="CANCELLED"><button className="filter-option" onClick={()=>filterData("CANCELLED")}>CANCELLED</button></MenuItem>
-                  <MenuItem value="ASSIGN_TO_ADMIN"><button className="filter-option" onClick={()=>filterData("ASSIGN_TO_ADMIN")}>ASSIGN_TO_ADMIN</button></MenuItem>
+                  <MenuItem value="IN_PROGRESS"><button className="filter-option" onClick={()=>filterData("IN_PROGRESS")}>IN PROGRESS</button></MenuItem>
+                  <MenuItem value="NO_SHOW"><button className="filter-option" onClick={()=>filterData("NO_SHOW")}>NO SHOW</button></MenuItem>
+                  <MenuItem value="ASSIGN_TO_AGENT"> <button className="filter-option" onClick={()=>filterData("ASSIGN_TO_AGENT")} >ASSIGNED TO AGENT</button></MenuItem>
+                  <MenuItem value="ASSIGN_TO_ADMIN"><button className="filter-option" onClick={()=>filterData("ASSIGN_TO_ADMIN")}>ASSIGN TO ADMIN</button></MenuItem>
+                  <MenuItem value="CANCELLED_BY_ADMIN"><button className="filter-option" onClick={()=>filterData("CANCELLED_BY_ADMIN")}>CANCELLED(by admin)</button></MenuItem>
+                  <MenuItem value="CANCELLED_BY_AGENT"><button className="filter-option" onClick={()=>filterData("CANCELLED_BY_AGENT")}>CANCELLED(by agent)</button></MenuItem>
+                  <MenuItem value="CANCELLED_BY_USER"><button className="filter-option" onClick={()=>filterData("CANCELLED_BY_USER")}>CANCELLED(by user)</button></MenuItem>
+
               </Select>
               </Typography>
 
@@ -192,7 +200,7 @@ const BookingList = ({ list }) => {
 
           </Box>
           <Box p={1} width="20%">
-              <Button style={{'color':"aqua"}} onClick={()=>{filterData("DISPLAY_All", setBooking("All"), setAgent("All_AGENTS"))}}><b>Clear Filter</b></Button>
+              <button id="design-admin-list" onClick={()=>{filterData("DISPLAY_All", setBooking("All"), setAgent("All_AGENTS"))}}>Clear Filter</button>
           </Box>
 
       </Box>
@@ -203,9 +211,20 @@ const BookingList = ({ list }) => {
     return (
         <div>
            <div  className="container-fluid pt-1">
+           <br></br>
+            <h2 className="booking-list-head">REQUESTS</h2>
+            <div className="container-fluid">
+            {state && <CSVLink  data={state && state.items || []} separator={";"} filename="booking_list.csv">
+                       <Button variant="contained" className="export-btn">
+                       Export as CSV
+                       </Button>
+                     </CSVLink>}
+            </div>
+            <br></br>
             <Divider />
               {FilterBooking()}
             <Divider/>
+            <br></br>
             <br></br>
             {state && <Grid
                 style={{ height: '75vh' }}
@@ -225,7 +244,6 @@ const BookingList = ({ list }) => {
             </Grid>}
             </div >
         </div>
-
     );
 }
 

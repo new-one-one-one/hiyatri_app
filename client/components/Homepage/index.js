@@ -12,7 +12,6 @@ import { isAuth } from '../../actions/auth';
 import { get_details_by_pnr } from '../../actions/booking';
 import { ToastContainer, toast } from 'react-toastify';
 import Router from 'next/router';
-import ClipLoader from "react-spinners/ClipLoader";
 import Loader from 'react-loader-spinner'
 import useWindowSize from '../../helpers/windowDimension';
 import { Radio } from 'antd';

@@ -18,7 +18,8 @@ import dynamic from 'next/dynamic'
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
-      height:"90px",
+      boxShadow: "0 0.1rem 0.5rem rgba(0, 0, 0, 0.15) !important",
+      height:"98px",
       flexGrow: 1,
     },
     menuButton: {
@@ -54,7 +55,7 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                       <Link href='/'>
                          <a>
-                           <img className="icons" src="/images/logo.png" className="h-logo"/>
+                           <img className="icons" src="/images/logo.jpeg" className="h-logo"/>
                         </a>
                       </Link>
                     </Typography>
@@ -62,24 +63,19 @@ const Header = () => {
                     <>
                     <Typography />
                     <div className="header-menu row">
-
-                       {!isAuth() && <i class="fas fa-user user-login-icon" />}
+                       {!isAuth() && <Button className="login-btn mt-2 mr-3" variant="contained"> <i class="fas fa-envelope-open-text user-login-icon" />Contact us</Button>}
                        {!isAuth() && <span><LoginModal /></span>}
-                       {isAuth() && <span>
-
-
+                       {isAuth() && <span className="mt-3">
                        { isAuth().user_type!=="ADMIN"&& <i className="fas fa-user-lock user-icon" />}
                        { isAuth().user_type==="ADMIN"&&  <i className="fas fa-user-lock user-icon"><small style={{fontSize:"0.6em"}}> Admin</small></i> }
-
                         <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
                        </span>}
-                       {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
+                       {isAuth() &&  <span className="mt-3 ml-2"><Drawer close={state} status={(status) => setState(status)} /></span>}
                      </div>
                     </>
                     ) : (
                       <>
                           <div className="header-menu row">
-                       {!isAuth() && <i class="fas fa-user user-login-icon" />}
                        {!isAuth() && <LoginModal />}
                        {/*isAuth() && <span>
                         <i className="fas fa-user-lock user-icon" />

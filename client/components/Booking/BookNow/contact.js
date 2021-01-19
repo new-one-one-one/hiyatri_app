@@ -20,6 +20,7 @@ return <>
               variant="outlined"
               type="text"
               name="passenger_name"
+              value={data.passenger_contact_information.name}
               onChange={handleChange("passenger_name")}
               inputRef={register({required: true, minLength:2})}
               error={errors.passenger_name ?true:false}
@@ -45,6 +46,7 @@ return <>
               <TextField
                fullWidth
                variant="outlined"
+               value={data.passenger_contact_information.secondary_contact_number}
                onChange={handleChange("passenger_secondary_number")}
                type="number" />
             </td>
@@ -52,6 +54,7 @@ return <>
               <TextField
                fullWidth
                variant="outlined"
+               value={data.passenger_contact_information.email_id}
                onChange={handleChange("passenger_email")}
                type="email" />
             </td>

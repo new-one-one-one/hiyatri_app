@@ -16,36 +16,25 @@ const Summary = ({ data }) => {
           </Box>
           <Paper  className={classes.particularOrder}>
             {matches?
-              (<Grid container spacing={1}>
+              (
+              <div style={{paddingLeft:"30px"}}>
+              <Grid container spacing={1}>
                 <Grid container spacing={3}>
-                 <Grid  item xs={4} className="pl-4">
-                    <b> Meeting Station</b>
-                 </Grid>
-                 <Grid  item xs={4}>
-                    <b>{`Time of ${data.booking_information.is_arrival?"arrival":"departure"}`}</b>
-                 </Grid>
-                 <Grid  item xs={4}>
-                    <b> Number of passengers </b>
+                <Grid  item  xs={4}>
+                    Meeting Station:<br />
+                    <b style={{color:'black'}}> {data.booking_information.is_arrival?data.booking_information.boarding_station.station_name:data.booking_information.reservation_upto.station_name} </b>
                 </Grid>
+                <Grid  item xs={4}>
+                    Time Of {data.booking_information.is_arrival?"Arrival":"Departure"}<br />
+                    <b style={{color:'black'}}>{data.booking_information.is_arrival?data.booking_information.boarding_station.time:data.booking_information.reservation_upto.time} </b>
                 </Grid>
-                <Grid container spacing={1}>
-                 <Grid item xs={4} className="pl-4">
-                    {data.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:
-                     data.booking_information.boarding_station.station_name}
-                 </Grid>
-                 <Grid  item xs={2}>
-                    <Typography align="center">
-                    {data.booking_information.is_arrival?data.booking_information.reservation_upto.time:
-                     data.booking_information.boarding_station.time}
-                    </Typography>
-                 </Grid>
-                 <Grid  item xs={4}>
-                   <Typography align="right">
-                     {data.passenger_details.length}
-                   </Typography>
-                 </Grid>
+                <Grid  item xs={4}>
+                    Number of passengers:<br />
+                    <b style={{color:'black'}}>{data.passenger_details.length} </b>
+                </Grid>
                </Grid>
            </Grid>
+           </div>
            ):(
             <div style={{marginLeft:"10px"}}> 
               <Box display="flex">
@@ -76,7 +65,7 @@ const Summary = ({ data }) => {
                        <div className={classes.outerDetails}>
                        <Grid container xs={12} justify="space-between">
                        <Typography  variant="body1" align="left">
-                         {item.passenger_name}
+                         <b>{item.passenger_name}</b>
                        </Typography>
                        <Typography  variant="body1" align="right">
                            <b>₹{item.bill.total}</b>

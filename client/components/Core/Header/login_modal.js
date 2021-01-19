@@ -46,7 +46,7 @@ export default function TransitionsModal() {
   const handleOpenAdmin=  () =>{
     setPasswordModal(true);
   }
-  
+
   const handleCloseAdmin=()=>{
     setPasswordModal(false);
   }
@@ -137,10 +137,10 @@ export default function TransitionsModal() {
         );
       }
     };
-  
+
   return (
     <div>
-     <Button className="login-btn" onClick={handleOpen}>Login</Button>
+     <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -189,7 +189,7 @@ export default function TransitionsModal() {
                           className="m-2 login-modal-continue">
                           Continue
                       </Button>
-                      <Button id="btns-text" onClick={()=>{setPasswordModal(true); setOpen(false)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue as Admin/Agent</p></Button>
+                      <Button onClick={()=>{setPasswordModal(true); setOpen(false)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue as Admin</p></Button>
                    </form>}
 
                     {otp_sent && <form>
@@ -212,7 +212,7 @@ export default function TransitionsModal() {
                               className="m-2 md-btn">
                               Submit
                           </Button>
-                          
+
                         </form>}
                 </div>
               </div>
@@ -270,8 +270,8 @@ export default function TransitionsModal() {
                           className="m-2 login-modal-continue">
                           Continue
                       </Button>
-                      <Button id="btns-text"  onClick={()=>{setPasswordModal(false); setOpen(true)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue Using Phone</p></Button>
-                     
+                      <Button  onClick={()=>{setPasswordModal(false); setOpen(true)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue Using Phone</p></Button>
+
                    </form>
 
                  </div>

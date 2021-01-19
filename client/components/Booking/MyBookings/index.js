@@ -24,7 +24,7 @@ const ShowAllBookings = (data) =>{
 
     const display = (bookings) => {
         if(bookings !== undefined && bookings){
-        return bookings.data.response.map((allInfo)=>{
+        return bookings.data && bookings.data.response && bookings.data.response.map((allInfo)=>{
             const booking = allInfo.booking;
             const {boarding_station, reservation_upto,is_arrival} = booking.booking_information;
            return (

@@ -56,7 +56,7 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                 {width>500 && (
                   <div className="text-center pt-3 pb-3">
                    <Button  size="large" className="o-booknow-btn" variant="contained" onClick={order} disabled={!terms}>
-                    Book Now
+                      Book Now
                    </Button>
                   </div>
               )}

@@ -19,14 +19,8 @@ import {useForm} from 'react-hook-form';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@material-ui/core";
 
 const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
+ console.log(data);
 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1;
-var yyyy = today.getFullYear();
-if(dd<10) dd='0'+dd;
-if(mm<10) mm='0'+mm;
-today = dd+'-'+mm+'-'+yyyy;
 
 
 const theme = useTheme();
@@ -168,7 +162,6 @@ const ACTIONS = {
     EMAIL:"email"
   },
   PASSENGER_DETAIL:{
-    SEAT:"passenger_detail_seat_no",
     NAME:"passenger_detail_name",
     AGE:"passenger_detail_age",
     GENDER:"passenger_detail_gender",
@@ -256,13 +249,6 @@ const reducer = (state, action) => {
         email_id: action.payload }}
 
   /* Passenger details */
-  case ACTIONS.PASSENGER_DETAIL.SEAT:
-     const pass_detail_seat = state.passenger_details
-      .map((value, idx) => {
-      if(action.sidx != idx) return value;
-      return {...value, seat_number: action.payload }})
-      return {...state, passenger_details: pass_detail_seat}
-
     case ACTIONS.PASSENGER_DETAIL.NAME:
        const pass_detail_name = state.passenger_details
         .map((value, idx) => {
@@ -457,8 +443,6 @@ const reducer = (state, action) => {
 }
 
 
-
-
 const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
   /* Passenger contact information */
@@ -480,13 +464,6 @@ const handleChange = (value1, value2) => e => {
   }
 
   /* Passengers details */
-  if(value1 === "passenger_detail_seat_no"){
-    // console.log(e.target.value)
-              dispatch({ type: ACTIONS.PASSENGER_DETAIL.SEAT,
-                         payload: e.target.value,
-                         sidx: value2 })
-  }
-
   if(value1 === "passenger_detail_name"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.NAME,
                          payload: e.target.value,
@@ -561,8 +538,6 @@ const handleChange = (value1, value2) => e => {
                          payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
                          sidx: value2 })
              }
-
-
 
              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
                        payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
@@ -831,201 +806,136 @@ const showUavailabitlity = (reason, content ) =>{
   )
 }
 
-// var isValid = false;
+
+const compare_date_time = (details) =>{
+  var today = new Date().getTime();
+  var onthatDay = Date.UTC(details.date[2], details.date[1], details.date[0],details.hrs, details.mins);
+  return (onthatDay-today)/3600000 >= 8 ? true : false ;
+
+}
+
+
+var isValid = true;
+var validDay=true;
+
 // checking about station code
-// if(query.pid!=="arrival")
-//   isValid = data.boarding_station.station_code==="NDLS" || data.boarding_station.station_code==="NZM" ;
-// else
-//   isValid = data.reservation_upto.station_code==="NDLS" || data.reservation_upto.station_code==="NZM" ;
+if(query.pid!=="arrival"){
+  isValid = (data.boarding_station.station_code==="NDLS" || data.boarding_station.station_code==="DLI");
+}
+else {
+  isValid = data.reservation_upto.station_code==="NDLS" || data.reservation_upto.station_code==="DLI" ;
+}
 
-// isValid=isValid && (data.boarding_station.date>today); // checking about date
+if(isValid){
+  const fixedDetails={
+    hrs:parseInt(query.pid==="arrival"?data.boarding_station.time.substring(0,2):data.boarding_station.time.substring(0,2)),
+    mins:parseInt(query.pid==="arrival"?data.reservation_upto.time.substring(3):data.reservation_upto.time.substring(3)),
+    date:(query.pid==="arrival"?data.boarding_station.date:data.boarding_station.date).split("-")
+  }
+  validDay=compare_date_time(fixedDetails);
+}
 
-// if(isValid && data.boarding_station.date>today){
-//   return <>
-//         <ToastContainer />
-//          <div className="main-div">
-//             <form>
-//               <div className="container-div">
-//                   <div className="top-subheading">
-//                       <h1>MEET & GREET</h1>
-//                       <div className="pnr-heading">
-//                           <div>
-//                               <span>
-//                                 {capitalize(query.pid)} - PNR No. - {data.pnr_number}
-//                               </span>
-//                           </div>
-//                           <span>
-//                              No. of Passengers - {data.passenger_details[0] && data.passenger_details[0].length}
-//                           </span>
-//                       </div>
-//                   </div>
-//                   <div className="booking-tables">
-//                       <span className="sub-heading">Booking Information</span>
-//                       <BookingInformation
-//                       query={query}
-//                       data={data} />
-//
-//                       <span className="sub-heading">Passenger's Contact Information</span>
-//                       <PassengerInformation
-//                       register={register}
-//                       errors={errors}
-//                       handleChange={handleChange}
-//                       data={state} />
-//
-//                       <span className="sub-heading">Passenger's Details</span>
-//                       <PassengerDetails
-//                         register={register}
-//                         errors={errors}
-//                         handleChange={handleChange}
-//                         data={state}  />
-//
-//                       {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
-//                       <Switch
-//                       onChange={handleChange("cab_service_opted")}
-//                       value={state.cab_service_detail.cab_copted} />
-//                       <CabService />*/}
-//
-//                       <span>Porter Service</span>
-//                       <Switch
-//                       color="primary"
-//                       onChange={handleChange("porter_service_opted")}
-//                       checked={state.porter_service_detail.porter_service_opted} />
-//
-//                       {state.porter_service_detail.porter_service_opted && <PorterService
-//                       state={state}
-//                       handleChange={handleChange} />}
-//                       <br />
-//                       {matches ? (
-//                       <div className="payable-amt-section">
-//                       <>
-//                         <div>
-//                            <span>Payable amount:</span>
-//                            <br />
-//                            <b>₹{state.total_amount}</b>
-//                         </div>
-//                         <Button
-//                         className="md-btn"
-//                         onClick={handleSubmit(handleSubmission)}
-//                         variant="outlined"
-//                         type="submit"
-//                         >
-//                          Continue
-//                         </Button>
-//                       </>
-//                       </div>
-//                       ) : (
-//                         <Button
-//                             onClick={handleSubmit(handleSubmission)}
-//                             variant="outlined"
-//                             className="md-btn"
-//                             type="submit">
-//                             {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
-//                         </Button>
-//                       )}
-//                   </div>
-//               </div>
-//             </form>
-//          </div>
-//       </>
-// }
-// else if(data.boarding_station.date<today){
-//   return <>
-//         {showUavailabitlity("PNR Expired", "Your PNR is of previous date which has passed.! Click on below button, you will be redirected to the homepage shortly.")}
-//         </>
-// }
-// else{
-//   return <>
-//          {showUavailabitlity("Service Unavailable", "Thank you for joining with us! But we are only supporting Hazart Nizzamuddin Station and New Delhi Station.Click on below button, you will be redirected to the homepage shortly.")}
-//         </>
-// }
 
-console.log(state)
-return <>
-      <ToastContainer />
-       <div className="main-div">
-          <form>
-            <div className="container-div">
-                <div className="top-subheading">
-                    <h1>MEET & GREET</h1>
-                    <div className="pnr-heading">
-                        <div>
-                            <span>
-                              {capitalize(query.pid)} - PNR No. - {data.pnr_number}
-                            </span>
-                        </div>
-                        <span>
-                           No. of Passengers - {data.passenger_details[0] && data.passenger_details[0].length}
-                        </span>
-                    </div>
-                </div>
-                <div className="booking-tables">
-                    <span className="sub-heading">Booking Information</span>
-                    <BookingInformation
-                    query={query}
-                    data={data} />
+if(isValid && validDay){
+  return <>
+        <ToastContainer />
+         <div className="main-div">
+            <form>
+              <div className="container-div">
+                  <div className="top-subheading">
+                      <h1>MEET & GREET</h1>
+                      <div className="pnr-heading">
+                          <div>
+                              <span>
+                                {capitalize(query.pid)} - PNR No. - {data.pnr_number}
+                              </span>
+                          </div>
+                          <span>
+                             No. of Passengers - {data.passenger_details[0] && data.passenger_details[0].length}
+                          </span>
+                      </div>
+                  </div>
+                  <div className="booking-tables">
+                      <span className="sub-heading">Booking Information</span>
+                      <BookingInformation
+                      query={query}
+                      data={data} />
 
-                    <span className="sub-heading">Passenger's Contact Information</span>
-                    <PassengerInformation
-                    register={register}
-                    errors={errors}
-                    handleChange={handleChange}
-                    data={state} />
-
-                    <span className="sub-heading">Passenger's Details</span>
-                    <PassengerDetails
+                      <span className="sub-heading">Passenger's Contact Information</span>
+                      <PassengerInformation
                       register={register}
                       errors={errors}
                       handleChange={handleChange}
-                      data={state}  />
+                      data={state} />
 
-                    {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
-                    <Switch
-                    onChange={handleChange("cab_service_opted")}
-                    value={state.cab_service_detail.cab_copted} />
-                    <CabService />*/}
+                      <span className="sub-heading">Passenger's Details</span>
+                      <PassengerDetails
+                        register={register}
+                        errors={errors}
+                        handleChange={handleChange}
+                        data={state}  />
 
-                    <span>Porter Service</span>
-                    <Switch
-                    color="primary"
-                    onChange={handleChange("porter_service_opted")}
-                    checked={state.porter_service_detail.porter_service_opted} />
+                      {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
+                      <Switch
+                      onChange={handleChange("cab_service_opted")}
+                      value={state.cab_service_detail.cab_copted} />
+                      <CabService />*/}
 
-                    {state.porter_service_detail.porter_service_opted && <PorterService
-                    state={state}
-                    handleChange={handleChange} />}
-                    <br />
-                    {matches ? (
-                    <div className="payable-amt-section">
-                    <>
-                      <div>
-                         <span>Payable amount:</span>
-                         <br />
-                         <b>₹{state.total_amount}</b>
+                      <span>Porter Service</span>
+                      <Switch
+                      color="primary"
+                      onChange={handleChange("porter_service_opted")}
+                      checked={state.porter_service_detail.porter_service_opted} />
+
+                      {state.porter_service_detail.porter_service_opted && <PorterService
+                      state={state}
+                      handleChange={handleChange} />}
+                      <br />
+                      {matches ? (
+                      <div className="payable-amt-section">
+                      <>
+                        <div>
+                           <span>Payable amount:</span>
+                           <br />
+                           <b>₹{state.total_amount}</b>
+                        </div>
+                        <Button
+                        className="md-btn"
+                        onClick={handleSubmit(handleSubmission)}
+                        variant="outlined"
+                        type="submit"
+                        >
+                         Continue
+                        </Button>
+                      </>
                       </div>
-                      <Button
-                      className="md-btn"
-                      onClick={handleSubmit(handleSubmission)}
-                      variant="outlined"
-                      type="submit"
-                      >
-                       Continue
-                      </Button>
-                    </>
-                    </div>
-                    ) : (
-                      <Button
-                          onClick={handleSubmit(handleSubmission)}
-                          variant="outlined"
-                          className="md-btn"
-                          type="submit">
-                          {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
-                      </Button>
-                    )}
-                </div>
-            </div>
-          </form>
-       </div>
-    </>
+                      ) : (
+                        <Button
+                            onClick={handleSubmit(handleSubmission)}
+                            variant="outlined"
+                            className="md-btn"
+                            type="submit">
+                            {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
+                        </Button>
+                      )}
+                  </div>
+              </div>
+            </form>
+         </div>
+      </>
+}
+else if(!validDay){
+  return <>
+        {showUavailabitlity("PNR Expired", "Your PNR is of previous date which has passed.! Click on below button, you will be redirected to the homepage shortly.")}
+        </>
+}
+else{
+  return <>
+         {showUavailabitlity("Service Unavailable", "Thank you for joining with us! But we are only supporting Old Delhi railway Station and New Delhi Station.Click on below button, you will be redirected to the homepage shortly.")}
+        </>
+}
+
+
 
 };
 

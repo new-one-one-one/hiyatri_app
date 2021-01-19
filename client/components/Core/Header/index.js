@@ -18,7 +18,7 @@ import dynamic from 'next/dynamic'
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
-      height:"70px",
+      height:"90px",
       flexGrow: 1,
     },
     menuButton: {
@@ -54,7 +54,7 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                       <Link href='/'>
                          <a>
-                           <img className="icons" src="/images/logo-JPEG.jpeg" className="h-logo"/>
+                           <img className="icons" src="/images/logo.png" className="h-logo"/>
                         </a>
                       </Link>
                     </Typography>
@@ -62,10 +62,15 @@ const Header = () => {
                     <>
                     <Typography />
                     <div className="header-menu row">
+
                        {!isAuth() && <i class="fas fa-user user-login-icon" />}
                        {!isAuth() && <span><LoginModal /></span>}
                        {isAuth() && <span>
-                        <i className="fas fa-user-lock user-icon" />
+
+
+                       { isAuth().user_type!=="ADMIN"&& <i className="fas fa-user-lock user-icon" />}
+                       { isAuth().user_type==="ADMIN"&&  <i className="fas fa-user-lock user-icon"><small style={{fontSize:"0.6em"}}> Admin</small></i> }
+
                         <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
                        </span>}
                        {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}

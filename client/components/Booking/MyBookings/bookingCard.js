@@ -98,7 +98,7 @@ return <div className="shadow booking-card">
                 <CardContent>
                         <Typography align="center" style={{letterSpacing:'0.1em',color:"#000066"}}  variant="body1">
                           <div>
-                          <b>{booking.booking_id}({allInfo.order_type})</b>
+                          <b>{booking.pnr_number}({allInfo.order_type})</b>
                           </div>
                         </Typography>
                 
@@ -107,9 +107,9 @@ return <div className="shadow booking-card">
                         <br/>
                     <div className={classes.details}>
                         <Box display="flex">
-                            <Box width="40%"><b>PNR number</b></Box>
+                            <Box width="40%"><b>Booking Id</b></Box>
                             <Box width="10%"><b>:</b></Box>
-                            <Box width="50%">{booking.pnr_number}</Box>
+                            <Box width="50%">{booking.booking_id}</Box>
                         </Box>
                         <Box display="flex">
                             <Box width="40%"><b>Date</b></Box>
@@ -124,7 +124,7 @@ return <div className="shadow booking-card">
                         <Box display="flex">
                             <Box width="40%"><b>Status</b></Box>
                             <Box width="10%"><b>:</b></Box>
-                            <Box width="50%">{allInfo.order_status}</Box>
+                            <Box width="50%">{allInfo.order_status==="ASSIGN_TO_ADMIN"||allInfo.order_status==="ASSIGN_TO_AGENT"||allInfo.order_status==="COMPELETED" ? "Confirmed" : "Cancelled" }</Box>
                         </Box>
                     </div>
                 </CardContent>

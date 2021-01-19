@@ -346,7 +346,6 @@ const displayPorterServiceDetails = (porter) =>{
     )
 }
 
-console.log(data)
   return (
   <div>
     {/* Creating heading bar */}
@@ -462,7 +461,7 @@ console.log(data)
         </div>
         )} */}
         <br></br>
-        {(data.booking.porter_service.porter_service_detail.porter_service_opted!==null)&&(
+        {(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
@@ -475,8 +474,8 @@ console.log(data)
               </div>
 
         )}
-        <br></br>
-        {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null)&&(
+        <br></br> 
+        {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
@@ -545,8 +544,8 @@ console.log(data)
 
             <br></br>
         </Grid>
-
-        {(data.order_status!=='COMPLETED') && (
+      
+        {(data.order_status!=='COMPLETED' && data.order_status!=='FAILED' && data.order_status!=='CANCELLED_BY_USER' ) && (
             <Grid item xs={12} sm={3}>
               {(data.order_status!=='ASSIGN_TO_AGENT') &&
                 ( <div className="shadow">

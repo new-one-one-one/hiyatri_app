@@ -1,5 +1,8 @@
 const User = require("../models/user_model");
-
+// const twilioClient = require('twilio')(
+//   process.env.TWILIO_SID,
+//   process.env.TWILIO_AUTH
+// );
 
 module.exports.single_user = (req, res) => {
      User.findById(req.params.id)
@@ -25,36 +28,77 @@ exports.get_user = (req, res) => {
     })
 }
 
-exports.create_user = (req, res) => {
-    const {
-        name,
-        phone_number,
-        user_type
-    }   =  req.body;
-    User.findOneAndUpdate({phone_number:phone_number}, {name:name,user_type:user_type},(err, result) => {
-
-       if(result){
-         res.status(200).json({"status":"exits"})
-       }
-       else{
-        const addUser = new User({
-            name,
-            phone_number,
-            user_type
-        })
-        addUser.save((err, result) => {
-            if(err){
-              return res.status(400).json({
-              error: errorHandler(err)
-              })
-        } else{
-            res.status(200).json({"status":"success"})
-        }})
-       }
-
-    })
-
-}
+// exports.create_user = (req, res) => {
+//     const {
+//         name,
+//         phone_number,
+//         user_type
+//     }   =  req.body;
+//     var password=Math.floor((Math.random() * 10000) + 1);
+//     if(user_type==="AGENT"){
+//       // generate random string or otp
+//       twilioClient.messages.create({
+//         from:"+14198710438",
+//         to:"+91"+String(phone_number),
+//         body:"Hi agent your password is - " +  password
+//       }, (err, message)=>{
+//         if(err)
+//           console.log(err)
+//         else{
+//           console.log("message send successs");
+//         }
+//       })
+//       User.findOneAndUpdate({phone_number:phone_number}, {name:name, user_type:user_type, password:password},(err, result) => {
+//         if(result){
+//           res.status(200).json({"status":"exits"})
+//         }
+//         else{
+//           const addUser = new User({
+//               name,
+//               phone_number,
+//               user_type,
+//               password:password
+//           })
+//           console.log(addUser, password);
+//           addUser.save((err, result) => {
+//               if(err){
+//                 return res.status(400).json({
+//                 error: errorHandler(err)
+//                 })
+//           } else{
+//               res.status(200).json({"status":"success"})
+//           }})
+//         }
+//
+//       })
+//
+//
+//     }
+//     else{
+//       User.findOneAndUpdate({phone_number:phone_number}, {name:name, user_type:user_type},(err, result) => {
+//         if(result){
+//           res.status(200).json({"status":"exits"})
+//         }
+//         else{
+//           const addUser = new User({
+//               name,
+//               phone_number,
+//               user_type
+//           })
+//           addUser.save((err, result) => {
+//               if(err){
+//                 return res.status(400).json({
+//                 error: errorHandler(err)
+//                 })
+//           } else{
+//               res.status(200).json({"status":"success"})
+//           }})
+//         }
+//
+//       })
+//   }
+//
+// }
 
 exports.delete_user = (req, res) => {
     const {name,

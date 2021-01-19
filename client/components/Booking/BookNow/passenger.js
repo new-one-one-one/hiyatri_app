@@ -8,19 +8,12 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
     const showPassengerDetail = () => {
           return data.passenger_details ? data.passenger_details.map(
             (item, index) => {
-              let passenger_detail_seat_no = errors[`passenger_detail_seat_no${index}`];
               let passenger_detail_name = errors[`passenger_detail_name${index}`];
               let passenger_detail_age_group = errors[`passenger_detail_age_group${index}`];
               let passenger_detail_gender = errors[`passenger_detail_gender${index}`];
               return <tr key={index}>
                         <td>
-                        <TextField
-                         variant="outlined"
-                         name={`passenger_detail_name${index}`}
-                         placeholder="eg. CNF,S4,76"
-                         value={item.seat_number}
-                         onChange={handleChange("passenger_detail_seat_no", index)}
-                         />
+                          {item.seat_number}
                         </td>
                         <td>
                          <TextField
@@ -38,7 +31,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                         <Select
                           variant="outlined"
                           name={`passenger_detail_age_group${index}`}
-                          className="pl-2"
+                          className="pl-1"
                           fullWidth
                           native
                           inputRef={register({ required: true })}
@@ -102,13 +95,13 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
               <table>
                 <thead>
                   <tr>
-                    <th style={{ width:"120px"}}>Seat No.</th>
-                    <th style={{ width:"170px"}}>Passenger Name*</th>
-                    <th>Age Group*</th>
-                    <th style={{ width:"90px"}}>Gender*</th>
-                    <th style={{ width:"100px"}}>Meet & Greet </th>
-                    <th style={{ width:"100px"}}>Wheel Chair </th>
-                    <th style={{ width:"100px"}}>Golf Cart </th>
+                    <th style={{ width:"80px"}}>Seat No.</th>
+                    <th style={{ width:"160px"}}>Passenger Name*</th>
+                    <th style={{ width:"170px"}}>Age Group*</th>
+                    <th style={{ width:"85px"}}>Gender*</th>
+                    <th style={{ width:"90px"}}>Meet & Greet </th>
+                    <th style={{ width:"90px"}}>Wheel Chair </th>
+                    <th style={{ width:"90px"}}>Golf Cart </th>
                   </tr>
                 </thead>
               <tbody>

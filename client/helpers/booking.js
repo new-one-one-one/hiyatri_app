@@ -47,7 +47,7 @@ class Booking {
                 seat_number: pass.current_status_details,
                 age_group:"",
                 gender:"",
-                meet_and_greet:false,
+                meet_and_greet:true,
                 wheel_chair:false,
                 golf_cart:false }})
         booking.passenger_details.push(passInfo)

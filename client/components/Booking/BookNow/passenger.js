@@ -8,12 +8,19 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
     const showPassengerDetail = () => {
           return data.passenger_details ? data.passenger_details.map(
             (item, index) => {
+              let passenger_detail_seat_no = errors[`passenger_detail_seat_no${index}`];
               let passenger_detail_name = errors[`passenger_detail_name${index}`];
               let passenger_detail_age_group = errors[`passenger_detail_age_group${index}`];
               let passenger_detail_gender = errors[`passenger_detail_gender${index}`];
               return <tr key={index}>
                         <td>
-                          {item.seat_number}
+                        <TextField
+                         variant="outlined"
+                         name={`passenger_detail_name${index}`}
+                         placeholder="eg. CNF,S4,76"
+                         value={item.seat_number}
+                         onChange={handleChange("passenger_detail_seat_no", index)}
+                         />
                         </td>
                         <td>
                          <TextField
@@ -95,7 +102,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
               <table>
                 <thead>
                   <tr>
-                    <th style={{ width:"80px"}}>Seat No.</th>
+                    <th style={{ width:"120px"}}>Seat No.</th>
                     <th style={{ width:"170px"}}>Passenger Name*</th>
                     <th>Age Group*</th>
                     <th style={{ width:"90px"}}>Gender*</th>

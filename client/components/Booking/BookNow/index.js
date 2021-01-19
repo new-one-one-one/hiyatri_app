@@ -168,6 +168,7 @@ const ACTIONS = {
     EMAIL:"email"
   },
   PASSENGER_DETAIL:{
+    SEAT:"passenger_detail_seat_no",
     NAME:"passenger_detail_name",
     AGE:"passenger_detail_age",
     GENDER:"passenger_detail_gender",
@@ -255,6 +256,13 @@ const reducer = (state, action) => {
         email_id: action.payload }}
 
   /* Passenger details */
+  case ACTIONS.PASSENGER_DETAIL.SEAT:
+     const pass_detail_seat = state.passenger_details
+      .map((value, idx) => {
+      if(action.sidx != idx) return value;
+      return {...value, seat_number: action.payload }})
+      return {...state, passenger_details: pass_detail_seat}
+
     case ACTIONS.PASSENGER_DETAIL.NAME:
        const pass_detail_name = state.passenger_details
         .map((value, idx) => {
@@ -449,6 +457,8 @@ const reducer = (state, action) => {
 }
 
 
+
+
 const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
   /* Passenger contact information */
@@ -470,6 +480,13 @@ const handleChange = (value1, value2) => e => {
   }
 
   /* Passengers details */
+  if(value1 === "passenger_detail_seat_no"){
+    // console.log(e.target.value)
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.SEAT,
+                         payload: e.target.value,
+                         sidx: value2 })
+  }
+
   if(value1 === "passenger_detail_name"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.NAME,
                          payload: e.target.value,
@@ -922,6 +939,7 @@ const showUavailabitlity = (reason, content ) =>{
 //         </>
 // }
 
+console.log(state)
 return <>
       <ToastContainer />
        <div className="main-div">

@@ -4,6 +4,7 @@ import {TextField, Grid, Paper, FormControl, Typography, Dialog} from '@material
 import {Button, Table, TableBody, TableCell,TableRow} from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { Grid as Grids, GridColumn as Column } from '@progress/kendo-react-grid';
+import { Input } from '@material-ui/core';
 
 
 
@@ -59,8 +60,8 @@ const UserListComponent = ({usersList, reload}) => {
         return (
             <td>
                 <Button
-                    size="small"
-                    className="delete-user"
+                    variant="contained"
+                    id="user-booking-list-btn"
                     onClick={()=>removeU(props.dataItem)}>
                     Delete
           </Button>
@@ -78,6 +79,7 @@ const UserListComponent = ({usersList, reload}) => {
     return         <div className="rootUserList">
                <Paper elevation={3} className="containerUserAdd">
                 <div className="fieldsUserAdd">
+                    
                     <form onSubmit={handleSubmit(formSubmit)}>
                     <Grid container xs={12} spacing={2}>
                         <Grid item xs={3}>
@@ -106,9 +108,11 @@ const UserListComponent = ({usersList, reload}) => {
                                 helperText={errors.name?"Please Enter the name":""}
                             />
                         </Grid>
-                        <Grid item xs={3}>
-                            <FormControl fullWidth variant="outlined">
+                        <Grid item xs={2}>
+                            <FormControl style={{ width:"150px"}} variant="outlined">
+                                
                                 <select className="dropdownStyle"
+                                style={{height:"54px"}}
                                     value={user}
                                     size="small"
                                     name="user_type"
@@ -123,7 +127,7 @@ const UserListComponent = ({usersList, reload}) => {
                         </Grid>
                         <Grid item xs={3}>
                         <Typography align="center">
-                            <Button type="Submit"   className="buttonUserAdd" variant="contained" size="large" color="primary">
+                            <Button type="Submit"  className="buttonUserAdd" variant="contained" size="large">
                                 Add User
                             </Button>
                         </Typography>
@@ -151,7 +155,7 @@ const UserListComponent = ({usersList, reload}) => {
                 pageable={state.pageable}
                 pageSize={state.pageSize}>
                 <Column field="name"  title="Name"/>
-                <Column field="user_type" title="Category" />
+                <Column field="user_type" title="Role" />
                 <Column field="phone_number" title="Contact Number" />
                 <Column cell={MyEditCommandCell} title="Action"  />
             </Grids>}

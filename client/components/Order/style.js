@@ -5,6 +5,18 @@ const useStyles = makeStyles(Theme =>
     grow: {
       flexGrow: 1,
     },
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+      backgroundColor: Theme.palette.background.paper,
+      borderRadius:"10px",
+      height:"243px",
+      width:"653px",
+      padding: Theme.spacing(5, 8, 9),
+    },
     outerPass:{
     border:"1px solid #283593",
     borderRadius:"5px",

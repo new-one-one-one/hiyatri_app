@@ -364,8 +364,12 @@ module.exports.get_all_orders = async (req, res) => {
   const { order_type, order_status} = req.body;
   if(!order_type && !order_status){
     return Order.find()
-    .populate({ path: 'booking', select:'booking_information booking_id' })
-    .populate({ path: 'booking', select:'booking_information booking_id' })
+    .populate({ path: 'booking',
+                select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+                populate: { path: 'cab_service', select: 'cab_service_detail'}})
+    .populate({ path: 'booking',
+                select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+                populate: { path: 'porter_service', select: 'porter_service_detail'}})
     .populate('agent', 'name phone_number')
     .select('order_type order_status')
     .sort({ updatedAt: -1 })
@@ -379,6 +383,7 @@ module.exports.get_all_orders = async (req, res) => {
           return { booking_status: item.order_status,
                    booking_type: item.order_type,
                    agent: item.agent,
+                   // booking_details: item.booking,
                    booking_id: item.booking.booking_id,
                    date: item.booking.booking_information.is_arrival ?
                    item.booking.booking_information.reservation_upto.date:
@@ -396,8 +401,12 @@ module.exports.get_all_orders = async (req, res) => {
   }
 
   Order.find({ order_type, order_status, payment_verified: true })
-  .populate({ path: 'booking', select:'booking_information booking_id' })
-  .populate({ path: 'booking', select:'booking_information booking_id' })
+  .populate({ path: 'booking',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              populate: { path: 'cab_service', select: 'cab_service_detail'}})
+  .populate({ path: 'booking',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .populate('agent', 'name phone_number')
   .select('order_type order_status agent')
   .sort({ updatedAt: -1 })
@@ -412,6 +421,7 @@ module.exports.get_all_orders = async (req, res) => {
                  booking_type: item.order_type,
                  booking_id: item.booking.booking_id,
                  agent: item.agent,
+                 // booking_details: item.booking,
                  date: item.booking.booking_information.is_arrival ?
                        item.booking.booking_information.reservation_upto.date:
                        item.booking.booking_information.boarding_station.date,
@@ -526,7 +536,7 @@ module.exports.get_orders_for_agent=(req, res)=>{
 module.exports.cancel_order = (req, res) => {
   const { orderId } = req.params;
   Order.findById(orderId)
-    .populate("booking", "booking_information")
+    .populate("booking", "booking_information passenger_contact_information")
     .select("booking total_amount razorpay_payment_id")
     .exec((err, order) => {
       let common = order.booking.booking_information;
@@ -538,17 +548,33 @@ module.exports.cancel_order = (req, res) => {
       const duration = moment(end).diff(moment(start),'hours');
 
 
+
       if(duration<0){
         return Order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
+          .populate("booking", "passenger_contact_information booking_id")
           .exec((err, response) => {
             if(err){
               return res.statud(400).json({
                 error: err
               })
             }
-            return res.status(200).json({
-              message: "Order Cancellled"
-            })
+            var options = {
+              'method': 'POST',
+              'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
+              formData: {
+                'From': 'HYCANB',
+                'To': response.booking.passenger_contact_information.primary_contact_number,
+                'TemplateName': 'Booking cancellation',
+                'VAR1':response.booking.passenger_contact_information.name,
+                'VAR2':response.booking.booking_id,
+              }
+            };
+            request(options, function (error, response) {
+              if (error) throw new Error(error);
+              return res.status(200).json({
+                message: "Order Cancellled"
+              })
+            });
           })
       }
       if(duration>=24){
@@ -560,17 +586,32 @@ module.exports.cancel_order = (req, res) => {
                })
              }
              return Order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
+               .populate("booking", "passenger_contact_information booking_id")
                .exec((err, response) => {
                  if(err){
                    return res.statud(400).json({
                      error: err
                    })
                  }
-                 console.log(response)
-                 return res.status(200).json({
-                   status:"Order cancelled successfuly",
-                   message:`refunded amount ${order.total_amount}`
-                 })
+                 var options = {
+                   'method': 'POST',
+                   'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
+                   formData: {
+                     'From': 'HYCANB',
+                     'To': response.booking.passenger_contact_information.primary_contact_number,
+                     'TemplateName': 'Booking cancellation',
+                     'VAR1':response.booking.passenger_contact_information.name,
+                     'VAR2':response.booking.booking_id,
+                   }
+                 };
+                 request(options, function (error, response) {
+                   console.log(error)
+                   if (error) throw new Error(error);
+                   return res.status(200).json({
+                     status:"Order cancelled successfuly",
+                     message:`refunded amount ${order.total_amount}`
+                   })
+                 });
                })
            })
       }
@@ -583,30 +624,62 @@ module.exports.cancel_order = (req, res) => {
                })
              }
              return Order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
+               .populate("booking", "passenger_contact_information booking_id")
                .exec((err, response) => {
                  if(err){
                    return res.statud(400).json({
                      error: err
                    })
                  }
-                 return res.status(200).json({
-                   status:"Order cancelled successfuly",
-                   message:`refunded amount ${refund}`
-                 })
-               })
+
+                 var options = {
+                   'method': 'POST',
+                   'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
+                   formData: {
+                     'From': 'HYCANB',
+                     'To': response.booking.passenger_contact_information.primary_contact_number,
+                     'TemplateName': 'Booking cancellation',
+                     'VAR1':response.booking.passenger_contact_information.name,
+                     'VAR2':response.booking.booking_id,
+                   }
+                 };
+                 request(options, function (error, response) {
+                   if (error) throw new Error(error);
+                   return res.status(200).json({
+                     status:"Order cancelled successfuly",
+                     message:`refunded amount ${refund}`
+                    })
+                 });
+              })
            })
       }
         return Order.findByIdAndUpdate(orderId, {order_status: "CANCELLED_BY_USER"},{ new: true })
+          .populate("booking", "passenger_contact_information booking_id")
           .exec((err, response) => {
             if(err){
               return res.statud(400).json({
                 error: err
               })
             }
-            return res.status(200).json({
-              status:"Order cancelled successfuly",
-              message:`no refund`
-            })
-          })
+
+            var options = {
+              'method': 'POST',
+              'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
+              formData: {
+                'From': 'HYCANB',
+                'To': response.booking.passenger_contact_information.primary_contact_number,
+                'TemplateName': 'Booking cancellation',
+                'VAR1':response.booking.passenger_contact_information.name,
+                'VAR2':response.booking.booking_id,
+              }
+            };
+            request(options, function (error, response) {
+              if (error) throw new Error(error);
+              return res.status(200).json({
+                status:"Order cancelled successfuly",
+                message:`no refund`
+              })
+            });
+        })
     })
 }

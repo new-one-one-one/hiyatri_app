@@ -15,10 +15,11 @@
    background-color: rgb(0 0 0 / 58%)!important;
  }
  .MuiAppBar-root{
-  background-color: #2a306c!important;
-  /* background-color: white!important; */
+  /* background-color: #2a306c!important; */
+  background-color: white!important;
+  /* background: transparent!important; */
   z-index: 5000!important;
-  box-shadow:0px 0px 0px 0px!important;
+  box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;
  }
  .MuiDrawer-paper {
    top:70px!important;
@@ -65,7 +66,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 .layout{
-  padding-top: 70px;
+  padding-top: 95px;
   min-height: 80vh!important;
 }
 .row{
@@ -206,23 +207,20 @@ input[type=number]::-webkit-outer-spin-button {
  ---------------- */
 
 .h-logo{
-  border-radius: 20%;
-  position: fixed;
-  left: 15px;
-  top: 1px;
-   height: 68px;
-   width: 140px;
-   margin-top: 1px;
-   object-fit: contain;
+ position: fixed;
+ left: 15px;
+ top: 1px;
+ height: 97px;
+ width: 128px;
+  /* margin-top: 1px; */
 }
 @media (max-width: 767px) {
   .h-logo{
-      border-radius: 5%!important;
-    /* height: 100%;
-    width: 50%; */
-    margin-top: 2px;
-    height: 65px;
-    width: 92px;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 97px;
+    width: 138px;
   }
 }
 .header-menu{
@@ -236,16 +234,16 @@ input[type=number]::-webkit-outer-spin-button {
  .hp-curve{
    background-color:#30336B;
    height:250px;
-   border-radius:0% 0% 50% 50% / 0% 0% 52% 52%
+   /* border-radius:0% 0% 50% 50% / 0% 0% 52% 52% */
  }
 .hp-welcome{
   position:absolute;
-  top:80px;
+  top:110px;
   left:7%;
   right:7%;
-  padding: 18px;
+  padding: 16px;
   border-radius: 20px;
-  box-shadow: 0 0 22px 0 rgba(16, 55, 67, 0.25);
+  box-shadow: 0 0 20px 0 rgba(16, 55, 67, 0.25);
   background-color: #ffffff;
   z-index: 1000;
 }
@@ -492,11 +490,11 @@ input[type=number]::-webkit-outer-spin-button {
     height: 230px!important;
 }
 .hp-mg-container{
-  margin-top: 280px;
+  margin-top: 250px;
 }
 @media (max-width:767px) {
   .hp-mg-container{
-    margin-top: 265px;
+    margin-top: 330px;
   }
 }
 .hp-mg-img-container{
@@ -688,7 +686,19 @@ color: #2a306c;
 
  }
 
-
+.booking-list-head{
+  font-weight: 600;
+  padding-left: 30px;
+}
+.export-btn{
+  position: absolute!important;
+  right: 50px!important;
+  top: 120px!important;
+  background-color: #00C4FF!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 10px 30px 10px 30px!important;
+}
 
 
  .container {
@@ -1068,6 +1078,7 @@ color: #2a306c;
   color: white!important;
   font-weight: bold!important;
   padding: 10px 30px 10px 30px!important;
+  height: 54px;
   /* font-size: 3ex; */
 }
 
@@ -1337,8 +1348,18 @@ color: #2a306c;
 }
 
 
+#design-admin-list{
+  background: none;
+  font-weight: bold;
+  letter-spacing: 0.11em;
+  color: #00c4fe;
+  text-transform: none;
+  border:none;
+}
 
-
+#design-admin-list:hover{
+  background-color: none;
+}
 
 .o-services-title{
 
@@ -1362,6 +1383,9 @@ letter-spacing: 0.8px;
 text-align: left;
 color: #00c4ff;
 }
+
+
+
 .o-booknow-btn{
  width: 100%;
  height: 45px;
@@ -1400,13 +1424,13 @@ color: #00c4ff;
   margin: 10px;
 }
 .can-btn{
-  background-color: #f5222d!important;
+  background-color: #00c4ff!important;
   color: white!important;
   font-weight: bold!important;
   padding: 3px 10px 3px 10px!important;
 }
 .mod-btn{
-  background-color: #00C4FF!important;
+  background-color: #00c4ff!important;
   color: white!important;
   font-weight: bold!important;
   padding: 3px 10px 3px 10px!important;
@@ -1417,7 +1441,11 @@ color: #00c4ff;
 }
 
 .login-btn{
-  color:white!important;
+  background-color: #00c4ff!important;
+  color: white!important;
+  font-weight: bold!important;
+  padding: 5px 15px 5px 15px!important;
+  /* color:white!important; */
 }
 
 .delete-user{
@@ -1507,15 +1535,18 @@ color: #00c4ff;
 }
 
 .user-icon{
+  color: black;
   font-size: 28px;
   margin-right: 10px;
 }
 .user-phone{
+    color: black;
   font-size: 16px;
 }
 .user-login-icon{
-  margin-top: 6px;
-  font-size: 22px;
+  /* color: black; */
+  /* margin-top: 6px; */
+  font-size: 20px;
 }
 .login-modal-input{
   max-width: 250px;
@@ -1527,4 +1558,26 @@ color: #00c4ff;
   padding: 10px 30px 10px 30px!important;
   width: 200px;
   margin-top: 20px;
+}
+
+
+#user-booking-list-btn{
+  height: 35px;
+  color: white;
+  background-color: #00c4fe;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+#users-cancel-booking-design{
+  height: 35px;
+  color: #00c4fe;
+  background-color: none;
+  border-color: #00c4fe;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+#users-cancel-booking-design:hover{
+  background: none;
 }

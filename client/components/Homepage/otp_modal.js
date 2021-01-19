@@ -13,7 +13,7 @@ import { sendingOTP, verifyingOTP, authenticate } from '../../actions/auth';
 import { get_details_by_pnr } from '../../actions/booking';
 import { ToastContainer, toast } from 'react-toastify';
 import OtpInput from 'react-otp-input';
-import ClipLoader from "react-spinners/ClipLoader";
+import Loader from 'react-loader-spinner'
 import Countdown from "react-countdown";
 
 const useStyles = makeStyles((theme) => ({
@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
-  
+
 
   // const verifyCallback = (response) => {
   //    if(response){
@@ -172,10 +172,13 @@ const useStyles = makeStyles((theme) => ({
   return (
     <div>
       <div className="hp-loader">
-        <ClipLoader
-        size={150}
-        color={"skyblue"}
-        loading={showSpinner} />
+      <Loader
+          type="Oval"
+          color="#00bcd4"
+          height={150}
+          width={150}
+          visible={showSpinner}
+       />
       </div>
 
      <div className="d-sm-block d-md-none">
@@ -206,7 +209,7 @@ const useStyles = makeStyles((theme) => ({
         <Fade in={data.open_modal}>
           <div className={classes.paper}>
           <div className="lg-container">
-            
+
 
             {<div className="text-center">
               <div className="otp-msg">OTP has been sent to {state.phone_number}</div>
@@ -219,7 +222,7 @@ const useStyles = makeStyles((theme) => ({
                 separator={<span></span>}
               />
 
-              {resend_otp && <Countdown date={Date.now() + 30000} renderer={renderer}/>}
+              {resend_otp && <Countdown date={Date.now() + 60000} renderer={renderer}/>}
               {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
 
               <Button variant="contained" className="m-2 md-btn" onClick={verify}>

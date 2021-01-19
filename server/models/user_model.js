@@ -24,6 +24,10 @@ const userSchema = mongoose.Schema({
     enum:['USER','AGENT','ADMIN', 'SUPER_ADMIN'],
     default:'USER'
   },
+  password:{
+    type:String,
+    default:null
+  },
   del_flag:{
     type:Boolean,
     default:false

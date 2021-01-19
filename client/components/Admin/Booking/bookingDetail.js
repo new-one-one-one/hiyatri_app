@@ -367,22 +367,22 @@ const displayPorterServiceDetails = (porter) =>{
 
              <Paper variant="outlined" className={classes.particularOrder}>
                   <div style={{marginLeft:"4%"}}>
-                    <Grid style={{color:"grey"}}  container spacing={1}>
+                    <Grid style={{color:'grey'}} container spacing={1}>
                         <Grid container spacing={3}>
                             <Grid  item xs={4}>
-                            <b> Meeting Station:</b>
+                            Meeting Station:
                               <br />
-                            {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.station_name:data.booking.booking_information.reservation_upto.station_name}
+                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.station_name:data.booking.booking_information.reservation_upto.station_name} </b>
                             </Grid>
                             <Grid  item xs={4}>
-                            <b> Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}</b>
+                            Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}
                             <br />
-                            {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.time:data.booking.booking_information.reservation_upto.time}
+                            <b style={{color:'black'}}>{data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.time:data.booking.booking_information.reservation_upto.time} </b>
                             </Grid>
                             <Grid  item xs={4}>
-                            <b>Number of passengers:</b>
+                            Number of passengers:
                               <br />
-                              {data.booking.passenger_details.length}
+                              <b style={{color:'black'}}>{data.booking.passenger_details.length} </b>
                             </Grid>
                         </Grid>
                     <Grid container spacing={1}>
@@ -408,7 +408,7 @@ const displayPorterServiceDetails = (porter) =>{
                     <Paper variant="outlined" className={classes.particularOrder}>
                       <div className={classes.outerDetails}>
                         <Grid container xs={12} justify="space-between">
-                              <Typography  variant="body1" align="left">{val.passenger_name}</Typography>
+                              <Typography  variant="body1" align="left"><b>{val.passenger_name}</b></Typography>
                 <Typography  variant="body1" align="left">{val.age_group}</Typography>
                         </Grid>
                       </div>
@@ -426,40 +426,6 @@ const displayPorterServiceDetails = (porter) =>{
           </Paper>
          </div>
         <br></br>
-
-        {/* NOt showing other services */}
-        {/* {(
-          data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted ||
-          data.response.booking.porter_service.porter_service_detail.porter_service_opted||
-          data.response.booking.cab_service.cab_service_detail.cab_service_opted
-        )&&(
-        <div className="shadow">
-        <Paper className={classes.Services}>
-        <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
-                      <Typography>Other Services</Typography>
-          </Box>
-          <Paper className={classes.particularOrder} variant="outlined">
-          <Grid container style={{color:"#000066"}} spacing={10}>
-                    {(data.response.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
-                    <Grid  item xs={4}>
-                     <b> Baggage Service </b>
-                    </Grid>
-                    )}
-                    {(data.response.booking.porter_service.porter_service_detail.porter_service_opted)&&(
-                      <Grid  item xs={4} >
-                      <b> Porter Service  </b>
-                      </Grid>
-                    )}
-                    {(data.response.booking.cab_service.cab_service_detail.cab_service_opted!==null)&&(
-                    <Grid  item xs={4}>
-                    <b> Cab service </b>
-                    </Grid>
-                    )}
-                </Grid>
-         </Paper>
-        </Paper>
-        </div>
-        )} */}
         <br></br>
         {(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
               <div className="shadow">
@@ -534,7 +500,7 @@ const displayPorterServiceDetails = (porter) =>{
               <Grid container style={{paddingTop:"8px"}} xs={12} justify="space-between">
                   <Typography variant="subtitle2"  align="left"></Typography>
                   <Typography variant="body1"  align="right">
-                  <Button  id="btns-text" variant="contained"  className="bd-btn-agent" onClick={()=>{openCommentBox(true)}}>
+                  <Button  variant="contained"  className="bd-btn-agent" onClick={()=>{openCommentBox(true)}}>
                         Add Comment
                     </Button>
                   </Typography>
@@ -545,16 +511,18 @@ const displayPorterServiceDetails = (porter) =>{
             <br></br>
         </Grid>
       
-        {(data.order_status!=='COMPLETED' && data.order_status!=='FAILED' && data.order_status!=='CANCELLED_BY_USER' ) && (
+      
+
+        {(data.order_status==='ASSIGN_TO_ADMIN' || data.order_status!=='ASSIGN_TO_AGENT' || data.order_status==='IN_PROGRESS') && (
             <Grid item xs={12} sm={3}>
               {(data.order_status!=='ASSIGN_TO_AGENT') &&
                 ( <div className="shadow">
                     <Paper className={classes.promocode}>
                       <Box p={1}>
-                        <Button variant="contained" size="large" id="btns-text" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
+                        <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
                       </Box>
                       <Box p={1}>
-                        <Button  id="btns-text" variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
+                        <Button  variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
                       </Box>
 
                     </Paper>
@@ -579,7 +547,7 @@ const displayPorterServiceDetails = (porter) =>{
 
               {(data.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
                   <Box p={1}>
-                     <Button id="btns-text" variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
+                     <Button variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
                   </Box>
               </div>)}
           </Paper>
@@ -623,10 +591,10 @@ const displayPorterServiceDetails = (porter) =>{
          </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={addComment} className="bd-btn-submit" className="bd-btn-submit" id="btns-text" type="submit" variant="contained" color="primary">
+          <Button onClick={addComment} className="bd-btn-submit" className="bd-btn-submit" type="submit" variant="contained" color="primary">
             Submit
           </Button>
-          <Button onClick={()=>openCommentBox(false)} id="btns-text" variant="contained" color="secondary">
+          <Button onClick={()=>openCommentBox(false)} variant="contained" color="secondary">
             Cancel
           </Button>
         </DialogActions>
@@ -685,10 +653,10 @@ const displayPorterServiceDetails = (porter) =>{
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={assignToAgent} className="bd-btn-submit" id="btns-text" variant="contained" color="primary">
+          <Button onClick={assignToAgent} className="bd-btn-submit" variant="contained" color="primary">
             Assign
           </Button>
-          <Button onClick={()=>setOpen(false)} id="btns-text" variant="contained" color="secondary">
+          <Button onClick={()=>setOpen(false)} variant="contained" color="secondary">
             Cancel
           </Button>
         </DialogActions>

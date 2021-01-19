@@ -70,7 +70,7 @@ const CancelModal = ({ id, duration })  => {
 
   return (
     <div>
-      <Button  variant="outlined" color="secondary" id="btns-text" onClick={handleOpen}>Cancel This</Button>
+      <Button variant="outlined" id="users-cancel-booking-design" onClick={handleOpen}>Cancel This</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

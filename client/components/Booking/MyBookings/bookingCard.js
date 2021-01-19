@@ -60,7 +60,6 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
       switch (status){
           case "ASSIGN_TO_ADMIN": return (
                               <div className="row justify-content-center">
-      
                                        <div className="col-5">
                                          <div className="row justify-content-center">
                                           <CancelModal id={id} duration={duration} />
@@ -68,25 +67,15 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
                                        </div>
                                        <div className="col-5">
                                          <div className="row justify-content-center">
-                                            <Button  className="mod-btn" style={{height:"37px"}} onClick={()=>{showData(data)}} id="btns-text">View details</Button>
+                                            <Button id="user-booking-list-btn" onClick={()=>{showData(data)}} >View details</Button>
                                          </div>
                                        </div>
                                   </div>
                                   
                               )
-          case "COMPLETED": return (
-                      <ButtonGroup  variant="contained">
-                          <Button  className="mod-btn" id="btns-text">View details</Button>
-                      </ButtonGroup>
-          )
-          case 'IN_PROGRESS':return (
-                  <div>
-                      <Button  className="mod-btn" id="btns-text">View details</Button>
-                  </div>
-          )
           default:return(
             <div style={{marginLeft:"30%"}}>
-              <Button  className="mod-btn" style={{height:"37px"}} id="btns-text" onClick={()=>{showData(data)}}>View details</Button>
+              <Button id="user-booking-list-btn"  onClick={()=>{showData(data)}}>View details</Button>
             </div>
           )
        }
@@ -144,7 +133,7 @@ return <div className="shadow booking-card">
                
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} variant="outlined"  id="no-btn">
+                <Button onClick={handleClose} variant="outlined"  id="users-cancel-booking-design">
                   Close
                 </Button>
               </DialogActions>

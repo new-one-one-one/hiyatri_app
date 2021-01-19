@@ -1068,6 +1068,7 @@ color: #2a306c;
   color: white!important;
   font-weight: bold!important;
   padding: 10px 30px 10px 30px!important;
+  height: 54px;
   /* font-size: 3ex; */
 }
 
@@ -1337,8 +1338,18 @@ color: #2a306c;
 }
 
 
+#design-admin-list{
+  background: none;
+  font-weight: bold;
+  letter-spacing: 0.11em;
+  color: #00c4fe;
+  text-transform: none;
+  border:none;
+}
 
-
+#design-admin-list:hover{
+  background-color: none;
+}
 
 .o-services-title{
 
@@ -1362,6 +1373,9 @@ letter-spacing: 0.8px;
 text-align: left;
 color: #00c4ff;
 }
+
+
+
 .o-booknow-btn{
  width: 100%;
  height: 45px;
@@ -1527,4 +1541,26 @@ color: #00c4ff;
   padding: 10px 30px 10px 30px!important;
   width: 200px;
   margin-top: 20px;
+}
+
+
+#user-booking-list-btn{
+  height: 35px;
+  color: white;
+  background-color: #00c4fe;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+#users-cancel-booking-design{
+  height: 35px;
+  color: #00c4fe;
+  background-color: none;
+  border-color: #00c4fe;
+  font-size: 0.8em;
+  font-weight: bold;
+} 
+
+#users-cancel-booking-design:hover{
+  background: none;
 }

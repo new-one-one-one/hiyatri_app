@@ -51,9 +51,7 @@ export default function TransitionsModal() {
     setPasswordModal(false);
   }
 
-
   const {register, errors,handleSubmit} = useForm()
-
   const [phone_number, set_phone_number] = useState("");
   const [otp_code, set_otp_code] = useState("");
   const [session_id, set_session_id] = useState("");
@@ -78,6 +76,12 @@ export default function TransitionsModal() {
     }
 
     const onSubmitAdmin=(data)=>{
+      if(data.phone_number_auth.length!==10)
+        {
+          errors.phone_number_auth=true
+        }
+      else{
+        errors.phone_number_auth=false
       verifyPassword({phone_number:data.phone_number_auth, password:password}).then(response => {
         if(!response){
           return toast.error("Something went wrong! Try after sometime.")
@@ -95,6 +99,7 @@ export default function TransitionsModal() {
           setErrorMessage(response.message);
         }
         })
+      }
     }
 
     const verify = () => {
@@ -167,7 +172,7 @@ export default function TransitionsModal() {
                         type="Number"
                         size="small"
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
-                        error={errors.phone_number ?true:false}
+                        error={errors.phone_number?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
                         helperText={errors.phone_number? "Phone number is Invalid":""}
                         onChange={e =>  set_phone_number(e.target.value)}
@@ -189,7 +194,7 @@ export default function TransitionsModal() {
                           className="m-2 login-modal-continue">
                           Continue
                       </Button>
-                      <Button onClick={()=>{setPasswordModal(true); setOpen(false)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue as Admin/Agent</p></Button>
+                      <Button onClick={()=>{setPasswordModal(true); setOpen(false)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue using password</p></Button>
                    </form>}
 
                     {otp_sent && <form>
@@ -247,10 +252,9 @@ export default function TransitionsModal() {
                         type="Number"
                         size="small"
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
-                        error={errors.phone_number ?true:false}
+                        error={errors.phone_number_auth ?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                        helperText={errors.phone_number? "Phone number is Invalid":""}
-                        onChange={e =>  set_phone_number(e.target.value)}
+                        helperText={errors.phone_number_auth? "Phone number is Invalid":""}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."
                         className="login-modal-input mb-2 mt-2"
@@ -265,6 +269,7 @@ export default function TransitionsModal() {
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
                       <Button
+                          type="submit"
                           size="large"
                           onClick={handleSubmit(onSubmitAdmin)}
                           className="m-2 login-modal-continue">

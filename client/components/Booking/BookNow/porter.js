@@ -1,8 +1,10 @@
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Checkbox from '@material-ui/core/Checkbox';
+import { useForm } from 'react-hook-form';
 
 
 const PorterService = ({ handleChange, state }) => {
+  const {register, errors, handleSubmit} = useForm();
 
   return <>
           <div className="porter-service shadow">
@@ -31,7 +33,7 @@ const PorterService = ({ handleChange, state }) => {
                 </td>
                 <td>
                   <OutlinedInput
-                   type="number"
+                   type="number"                   
                    value={state.porter_service_detail.small_bags.unit === 0?"":state.porter_service_detail.small_bags.unit}
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>

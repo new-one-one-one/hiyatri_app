@@ -133,7 +133,7 @@ module.exports.admin_agent_authentication=async (req, res)=>{
             message:"Incorrect password"
           })
         }
-        else if(result.user_type==="ADMIN" || result.user_type==="AGENT"){
+        else if(result.user_type==="ADMIN"){
           const token = jwt.sign({ _id: result._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
           res.cookie('token', token, { expiresIn: '7d' });
           const user = { _id: result._id, phone_number: result.phone_number, user_type: result.user_type }

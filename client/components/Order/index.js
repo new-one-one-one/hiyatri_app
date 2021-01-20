@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { withStyles } from "@material-ui/core/styles";
 import useWindowSize from '../../helpers/windowDimension';
 import { getCookie, isAuth,removeLocalStorage } from "../../actions/auth";
-import { Grid,Button,AppBar,FormControlLabel,Checkbox, Modal, Fade,Box} from "@material-ui/core";
+import { Grid,Icon,Button,AppBar,FormControlLabel,Checkbox, Modal, Fade,Box} from "@material-ui/core";
 import { create_order, verify_order, modify_order, single_order_by_id } from '../../actions/order';
 import useStyles from './style';
 import Checkout from './checkout';
@@ -13,7 +13,8 @@ import Router from 'next/router';
 import Loader from 'react-loader-spinner'
 import { Backdrop } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
-
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import CancelIcon from '@material-ui/icons/Cancel';
 const GreenCheckbox = withStyles({
   root: {
     color: "#00c4ff",
@@ -35,6 +36,7 @@ const order_id = query && query.order_id;
 const [termsChecked, setTermsChecked] = useState(false);
 const [loader, setLoader] = useState(false);
 const [successBooking, setBookingSuccess] = useState(false);
+const [failedBooking, setBookingFailed]  = useState(false);
 useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
@@ -137,25 +139,27 @@ const paymentHandler = (orderId, amount) => {
     },
     "modal": {
     "ondismiss": function(){
-         window.location.replace("/");
+         setBookingFailed(true)
      }
 },
     handler(response) {
      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
       verify_order({ razorpay_order_id, razorpay_payment_id, razorpay_signature })
        .then(result => {
-         if(result.error){
+         if(result.error){ 
+          setBookingFailed(true)
            return console.log(result.error)
          }
          if(result.status === "ok"){
            removeLocalStorage("Booking")
-           {setBookingSuccess(true)}
+           setBookingSuccess(true)
            return;
          }
-          Router.replace("/booking/my_bookings")
+         setBookingFailed(true)
          return;
        })
        .catch((err) => {
+        setBookingFailed(true)
          console.log(err)
        })
     }
@@ -221,15 +225,48 @@ return  <>
         closeAfterTransition
       >
         <Paper elevation={3}>
-
        
         <Fade in={successBooking}>
           <div className={classes.paper}>
             <div className="text-center">
-              <font className="cm-title"><h4><b> Congratulations! Booking Successfull.</b></h4></font>
-                <Box display="flex" p={2}>
+              <font className="cm-title"><h4><b> 
+                <Icon style={{color:"green"}}> 
+        <CheckCircleOutlinedIcon></CheckCircleOutlinedIcon>
+
+        </Icon> Congratulations! Booking Successfull.</b></h4></font>
+                <Box display="flex" p={2}> 
                  <Box p={1} width="100%">
                   <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingSuccess(false); Router.push('/')}}>Ok</Button>
+                 </Box>
+                  
+                     
+                </Box>
+                  
+            </div>
+          </div>
+        </Fade>
+        </Paper>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={failedBooking}
+        closeAfterTransition
+      >
+        <Paper elevation={3}>
+       
+        <Fade in={failedBooking}>
+          <div className={classes.paper}>
+            <div className="text-center">
+              <font className="cm-title"><h4><b> 
+                <Icon style={{color:"red"}}> 
+           <CancelIcon></CancelIcon>
+
+        </Icon> Sorry ! Booking Failed.</b></h4></font>
+                <Box display="flex" p={2}> 
+                 <Box p={1} width="100%">
+                  <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingFailed(false); Router.push('/')}}>Ok</Button>
                  </Box>
                   
                      

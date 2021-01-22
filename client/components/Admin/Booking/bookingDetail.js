@@ -14,7 +14,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useForm } from 'react-hook-form';
 import { create_comment, comment_list } from '../../../actions/comments';
-import { assign_agent, agent_list } from '../../../actions/order';
+import { assign_agent, agent_list, update_order_status } from '../../../actions/order';
 import {getUsers, singleUser} from '../../../actions/user';
 import { getCookie } from '../../../actions/auth';
 import { isAuth } from '../../../actions/auth';
@@ -216,6 +216,8 @@ const BookingDetail = ({ data, reloadData }) => {
 
   const addComment = (e) => {
     e.preventDefault()
+    alert(commentText)
+    if(commentText!==undefined){
     create_comment({ order: data._id, comment_by: isAuth() && isAuth()._id, comment: commentText}, token)
       .then(response => {
         if(response.error){
@@ -228,6 +230,8 @@ const BookingDetail = ({ data, reloadData }) => {
         console.log(err)
       })
     }
+    setCommentText();
+  }
 
 
   const getMyService = (needed, type, cost)=>{
@@ -512,9 +516,9 @@ const displayPorterServiceDetails = (porter) =>{
         </Grid>
       
       
-
-        {(data.order_status==='ASSIGN_TO_ADMIN' || data.order_status!=='ASSIGN_TO_AGENT' || data.order_status==='IN_PROGRESS') && (
-            <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={3}>
+        {(data.order_status==='ASSIGN_TO_ADMIN' || data.order_status==='ASSIGN_TO_AGENT' || data.order_status==='IN_PROGRESS') && (
+            <div>
               {(data.order_status!=='ASSIGN_TO_AGENT') &&
                 ( <div className="shadow">
                     <Paper className={classes.promocode}>
@@ -522,7 +526,7 @@ const displayPorterServiceDetails = (porter) =>{
                         <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
                       </Box>
                       <Box p={1}>
-                        <Button  variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel">Cancel</Button>
+                        <Button  variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel" onClick={()=>{update_order_status(data._id, "CANCELLED_BY_ADMIN"); reloadData(!reload)}} >Cancel</Button>
                       </Box>
 
                     </Paper>
@@ -530,30 +534,27 @@ const displayPorterServiceDetails = (porter) =>{
                   </div>
               )}
               <br></br>
-              <Paper className={classes.promocode}>
-              <div className="shadow" style={{padding:"10px"}}>
-                <Grid container xs={12} justify="space-between">
-                  <Typography  variant="body2" align="left">Current Status : </Typography>
-                  <Typography  variant="subtitle" align="right">{data.order_status}</Typography>
-                </Grid>
-                <Grid container xs={12} justify="space-between">
-                  <Typography  variant="body2" align="left">Assigned To: </Typography>
-                  <Typography  variant="subtitle" align="right">{getAgentName(data.agent)} </Typography>
-                </Grid>
-              </div>
-                {(data.order_status!=='ASSIGN_TO_AGENT')}
-              <div>
-              </div>
-
               {(data.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
                   <Box p={1}>
-                     <Button variant="contained" color="secondary" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
+                    <Button  variant="contained"  className="bd-btn-agent" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
                   </Box>
-              </div>)}
+                </div>
+              )}
+            </div>
+          )}
+          <Paper className={classes.promocode}>
+            <div className="shadow" style={{padding:"10px"}}>
+              <Grid container xs={12} justify="space-between">
+                <Typography  variant="body2" align="left">Current Status : </Typography>
+                <Typography  variant="subtitle" align="right"><b>{data.order_status}</b></Typography>
+              </Grid>
+              <Grid container xs={12} justify="space-between">
+                <Typography  variant="body2" align="left">Assigned To: </Typography>
+                <Typography  variant="subtitle" align="right"><b>{getAgentName(data.agent)}</b> </Typography>
+              </Grid>
+            </div>
           </Paper>
-            </Grid>
-        )}
-
+         </Grid>
        </Grid>
     </div>
 
@@ -594,7 +595,7 @@ const displayPorterServiceDetails = (porter) =>{
           <Button onClick={addComment} className="bd-btn-submit" className="bd-btn-submit" type="submit" variant="contained" color="primary">
             Submit
           </Button>
-          <Button onClick={()=>openCommentBox(false)} variant="contained" color="secondary">
+          <Button onClick={()=>openCommentBox(false)} variant="outlined" style={{color:"#00c4fe", borderColor:"#00c4fe"}}>
             Cancel
           </Button>
         </DialogActions>
@@ -656,7 +657,7 @@ const displayPorterServiceDetails = (porter) =>{
           <Button onClick={assignToAgent} className="bd-btn-submit" variant="contained" color="primary">
             Assign
           </Button>
-          <Button onClick={()=>setOpen(false)} variant="contained" color="secondary">
+          <Button onClick={()=>setOpen(false)} variant="outlined" style={{color:"#00c4fe", borderColor:"#00c4fe"}}>
             Cancel
           </Button>
         </DialogActions>

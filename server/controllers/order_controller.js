@@ -535,6 +535,8 @@ module.exports.get_orders_for_agent=(req, res)=>{
 
 module.exports.cancel_order = (req, res) => {
   const { orderId } = req.params;
+
+
   Order.findById(orderId)
     .populate("booking", "booking_information passenger_contact_information")
     .select("booking total_amount razorpay_payment_id")
@@ -546,7 +548,7 @@ module.exports.cancel_order = (req, res) => {
       let start = new Date(moment(Date.now()).format("YYYY-MM-DD h:mm"));
       let end = new Date(moment(pickuptime,"DD-MM-YYYY h:mm").format("YYYY-MM-DD h:mm"));
       const duration = moment(end).diff(moment(start),'hours');
-
+       
 
 
       if(duration<0){

@@ -22,7 +22,7 @@ const useStyles = makeStyles({
         minWidth:"400px"
     },
     details:{
-        
+
         paddingLeft:"17%",
         paddingRight:"10%",
     },
@@ -71,7 +71,7 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
                                          </div>
                                        </div>
                                   </div>
-                                  
+
                               )
           default:return(
             <div style={{marginLeft:"30%"}}>
@@ -87,10 +87,10 @@ return <div className="shadow booking-card">
                 <CardContent>
                         <Typography align="center" style={{letterSpacing:'0.1em',color:"#000066"}}  variant="body1">
                           <div>
-                          <b>{booking.pnr_number}({allInfo.order_type})</b>
+                          <b>PNR-{booking.pnr_number}({allInfo.order_type})</b>
                           </div>
                         </Typography>
-                
+
                         <Divider variant="fullWidth"/>
                         <Divider variant="fullWidth"/>
                         <br/>
@@ -120,7 +120,7 @@ return <div className="shadow booking-card">
                 <div className={classes.actionArea}>
                    {myStatus(allInfo.order_status,allInfo._id, booking.pnr_number, booking)}
                 </div>
-                  
+
             </Card>
            </Grid>
            <Dialog open={open} style={{marginTop:"100px"}} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -130,7 +130,7 @@ return <div className="shadow booking-card">
                   {thisDataOpen && <Details data={thisDataOpen}/>}
                   { thisDataOpen!==undefined &&<TakenServices data={{porter_service_detail : thisDataOpen.porter_service.porter_service_detail, cab_service_detail:thisDataOpen.cab_service.cab_service_detail}}/>}
                 </DialogContentText>
-               
+
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} variant="outlined"  id="users-cancel-booking-design">

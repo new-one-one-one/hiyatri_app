@@ -376,7 +376,7 @@ const displayPorterServiceDetails = (porter) =>{
                             <Grid  item xs={4}>
                             Meeting Station:
                               <br />
-                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.station_name:data.booking.booking_information.reservation_upto.station_name} </b>
+                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:data.booking.booking_information.boarding_station.station_name} </b>
                             </Grid>
                             <Grid  item xs={4}>
                             Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}

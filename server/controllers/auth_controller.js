@@ -1,7 +1,7 @@
 const User = require("../models/user_model");
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
-
+const router = require("../routers/auth_router");
 module.exports.send_otp = (req, res) => {
   const { phone_number } =  req.body;
   if(!phone_number){
@@ -29,8 +29,6 @@ module.exports.send_otp = (req, res) => {
       })
   })
 }
-
-
 
 module.exports.verify_otp = async (req, res) => {
   const { session_id, otp_code ,phone_number, key } =  req.body;
@@ -143,6 +141,44 @@ module.exports.admin_agent_authentication=async (req, res)=>{
                user: user,
                res:"OK"
             })
+        }
+        else{
+          return res.status(400).json({
+            message:"Don't have privelage"
+          })
+        }
+      }
+    })
+}
+
+
+module.exports.check_agent_role=async(req, res, next)=>{
+  const {phone_number} =  req.body;  
+  if(!phone_number){
+    return res.status(400).json({
+      message:"Phone number is required"
+    })
+  }
+  else if(phone_number.length!==10){
+    return res.status(400).json({
+      message:"Phone number is invalid"
+    })
+  }
+  User.findOne({ phone_number: phone_number })
+    .exec((err, result) => {
+      if(err){
+        return res.status(400).json({
+          err:err
+        })
+      }
+      if(!result){
+        return res.status(400).json({
+          message:"You have not registered yet"
+        })
+      }
+      else{
+        if(result.user_type==="AGENT"){
+          next();
         }
         else{
           return res.status(400).json({

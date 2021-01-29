@@ -216,7 +216,6 @@ const BookingDetail = ({ data, reloadData }) => {
 
   const addComment = (e) => {
     e.preventDefault()
-    alert(commentText)
     if(commentText!==undefined){
     create_comment({ order: data._id, comment_by: isAuth() && isAuth()._id, comment: commentText}, token)
       .then(response => {

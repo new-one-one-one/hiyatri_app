@@ -380,7 +380,7 @@ const displayPorterServiceDetails = (porter) =>{
                             <Grid  item xs={4}>
                             Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}
                             <br />
-                            <b style={{color:'black'}}>{data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.time:data.booking.booking_information.reservation_upto.time} </b>
+                            <b style={{color:'black'}}>{data.booking.booking_information.is_arrival?data.booking.booking_information.reservation_upto.time:data.booking.booking_information.boarding_station.time} </b>
                             </Grid>
                             <Grid  item xs={4}>
                             Number of passengers:

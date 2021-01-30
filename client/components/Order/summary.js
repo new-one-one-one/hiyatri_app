@@ -26,7 +26,7 @@ const Summary = ({ data }) => {
                 </Grid>
                 <Grid  item xs={4}>
                     Time Of {data.booking_information.is_arrival?"Arrival":"Departure"}<br />
-                    <b style={{color:'black'}}>{data.booking_information.is_arrival?data.booking_information.boarding_station.time:data.booking_information.reservation_upto.time} </b>
+                    <b style={{color:'black'}}>{data.booking_information.is_arrival?data.booking_information.reservation_upto.time:data.booking_information.boarding_station.time} </b>
                 </Grid>
                 <Grid  item xs={4}>
                     Number of passengers:<br />

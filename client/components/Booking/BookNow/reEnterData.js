@@ -64,9 +64,7 @@ export default function FormDialog() {
 
   // On submission of form
   const onSubmit = (data) => {
-      alert("seubmited")
-    console.log(data);  // form details
-    console.log(fields) // list of passengers 
+   
   };
 
 

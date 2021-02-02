@@ -898,9 +898,13 @@ const showUavailabitlity = (reason, content ) =>{
 
 
 const compare_date_time = (details) =>{
+var arr = {
+  "01":"Jan", "02":"Feb", "03":"Mar","04":"Apr","05":"May","06":"June","07":"July","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec"
+};
+ var month = arr[details.date[1]];
   var today = new Date().getTime();
-  var onthatDay = Date.UTC(details.date[2], details.date[1], details.date[0],details.hrs, details.mins);
-  return (onthatDay-today)/3600000 >= 8 ? true : false ;
+  var onthatDay = new Date(details.date[2]+" "+month+" "+details.date[0]+" "+details.hrs+":"+details.mins).getTime();
+  return (onthatDay-today)/3600000 >= process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE ? true : false ;
 
 }
 
@@ -917,9 +921,10 @@ else {
 }
 
 if(isValid){
+  console.log(query.pid, data.boarding_station.time, data.boarding_station.date);
   const fixedDetails={
-    hrs:parseInt(query.pid==="arrival"?data.boarding_station.time.substring(0,2):data.boarding_station.time.substring(0,2)),
-    mins:parseInt(query.pid==="arrival"?data.reservation_upto.time.substring(3):data.reservation_upto.time.substring(3)),
+    hrs:parseInt(query.pid==="departure"?data.boarding_station.time.substring(0,2):data.boarding_station.time.substring(0,2)),
+    mins:parseInt(query.pid==="departure"?data.reservation_upto.time.substring(3):data.reservation_upto.time.substring(3)),
     date:(query.pid==="arrival"?data.boarding_station.date:data.boarding_station.date).split("-")
   }
   validDay=compare_date_time(fixedDetails);
@@ -1018,7 +1023,7 @@ if(isValid && validDay){
 }
 else if(!validDay){
   return <>
-        {showUavailabitlity("PNR Expired", "Your PNR is of previous date which has passed.! Click on below button, you will be redirected to the homepage shortly.")}
+        {showUavailabitlity(`Issues with booking time`, `Your PNR is of previous date which has passed or you have requested our service within ${process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE} hrs.  Click on below button, you will be redirected to the homepage shortly.`)}
         </>
 }
 else{

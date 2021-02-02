@@ -216,7 +216,6 @@ const BookingDetail = ({ data, reloadData }) => {
 
   const addComment = (e) => {
     e.preventDefault()
-    alert(commentText)
     if(commentText!==undefined){
     create_comment({ order: data._id, comment_by: isAuth() && isAuth()._id, comment: commentText}, token)
       .then(response => {
@@ -376,12 +375,12 @@ const displayPorterServiceDetails = (porter) =>{
                             <Grid  item xs={4}>
                             Meeting Station:
                               <br />
-                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.station_name:data.booking.booking_information.reservation_upto.station_name} </b>
+                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:data.booking.booking_information.boarding_station.station_name} </b>
                             </Grid>
                             <Grid  item xs={4}>
                             Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}
                             <br />
-                            <b style={{color:'black'}}>{data.booking.booking_information.is_arrival?data.booking.booking_information.boarding_station.time:data.booking.booking_information.reservation_upto.time} </b>
+                            <b style={{color:'black'}}>{data.booking.booking_information.is_arrival?data.booking.booking_information.reservation_upto.time:data.booking.booking_information.boarding_station.time} </b>
                             </Grid>
                             <Grid  item xs={4}>
                             Number of passengers:

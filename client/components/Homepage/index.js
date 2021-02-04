@@ -212,7 +212,7 @@ const showFormWhenNotLoggedIn = () => {
                  </div>
                </div>
              {width < 766 && <LazyLoadImage src="/images/tag_line.svg" className="tag_line"/>}
-             <LazyLoadImage src="/images/main-img.jpg" className="main-img"/>
+             <img src="/images/main-img.jpg" className="main-img"/>
 
              </div>
              <div className="">

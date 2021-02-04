@@ -9,6 +9,8 @@ import { getCookie } from '../../actions/auth';
 
 
 
+
+
   const head = () => (
         <Head>
             <title>
@@ -34,12 +36,13 @@ const TrainBooking = ({ data, query }) => {
 }
 
 TrainBooking.getInitialProps = ({ query }) => {
+   var flag= true;
     return  get_details_by_pnr(query.pnr)
     .then(data => {
-       return { data, query }
+       return { data, query, flag }
     })
     .catch(err => {
-       return { error: err }
+         return {err}
     })
 }
 

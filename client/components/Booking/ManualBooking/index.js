@@ -3,11 +3,13 @@ import PassengerInformation from "./contact";
 import PassengerDetails from "./passenger";
 import PorterService from "./porter";
 import CabService from "./cab";
+import React from 'react';
+
 import { useReducer, useEffect, useState } from "react";
-import { useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Switch from "@material-ui/core/Switch";
-import Button from "@material-ui/core/Button";
+import {Button,TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Router from 'next/router';
 import HashLoader from "react-spinners/HashLoader";
@@ -17,90 +19,224 @@ import { getCookie, isAuth, setLocalStorage } from "../../../actions/auth";
 import { singleUser } from "../../../actions/user";
 import {useForm} from 'react-hook-form';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@material-ui/core";
-import { getServiceAmount } from './services';
-import { reducer } from './reducers';
-import { ACTIONS } from './actions';
-const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
+import {ACTIONS, MONTH} from './constants';
+import { reducer } from "./bookingReducer";
+import { Box } from "@material-ui/core";
+import { FormControl } from "@material-ui/core";
+import { Radio } from "@material-ui/core";
+import { RadioGroup, Typography } from "@material-ui/core";
+
+import {IconInformation} from './../../iconInformation';
+ 
 
 
-const theme = useTheme();
-const token = getCookie('token');
-const matches = useMediaQuery(theme.breakpoints.up("md"));
-const {register,unregister, errors, handleSubmit} = useForm();
-const capitalize = (s) => {
-if (typeof s !== 'string') return ''
-return s.charAt(0).toUpperCase() + s.slice(1)
-}
 
-
-const initialData = {
-  user: "",
-  pnr_number: "",
-  booking_information: {
-    is_arrival: null,
-    boarding_station: {
-       date: data.boarding_station.date,
-       time: data.boarding_station.time,
-       station_name: data.boarding_station.station_name,
-       station_code: data.boarding_station.station_code
+const TrainBooking = ({query , pnr}) => {
+  const initialData = {
+    train_no:"",
+    user: "",
+    pnr_number: "",
+    booking_information: {
+      is_arrival: query.pid==="arrival",
+      boarding_station: {
+         date: "",
+         time: "",
+         station_name: "",
+         station_code: ""
+     },
+     reservation_upto: {
+         station_code: "",
+         station_name: "",
+         date:  "",
+         time: ""
+     }
+    },
+    passenger_contact_information: {
+     name: "",
+     primary_contact_number: isAuth() && isAuth().phone_number,
+     secondary_contact_number: "",
+     email_id: ""
    },
-   reservation_upto: {
-       station_code: data.reservation_upto.station_code,
-       station_name: data.reservation_upto.station_name,
-       date:  data.reservation_upto.date,
-       time: data.reservation_upto.time
-   }
+    passenger_details: [{
+      age_group: "",
+      bill: { 
+        meet_and_greet: 0, 
+        wheel_chair: 0, 
+        golf_cart: 0,
+        total: 0},
+      gender: "",
+      golf_cart: false,
+      meet_and_greet: true,
+      passenger_name: "",
+      seat_number: "",
+      wheel_chair: false
+  
+    }],
+    cab_service_detail: {
+      cab_service_opted: null,
+      destination: null,
+      number_of_passengers: null,
+      luggage_bags: null,
+      number_of_cab: null,
+      total_amount: 0
   },
-  passenger_contact_information: {
-   name: "",
-   primary_contact_number: isAuth() && isAuth().phone_number,
-   secondary_contact_number: "",
-   email_id: ""
- },
-  passenger_details: data.passenger_details[0],
-  cab_service_detail: {
-    cab_service_opted: null,
-    destination: null,
-    number_of_passengers: null,
-    luggage_bags: null,
-    number_of_cab: null,
-    total_amount: 0
-},
-  porter_service_detail: {
-    porter_service_opted: true,
-    large_bags:{
-      unit:0,
-      total: 0
-    },
-    medium_bags:{
-      unit:0,
-      total: 0
-    },
-    small_bags: {
-      unit:0,
-      total: 0
-    },
-    baggage_garanteed: {
-      baggage_garanteed_opted: false,
-      large_bags: {
-        unit: 0,
+    porter_service_detail: {
+      porter_service_opted: true,
+      large_bags:{
+        unit:0,
         total: 0
       },
-      medium_bags: {
-        unit: 0,
+      medium_bags:{
+        unit:0,
         total: 0
       },
       small_bags: {
-        unit: 0,
+        unit:0,
         total: 0
+      },
+      baggage_garanteed: {
+        baggage_garanteed_opted: false,
+        large_bags: {
+          unit: 0,
+          total: 0
+        },
+        medium_bags: {
+          unit: 0,
+          total: 0
+        },
+        small_bags: {
+          unit: 0,
+          total: 0
+        }
       }
-    }
-},
- total_amount: null
+  },
+   total_amount: null
+  }
+    const theme = useTheme();
+    const token = getCookie('token');
+    const matches = useMediaQuery(theme.breakpoints.up("md"));
+    const {register, errors, handleSubmit} = useForm();
+
+
+    const [state, dispatch] = useReducer(reducer, initialData)
+    const [invalidTime, setIsValidTime] = useState(false);
+    // piyush's changes
+    const [status, changeStatus] = useState(query.pid)
+    query.pid = status
+ 
+
+const handleAddPassenger = () => {
+  dispatch({type:"ADD_PASSENGER", payload :{ 
+        age_group: "",
+        bill: { 
+          meet_and_greet: 0, 
+          wheel_chair: 0, 
+          golf_cart: 0,
+          total: 0},
+        gender: "",
+        golf_cart: false,
+        meet_and_greet: true,
+        passenger_name: "",
+        seat_number: "",
+        wheel_chair: false
+      }}
+  )
+}
+const handleRemove=(i)=> {
+  dispatch({type:"REMOVE_PASSENGER", payload:i})
 }
 
-const [state, dispatch] = useReducer(reducer, initialData)
+const getServiceAmount = (service_name, category) => {
+    if(service_name === "meet_and_greet"){
+          if(category === "Sr citizen(above 60)"){
+            return process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE
+          }
+          if(category === "Adult(12yrs-60yrs)"){
+            return process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE
+          }
+          if(category === "Children(upto 12 years)"){
+            return process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE
+          }
+    }
+    if(service_name === "wheel_chair"){
+         return process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE;
+    }
+    if(service_name === "golf_cart"){
+          if(category === "Sr citizen(above 60)"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+          }
+          if(category === "Adult(12yrs-60yrs)"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
+          }
+          if(category === "Children(upto 12 years)"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
+          }
+    }
+    if(service_name === "luggage_bags"){
+          if(category === "BELOW_7KG"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+          }
+          if(category === "7KG_TO_20KG"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
+          }
+          if(category === "20KG_TO_30KG"){
+            return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
+          }
+    }
+
+    if(service_name === "luggage_gaurantee"){
+          if(category === "BELOW_7KG"){
+            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE
+          }
+          if(category === "7KG_TO_20KG"){
+            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE
+          }
+          if(category === "20KG_TO_30KG"){
+            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE
+          }
+    }
+}
+
+
+
+const changeDate = (dateVal)=>{
+  const selectedDate = new Date(dateVal);
+  var month = selectedDate.getMonth()+1
+  var date = selectedDate.getDate()
+  date = String(date).length==1?"0"+date:date
+  month = String(month).length==1?"0"+month:String(month)  
+  const yo_date = date+"-"+month+"-"+selectedDate.getFullYear()
+
+  if(status==="departure")
+    dispatch({type:"BOARDING_STATION_DATE", payload:yo_date})
+  else
+    dispatch({type:ACTIONS.RESERVATION_UPTO.DATE, payload:yo_date})
+
+}
+
 const handleChange = (value1, value2) => e => {
+  if(value1 ==="train_no"){
+    dispatch({type:ACTIONS.TRAIN_NO, payload:e.target.value})
+  }
+  if(value1 ==="pnr"){
+    dispatch({type:ACTIONS.PNR, payload:e.target.value})
+  }
+  if(value1 ==="station_name"){
+    if(status==="departure")
+      dispatch({type:"BOARDING_STATION_NAME", payload:e.target.value})
+    else
+      dispatch({type:ACTIONS.RESERVATION_UPTO.STATION_NAME, payload:e.target.value})
+  }
+
+  if(value1 === "time"){
+    if(status==="departure")
+      dispatch({type:"BOARDING_STATION_TIME", payload:e.target.value})
+    else
+      dispatch({type:ACTIONS.RESERVATION_UPTO.TIME, payload:e.target.value})
+  }
+  
+  
+  
   /* Passenger contact information */
   if(value1 === "passenger_name"){
               dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
@@ -120,9 +256,6 @@ const handleChange = (value1, value2) => e => {
   }
 
   /* Passengers details */
-  if(value1 === "select_passenger"){
-      dispatch({ type: ACTIONS.PASSENGER_DETAIL.SELECT, sidx: value2, payload: e.target.checked })
-  }
   if(value1 === "passenger_detail_seat"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.SEAT,
                          payload: e.target.value,
@@ -215,31 +348,6 @@ const handleChange = (value1, value2) => e => {
                        sidx: value2 })
 
 
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL_ZERO,
-              //           sidx: value2 })
-
-
   }
   if(value1 === "passenger_detail_gender"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.GENDER,
@@ -247,66 +355,7 @@ const handleChange = (value1, value2) => e => {
                          sidx: value2 })
   }
   if(value1 === "passenger_detail_meet_and_greet"){
-      //  if(!e.target.checked){
-      //          // e.target.value is false
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-      //                    payload: e.target.checked,
-      //                    sidx: value2 })
-      //
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
-      //                  payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //                  sidx: value2 })
-      //
-      //
-      //        if(state.passenger_details[value2].wheel_chair){
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
-      //          payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
-      //          sidx: value2 })
-      //
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                    payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
-      //                    sidx: value2 })
-      //        }
-      //
-      //        if(state.passenger_details[value2].golf_cart){
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART,
-      //          payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
-      //          sidx: value2 })
-      //
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                    payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
-      //                    sidx: value2 })
-      //        }
-      //
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                  payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //                  sidx: value2 })
-      //
-      //
-      //       dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-      //                   payload: e.target.checked,
-      //                   sidx: value2 })
-      //
-      //       dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-      //                  payload: e.target.checked,
-      //                  sidx: value2 })
-      //     return;
-      // }
-      // if(state.passenger_details[value2].age_group){
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-      //              payload: e.target.checked,
-      //              sidx: value2 })
-      //
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
-      //             payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //             sidx: value2 })
-      //
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //             payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //             sidx: value2 })
-      //   return;
-      // }
-      //   toast.error("Please select age group")
+
   }
   if(value1 === "passenger_detail_wheel_chair"){
         if(!state.passenger_details[value2].meet_and_greet){
@@ -377,10 +426,7 @@ const handleChange = (value1, value2) => e => {
               sidx: value2 })
           return;
        }
-         console.log("Please select age group first")
   }
-
-
 
 
   /* CAB services */
@@ -388,7 +434,6 @@ const handleChange = (value1, value2) => e => {
            dispatch({ type: ACTIONS.CAB_SERVICE.OPTED,
                      payload: e.target.checked })
   }
-
   /* Porter Service */
   if(value1 === "porter_service_opted"){
            dispatch({ type: ACTIONS.PORTER_SERVICE.OPTED,
@@ -438,7 +483,6 @@ const handleChange = (value1, value2) => e => {
            }
   }
 }
-// console.log(state.porter_service_detail.porter_service_opted)
 const bookingFromLS = () => {
   if (typeof window === "undefined") {
     return false;
@@ -451,9 +495,35 @@ const bookingFromLS = () => {
 };
 
 
-const handleSubmission = e => {
-    setLocalStorage("Booking", state)
-    Router.push(`/booking/order/`)
+const compare_date_time = (thisState) =>{
+  const details={
+    hrs:parseInt(status==="departure"?thisState.booking_information.boarding_station.time.substring(0,2):thisState.booking_information.reservation_upto.time.substring(0,2)),
+    mins:parseInt(status==="departure"?thisState.booking_information.boarding_station.time.substring(3):thisState.booking_information.reservation_upto.time.substring(3)),
+    date:(status==="departure"?thisState.booking_information.boarding_station.date:thisState.booking_information.reservation_upto.date).split("-")
+  }
+
+  var month = MONTH[String(parseInt(details.date[1]))];
+  var today = new Date().getTime();  
+  var onthatDay = new Date(details.date[0]+" "+month+" "+details.date[2]+" "+details.hrs+":"+details.mins).getTime()
+  return (onthatDay-today)/3600000 >= process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE ? true : false ;
+  
+ }
+
+const changeBookingType = (e) =>{
+  changeStatus(e.target.value);
+} 
+
+const handleSubmission = async(e) => {
+  console.log(state, "-------------------------------------")
+  
+  
+  setLocalStorage("Booking", state)
+
+  var  isValid = await compare_date_time(state)
+   if(isValid)
+      Router.push(`/booking/order/`)
+   else
+    setIsValidTime(!isValid)
 }
 
 const passengerBill = () => {
@@ -496,99 +566,101 @@ useEffect(() => {
    dispatch({ type: ACTIONS.PNR,
               payload: query.pnr })
 
-  let is_arrival = query.pid==="arrival"?true:
-                 query.pid==="departure"?false:null;
+  let is_arrival = status==="arrival"?true:
+                 status==="departure"?false:null;
 
   dispatch({ type: ACTIONS.IS_ARRIVAL,
                payload: is_arrival })
 },[])
-
-
 
 useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
 },[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
 
 
-
-
-const showUavailabitlity = (reason, content ) =>{
-  return (
-      <Dialog open={true} keepMounted>
-      <DialogTitle><b>{reason} </b></DialogTitle>
-      <Divider />
-      <DialogContent>
-        <DialogContentText>
-          {content}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={()=>{Router.push("/")}} size="large" variant="contained" id="yes-btn">Close</Button>
-      </DialogActions>
-    </Dialog>
-  )
-}
-
-
-const compare_date_time = (details) =>{
-var arr = {
-  "01":"Jan", "02":"Feb", "03":"Mar","04":"Apr","05":"May","06":"June","07":"July","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec"
-};
- var month = arr[details.date[1]];
-  var today = new Date().getTime();
-  var onthatDay = new Date(details.date[2]+" "+month+" "+details.date[0]+" "+details.hrs+":"+details.mins).getTime();
-  return (onthatDay-today)/3600000 >= process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE ? true : false ;
-
-}
-
-
-var isValid = true;
-var validDay=true;
-
-// checking about station code
-if(query.pid!=="arrival"){
-  isValid = (data.boarding_station.station_code==="NDLS" || data.boarding_station.station_code==="DLI");
-}
-else {
-  isValid = data.reservation_upto.station_code==="NDLS" || data.reservation_upto.station_code==="DLI" ;
-}
-
-if(isValid){
-  const fixedDetails={
-    hrs:parseInt(query.pid==="departure"?data.boarding_station.time.substring(0,2):data.boarding_station.time.substring(0,2)),
-    mins:parseInt(query.pid==="departure"?data.reservation_upto.time.substring(3):data.reservation_upto.time.substring(3)),
-    date:(query.pid==="departure"?data.boarding_station.date:data.reservation_upto.date).split("-")
-  }
-  validDay=compare_date_time(fixedDetails);
-}
-
-
-if(isValid && validDay){
   return <>
         <ToastContainer />
+        
          <div className="main-div">
             <form>
               <div className="container-div">
                   <div className="top-subheading">
+                    
                       <h1>MEET & GREET</h1>
+                      
+                    
                       <div className="pnr-heading">
                           <div>
-                              <span>
-                                {capitalize(query.pid)} - PNR No. - {data.pnr_number}
+                          <div className="booking-Information shadow">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Booking Type</th>
+                                  <th>PNR Number</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td> 
+                                  <RadioGroup  onChange={changeBookingType} value={status}>
+                                      <Box display="flex">
+                                        <Box width="35%">
+                                        <Radio  value="arrival" ></Radio> <span style={{"fontSize":"20px"}}> Arrival</span>
+                                        </Box>
+                                        <Box>
+                                        <Radio  value="departure" ></Radio> <span style={{"fontSize":"20px"}}>Departure</span>
+                                        </Box>
+                                      </Box>
+                                     </RadioGroup>
+                                  
+                                  </td>
+                                  <td>
+                                  <span>
+                                <Box display="flex" p={0}>
+                               
+                                  <Box>
+                                  <TextField
+                                    variant="outlined"
+                                    type="number"
+                                    size="small"
+                                    value={pnr}
+                                    disabled={true}
+                                    name="pnr"
+                                    inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
+                                    onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                                    error={errors.pnr?true:false}
+                                    helperText={errors.pnr?"Valid PNR number is required":""}
+                                    onChange={handleChange("pnr")}
+                                    className="hp-input"
+                                    placeholder="PNR No."
+                                    fullWidth />
+                                  </Box>
+                                </Box>
+                                
+                                
                               </span>
+                                  </td>
+                                </tr>
+                                </tbody>
+                            </table>
                           </div>
-                          <span>
-                             No. of Passengers - {data.passenger_details[0] && data.passenger_details[0].length}
-                          </span>
+                      
+                              
+                          </div>
                       </div>
                   </div>
                   <div className="booking-tables">
                       <span className="sub-heading">Booking Information</span>
                       <BookingInformation
-                      query={query}
-                      data={data} />
-
-                      <span className="sub-heading">Passenger's Contact Information</span>
+                        query={query}
+                        register={register}
+                        errors={errors}
+                        handleChange={handleChange}
+                        state={state}
+                        pnr={pnr}
+                        changeDate={changeDate}
+                    />
+                    <span className="sub-heading">Passenger's Contact Information</span>
                       <PassengerInformation
                       register={register}
                       errors={errors}
@@ -596,27 +668,34 @@ if(isValid && validDay){
                       data={state} />
 
                       <span className="sub-heading">Passenger's Details</span>
+                      
                       <PassengerDetails
                         register={register}
                         errors={errors}
                         handleChange={handleChange}
-                        data={state}  />
+                        data={state} 
+                        remove={handleRemove}
+                        addPassenger={handleAddPassenger}
+                        />
+                        
+                    
+                      <br />
 
-                      {/*<span className="sub-heading">Cab service (Only Available in Delhi NCR)</span>
-                      <Switch
-                      onChange={handleChange("cab_service_opted")}
-                      value={state.cab_service_detail.cab_copted} />
-                      <CabService />*/}
-
-                      <span>Porter Service</span>
+                      <Box display="flex">
+                           <Box width="10%">Porter Service</Box> 
+                           <Box><IconInformation serviceName={"Porter Service"} cost={process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE}  type={"luggage"}></IconInformation></Box>
+                        </Box>
                       <Switch
                       color="primary"
                       onChange={handleChange("porter_service_opted")}
                       checked={state.porter_service_detail.porter_service_opted} />
-                      {state.porter_service_detail.porter_service_opted && <PorterService
-                      state={state}
-                      handleChange={handleChange} />}
+                      {(state.porter_service_detail.porter_service_opted)&&
+                        <PorterService
+                        state={state}
+                        handleChange={handleChange} />
+                      }
                       <br />
+
                       {matches ? (
                       <div className="payable-amt-section">
                       <>
@@ -640,30 +719,33 @@ if(isValid && validDay){
                             onClick={handleSubmit(handleSubmission)}
                             variant="outlined"
                             className="md-btn"
-
                             type="submit">
                             {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
                         </Button>
                       )}
                   </div>
               </div>
+            
             </form>
+
          </div>
+         <Dialog open={invalidTime} keepMounted>
+            <DialogTitle><b>Invalid Time or Date</b></DialogTitle>
+            <Divider />
+            <DialogContent>
+              <DialogContentText>
+                  Please check your {status} time  and {status} date <br></br>
+                  It should be before {process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE} hrs of
+                  your mentioned date and time !
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={()=>setIsValidTime(false)} id="yes-btn">Close</Button>
+            </DialogActions>
+          </Dialog>
       </>
-}
-else if(!validDay){
-  return <>
-        {showUavailabitlity(`Issues with booking time`, `Your PNR is of previous date which has passed or you have requested our service within ${process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE} hrs.  Click on below button, you will be redirected to the homepage shortly.`)}
-        </>
-}
-else{
-  return <>
-         {showUavailabitlity("Service Unavailable", "Thank you for joining with us! But we are only supporting Old Delhi railway Station and New Delhi Station.Click on below button, you will be redirected to the homepage shortly.")}
-        </>
-}
-
-
 
 };
 
 export default TrainBooking;
+

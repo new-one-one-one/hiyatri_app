@@ -130,7 +130,7 @@ const BookingList = ({ list }) => {
         );
   const FilterBooking = () => {
      return <div style={{ width: '100%' }}>
- 
+
       <Box display="flex" p={1} bgcolor="background.paper">
           <Box p={1} width="20%">
               <Typography variant="body2"> <FilterListIcon />
@@ -211,6 +211,7 @@ const BookingList = ({ list }) => {
   </div>
   }
 
+console.log(state, list)
 
     return (
         <div>

@@ -6,9 +6,13 @@ import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '../style/style.css';
 import 'antd/dist/antd.css';
+import { ChakraProvider } from "@chakra-ui/react"
+
 
  const  MyApp = ({ Component, pageProps }) =>  {
-  return <Component {...pageProps} />
+  return   <ChakraProvider>
+  <Component {...pageProps} />
+   </ChakraProvider>
 }
 
 export default MyApp;

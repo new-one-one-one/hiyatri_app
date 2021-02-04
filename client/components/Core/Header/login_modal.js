@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { sendingOTP, verifyingOTP, authenticate, verifyPassword } from '../../../actions/auth';
 import Countdown from "react-countdown";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-
+import useWindowSize from '../../../helpers/windowDimension';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  hamburger:{
+    border:"0px solid white"
   },
   paper: {
     borderRadius:"8px",
@@ -33,6 +36,7 @@ export default function TransitionsModal() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openPasswordModal, setPasswordModal] = useState(false);
+  const { width } = useWindowSize();
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const handleOpen = () => {
@@ -145,7 +149,11 @@ export default function TransitionsModal() {
 
   return (
     <div>
-     <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>
+     {width>767 && <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>}
+     {width<767 &&   <Button onClick={handleOpen} className={classes.hamburger}>
+          <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
+       </Button>}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -277,7 +285,6 @@ export default function TransitionsModal() {
                           Continue
                       </Button>
                       <Button  onClick={()=>{setPasswordModal(false); setOpen(true)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue Using Phone</p></Button>
-
                    </form>
 
                  </div>

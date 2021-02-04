@@ -11,7 +11,6 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Router from 'next/router';
 import HashLoader from "react-spinners/HashLoader";
-import { ToastContainer, toast } from 'react-toastify';
 import { create_booking } from '../../../actions/booking';
 import { getCookie, isAuth, setLocalStorage } from "../../../actions/auth";
 import { singleUser } from "../../../actions/user";
@@ -20,13 +19,17 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, D
 import { getServiceAmount } from './services';
 import { reducer } from './reducers';
 import { ACTIONS } from './actions';
+import { useToast } from "@chakra-ui/react"
+
+
+
+
 const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
-
-
 const theme = useTheme();
 const token = getCookie('token');
 const matches = useMediaQuery(theme.breakpoints.up("md"));
 const {register,unregister, errors, handleSubmit} = useForm();
+const toast = useToast()
 const capitalize = (s) => {
 if (typeof s !== 'string') return ''
 return s.charAt(0).toUpperCase() + s.slice(1)
@@ -122,6 +125,33 @@ const handleChange = (value1, value2) => e => {
   /* Passengers details */
   if(value1 === "select_passenger"){
       dispatch({ type: ACTIONS.PASSENGER_DETAIL.SELECT, sidx: value2, payload: e.target.checked })
+      if(!e.target.checked){
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.AGE,
+                         payload: "",
+                         sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+                          payload: false,
+                          sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
+                         payload: false,
+                         sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO,
+                       sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
+                       sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
+                       payload: - (state.passenger_details[value2].bill.meet_and_greet),
+                       sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                       payload: - (state.passenger_details[value2].bill.total),
+                       sidx: value2 })
+      }
   }
   if(value1 === "passenger_detail_seat"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.SEAT,
@@ -341,7 +371,15 @@ const handleChange = (value1, value2) => e => {
                 sidx: value2 })
           return;
         }
-        toast.error("Please select age group")
+        // toast.error("")
+        toast({
+          title: "Please select age group",
+          description: "",
+          status: "error",
+          position:"top",
+          duration: 3000,
+          isClosable: true,
+        })
   }
   if(value1 === "passenger_detail_golf_cart"){
         if(!state.passenger_details[value2].meet_and_greet){
@@ -565,7 +603,6 @@ if(isValid){
 
 if(isValid && validDay){
   return <>
-        <ToastContainer />
          <div className="main-div">
             <form>
               <div className="container-div">

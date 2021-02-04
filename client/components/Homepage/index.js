@@ -71,9 +71,13 @@ const Homepage = () => {
       .then(response => {
         setShowSpinner(false);
         if(response.status==="error"){
-          return toast.error(response.message)
+          // this is the case if pnr not worked
+          // return toast.error(response.message)
+          Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
         }
-       Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+        else{
+            Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+        }
       })
       .catch((err) => {
         toast.error("Something went wrong! Try after sometime.")
@@ -101,18 +105,18 @@ const Homepage = () => {
                      </FormControl>
 
                      <TextField
-                     variant="outlined"
-                     type="number"
-                     size="small"
-                     name="PNR_NUMBER"
-                     inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
-                     onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
-                     error={errors.PNR_NUMBER?true:false}
-                     helperText={errors.PNR_NUMBER?"Valid PNR number is required":""}
-                     onChange={handleChange("pnr")}
-                     className="hp-input"
-                     placeholder="PNR No."
-                     fullWidth />
+                        variant="outlined"
+                        type="number"
+                        size="small"
+                        name="PNR_NUMBER"
+                        inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
+                        onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                        error={errors.PNR_NUMBER?true:false}
+                        helperText={errors.PNR_NUMBER?"Valid PNR number is required":""}
+                        onChange={handleChange("pnr")}
+                        className="hp-input"
+                        placeholder="PNR No."
+                        fullWidth />
 
 
                     <div className="text-center hp-mb-continue-btn">

@@ -925,7 +925,7 @@ if(isValid){
   const fixedDetails={
     hrs:parseInt(query.pid==="departure"?data.boarding_station.time.substring(0,2):data.boarding_station.time.substring(0,2)),
     mins:parseInt(query.pid==="departure"?data.reservation_upto.time.substring(3):data.reservation_upto.time.substring(3)),
-    date:(query.pid==="arrival"?data.boarding_station.date:data.boarding_station.date).split("-")
+    date:(query.pid==="departure"?data.boarding_station.date:data.reservation_upto.date).split("-")
   }
   validDay=compare_date_time(fixedDetails);
 }

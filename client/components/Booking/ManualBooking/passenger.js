@@ -2,6 +2,7 @@ import Switch from "@material-ui/core/Switch";
 import { useEffect, useState } from 'react';
 import {TextField,FormHelperText} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
+import InfoIcon from '@material-ui/icons/Info';
 import {Button,Box} from '@material-ui/core';
 import { IconInformation } from "../../iconInformation";
 
@@ -74,32 +75,32 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           {passenger_detail_gender && <FormHelperText style={{color:"red"}}>This is required!</FormHelperText>}
                         </td>
                         <td>
-                          <span>No</span>
+
                           <Switch
                            color="primary"
                            checked={item.meet_and_greet}
                            onChange={handleChange("passenger_detail_meet_and_greet", index)}/>
-                          <span>Yes</span>
+
                         </td>
                         <td>
-                          <span>No</span>
+
                           <Switch
                            color="primary"
                            checked={item.wheel_chair}
                            onChange={handleChange("passenger_detail_wheel_chair", index)}  />
-                           <span>Yes</span>
+
                         </td>
                         <td>
-                          <span>No</span>
+
                           <Switch
                           color="primary"
                            checked={item.golf_cart}
                            onChange={handleChange("passenger_detail_golf_cart", index)} />
-                           <span>Yes</span>
+
                         </td>
                         <td>
-                        <Button type="button" id={data.passenger_details.length==1?"":"yes-btn"} style={{marginLeft:"20px"}} disabled={data.passenger_details.length==1?true:false} variant="contained" onClick={() => remove(index)}>
-                            Remove 
+                        <Button type="button" id={data.passenger_details.length==1?"":"yes-btn"} disabled={data.passenger_details.length==1?true:false} variant="contained" onClick={() => remove(index)}>
+                            Remove
                         </Button>
                         </td>
                     </tr>
@@ -115,30 +116,25 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                     <th style={{ width:"120px"}}>Seat No.</th>
                     <th style={{ width:"160px"}}>Passenger Name*</th>
                     <th style={{ width:"170px"}}>Age Group*</th>
-                    <th style={{ width:"85px"}}>Gender*</th>
-                    <th style={{ width:"90px"}}>
+                    <th style={{ width:"95px"}}>Gender*</th>
+                    <th style={{ width:"110px"}}>
                         <Box display="flex">
-                           <Box width="80%">Meet & Greet </Box> 
+                           <Box width="80%">Meet & Greet </Box>
                            <Box><IconInformation serviceName={"Meet & greet"} cost={process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE} type={"none"}></IconInformation></Box>
                         </Box>
-                         
-                      
                      </th>
-                    <th style={{ width:"90px"}}>
-
+                    <th style={{ width:"100px"}}>
                     <Box display="flex">
-                           <Box width="80%">Wheel Chair </Box> 
+                           <Box width="80%">Wheel Chair </Box>
                            <Box><IconInformation serviceName={"Wheel Chair"} type={"wheel"} cost={process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE}></IconInformation></Box>
                         </Box>
-
                     </th>
-                    
-                    <th style={{ width:"90px"}}>
-                    <Box display="flex">
-                           <Box width="80%">Golf Cart</Box> 
-                           <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"luggage"}></IconInformation></Box>
-                        </Box>
 
+                    <th style={{ width:"90px"}}>
+                      <Box display="flex">
+                             <Box width="80%">Golf Cart</Box>
+                             <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"luggage"}></IconInformation></Box>
+                      </Box>
                      </th>
                     <th style={{ width:"90px"}}>Remove</th>
                   </tr>
@@ -147,11 +143,11 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                {showPassengerDetail()}
               </tbody>
               </table>
-              <div style={{marginLeft:"89%"}}>
-                    <Button className="bd-btn-agent" type="button" style={{marginRight:"0px"}} variant="contained" onClick={() => addPassenger()}>
-                      ADD PASSENGER
-                    </Button>
-              </div>
+          </div>
+          <div className="add-pass-container">
+            <Button className="add-pass"  variant="contained" onClick={() => addPassenger()}>
+              ADD PASSENGER
+            </Button>
           </div>
          </>
  };

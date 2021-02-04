@@ -2,7 +2,7 @@ import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import {ColorModeScript} from '@chakra-ui/react'
-import theme from '../helpers/theme';
+ 
 
 
 class MyDocument extends Document {
@@ -20,7 +20,6 @@ class MyDocument extends Document {
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </Head>
         <body>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
           <NextScript />
         </body>

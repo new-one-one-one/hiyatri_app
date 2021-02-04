@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import {TextField,FormHelperText} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import { Checkbox } from '@material-ui/core';
+import {Button,Box} from '@material-ui/core';
+import { IconInformation } from "../../iconInformation";
 
 const disabledColor = (disable) => {
   if(disable){
@@ -135,9 +137,24 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                     <th style={{ width:"160px"}}>Passenger Name*</th>
                     <th style={{ width:"170px"}}>Age Group*</th>
                     <th style={{ width:"100px"}}>Gender*</th>
-                    <th style={{ width:"80px"}}>Meet & Greet </th>
-                    <th style={{ width:"80px"}}>Wheel Chair </th>
-                    <th style={{ width:"80px"}}>Golf Cart </th>
+                    <th style={{ width:"110px"}}>
+                    <Box display="flex">
+                       <Box width="80%">Meet & Greet </Box>
+                       <Box><IconInformation serviceName={"Meet & greet"} cost={process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE} type={"none"}></IconInformation></Box>
+                    </Box>
+                    </th>
+                    <th style={{ width:"100px"}}>
+                    <Box display="flex">
+                           <Box width="80%">Wheel Chair </Box>
+                           <Box><IconInformation serviceName={"Wheel Chair"} type={"wheel"} cost={process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE}></IconInformation></Box>
+                    </Box>
+                    </th>
+                    <th style={{ width:"100px"}}>
+                      <Box display="flex">
+                             <Box width="80%">Golf Cart</Box>
+                             <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"luggage"}></IconInformation></Box>
+                      </Box>
+                    </th>
                   </tr>
                 </thead>
               <tbody>

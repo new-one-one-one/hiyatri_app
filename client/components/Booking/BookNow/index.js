@@ -20,7 +20,7 @@ import { getServiceAmount } from './services';
 import { reducer } from './reducers';
 import { ACTIONS } from './actions';
 import { useToast } from "@chakra-ui/react"
-
+import {IconInformation} from './../../iconInformation';
 
 
 
@@ -645,7 +645,8 @@ if(isValid && validDay){
                       value={state.cab_service_detail.cab_copted} />
                       <CabService />*/}
 
-                      <span>Porter Service</span>
+                      <span className="mr-2">Porter Service</span>
+                      <IconInformation serviceName={"Porter Service"} cost={process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE}  type={"luggage"}></IconInformation>
                       <Switch
                       color="primary"
                       onChange={handleChange("porter_service_opted")}
@@ -653,6 +654,7 @@ if(isValid && validDay){
                       {state.porter_service_detail.porter_service_opted && <PorterService
                       state={state}
                       handleChange={handleChange} />}
+
                       <br />
                       {matches ? (
                       <div className="payable-amt-section">

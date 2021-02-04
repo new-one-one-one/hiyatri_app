@@ -1,9 +1,8 @@
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Checkbox from '@material-ui/core/Checkbox';
-
 import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
-
+import { IconInformation } from "../../iconInformation";
 import { useForm } from 'react-hook-form';
 
 
@@ -58,6 +57,7 @@ const PorterService = ({ handleChange, state }) => {
               <span className="baggage-text">
                 Baggage Guarantee
               </span>
+               <IconInformation serviceName={"Buggage Gauranteed"} cost={process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE}  type={"Buggage Gauranteed"}></IconInformation>
               <span>
               </span>
             </div>

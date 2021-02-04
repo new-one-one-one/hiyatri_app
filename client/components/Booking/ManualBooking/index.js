@@ -25,9 +25,8 @@ import { Box } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { Radio } from "@material-ui/core";
 import { RadioGroup, Typography } from "@material-ui/core";
-
 import {IconInformation} from './../../iconInformation';
- 
+
 
 
 
@@ -59,9 +58,9 @@ const TrainBooking = ({query , pnr}) => {
    },
     passenger_details: [{
       age_group: "",
-      bill: { 
-        meet_and_greet: 0, 
-        wheel_chair: 0, 
+      bill: {
+        meet_and_greet: 0,
+        wheel_chair: 0,
         golf_cart: 0,
         total: 0},
       gender: "",
@@ -70,7 +69,7 @@ const TrainBooking = ({query , pnr}) => {
       passenger_name: "",
       seat_number: "",
       wheel_chair: false
-  
+
     }],
     cab_service_detail: {
       cab_service_opted: null,
@@ -123,14 +122,14 @@ const TrainBooking = ({query , pnr}) => {
     // piyush's changes
     const [status, changeStatus] = useState(query.pid)
     query.pid = status
- 
+
 
 const handleAddPassenger = () => {
-  dispatch({type:"ADD_PASSENGER", payload :{ 
+  dispatch({type:"ADD_PASSENGER", payload :{
         age_group: "",
-        bill: { 
-          meet_and_greet: 0, 
-          wheel_chair: 0, 
+        bill: {
+          meet_and_greet: 0,
+          wheel_chair: 0,
           golf_cart: 0,
           total: 0},
         gender: "",
@@ -204,7 +203,7 @@ const changeDate = (dateVal)=>{
   var month = selectedDate.getMonth()+1
   var date = selectedDate.getDate()
   date = String(date).length==1?"0"+date:date
-  month = String(month).length==1?"0"+month:String(month)  
+  month = String(month).length==1?"0"+month:String(month)
   const yo_date = date+"-"+month+"-"+selectedDate.getFullYear()
 
   if(status==="departure")
@@ -234,9 +233,9 @@ const handleChange = (value1, value2) => e => {
     else
       dispatch({type:ACTIONS.RESERVATION_UPTO.TIME, payload:e.target.value})
   }
-  
-  
-  
+
+
+
   /* Passenger contact information */
   if(value1 === "passenger_name"){
               dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
@@ -503,20 +502,20 @@ const compare_date_time = (thisState) =>{
   }
 
   var month = MONTH[String(parseInt(details.date[1]))];
-  var today = new Date().getTime();  
+  var today = new Date().getTime();
   var onthatDay = new Date(details.date[0]+" "+month+" "+details.date[2]+" "+details.hrs+":"+details.mins).getTime()
   return (onthatDay-today)/3600000 >= process.env.NEXT_PUBLIC_CAN_BOOK_BEFORE ? true : false ;
-  
+
  }
 
 const changeBookingType = (e) =>{
   changeStatus(e.target.value);
-} 
+}
 
 const handleSubmission = async(e) => {
   console.log(state, "-------------------------------------")
-  
-  
+
+
   setLocalStorage("Booking", state)
 
   var  isValid = await compare_date_time(state)
@@ -580,15 +579,15 @@ useEffect(() => {
 
   return <>
         <ToastContainer />
-        
+
          <div className="main-div">
             <form>
               <div className="container-div">
                   <div className="top-subheading">
-                    
+
                       <h1>MEET & GREET</h1>
-                      
-                    
+
+
                       <div className="pnr-heading">
                           <div>
                           <div className="booking-Information shadow">
@@ -601,23 +600,23 @@ useEffect(() => {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <td> 
+                                  <td>
                                   <RadioGroup  onChange={changeBookingType} value={status}>
                                       <Box display="flex">
                                         <Box width="35%">
-                                        <Radio  value="arrival" ></Radio> <span style={{"fontSize":"20px"}}> Arrival</span>
+                                        <Radio  value="arrival"  color="primary"></Radio> <span style={{"fontSize":"15px"}}> Arrival</span>
                                         </Box>
                                         <Box>
-                                        <Radio  value="departure" ></Radio> <span style={{"fontSize":"20px"}}>Departure</span>
+                                        <Radio  value="departure" color="primary"></Radio> <span style={{"fontSize":"15px"}}>Departure</span>
                                         </Box>
                                       </Box>
                                      </RadioGroup>
-                                  
+
                                   </td>
                                   <td>
                                   <span>
                                 <Box display="flex" p={0}>
-                               
+
                                   <Box>
                                   <TextField
                                     variant="outlined"
@@ -636,16 +635,16 @@ useEffect(() => {
                                     fullWidth />
                                   </Box>
                                 </Box>
-                                
-                                
+
+
                               </span>
                                   </td>
                                 </tr>
                                 </tbody>
                             </table>
                           </div>
-                      
-                              
+
+
                           </div>
                       </div>
                   </div>
@@ -668,27 +667,25 @@ useEffect(() => {
                       data={state} />
 
                       <span className="sub-heading">Passenger's Details</span>
-                      
+
                       <PassengerDetails
                         register={register}
                         errors={errors}
                         handleChange={handleChange}
-                        data={state} 
+                        data={state}
                         remove={handleRemove}
                         addPassenger={handleAddPassenger}
                         />
-                        
-                    
+
+
                       <br />
 
-                      <Box display="flex">
-                           <Box width="10%">Porter Service</Box> 
-                           <Box><IconInformation serviceName={"Porter Service"} cost={process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE}  type={"luggage"}></IconInformation></Box>
-                        </Box>
-                      <Switch
-                      color="primary"
-                      onChange={handleChange("porter_service_opted")}
-                      checked={state.porter_service_detail.porter_service_opted} />
+                        <span className="mr-2">Porter Service</span>
+                        <IconInformation serviceName={"Porter Service"} cost={process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE}  type={"luggage"}></IconInformation>
+                        <Switch
+                        color="primary"
+                        onChange={handleChange("porter_service_opted")}
+                        checked={state.porter_service_detail.porter_service_opted} />
                       {(state.porter_service_detail.porter_service_opted)&&
                         <PorterService
                         state={state}
@@ -725,7 +722,7 @@ useEffect(() => {
                       )}
                   </div>
               </div>
-            
+
             </form>
 
          </div>
@@ -748,4 +745,3 @@ useEffect(() => {
 };
 
 export default TrainBooking;
-

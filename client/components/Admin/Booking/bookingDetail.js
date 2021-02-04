@@ -349,6 +349,7 @@ const displayPorterServiceDetails = (porter) =>{
     )
 }
 
+
   return (
   <div>
     {/* Creating heading bar */}
@@ -375,7 +376,7 @@ const displayPorterServiceDetails = (porter) =>{
                             <Grid  item xs={4}>
                             Meeting Station:
                               <br />
-                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:data.booking.booking_information.boarding_station.station_name} </b>
+                              <b style={{color:'black'}}> {data && data.booking_information && data.booking.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:data.booking.booking_information.boarding_station.station_name} </b>
                             </Grid>
                             <Grid  item xs={4}>
                             Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}
@@ -443,7 +444,7 @@ const displayPorterServiceDetails = (porter) =>{
               </div>
 
         )}
-        <br></br> 
+        <br></br>
         {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
@@ -513,8 +514,8 @@ const displayPorterServiceDetails = (porter) =>{
 
             <br></br>
         </Grid>
-      
-      
+
+
         <Grid item xs={12} sm={3}>
         {(data.order_status==='ASSIGN_TO_ADMIN' || data.order_status==='ASSIGN_TO_AGENT' || data.order_status==='IN_PROGRESS') && (
             <div>

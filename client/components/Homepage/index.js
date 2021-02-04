@@ -90,8 +90,8 @@ const Homepage = () => {
 
   const showFormWhenLoggedIn = () => {
     return <div>
-    <div className="row justify-content-center">
-        <div className="col-md-4 col-sm-8 hp-inp-container-l-o text-center">
+    <div className="hp-welcome-inner">
+        <div className="hp-inp-container-l-o">
                 <div className="row justify-content-center">
                     <div className='hp-inp-container-l'>
                      <FormControl component="fieldset" className="mb-3">
@@ -131,9 +131,8 @@ const Homepage = () => {
 
 const showFormWhenNotLoggedIn = () => {
    return <>
-     <div className="row justify-content-center">
-        <div className="col-md-6 col-sm-12 hp-inp-outer">
-                   <div className="hp-inp-container">
+     <div className="hp-welcome-inner">
+        <div className="hp-inp-container">
                         <div className="hp-radio-btn text-center">
                             <FormControl component="fieldset">
                               <Radio.Group onChange={handleChange("status")} value={state.status}>
@@ -184,7 +183,6 @@ const showFormWhenNotLoggedIn = () => {
                               <Modal state={state} submit={handleSubmit(onSubmit)}/>
                             </div>
                         </div>
-                 </div>
          </div>
          <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
             {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
@@ -206,7 +204,6 @@ const showFormWhenNotLoggedIn = () => {
                  visible={showSpinner}
               />
              </div>
-             {/*<div className="hp-curve" />*/}
              <div className="">
                <div className="row col justify-content-center">
                  <div className="col-md-6 col-md-8 col-sm-12">
@@ -214,18 +211,13 @@ const showFormWhenNotLoggedIn = () => {
                  {width > 766 && <LazyLoadImage src="/images/tag_line2.svg" className="tag_line2"/>}
                  </div>
                </div>
-
              {width < 766 && <LazyLoadImage src="/images/tag_line.svg" className="tag_line"/>}
              <LazyLoadImage src="/images/main-img.jpg" className="main-img"/>
 
              </div>
              <div className="">
-
-               <div className="hp-welcome-inner">
                {isAuth() && showFormWhenLoggedIn()}
                {!isAuth() && showFormWhenNotLoggedIn()}
-               </div>
-
             </div>
             <StaticData />
          </>

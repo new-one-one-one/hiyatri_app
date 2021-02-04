@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react"
 import InfoIcon from '@material-ui/icons/Info';
 import { useForm } from 'react-hook-form';
+import { IconInformation } from "../../iconInformation";
 
 
 
@@ -82,6 +83,7 @@ const onHover = () => {
               <span className="baggage-text">
                 Baggage Guarantee
               </span>
+               <IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"luggage"}></IconInformation>
               <span>
               </span>
             </div>

@@ -65,10 +65,10 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .MuiButtonBase-root.Mui-disabled {
-    width: 70px!important;
+    /* width: 70px!important;
     cursor: default;
     pointer-events: none;
-    font-size: 13px!important;
+    font-size: 13px!important; */
 }
 
 
@@ -219,7 +219,7 @@ input[type=number]::-webkit-outer-spin-button {
  position: fixed;
  left: 15px;
  top: 15px;
- height: 65px;
+ height: 62px;
 }
 @media (max-width: 767px) {
   .h-logo{
@@ -326,6 +326,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 260px;
 }
 .hp-mg-title{
+  font-family: serif;
   padding: 10px;
   font-size: 32px;
   font-weight: 200;
@@ -532,10 +533,11 @@ max-width: 600px;
   background-color: #ffffff;
 }
 .hp-mg-text{
-  font-size: 15px;
+  font-size: 17px;
   margin-top: 15px;
   letter-spacing: 0.6px;
   font-weight: 400;
+  font-family: serif;
   /* opacity: 75%; */
   color: #303030;
 }
@@ -610,6 +612,7 @@ max-width: 600px;
   margin: 10px 10px 10px 10px;
 }
 .hp-card-title{
+font-family: serif;
 font-size: 20px;
 font-weight: 500;
 font-stretch: normal;

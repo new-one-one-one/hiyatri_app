@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Router from 'next/router';
 import Loader from 'react-loader-spinner'
 import useWindowSize from '../../helpers/windowDimension';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Radio } from 'antd';
 
 const Homepage = () => {
@@ -89,13 +90,9 @@ const Homepage = () => {
 
   const showFormWhenLoggedIn = () => {
     return <div>
-    {width>767 && <div className="hp-style">
-      <section className="hp-sub-1">India’s Only Meet & Greet Services</section>
-      <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
-    </div>}
     <div className="row justify-content-center">
         <div className="col-md-4 col-sm-8 hp-inp-container-l-o text-center">
-                <div className="row justify-content-center ">
+                <div className="row justify-content-center">
                     <div className='hp-inp-container-l'>
                      <FormControl component="fieldset" className="mb-3">
                          <Radio.Group onChange={handleChange("status")} value={state.status}>
@@ -134,10 +131,6 @@ const Homepage = () => {
 
 const showFormWhenNotLoggedIn = () => {
    return <>
-    {<div className="hp-style">
-     <section className="hp-sub-1">India’s Only Meet & Greet Services</section>
-     <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
-     </div>}
      <div className="row justify-content-center">
         <div className="col-md-6 col-sm-12 hp-inp-outer">
                    <div className="hp-inp-container">
@@ -193,10 +186,11 @@ const showFormWhenNotLoggedIn = () => {
                         </div>
                  </div>
          </div>
+         <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
+            {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
+         </div>
      </div>
-     <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
-        {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
-     </div>
+
    </>
 }
 
@@ -212,15 +206,20 @@ const showFormWhenNotLoggedIn = () => {
                  visible={showSpinner}
               />
              </div>
-             <div className="hp-curve" />
-             <div className="hp-welcome">
+             {/*<div className="hp-curve" />*/}
+             <div className="">
+               <div className="row col justify-content-center">
+                 <div className="col-md-6 col-md-8 col-sm-12">
+                 {width > 766 && <LazyLoadImage src="/images/tag_line1.svg" className="tag_line1"/>}
+                 {width > 766 && <LazyLoadImage src="/images/tag_line2.svg" className="tag_line2"/>}
+                 </div>
+               </div>
 
-              {<div className="mb-hp-welcome d-sm-block d-md-none d-lg-none">
-                  <div className="hp-welcome-text-c">
-                  <section className="hp-subs-1">India’s Only Meet & Greet Services</section>
-                  <section className="hp-subs-2">Avoid Long Lines With Our Personal VIP Assistance</section>
-                  </div>
-               </div>}
+             {width < 766 && <LazyLoadImage src="/images/tag_line.svg" className="tag_line"/>}
+             <LazyLoadImage src="/images/main-img.jpg" className="main-img"/>
+
+             </div>
+             <div className="">
 
                <div className="hp-welcome-inner">
                {isAuth() && showFormWhenLoggedIn()}

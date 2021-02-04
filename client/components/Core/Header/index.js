@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme =>
   createStyles({
     root: {
       boxShadow: "0 0.1rem 0.5rem rgba(0, 0, 0, 0.15) !important",
-      height:"98px",
+      height:"85px",
       flexGrow: 1,
     },
     menuButton: {
@@ -55,7 +55,7 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                       <Link href='/'>
                          <a>
-                           <img className="icons" src="/images/logo.jpeg" className="h-logo"/>
+                           <img className="icons" src="/images/logo.png" className="h-logo"/>
                         </a>
                       </Link>
                     </Typography>
@@ -76,7 +76,7 @@ const Header = () => {
                     ) : (
                       <>
                           <div className="header-menu row">
-                       {!isAuth() && <LoginModal />}
+                      {!isAuth() && <Drawer close={state} status={(status) => setState(status)} />}
                        {/*isAuth() && <span>
                         <i className="fas fa-user-lock user-icon" />
                         <span className="user-phone">{`+91-` + isAuth().phone_number}</span>

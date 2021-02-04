@@ -83,14 +83,14 @@ const SideDrawer = ({ close, status, router }) => {
   const list = () => (
     <div className={classes.list}>
          <List>
-         <ListItem>
+         {isAuth() && <ListItem>
            <ListItemAvatar>
              <Avatar>
                <PhoneRoundedIcon/>
              </Avatar>
            </ListItemAvatar>
                 <ListItemText primary={isAuth() && <div>{"+91-"+ (isAuth() && isAuth().phone_number)}</div>} />
-          </ListItem>
+          </ListItem>}
            <Divider />
            {isAuth() && <Link href="/">
               <a className={classes.menu}>

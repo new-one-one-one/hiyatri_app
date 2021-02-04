@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="354" height="66" viewBox="0 0 354 66">
+    <defs>
+        <style>
+            .cls-2{font-family:PTSerif-Bold,PT Serif;font-weight:700}
+        </style>
+    </defs>
+    <text id="Welcome_to_India_s_1st_Meet_Greet_for_Railways" fill="#fff" font-family="PTSerif-Regular, PT Serif" font-size="28px" transform="translate(0 29)">
+        <tspan x="0" y="0">Welcome to India’s 1st</tspan><tspan y="0" class="cls-2"> </tspan><tspan class="cls-2"><tspan x="0" y="29">Meet &amp; Greet for Railways</tspan></tspan>
+    </text>
+</svg>

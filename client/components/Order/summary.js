@@ -36,7 +36,7 @@ const Summary = ({ data }) => {
            </Grid>
            </div>
            ):(
-            <div style={{marginLeft:"10px"}}> 
+            <div style={{marginLeft:"10px"}}>
               <Box display="flex">
                 <Box width="50%"><b>Station</b></Box>
                 <Box width="10%"><b>:</b></Box>
@@ -56,9 +56,9 @@ const Summary = ({ data }) => {
               </Box>
             </div>
             )}
-            
+
           </Paper>
-         
+
           <Paper  className="p-3">
              {data.passenger_details.map((item, i) => {
                return <div className={classes.outerPass}>

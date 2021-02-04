@@ -2,7 +2,15 @@ import Switch from "@material-ui/core/Switch";
 import { useEffect, useState } from 'react';
 import {TextField,FormHelperText} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
+import { Checkbox } from '@material-ui/core';
 
+const disabledColor = (disable) => {
+  if(disable){
+    return { backgroundColor: "#eceff1" }
+  }else {
+    return { backgroundColor: "white"}
+  }
+}
 
 const PassengerDetails = ({data, handleChange,register, errors}) => {
     const showPassengerDetail = () => {
@@ -14,25 +22,35 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
               let passenger_detail_gender = errors[`passenger_detail_gender${index}`];
               return <tr key={index}>
                         <td>
+                        <Checkbox
+                          color="primary"
+                          checked={item.selected}
+                          onChange={handleChange("select_passenger", index)}
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                            />
+                        </td>
+                        <td>
                         <TextField
                          variant="outlined"
+                         style={disabledColor(!item.selected)}
+                         disabled={!item.selected}
                          name={`passenger_detail_seat${index}`}
                          value={item.seat_number}
                          onChange={handleChange("passenger_detail_seat", index)}
-                         inputRef={register({ required: true, minLength:2})}
                          error={passenger_detail_name ?true:false}
-                         helperText={passenger_detail_name? "Passenger seat is required":""}
                          />
 
                         </td>
                         <td>
                          <TextField
                           variant="outlined"
+                          style={disabledColor(!item.selected)}
                           name={`passenger_detail_name${index}`}
+                          disabled={!item.selected}
                           placeholder={item.passenger_name}
                           value={item.passenger_name}
                           onChange={handleChange("passenger_detail_name", index)}
-                          inputRef={register({ required: true, minLength:2})}
+                          inputRef={register({ required: item.selected?true:false, minLength:2})}
                           error={passenger_detail_name ?true:false}
                           helperText={passenger_detail_name? "Passenger name is required":""}
                           />
@@ -41,10 +59,12 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                         <Select
                           variant="outlined"
                           name={`passenger_detail_age_group${index}`}
+                          disabled={!item.selected}
                           className="pl-1"
                           fullWidth
+                          style={disabledColor(!item.selected)}
                           native
-                          inputRef={register({ required: true })}
+                          inputRef={register({ required: item.selected?true:false })}
                           value={item.age_group}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None"  />
@@ -52,7 +72,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
                           <option value="Children(upto 12 years)">Children (upto 12 years)</option>
                         </Select>
-                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>This is required!</FormHelperText>}
+                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>Age group is required</FormHelperText>}
                         </td>
                         <td>
                         <Select
@@ -61,39 +81,44 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           name={`passenger_detail_gender${index}`}
                           fullWidth
                           native
+                          style={disabledColor(!item.selected)}
                           required={true}
-                          inputRef={register({ required: true })}
+                          disabled={!item.selected}
+                          inputRef={register({ required:item.selected?true:false })}
                           value={item.gender}
                           onChange={handleChange("passenger_detail_gender", index)}>
                           <option aria-label="None" />
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </Select>
-                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>This is required!</FormHelperText>}
+                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>Gender is required</FormHelperText>}
                         </td>
                         <td>
-                          <span>No</span>
+
                           <Switch
+                           disabled={!item.selected}
                            color="primary"
                            checked={item.meet_and_greet}
                            onChange={handleChange("passenger_detail_meet_and_greet", index)}/>
-                          <span>Yes</span>
+
                         </td>
                         <td>
-                          <span>No</span>
+
                           <Switch
+                           disabled={!item.selected}
                            color="primary"
                            checked={item.wheel_chair}
                            onChange={handleChange("passenger_detail_wheel_chair", index)}  />
-                           <span>Yes</span>
+
                         </td>
                         <td>
-                          <span>No</span>
+
                           <Switch
-                          color="primary"
+                           disabled={!item.selected}
+                           color="primary"
                            checked={item.golf_cart}
                            onChange={handleChange("passenger_detail_golf_cart", index)} />
-                           <span>Yes</span>
+
                         </td>
                     </tr>
                }
@@ -105,13 +130,14 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
               <table>
                 <thead>
                   <tr>
+                    <th style={{ width:"70px"}}>Select Passenger</th>
                     <th style={{ width:"120px"}}>Seat No.</th>
                     <th style={{ width:"160px"}}>Passenger Name*</th>
                     <th style={{ width:"170px"}}>Age Group*</th>
-                    <th style={{ width:"85px"}}>Gender*</th>
-                    <th style={{ width:"90px"}}>Meet & Greet </th>
-                    <th style={{ width:"90px"}}>Wheel Chair </th>
-                    <th style={{ width:"90px"}}>Golf Cart </th>
+                    <th style={{ width:"100px"}}>Gender*</th>
+                    <th style={{ width:"80px"}}>Meet & Greet </th>
+                    <th style={{ width:"80px"}}>Wheel Chair </th>
+                    <th style={{ width:"80px"}}>Golf Cart </th>
                   </tr>
                 </thead>
               <tbody>

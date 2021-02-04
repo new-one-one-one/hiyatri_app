@@ -76,11 +76,7 @@ const Header = () => {
                     ) : (
                       <>
                           <div className="header-menu row">
-                      {!isAuth() && <Drawer close={state} status={(status) => setState(status)} />}
-                       {/*isAuth() && <span>
-                        <i className="fas fa-user-lock user-icon" />
-                        <span className="user-phone">{`+91-` + isAuth().phone_number}</span>
-                       </span>*/}
+                       {!isAuth() && <span><LoginModal /></span>}
                        {isAuth() &&  <Drawer close={state} status={(status) => setState(status)} />}
                        </div>
                       </>

@@ -119,21 +119,21 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                     <th style={{ width:"95px"}}>Gender*</th>
                     <th style={{ width:"110px"}}>
                         <Box display="flex">
-                           <Box width="80%">Meet & Greet </Box>
+                           <Box width="90%">Meet & Greet </Box>
                            <Box><IconInformation serviceName={"Meet & greet"} cost={process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE} type={"none"}></IconInformation></Box>
                         </Box>
                      </th>
                     <th style={{ width:"100px"}}>
                     <Box display="flex">
-                           <Box width="80%">Wheel Chair </Box>
+                           <Box width="99%">Wheel Chair </Box>
                            <Box><IconInformation serviceName={"Wheel Chair"} type={"wheel"} cost={process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE}></IconInformation></Box>
                         </Box>
                     </th>
 
                     <th style={{ width:"90px"}}>
                       <Box display="flex">
-                             <Box width="80%">Golf Cart</Box>
-                             <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"luggage"}></IconInformation></Box>
+                             <Box width="99%">Golf Cart</Box>
+                             <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"none"}></IconInformation></Box>
                       </Box>
                      </th>
                     <th style={{ width:"90px"}}>Remove</th>

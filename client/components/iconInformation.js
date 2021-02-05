@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
           case "wheel":
             return <React.Fragment>
                      <Typography color="inherit">Pricing of {service}</Typography>
-                     <p> Cost for golf cart = <b>₹{cost}/-</b></p>
+                     <p> Cost for wheel chair = <b>₹{cost}/-</b></p>
                     </React.Fragment>
           default:
             var a = cost.split(",");

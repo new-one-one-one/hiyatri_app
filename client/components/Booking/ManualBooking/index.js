@@ -68,6 +68,7 @@ const TrainBooking = ({query , pnr}) => {
       meet_and_greet: true,
       passenger_name: "",
       seat_number: "",
+      selected:true,
       wheel_chair: false
 
     }],

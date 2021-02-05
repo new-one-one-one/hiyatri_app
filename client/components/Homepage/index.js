@@ -211,9 +211,10 @@ const showFormWhenNotLoggedIn = () => {
                  {width > 766 && <LazyLoadImage src="/images/tag_line2.svg" className="tag_line2"/>}
                  </div>
                </div>
-             {width < 766 && <LazyLoadImage src="/images/tag_line.svg" className="tag_line"/>}
-             <img src="/images/main-img.jpg" className="main-img"/>
-
+               {width < 766 && <LazyLoadImage src="/images/tag_line.svg" className="tag_line"/>}
+               <div className="home-container">
+                 <img src="/images/main-img.jpg" className="main-img"/>
+               </div>
              </div>
              <div className="">
                {isAuth() && showFormWhenLoggedIn()}

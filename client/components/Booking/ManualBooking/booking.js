@@ -18,24 +18,23 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
   const capitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
-}  
+}
 
-  
-  const isArrival = query.pid==="arrival"?true:false;  
-    var date = isArrival ? state.booking_information.reservation_upto.date : state.booking_information.boarding_station.date 
+
+  const isArrival = query.pid==="arrival"?true:false;
+    var date = isArrival ? state.booking_information.reservation_upto.date : state.booking_information.boarding_station.date
     if(date!==""){
       var month= parseInt(date.substring(3,5))
       month= String(month).length==1 ? "0"+month : month
       date = month+"-"+date.substring(0,2)+date.substring(5,)
     }
-  
+
   const [selectedDate, handleDateChange] = useState(date!=""? new Date(date):new Date() );
   const changeVal =(value) =>{
     handleDateChange(value);
     changeDate(value);
   }
- 
- console.log(selectedDate, "selected date")
+
   return (
     <div className="booking-Information shadow">
       {/* <DatePicker minDate={today}></DatePicker> */}
@@ -67,7 +66,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
              <TextField
                 variant="outlined"
                 name="train_name"
-              />  
+              />
              </td>
              <td>
              <Select
@@ -77,15 +76,15 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 fullWidth
                 native
                 inputRef={register({ required: true })}
-                onChange={handleChange("station_name",isArrival)}  
-                value = {isArrival?state.booking_information.reservation_upto.station_name:state.booking_information.boarding_station.station_name}   
+                onChange={handleChange("station_name",isArrival)}
+                value = {isArrival?state.booking_information.reservation_upto.station_name:state.booking_information.boarding_station.station_name}
               >
                 <option aria-label="None"  />
                 <option value="New Delhi railway Station">New Delhi railway Station</option>
                 <option value="Old Delhi railway Station">Old Delhi railway Station</option>
               </Select>
               {errors.station_name && <FormHelperText   style={{color:"red"}}>Please select {query.pid} station!</FormHelperText>}
-              
+
 
              </td>
              <td>
@@ -95,9 +94,9 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                     id="date"
                     label="Departure Date"
                     type="date"
-                    name="date" 
-                    inputRef={register({required:true})} 
-                    
+                    name="date"
+                    inputRef={register({required:true})}
+
                     defaultValue={date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()}
                     InputLabelProps={{shrink: true}}
                     onChange={handleChange("date",isArrival)}
@@ -105,25 +104,25 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 helperText={errors.date? `Please provide ${query.pid} date `:""}
                 /> */}
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <DatePicker 
+                      <DatePicker
                         inputVariant="outlined"
                         value={ selectedDate }
                         name="date"
-                        inputRef={register({required:true})} 
+                        inputRef={register({required:true})}
                         minDate={Date.now()}
                         onChange={(value) => {changeVal(value)}}
-                        formatDate={(date) => moment(new Date()).format('DD-MM-YYYY')}  
+                        formatDate={(date) => moment(new Date()).format('DD-MM-YYYY')}
                         />
                   </MuiPickersUtilsProvider>
 
              </td>
              <td>
-             <TextField 
+             <TextField
                 fullWidth
                 label="Departure Time"
                 type="time"
-                name="time" 
-                inputRef={register({required:true})} 
+                name="time"
+                inputRef={register({required:true})}
                 variant="outlined"
                 defaultValue=""
                 InputLabelProps={{shrink: true}}
@@ -131,7 +130,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 onChange={handleChange("time", isArrival)}
                 error={errors.time?true:false}
                 helperText={errors.time? `Please provide ${query.pid} time `:""}
-                value ={isArrival?state.booking_information.reservation_upto.time:state.booking_information.boarding_station.time}   
+                value ={isArrival?state.booking_information.reservation_upto.time:state.booking_information.boarding_station.time}
                 />
              </td>
           </tr>

@@ -23,10 +23,11 @@ const FinalOrder = () => {
   };
 
   useEffect(() => {
+    console.log(bookingFromLS())
     let booking = bookingFromLS();
     let new_state = booking.passenger_details.filter(pass => pass.selected == true)
     booking.passenger_details = new_state;
-   setBookingData(booking)
+    setBookingData(booking)
   },[])
 
 

@@ -64,3 +64,19 @@ export const removeUser = (contact,token) => {
         .catch(err => console.log(err));
 }
 
+export const updateProfile = (details,token)=>{
+    console.log(details)
+    return fetch(`${process.env.NEXT_PUBLIC_API}/user/update/${details.id}`, {
+        method: 'POST',
+        headers: {
+           'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(details)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+}

@@ -26,6 +26,8 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import TrainOutlinedIcon from '@material-ui/icons/TrainOutlined';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+
 const SwipeableDrawer = dynamic(() => import('@material-ui/core/Drawer'), {
   ssr: false,
 })
@@ -96,7 +98,17 @@ const SideDrawer = ({ close, status, router }) => {
            </ListItemAvatar>
                 <ListItemText primary={isAuth() && <div>{"+91-"+ (isAuth() && isAuth().phone_number)}</div>} />
           </ListItem>}
+
            <Divider />
+           {isAuth() && <Link href="/booking/profile">
+              <a className={classes.menu}>
+               <ListItem button style={currentTabStyle("/booking/profile", router.pathname)}>
+                      <ListItemIcon><PermIdentityIcon/></ListItemIcon>
+                      <ListItemText primary="My Profile" />
+               </ListItem>
+              <Divider />
+             </a>
+           </Link>}  
            {isAuth() && <Link href="/">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/", router.pathname)}>
@@ -106,6 +118,9 @@ const SideDrawer = ({ close, status, router }) => {
               <Divider />
              </a>
            </Link>}
+              
+
+
            {isAuth() && <Link href="/booking/my_bookings">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/booking/my_bookings", router.pathname)}>
@@ -139,6 +154,12 @@ const SideDrawer = ({ close, status, router }) => {
                  <ListItemIcon><PowerSettingsNewIcon/></ListItemIcon>
                  <ListItemText primary="Logout" />
           </ListItem>}
+          <Divider/>
+
+          
+          
+            
+
 
          </List>
     </div>

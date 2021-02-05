@@ -89,25 +89,11 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
 
              </td>
              <td>
-             {/* <TextField
-                  fullWidth
-                    variant="outlined"
-                    id="date"
-                    label="Departure Date"
-                    type="date"
-                    name="date" 
-                    inputRef={register({required:true})} 
-                    
-                    defaultValue={date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()}
-                    InputLabelProps={{shrink: true}}
-                    onChange={handleChange("date",isArrival)}
-                    error={errors.date?true:false}
-                helperText={errors.date? `Please provide ${query.pid} date `:""}
-                /> */}
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <DatePicker 
+                         label={`${query.pid} date`}
                         inputVariant="outlined"
-                        value={ selectedDate }
+                        value={ date ? new Date(date) :selectedDate }
                         name="date"
                         inputRef={register({required:true})} 
                         minDate={Date.now()}
@@ -120,7 +106,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
              <td>
              <TextField 
                 fullWidth
-                label="Departure Time"
+                label={`${query.pid} time`}
                 type="time"
                 name="time" 
                 inputRef={register({required:true})} 
@@ -142,3 +128,20 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
 };
 
 export default BookingInformation;
+
+
+{/* <TextField
+                  fullWidth
+                    variant="outlined"
+                    id="date"
+                    label="Departure Date"
+                    type="date"
+                    name="date" 
+                    inputRef={register({required:true})} 
+                    
+                    defaultValue={date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()}
+                    InputLabelProps={{shrink: true}}
+                    onChange={handleChange("date",isArrival)}
+                    error={errors.date?true:false}
+                helperText={errors.date? `Please provide ${query.pid} date `:""}
+                /> */}

@@ -18,6 +18,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                         <td>
                         <TextField
                          variant="outlined"
+                         autoComplete={false}
                          name={`passenger_detail_seat${index}`}
                          value={item.seat_number}
                          onChange={handleChange("passenger_detail_seat", index)}
@@ -30,6 +31,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                         <td>
                          <TextField
                           variant="outlined"
+                          autoComplete={false}
                           name={`passenger_detail_name${index}`}
                           placeholder={item.passenger_name}
                           value={item.passenger_name}

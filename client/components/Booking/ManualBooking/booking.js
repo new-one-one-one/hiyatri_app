@@ -34,7 +34,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
     handleDateChange(value);
     changeDate(value);
   }
-
+ 
   return (
     <div className="booking-Information shadow">
       {/* <DatePicker minDate={today}></DatePicker> */}
@@ -106,7 +106,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <DatePicker
                         inputVariant="outlined"
-                        value={ selectedDate }
+                        value={ date ? new Date(date) :selectedDate }
                         name="date"
                         inputRef={register({required:true})}
                         minDate={Date.now()}

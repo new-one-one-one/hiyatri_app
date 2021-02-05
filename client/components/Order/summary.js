@@ -1,11 +1,16 @@
 import { Grid,OutlinedInput,Checkbox,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,ListItemAvatar,ListItem,CardContent,Typography,Divider,Paper,IconButton,AppBar,Toolbar,Menu,MenuItem, useMediaQuery} from "@material-ui/core";
 import useStyles from './style';
 import {useTheme} from '@material-ui/core/styles';
+import { useEffect } from "react";
 
 const Summary = ({ data }) => {
   const theme = useTheme();
     const classes = useStyles();
     const matches = useMediaQuery(theme.breakpoints.up("sm"));
+
+    useEffect(()=>{
+      
+    },[data.passenger_details])
   return <div className="shadow">
        <Paper  className={classes.orderFull}>
           <div className="pt-3" />

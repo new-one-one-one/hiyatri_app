@@ -1,6 +1,7 @@
-import BulkBookingsList from "../components/BulkBookingList/BulkBookingList";
+import BulkBookingsList from "../../components/Admin/BulkBookingList/BulkBookingList";
 import Head from "next/head";
-import Layout from "../components/Core/Layout";
+import Layout from "../../components/Core/Layout";
+import Admin from '../../components/Core/Protect/admin'
 
 const head = () => (
   <Head>
@@ -50,9 +51,11 @@ const BulkBooking = () => {
   return (
     <>
         {head()}
-        <Layout>
-            <BulkBookingsList />
-        </Layout>
+          <Admin>
+            <Layout>
+                <BulkBookingsList />
+            </Layout>
+          </Admin>
     </>
   );
 };

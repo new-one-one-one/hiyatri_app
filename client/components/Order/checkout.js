@@ -5,7 +5,7 @@ import useStyles from './style';
 import MuiAlert from '@material-ui/lab/Alert';
 
 
-const Checkout = ({ data, order,originalOrder, terms }) => {
+const Checkout = ({ data, order,originalOrder, handleChange, terms, register }) => {
 
   const classes = useStyles();
   const { width } = useWindowSize();
@@ -13,12 +13,6 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
   function Alert(props) {
     return <MuiAlert  variant="filled" {...props} />;
   }
-
-  // const calculateConvenience = () => {
-  //    let price = originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount;
-  //    let convenience = (process.env.NEXT_PUBLIC_CONVENIENCE_FEE_RATE/100)*(originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount)
-  //    return convenience;
-  // }
 
   return <div className="shadow p-3">
             <Paper>
@@ -39,7 +33,14 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                          </p>
                       </Box>
                       <Box p={2} flexShrink={1}>
-                      <TextField  size="small"/>
+                      <TextField  size="small"
+                        name={`coupon`}
+                        onChange={handleChange}
+                        inputProps={{
+                          maxLength: 5,
+                        }}
+                        inputRef={register({maxLength:5})}
+                      />
                       </Box>
                   </Box>
 

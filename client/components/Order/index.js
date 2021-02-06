@@ -14,6 +14,8 @@ import Loader from 'react-loader-spinner'
 import { Backdrop } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import {useForm} from 'react-hook-form';
+
 import CancelIcon from '@material-ui/icons/Cancel';
 const GreenCheckbox = withStyles({
   root: {
@@ -32,12 +34,14 @@ const Payment = ({ data, query }) => {
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
+const {register,handleSubmit} = useForm();
 const [originalOrder, setOriginalOrder] = useState();
 const order_id = query && query.order_id;
 const [termsChecked, setTermsChecked] = useState(false);
 const [loader, setLoader] = useState(false);
 const [successBooking, setBookingSuccess] = useState(false);
 const [failedBooking, setBookingFailed]  = useState(false);
+const [couponCode, setCouponCode] = useState(null);
 useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
@@ -64,9 +68,12 @@ useEffect(() => {
 
 const order = (e) => {
   setLoader(true)
+  let booking = data;
+      booking.coupon = couponCode;
+      console.log(booking)
  e.preventDefault()
   if(!order_id){
-    return create_order(data)
+    return create_order(booking)
        .then(response => {
          if(response.error){
            return console.log(response.error)
@@ -169,6 +176,10 @@ const paymentHandler = (orderId, amount) => {
     razorpay.open()
 }
 
+const handleCouponChange = (e) => {
+   setCouponCode(e.target.value)
+}
+
 const terms = () => {
    return <div className="pt-3 pb-3">
             <FormControlLabel
@@ -205,11 +216,11 @@ return  <>
            </div>
 
            <div className="col-md-3">
-             <Checkout data={data} order={order} originalOrder={originalOrder} terms={termsChecked}/>
+             <Checkout data={data} handleChange={handleCouponChange} register={register} order={order} originalOrder={originalOrder} terms={termsChecked}/>
            </div>
         </div>
         {(width <500) && (
-          <AppBar className={classes.buttonMobile} position="fixed" onClick={order} >
+          <AppBar className={classes.buttonMobile} position="fixed" onClick={handleSubmit(order)} >
             <Button className={classes.buttonMobile} disabled={!termsChecked}>
               Book Now
             </Button>

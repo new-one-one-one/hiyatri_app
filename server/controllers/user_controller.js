@@ -1,21 +1,47 @@
+const { response } = require("express");
 const User = require("../models/user_model");
 // const twilioClient = require('twilio')(
 //   process.env.TWILIO_SID,
 //   process.env.TWILIO_AUTH
 // );
 
+
+module.exports.update_user_profile = (req, res)=>{
+  const {
+    name,
+    email,
+  } = req.body
+  console.log(req.body, "hi ther")
+
+
+  User.findByIdAndUpdate(req.params.id, {name, email}, (err, result)=>{
+    console.log(result);
+    if(err){
+     return res.status(404).json({msg:"Error in updation"})
+    }
+    else{
+      return res.status(200).json({msg:"Profile updated successfully"})
+    }
+  })
+}
+
 module.exports.single_user = (req, res) => {
-     User.findById(req.params.id)
-      .exec((err, response) => {
-        if(err){
-          return res.status(400).json({
-            error: err
-          })
-        }
-        res.status(200).json({
-          result: response
+      console.log(req)
+     User.findById(req.params.id, (err, result)=>{
+
+      if(err){
+        return res.status(400).json({
+          error: err
         })
+      }
+      res.status(200).json({
+        result: result
       })
+
+     })
+     
+        
+  
 }
 
 

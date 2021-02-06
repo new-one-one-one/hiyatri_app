@@ -95,7 +95,7 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
     }
   const fixedDetails={
     hrs:parseInt(!is_arrival?boarding_station.time.substring(0,2):reservation_upto.time.substring(0,2)),
-    mins:parseInt(!is_arrival?reservation_upto.time.substring(3):reservation_upto.time.substring(3)),
+    mins:parseInt(!is_arrival?boarding_station.time.substring(3):reservation_upto.time.substring(3)),
     date:(!is_arrival?boarding_station.date:reservation_upto.date).split("-")
   }
 

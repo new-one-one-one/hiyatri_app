@@ -110,6 +110,7 @@ const TrainBooking = ({query , pnr}) => {
         }
       }
   },
+  selected:true,  
    total_amount: null
   }
     const theme = useTheme();
@@ -511,14 +512,12 @@ const compare_date_time = (thisState) =>{
 
 const changeBookingType = (e) =>{
   changeStatus(e.target.value);
+  dispatch({type:ACTIONS.IS_ARRIVAL, payload:e.target.value==="arrival"})
 }
 
 const handleSubmission = async(e) => {
-  console.log(state, "-------------------------------------")
-
-
+  dispatch({type:ACTIONS.IS_ARRIVAL, payload:status==="arrival"})
   setLocalStorage("Booking", state)
-
   var  isValid = await compare_date_time(state)
    if(isValid)
       Router.push(`/booking/order/`)

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { single_user,get_user,create_user,delete_user, getAllAgents } = require("../controllers/user_controller");
+const { single_user,get_user,create_user,delete_user, getAllAgents,update_user_profile } = require("../controllers/user_controller");
 
 const { requireSignin,
         authMiddleware,
@@ -12,6 +12,7 @@ const { requireSignin,
 //Admin Routes
 router.get("/user/:id",   single_user);
 router.get('/users/all',   get_user);
+router.post('/user/update/:id', update_user_profile);
 
 //Super Admin Routes
 router.post('/admin/addUser',   create_user);

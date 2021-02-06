@@ -510,6 +510,7 @@ const compare_date_time = (thisState) =>{
 
 const changeBookingType = (e) =>{
   changeStatus(e.target.value);
+  dispatch({type:ACTIONS.IS_ARRIVAL, payload:e.target.value==="arrival"})
 }
 
 const handleSubmission = async(e) => {

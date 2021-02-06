@@ -28,6 +28,7 @@ const GreenCheckbox = withStyles({
 
 
 const Payment = ({ data, query }) => {
+
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
@@ -225,7 +226,7 @@ return  <>
         closeAfterTransition
       >
         <Paper elevation={3}>
- 
+
         <Fade in={successBooking}>
           <div className={classes.paper}>
             <div className="text-center">

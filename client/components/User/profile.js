@@ -1,0 +1,1 @@
+import {singleUser} from './../../actions/user'

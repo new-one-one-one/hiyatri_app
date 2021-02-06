@@ -1,40 +1,14 @@
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Checkbox from '@material-ui/core/Checkbox';
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  Button,
-  PopoverCloseButton,
-} from "@chakra-ui/react"
+import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
-import { useForm } from 'react-hook-form';
 import { IconInformation } from "../../iconInformation";
-
+import { useForm } from 'react-hook-form';
 
 
 
 const PorterService = ({ handleChange, state }) => {
   const {register, errors, handleSubmit} = useForm();
-
-
-const onHover = () => {
-  return <Popover>
-          <PopoverTrigger>
-            <Button>Trigger</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader>Confirmation!</PopoverHeader>
-            <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>
-          </PopoverContent>
-        </Popover>
-}
 
   return <>
           <div className="porter-service shadow">
@@ -83,7 +57,7 @@ const onHover = () => {
               <span className="baggage-text">
                 Baggage Guarantee
               </span>
-               <IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"luggage"}></IconInformation>
+               <IconInformation serviceName={"Buggage Gauranteed"} cost={process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE}  type={"Buggage Gauranteed"}></IconInformation>
               <span>
               </span>
             </div>

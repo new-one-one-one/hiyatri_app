@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LoginModal from '../Header/login_modal';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles';
@@ -83,14 +84,18 @@ const SideDrawer = ({ close, status, router }) => {
   const list = () => (
     <div className={classes.list}>
          <List>
-         <ListItem>
+
+         {/*!isAuth() && <ListItem button>
+               <LoginModal />
+              </ListItem>*/}
+         {isAuth() && <ListItem>
            <ListItemAvatar>
              <Avatar>
                <PhoneRoundedIcon/>
              </Avatar>
            </ListItemAvatar>
                 <ListItemText primary={isAuth() && <div>{"+91-"+ (isAuth() && isAuth().phone_number)}</div>} />
-          </ListItem>
+          </ListItem>}
            <Divider />
            {isAuth() && <Link href="/">
               <a className={classes.menu}>
@@ -110,14 +115,6 @@ const SideDrawer = ({ close, status, router }) => {
                <Divider />
              </a>
          </Link>}
-           {/*!isAuth() && <Link href="/login">
-             <a className={classes.menu}>
-               <ListItem button style={currentTabStyle("/login", router.pathname)} className="mt-1">
-                      <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
-                      <ListItemText primary="Login" />
-               </ListItem>
-            </a>
-           </Link>*/}
 
           {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/manage_user">
             <a className={classes.menu}>
@@ -165,10 +162,9 @@ const SideDrawer = ({ close, status, router }) => {
                  <ListItemIcon><PowerSettingsNewIcon/></ListItemIcon>
                  <ListItemText primary="Logout" />
           </ListItem>}
-       
 
-          {/*<div className={classes.drawerBottom} />*/}
-          
+
+ 
          </List>
     </div>
   );

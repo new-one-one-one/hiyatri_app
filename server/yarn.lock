@@ -2,6 +2,7 @@
 # yarn lockfile v1
 
 
+<<<<<<< HEAD
 "@fast-csv/format@4.3.5":
   "integrity" "sha512-8iRn6QF3I8Ak78lNAa+Gdl5MJJBM5vRHivFtMRUWINdevNo00K7OXxS2PshawLKTejVwieIlPmK5YlLu6w4u8A=="
   "resolved" "https://registry.npmjs.org/@fast-csv/format/-/format-4.3.5.tgz"
@@ -32,6 +33,8 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.22.tgz"
   "version" "14.14.22"
 
+=======
+>>>>>>> main
 "accepts@~1.3.7":
   "integrity" "sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA=="
   "resolved" "https://registry.npmjs.org/accepts/-/accepts-1.3.7.tgz"

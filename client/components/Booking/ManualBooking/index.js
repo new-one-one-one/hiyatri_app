@@ -514,11 +514,8 @@ const changeBookingType = (e) =>{
 }
 
 const handleSubmission = async(e) => {
-  console.log(state, "-------------------------------------")
-
-
+  dispatch({type:ACTIONS.IS_ARRIVAL, payload:status==="arrival"})
   setLocalStorage("Booking", state)
-
   var  isValid = await compare_date_time(state)
    if(isValid)
       Router.push(`/booking/order/`)

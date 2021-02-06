@@ -1,4 +1,5 @@
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import {TextField} from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import {
   Popover,
@@ -50,20 +51,26 @@ const onHover = () => {
             <tbody>
               <tr>
                 <td>
-                  <OutlinedInput
+                  <TextField
+                   variant="outlined"
                    type="number"
+                   InputProps={{ inputProps: { min: 0 } }}
                    value={state.porter_service_detail.large_bags.unit === 0?"":state.porter_service_detail.large_bags.unit}
                    onChange={handleChange("porter_service_lg_bags")} />
                 </td>
                 <td>
-                  <OutlinedInput
+                  <TextField
+                   variant="outlined"
                   type="number"
+                   InputProps={{ inputProps: { min: 0 } }}
                    value={state.porter_service_detail.medium_bags.unit === 0?"":state.porter_service_detail.medium_bags.unit}
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
                 <td>
-                  <OutlinedInput
+                  <TextField
+                   variant="outlined"
                    type="number"
+                    InputProps={{ inputProps: { min: 0 } }}
                    value={state.porter_service_detail.small_bags.unit === 0?"":state.porter_service_detail.small_bags.unit}
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>

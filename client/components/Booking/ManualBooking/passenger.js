@@ -133,7 +133,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                     <th style={{ width:"90px"}}>
                       <Box display="flex">
                              <Box width="99%">Golf Cart</Box>
-                             <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"none"}></IconInformation></Box>
+                             <Box><IconInformation serviceName={"Golf Cart"} cost={process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE+","+process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE}  type={"none"}></IconInformation></Box>
                       </Box>
                      </th>
                     <th style={{ width:"90px"}}>Remove</th>

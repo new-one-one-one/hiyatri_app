@@ -174,15 +174,17 @@ const getServiceAmount = (service_name, category) => {
             return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
           }
     }
+
+
     if(service_name === "luggage_bags"){
           if(category === "BELOW_7KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+            return process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE
           }
           if(category === "7KG_TO_20KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
+            return process.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE
           }
           if(category === "20KG_TO_30KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
+            return process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE
           }
     }
 

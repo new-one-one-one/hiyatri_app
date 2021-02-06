@@ -4,7 +4,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import InfoIcon from '@material-ui/icons/Info';
 import { IconInformation } from "../../iconInformation";
 import { useForm } from 'react-hook-form';
-
+import {TextField} from '@material-ui/core';
 
 
 const PorterService = ({ handleChange, state }) => {
@@ -24,20 +24,26 @@ const PorterService = ({ handleChange, state }) => {
             <tbody>
               <tr>
                 <td>
-                  <OutlinedInput
+                  <TextField
+                   variant="outlined"
                    type="number"
+                   InputProps={{ inputProps: { min: 0 } }}
                    value={state.porter_service_detail.large_bags.unit === 0?"":state.porter_service_detail.large_bags.unit}
                    onChange={handleChange("porter_service_lg_bags")} />
                 </td>
                 <td>
-                  <OutlinedInput
-                  type="number"
+                  <TextField
+                   variant="outlined"
+                   type="number"
+                   InputProps={{ inputProps: { min: 0 } }}
                    value={state.porter_service_detail.medium_bags.unit === 0?"":state.porter_service_detail.medium_bags.unit}
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
                 <td>
-                  <OutlinedInput
+                  <TextField
+                   variant="outlined"
                    type="number"
+                   InputProps={{ inputProps: { min: 0 } }}
                    value={state.porter_service_detail.small_bags.unit === 0?"":state.porter_service_detail.small_bags.unit}
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>

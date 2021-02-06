@@ -151,6 +151,8 @@ const handleChange = (value1, value2) => e => {
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
                        payload: - (state.passenger_details[value2].bill.total),
                        sidx: value2 })
+
+             unregister([`passenger_detail_seat${value2}`,`passenger_detail_name${value2}`,`passenger_detail_age_group${value2}`,`passenger_detail_gender${value2}` ])
       }
   }
   if(value1 === "passenger_detail_seat"){
@@ -489,7 +491,9 @@ const bookingFromLS = () => {
 };
 
 
-const handleSubmission = e => {
+
+
+const handleSubmission = e => props => {
     setLocalStorage("Booking", state)
     Router.push(`/booking/order/`)
 }

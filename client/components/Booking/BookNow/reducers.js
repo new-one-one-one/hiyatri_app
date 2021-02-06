@@ -104,7 +104,6 @@ export const reducer = (state, action) => {
        .map((value, idx) => {
         if(action.sidx != idx) return value;
         return {...value, bill: {...value.bill, meet_and_greet: parseFloat(value.bill.meet_and_greet) + parseFloat(action.payload) } }})
-        console.log(299, pass_detail_bill_meetgreet)
         return {...state, passenger_details: pass_detail_bill_meetgreet }
 
 
@@ -127,7 +126,6 @@ export const reducer = (state, action) => {
       .map((value, idx) => {
        if(action.sidx != idx) return value;
        return {...value, bill: {...value.bill, total: parseFloat(value.bill.total) + parseFloat(action.payload) } }})
-        console.log(322, pass_detail_bill_total)
        return {...state, passenger_details: pass_detail_bill_total}
 
 

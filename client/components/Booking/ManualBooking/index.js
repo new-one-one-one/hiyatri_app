@@ -110,7 +110,7 @@ const TrainBooking = ({query , pnr}) => {
         }
       }
   },
-  selected:true,  
+  selected:true,
    total_amount: null
   }
     const theme = useTheme();
@@ -136,6 +136,7 @@ const handleAddPassenger = () => {
           total: 0},
         gender: "",
         golf_cart: false,
+        selected:true,
         meet_and_greet: true,
         passenger_name: "",
         seat_number: "",

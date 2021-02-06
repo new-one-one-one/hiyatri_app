@@ -109,6 +109,7 @@ const TrainBooking = ({query , pnr}) => {
         }
       }
   },
+  selected:true,  
    total_amount: null
   }
     const theme = useTheme();

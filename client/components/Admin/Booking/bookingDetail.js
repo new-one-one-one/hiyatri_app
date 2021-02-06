@@ -307,7 +307,8 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  if(porter.porter_service_opted || porter.baggage_garanteed_opted)
+  const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
+  if((porter.porter_service_opted || porter.baggage_garanteed_opted ) && porter_total!=0)
     return (
       <div>
         <Grid container spacing={2}>
@@ -336,11 +337,9 @@ const displayPorterServiceDetails = (porter) =>{
                             {porter.small_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                      ₹{
-                        porter.large_bags.total +
-                        porter.medium_bags.total+
-                        porter.small_bags.total
-                        }
+                      ₹{porter_total} 
+                        
+                        
                       </Grid>
                 </Grid>
           </Grid>
@@ -376,7 +375,7 @@ const displayPorterServiceDetails = (porter) =>{
                             <Grid  item xs={4}>
                             Meeting Station:
                               <br />
-                              <b style={{color:'black'}}> {data && data.booking_information && data.booking.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:data.booking.booking_information.boarding_station.station_name} </b>
+                              <b style={{color:'black'}}> {data.booking.booking_information.is_arrival?data.booking_information.reservation_upto.station_name:data.booking.booking_information.boarding_station.station_name} </b>
                             </Grid>
                             <Grid  item xs={4}>
                             Time Of {data.booking.booking_information.is_arrival?"Arrival":"Departure"}

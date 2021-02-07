@@ -350,7 +350,7 @@ const BulkBookingsList = () => {
                       <Button
                         variant="contained"
                         className="btn"
-                        onClick={() => clickHandler(EachContent.client_name)}
+                        onClick={() => clickHandler(EachContent.bulk_booking_id)}
                       >
                         Download Record
                       </Button>
@@ -359,7 +359,7 @@ const BulkBookingsList = () => {
                         variant="contained"
                         className="btn"
                         onClick={() => {
-                          setexcelId(EachContent._id);
+                          setexcelId(EachContent.bulk_booking_id);
                           handleClickOpen();
                         }}
                       >

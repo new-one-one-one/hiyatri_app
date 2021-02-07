@@ -128,44 +128,55 @@ module.exports.get_all_excelFiles = (req, res) => {
   //   }
   // });
 
+  //   AWS.config.update({
+  //     accessKeyId: process.env.AWS_ACCESS_KEY,
+  //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  //   });
+
+  // var s3 = new AWS.S3();
+  // var params = {
+  //   Bucket: "hiyatribulkbookingexcels",
+  //   Key: 'Records.xlsx'
+  // };
+
+  // let readStream = s3.getObject(params).createReadStream();
+  // let writeStream = fs.createWriteStream('./public/Records.xlsx');
+  // readStream.pipe(writeStream);
+
   bulk_bookings_info.find({}).then((result) => {
     res.send(result);
   });
 };
 
 module.exports.download_particularExcelFile = (req, res) => {
-  const filenameChanger = () => {
+  const writingtothefileystem = () => {
     return new Promise((resolve, reject) => {
-      if (fs.existsSync("./public/Records.xlsx")) {
-        fs.rename(
-          `./public/Records.xlsx`,
-          `./public/${req.params.filename}.xlsx`,
-          () => {
-            console.log("excel file name changed!");
-            resolve();
-          }
-        );
-      }
+      AWS.config.update({
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      });
+
+      const s3 = new AWS.S3();
+      const params = {
+        Bucket: "hiyatribulkbookingexcels",
+        Key: `${req.params.filename}.xlsx`,
+      };
+
+      let readStream = s3.getObject(params).createReadStream();
+      let writeStream = fs.createWriteStream(
+        `./public/${req.params.filename}.xlsx`
+      );
+      readStream.pipe(writeStream).on("finish", () => {
+        resolve();
+      });
+      readStream.pipe(writeStream).on("error", () => {
+        reject();
+      });
     });
   };
 
-  if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
-    fs.readFile(`./public/${req.params.filename}.xlsx`, (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.setHeader(
-          "Content-Type",
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        );
-        res.send(data);
-        return;
-      }
-    });
-  }
-
-  if (req.params.filename !== "Records.xlsx") {
-    filenameChanger().then(() => {
+  writingtothefileystem().then(() => {
+    if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
       fs.readFile(`./public/${req.params.filename}.xlsx`, (err, data) => {
         if (err) {
           console.log(err);
@@ -177,8 +188,8 @@ module.exports.download_particularExcelFile = (req, res) => {
           res.send(data);
         }
       });
-    });
-  }
+    }
+  });
 };
 
 module.exports.downloadtemplate = (req, res) => {
@@ -196,31 +207,44 @@ module.exports.downloadtemplate = (req, res) => {
 };
 
 module.exports.deleteRecord = (req, res) => {
-  bulk_bookings_info.findOneAndDelete(
-    { _id: req.params.id },
-    function (error, data) {
-      bulk_bookings_info.remove();
-      if (!error) {
-        res.sendStatus(200);
-      }
-    }
-  );
-  // const params = { Bucket: process.env.AWS_S3Bucket, Key: req.params.filename };
+  const deletefroms3 = () => {
+    return new Promise((resolve, reject) => {
+      const params = {
+        Bucket: process.env.AWS_S3Bucket,
+        Key: `${req.params.bulk_booking_id}.xlsx`,
+      };
 
-  // s3.deleteObject(params, function (err, data) {
-  //   if (!err) {
-  //     res.sendStatus(200);
-  //     fs.unlink(`./public/${req.params.filename}`, (err) => {
-  //       if (err) {
-  //         throw err;
-  //       } else {
-  //         console.log("xlsx deleted from s3 bucket!");
-  //       }
-  //     });
-  //   } else {
-  //     res.sendStatus(400);
-  //   }
-  // });
+      s3.deleteObject(params, function (err, data) {
+        if (!err) {
+          resolve();
+        }
+      });
+    });
+  };
+
+  deletefroms3().then(() => {
+    bulk_bookings_info.findOneAndDelete(
+      { bulk_booking_id: req.params.bulk_booking_id },
+      function (error, data) {
+        console.log;
+        bulk_bookings_info.remove();
+        if (!error) {
+          console.log("deleted from db");
+          res.sendStatus(200);
+        }
+      }
+    );
+
+    if (fs.existsSync(`./public/${req.params.bulk_booking_id}.xlsx`)) {
+      fs.unlink(`./public/${req.params.bulk_booking_id}.xlsx`, (err) => {
+        if (err) {
+          throw err;
+        } else {
+          console.log("File Removed from the file system");
+        }
+      });
+    }
+  });
 };
 
 module.exports.bulk_bookings_requests = async (req, res) => {
@@ -235,6 +259,60 @@ module.exports.bulk_bookings_requests = async (req, res) => {
   let unique_keys = pad((await bulk_bookings_info.countDocuments()) + 1, 5);
 
   const bulk_booking_id = "Blk_" + unique_keys;
+
+  const s3uploader = () => {
+    return new Promise((resolve, reject) => {
+      if (fs.existsSync("./public/Records.xlsx")) {
+        fs.rename(
+          `./public/Records.xlsx`,
+          `./public/${bulk_booking_id}.xlsx`,
+          () => {
+            console.log("excel file name changed for s3 upload!");
+            resolve();
+          }
+        );
+      } else {
+        reject();
+      }
+    });
+  };
+
+  s3uploader()
+    .then(() => {
+      if (fs.existsSync(`./public/${bulk_booking_id}.xlsx`)) {
+        fs.readFile(`./public/${bulk_booking_id}.xlsx`, (err, data) => {
+          if (err) throw err;
+
+          if (!err) {
+            const params = {
+              Bucket: "hiyatribulkbookingexcels",
+              Key: `${bulk_booking_id}.xlsx`,
+              Body: data,
+              ContentType: "application/vnd.ms-excel",
+            };
+
+            s3.upload(params, function (s3Err, data) {
+              if (s3Err) throw s3Err;
+              if (!s3Err) {
+                console.log(`File uploaded successfully at ${data.Location}`);
+                fs.unlink(`./public/${bulk_booking_id}.xlsx`, (err) => {
+                  if (err) {
+                    throw err;
+                  } else {
+                    console.log(
+                      `removed file from the server ${bulk_booking_id}`
+                    );
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 
   const {
     client_name,

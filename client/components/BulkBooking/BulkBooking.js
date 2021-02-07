@@ -228,7 +228,7 @@ const BulkBookings = () => {
         </tbody>
       </table>
   </div>
-         
+        
           </div>
  
           <div className="form-group">

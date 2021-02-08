@@ -455,7 +455,7 @@ max-width: 600px;
   position: absolute;
   left: 30%;
   right: 30%;
-  bottom: 30px;
+  bottom: 15px;
 
 }
 
@@ -1765,4 +1765,22 @@ width: 100%;
 background-color: grey;
 }
 
- 
+ .MuiFormControl-root{
+   /* height: 60px!important; */
+   /* background: transparent!important; */
+ }
+ .MuiFormHelperText-root {
+     position: absolute;
+ }
+ .MuiInputBase-input {
+    height: 0.85em;
+}
+ .MuiFormHelperText-contained{
+  position: absolute!important;
+  left:10px!important;
+  bottom: -20px!important;
+ }
+ /* .MuiInputBase-root{
+   height: 70px!important;
+   background: transparent!important;
+ } */

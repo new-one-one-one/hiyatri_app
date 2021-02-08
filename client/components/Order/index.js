@@ -159,20 +159,20 @@ const paymentHandler = (orderId, amount) => {
        .then(result => {
          if(result.error){
           setBookingFailed(true)
-          removeLocalStorage("Booking")
+
            return console.log(result.error)
          }
          if(result.status === "ok"){
-           removeLocalStorage("Booking")
+           // removeLocalStorage("Booking")
            setBookingSuccess(true)
            return;
          }
-         removeLocalStorage("Booking")
+         // removeLocalStorage("Booking")
          setBookingFailed(true)
          return;
        })
        .catch((err) => {
-        removeLocalStorage("Booking")
+        // removeLocalStorage("Booking")
         setBookingFailed(true)
          console.log(err)
        })
@@ -180,6 +180,7 @@ const paymentHandler = (orderId, amount) => {
   }
     const razorpay = new window.Razorpay(options);
     razorpay.open()
+    removeLocalStorage("Booking")
 }
 
 

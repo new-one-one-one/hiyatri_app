@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { useRouter } from "next/router";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -252,38 +253,6 @@ const BulkBookingsList = () => {
             </FormControl>
           </Box>
 
-          <Box p={1} width="60%">
-            <FormControl className={classes.formControl}>
-              <Typography variant="body2">
-                <span style={{ color: "grey", fontSize: "15px" }}>
-                  Assinged To :
-                </span>
-                <Select
-                  displayEmpty
-                  style={{ width: "200px" }}
-                  disableUnderline
-                  className={classes.selectEmpty}
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value="All_AGENTS">
-                    <button
-                      className="filter-option"
-                      onClick={() => setAgent("All_AGENTS")}
-                    >
-                      All Agents
-                    </button>
-                  </MenuItem>
-                  {/* {(all_agents) && all_agents.map(element => {
-                     return <MenuItem value={element.phone_number} >
-                                 <button className="filter-option" onClick={()=>setAgent(element.phone_number)} >
-                                     {element.name} ({element.phone_number})
-                                 </button>
-                             </MenuItem>
-                 })} */}
-                </Select>
-              </Typography>
-            </FormControl>
-          </Box>
           <Box p={1} width="20%">
             <button
               id="design-admin-list"
@@ -308,7 +277,7 @@ const BulkBookingsList = () => {
       {content !== undefined && (
         <div className="BulkBookingListing">
           <div className="BulkBookingListing_heading">
-            <h3>Bulk Booking Requests</h3>
+            <h3>Bulk Booking</h3>
             <Button
               onClick={() => router.push("/admin/bulk_booking")}
               variant="contained"
@@ -323,10 +292,9 @@ const BulkBookingsList = () => {
           <table>
             <thead>
               <tr>
-                <th>SNo.</th>
                 <th>BookingId </th>
                 <th> Client Name</th>
-                <th>Excel File</th>
+                <th>Excel File Name</th>
                 <th> Date of Arr/Dep</th>
                 <th>Time of Arr/Dep</th>
                 <th>Booking Type</th>
@@ -339,18 +307,18 @@ const BulkBookingsList = () => {
               {content.map((EachContent,index) => {
                 return (
                   <tr key={EachContent._id}>
-                    <td>{index+1}</td>
+                  
                     <td>{EachContent.bulk_booking_id}</td>
                     <td>{EachContent.client_name}</td>
-                    <td>{EachContent.excel_file_name}</td>
-                    <td>{EachContent.date_of_arrival_or_departure}</td>
+                    <td>{EachContent.excel_file_name}.xlsx</td>
+                    <td>{moment(EachContent.date_of_arrival_or_departure).format('DD-MM-YYYY')}</td>
                     <td>{EachContent.time_of_arrival_or_departure}</td>
                     <td>{EachContent.booking_type}</td>
                     <td>
                       <Button
                         variant="contained"
                         className="btn"
-                        onClick={() => clickHandler(EachContent.client_name)}
+                        onClick={() => clickHandler(EachContent.bulk_booking_id)}
                       >
                         Download Record
                       </Button>
@@ -359,7 +327,7 @@ const BulkBookingsList = () => {
                         variant="contained"
                         className="btn"
                         onClick={() => {
-                          setexcelId(EachContent._id);
+                          setexcelId(EachContent.bulk_booking_id);
                           handleClickOpen();
                         }}
                       >

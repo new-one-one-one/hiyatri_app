@@ -6,8 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { makeStyles, Button } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {TextField,InputAdornment,Select,MenuItem} from '@material-ui/core';
+import { TextField, InputAdornment, Select, MenuItem } from "@material-ui/core";
 import { useForm } from "react-hook-form";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   modalBoxSuccess: {
@@ -30,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
   },
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
 }));
 
 const BulkBookings = () => {
@@ -39,13 +55,12 @@ const BulkBookings = () => {
   const [open, setOpen] = useState(false);
   const { register, errors, handleSubmit } = useForm();
 
-  const [uploadInformation,setuploadInformation]=useState({
-    booking_type:"",
-    client_name:"",
-    date_of_arrival_or_departure:"",
-    time_of_arrival_or_departure:""
-  })
-
+  const [uploadInformation, setuploadInformation] = useState({
+    booking_type: "",
+    client_name: "",
+    date_of_arrival_or_departure: new Date(),
+    time_of_arrival_or_departure: "",
+  });
 
   const handleModalClose = () => {
     setOpen(false);
@@ -58,10 +73,29 @@ const BulkBookings = () => {
 
   const onClickHandler = () => {
     const data = new FormData();
+    let errorFlag = false;
 
-    if (selectedFile === null) {
-      toast.error("Please Select the file");
-    } else {
+    const vals = Object.values(uploadInformation);
+
+    for (let i = 0; i < vals.length; i++) {
+      if (vals[i] === "" || vals[i] === undefined) {
+        errorFlag = true;
+      }
+    }
+
+    if (selectedFile === null && errorFlag === true) {
+      toast.error("Please fill the required information");
+    } 
+    
+    else if (selectedFile === null && errorFlag === false) {
+      toast.error("Please provide the excel file");
+    } 
+    
+    else if(selectedFile!==null && errorFlag ===true){
+        toast.error('Please fill the details')
+    }
+
+    if (selectedFile !== null && errorFlag === false) {
       setshowSpinner(true);
       data.append("file", selectedFile);
       data.append("name", selectedFile.name);
@@ -74,6 +108,18 @@ const BulkBookings = () => {
         })
         .catch((err) => {
           toast.error("upload fail");
+        });
+
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_API}/bulk_bookings_requests`,
+          uploadInformation
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     }
   };
@@ -92,30 +138,12 @@ const BulkBookings = () => {
     );
   };
 
-  const uploadinfohandler=()=>{
-  const uploadInfor=Object.values(uploadInformation);
-  let error=false;
-  for(let i=0;i<uploadInfor.length;i++){
-
-    if(uploadInfor[i]==="" || uploadInfor[i]===null){
-      error=true
-    }
-  }
-  if(error){
-    toast.error('Please fill the information')
-    return;
-  }
-  else{
-    axios.post(`${process.env.NEXT_PUBLIC_API}/bulk_bookings_requests`,uploadInformation).then((res)=>{
-      if(res.status===200){
-        setshowexceluploadinput(true)
-      }
-    }).catch((err)=>{
-      console.log(err)
-    })
-  }
-  }
-
+  const handledatechange = (date) => {
+    setuploadInformation({
+      ...uploadInformation,
+      date_of_arrival_or_departure: date,
+    });
+  };
   return (
     <>
       <Backdrop className={classes.backdrop} open={showSpinner}>
@@ -131,14 +159,14 @@ const BulkBookings = () => {
           <p style={{ fontSize: 40, fontWeight: "bold", marginBottom: "10px" }}>
             Bulk Booking Upload
           </p>
-           <div
+          <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
               marginBottom: "10px",
-              flexDirection:'column'
+              flexDirection: "column",
             }}
             onClick={() => setOpen(true)}
             title="Instructions for Bulk Upload"
@@ -155,120 +183,167 @@ const BulkBookings = () => {
             </span>
             {/* <img src={questionIcon} height={25} /> */}
             <div className="contact-Information shadow">
-      <table>
-        <thead>
-          <tr>
-            <th>Client Name*</th>
-            <th>Date of Arrival or Departure*</th>
-            <th>Time of Arrival or Departure*</th>
-            <th>Booking Type*</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-
-            <TextField
-              variant="outlined"
-              type="text"
-              name="client_name"    
-              onChange={(e)=>setuploadInformation({...uploadInformation,client_name:e.target.value})}
-              inputRef={register({required: true , minLength:1})}
-              error={errors.clientName?true:false}
-              helperText={errors.clientName?"Please Enter the Client Name":""}
-              // value={data.passenger_contact_information.name}
-              // onChange={handleChange("passenger_name")}
-              // inputRef={register({required: true, minLength:2})}
-              // error={errors.passenger_name ?true:false}
-              // helperText={errors.passenger_name? "Passenger name is required":""}
-              fullWidth
-            />
-            </td>
-            <td>
-              <TextField
-              onChange={(e)=>setuploadInformation({...uploadInformation,date_of_arrival_or_departure:e.target.value})}
-               variant="outlined"
-               name="date_of_arrival_or_departure"
-               inputRef={register({required: true})}
-               error={errors.date_of_arrival_or_departure?true:false}
-               helperText={errors.date_of_arrival_or_departure?"Please Enter the date of arrival and departure":""}
-              //  value={data.passenger_contact_information.primary_contact_number}
-              //  InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-              //  onChange={handleChange("passenger_primary_number")}
-              //  inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
-              //  error={errors.passenger_primary_number ?true:false}
-              //  helperText={errors.passenger_primary_number? "Primary contact number is required":""}
-               fullWidth
-               type="string" />
-            </td>
-            <td>
-              <TextField
-               onChange={(e)=>setuploadInformation({...uploadInformation,time_of_arrival_or_departure:e.target.value})}
-               fullWidth
-               name="time_of_arrival_or_departure"
-               variant="outlined"
-               inputRef={register({required: true })}
-               error={errors.time_of_arrival_or_departure?true:false}
-               helperText={errors.date_of_arrival_or_departure?"Please Enter the date of arrival and departure":""}
-
-              //  value={data.passenger_contact_information.secondary_contact_number}
-              //  onChange={handleChange("passenger_secondary_number")}
-               type="string" />
-            </td>
-            <td>
-            <Select value={uploadInformation.booking_type}  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
-                      <MenuItem value="" disabled>
-                      Select
-                      </MenuItem>
-                      <MenuItem value="Arrival"><button className="filter-option" onClick={()=>setuploadInformation({...uploadInformation,booking_type:"Arrival"})} >Arrival</button></MenuItem>
-                      <MenuItem value="Departure"> <button className="filter-option" onClick={()=>setuploadInformation({...uploadInformation,booking_type:"Departure"})} >Departure</button></MenuItem>
-                  </Select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-  </div>
-         
+              <table>
+                <thead>
+                  <tr>
+                    <th>Client Name*</th>
+                    <th>Date of Arrival or Departure*</th>
+                    <th>Time of Arrival or Departure*</th>
+                    <th>Booking Type*</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <TextField
+                        variant="outlined"
+                        type="text"
+                        name="client_name"
+                        onChange={(e) =>
+                          setuploadInformation({
+                            ...uploadInformation,
+                            client_name: e.target.value,
+                          })
+                        }
+                        inputRef={register({ required: true, minLength: 1 })}
+                        error={errors.clientName ? true : false}
+                        helperText={
+                          errors.clientName
+                            ? "Please Enter the Client Name"
+                            : ""
+                        }
+                        // value={data.passenger_contact_information.name}
+                        // onChange={handleChange("passenger_name")}
+                        // inputRef={register({required: true, minLength:2})}
+                        // error={errors.passenger_name ?true:false}
+                        // helperText={errors.passenger_name? "Passenger name is required":""}
+                        fullWidth
+                      />
+                    </td>
+                    <td>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid container justify="space-around">
+                          <KeyboardDatePicker
+                            margin="normal"
+                            id="date-picker-dialog"
+                            format="dd/MM/yyyy"
+                            value={
+                              uploadInformation.date_of_arrival_or_departure
+                            }
+                            onChange={(date) => handledatechange(date)}
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                          />
+                        </Grid>
+                      </MuiPickersUtilsProvider>
+                    </td>
+                    <td>
+                      <TextField
+                        id="time"
+                        type="time"
+                        className={classes.textField}
+                        onChange={(e) =>
+                          setuploadInformation({
+                            ...uploadInformation,
+                            time_of_arrival_or_departure: e.target.value,
+                          })
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        inputProps={{
+                          step: 300, // 5 min
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <Select
+                        value={uploadInformation.booking_type}
+                        displayEmpty
+                        style={{ width: "100px" }}
+                        disableUnderline
+                        className={classes.selectEmpty}
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        <MenuItem value="" disabled>
+                          Select
+                        </MenuItem>
+                        <MenuItem value="Arrival">
+                          <button
+                            className="filter-option"
+                            onClick={() =>
+                              setuploadInformation({
+                                ...uploadInformation,
+                                booking_type: "Arrival",
+                              })
+                            }
+                          >
+                            Arrival
+                          </button>
+                        </MenuItem>
+                        <MenuItem value="Departure">
+                          <button
+                            className="filter-option"
+                            onClick={() =>
+                              setuploadInformation({
+                                ...uploadInformation,
+                                booking_type: "Departure",
+                              })
+                            }
+                          >
+                            Departure
+                          </button>
+                        </MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
- 
+
           <div className="form-group">
             <ToastContainer />
           </div>
 
-         <div>
-          <form encType="multipart/form-data" method="post">
-            <div
-              style={{
-                marginBottom: "20px",
-                marginTop: "20px",
-                display: "flex",
-                flexDirection: "column",
-              }}
-              className="form-group files"
+          <div>
+            <form encType="multipart/form-data" method="post">
+              <div
+                style={{
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                className="form-group files"
+              >
+                <input
+                  name="file"
+                  accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                  className="form-control"
+                  onChange={onChangeHandler}
+                  type="file"
+                />
+              </div>
+            </form>
+
+            <Button
+              variant="contained"
+              className="btn"
+              onClick={onClickHandler}
             >
-              <input
-                name="file"
-                accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                className="form-control"
-                onChange={onChangeHandler}
-                type="file"
-              />
-            </div>
-          </form>
+              Upload File
+            </Button>
 
-          <Button variant="contained" className="btn" onClick={()=>{onClickHandler();uploadinfohandler()}}>
-            Upload File
-          </Button>
-
-          <Button
-            variant="contained"
-            className="btn"
-            onClick={downloadTemplate}
-          >
-            Download Template
-          </Button>
+            <Button
+              variant="contained"
+              className="btn"
+              onClick={downloadTemplate}
+            >
+              Download Template
+            </Button>
           </div>
-          
         </div>
       </div>
     </>

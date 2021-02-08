@@ -54,10 +54,6 @@ const orderSchema = mongoose.Schema({
     type: Number,
     default:0
    },
-   coupon:{
-    type: String,
-    default: null
-   },
    del_flag:{
      type:Boolean,
      default:false

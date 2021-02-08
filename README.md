@@ -1,3 +1,0 @@
-# hiyatri_app
-
- 

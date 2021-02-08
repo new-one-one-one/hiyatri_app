@@ -32,6 +32,7 @@ module.exports.create_order = async (req,res) => {
   user,
   total_amount,
   pnr_number,
+  coupon,
   booking_information,
   passenger_contact_information,
   passenger_details,
@@ -72,6 +73,7 @@ module.exports.create_order = async (req,res) => {
      user,
      pnr_number,
      booking_id,
+     coupon,
      total_amount,
      booking_information,
      passenger_contact_information,
@@ -548,7 +550,7 @@ module.exports.cancel_order = (req, res) => {
       let start = new Date(moment(Date.now()).format("YYYY-MM-DD h:mm"));
       let end = new Date(moment(pickuptime,"DD-MM-YYYY h:mm").format("YYYY-MM-DD h:mm"));
       const duration = moment(end).diff(moment(start),'hours');
-       
+
 
 
       if(duration<0){

@@ -28,7 +28,7 @@ const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
 const theme = useTheme();
 const token = getCookie('token');
 const matches = useMediaQuery(theme.breakpoints.up("md"));
-const {register,unregister, errors, handleSubmit} = useForm();
+const {register, errors, handleSubmit, unregister} = useForm();
 const toast = useToast()
 const capitalize = (s) => {
 if (typeof s !== 'string') return ''
@@ -106,6 +106,7 @@ const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
   /* Passenger contact information */
   if(value1 === "passenger_name"){
+    console.log(e.target.value)
               dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
                         payload: e.target.value })
   }
@@ -151,6 +152,8 @@ const handleChange = (value1, value2) => e => {
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
                        payload: - (state.passenger_details[value2].bill.total),
                        sidx: value2 })
+
+             unregister([`passenger_detail_seat${value2}`,`passenger_detail_name${value2}`,`passenger_detail_age_group${value2}`,`passenger_detail_gender${value2}` ])
       }
   }
   if(value1 === "passenger_detail_seat"){
@@ -244,32 +247,6 @@ const handleChange = (value1, value2) => e => {
              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
                        sidx: value2 })
 
-
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL_ZERO,
-              //           sidx: value2 })
-
-
   }
   if(value1 === "passenger_detail_gender"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.GENDER,
@@ -277,66 +254,7 @@ const handleChange = (value1, value2) => e => {
                          sidx: value2 })
   }
   if(value1 === "passenger_detail_meet_and_greet"){
-      //  if(!e.target.checked){
-      //          // e.target.value is false
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-      //                    payload: e.target.checked,
-      //                    sidx: value2 })
-      //
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
-      //                  payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //                  sidx: value2 })
-      //
-      //
-      //        if(state.passenger_details[value2].wheel_chair){
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
-      //          payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
-      //          sidx: value2 })
-      //
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                    payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
-      //                    sidx: value2 })
-      //        }
-      //
-      //        if(state.passenger_details[value2].golf_cart){
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART,
-      //          payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
-      //          sidx: value2 })
-      //
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                    payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
-      //                    sidx: value2 })
-      //        }
-      //
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                  payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //                  sidx: value2 })
-      //
-      //
-      //       dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-      //                   payload: e.target.checked,
-      //                   sidx: value2 })
-      //
-      //       dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-      //                  payload: e.target.checked,
-      //                  sidx: value2 })
-      //     return;
-      // }
-      // if(state.passenger_details[value2].age_group){
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-      //              payload: e.target.checked,
-      //              sidx: value2 })
-      //
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
-      //             payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //             sidx: value2 })
-      //
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //             payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //             sidx: value2 })
-      //   return;
-      // }
-      //   toast.error("Please select age group")
+
   }
   if(value1 === "passenger_detail_wheel_chair"){
         if(!state.passenger_details[value2].meet_and_greet){
@@ -487,6 +405,9 @@ const bookingFromLS = () => {
     return false;
   }
 };
+
+
+
 
 
 const handleSubmission = e => {
@@ -666,7 +587,7 @@ if(isValid && validDay){
                         </div>
                         <Button
                         className="md-btn"
-                        onClick={handleSubmit(handleSubmission)}
+                        onClick={handleSubmit(() =>  handleSubmission())}
                         variant="outlined"
                         type="submit"
                         >
@@ -676,11 +597,11 @@ if(isValid && validDay){
                       </div>
                       ) : (
                         <Button
-                            onClick={handleSubmit(handleSubmission)}
+                            onClick={handleSubmit(() =>  handleSubmission())}
                             variant="outlined"
                             className="md-btn"
-
-                            type="submit">
+                            type="submit"
+                            >
                             {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
                         </Button>
                       )}

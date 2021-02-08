@@ -1,5 +1,6 @@
 import {TextField,InputAdornment} from '@material-ui/core';
 
+
 const PassengerContactInformation = ({ handleChange, data, register, errors }) => {
 return <>
   <div className="contact-Information shadow">
@@ -15,7 +16,6 @@ return <>
         <tbody>
           <tr>
             <td>
-
             <TextField
               variant="outlined"
               id="input-fixed-height"
@@ -23,7 +23,7 @@ return <>
               name="passenger_name"
               value={data.passenger_contact_information.name}
               onChange={handleChange("passenger_name")}
-              inputRef={register({required: true, minLength:2})}
+              inputRef={register({required: true})}
               error={errors.passenger_name ?true:false}
               helperText={errors.passenger_name? "required":""}
               fullWidth

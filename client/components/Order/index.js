@@ -14,6 +14,8 @@ import Loader from 'react-loader-spinner'
 import { Backdrop } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import {useForm} from 'react-hook-form';
+
 import CancelIcon from '@material-ui/icons/Cancel';
 const GreenCheckbox = withStyles({
   root: {
@@ -32,6 +34,7 @@ const Payment = ({ data, query }) => {
 const token = getCookie('token');
 const { width } = useWindowSize();
 const classes = useStyles();
+const {register,handleSubmit} = useForm();
 const [originalOrder, setOriginalOrder] = useState();
 const order_id = query && query.order_id;
 const [termsChecked, setTermsChecked] = useState(false);
@@ -39,6 +42,8 @@ const [loader, setLoader] = useState(false);
 const [successBooking, setBookingSuccess] = useState(false);
 const [failedBooking, setBookingFailed]  = useState(false);
 const [agreed, isAgreed] = useState(true);
+const [couponCode, setCouponCode] = useState(null);
+
 useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
@@ -64,10 +69,14 @@ useEffect(() => {
 
 
 const order = (e) => {
+  // e.preventDefault()
   setLoader(true)
- e.preventDefault()
+  let booking = data;
+      booking.coupon = couponCode;
+      console.log(booking)
+
   if(!order_id){
-    return create_order(data)
+    return create_order(booking)
        .then(response => {
          if(response.error){
            return console.log(response.error)
@@ -150,6 +159,7 @@ const paymentHandler = (orderId, amount) => {
        .then(result => {
          if(result.error){
           setBookingFailed(true)
+          removeLocalStorage("Booking")
            return console.log(result.error)
          }
          if(result.status === "ok"){
@@ -157,10 +167,12 @@ const paymentHandler = (orderId, amount) => {
            setBookingSuccess(true)
            return;
          }
+         removeLocalStorage("Booking")
          setBookingFailed(true)
          return;
        })
        .catch((err) => {
+        removeLocalStorage("Booking")
         setBookingFailed(true)
          console.log(err)
        })
@@ -170,14 +182,16 @@ const paymentHandler = (orderId, amount) => {
     razorpay.open()
 }
 
-useEffect(()=>{
-  
-},[termsChecked])
+
+const handleCouponChange = (e) => {
+   setCouponCode(e.target.value)
+}
+
+
 
 const terms = () => {
    return <div className="pt-3 pb-3">
             <FormControlLabel
-
              control={<GreenCheckbox checked={termsChecked}  onChange={() => setTermsChecked(!termsChecked) } name="checkedG" />}
             />
              <span className="o-terms-condition"><span style={{ color:"black"}}>I agree to the </span> Terms and Conditions</span>
@@ -213,11 +227,11 @@ return  <>
            </div>
 
            <div className="col-md-3">
-             <Checkout data={data} order={order} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed}/>
+             <Checkout data={data} register={register} order={order} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed}/>
            </div>
         </div>
         {(width <500) && (
-          <AppBar className={classes.buttonMobile} position="fixed" onClick={()=>{termsChecked ? order : isAgreed(false)}} >
+          <AppBar className={classes.buttonMobile} position="fixed" onClick={()=>{termsChecked ? order() : isAgreed(false)}} >
             <Button className={classes.buttonMobile}>
               Book Now
             </Button>
@@ -234,7 +248,6 @@ return  <>
         closeAfterTransition
       >
         <Paper elevation={3}>
-
         <Fade in={successBooking}>
           <div className={classes.paper}>
             <div className="text-center">
@@ -274,10 +287,7 @@ return  <>
                  <Box p={1} width="100%">
                   <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingFailed(false); Router.push('/')}}>Ok</Button>
                  </Box>
-
-
                 </Box>
-
             </div>
           </div>
         </Fade>

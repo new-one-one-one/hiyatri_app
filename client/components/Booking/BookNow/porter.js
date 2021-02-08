@@ -55,6 +55,7 @@ const onHover = () => {
                       id="input-fixed-height"
                       inputRef={register({pattern: /^\d+$/,required: true})}
                       type="number"
+                      name="porter_service_lg_bags"
                       onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                       variant="outlined"
                       value={state.porter_service_detail.large_bags.unit === 0?"":state.porter_service_detail.large_bags.unit}
@@ -66,7 +67,8 @@ const onHover = () => {
                    inputRef={register({pattern: /^\d+$/,required: true})}
                    type="number"
                    onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
-                                variant="outlined"
+                   variant="outlined"
+                   name="porter_service_md_bags"
                    value={state.porter_service_detail.medium_bags.unit === 0?"":state.porter_service_detail.medium_bags.unit}
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
@@ -75,8 +77,9 @@ const onHover = () => {
                    id="input-fixed-height"
                    inputRef={register({pattern: /^\d+$/,required: true})}
                    type="number"
+                   name="porter_service_sm_bags"
                    onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
-                                variant="outlined"
+                   variant="outlined"
                    value={state.porter_service_detail.small_bags.unit === 0?"":state.porter_service_detail.small_bags.unit}
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>

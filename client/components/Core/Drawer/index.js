@@ -108,7 +108,7 @@ const SideDrawer = ({ close, status, router }) => {
                </ListItem>
               <Divider />
              </a>
-           </Link>}  
+           </Link>}
            {isAuth() && <Link href="/">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/", router.pathname)}>
@@ -118,7 +118,7 @@ const SideDrawer = ({ close, status, router }) => {
               <Divider />
              </a>
            </Link>}
-              
+
 
 
            {isAuth() && <Link href="/booking/my_bookings">
@@ -149,6 +149,29 @@ const SideDrawer = ({ close, status, router }) => {
               <Divider />
            </a>
           </Link>}
+
+          {/* {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/bulk_booking">
+            <a className={classes.menu}>
+              <ListItem button style={currentTabStyle("/bulk_booking", router.pathname)}>
+                     <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+                     <ListItemText primary="Bulk Booking" />
+              </ListItem>
+              <Divider />
+           </a>
+          </Link>} */}
+          <Divider/>
+
+          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/bulk_booking_list">
+            <a className={classes.menu}>
+              <ListItem button style={currentTabStyle("/bulk_booking_list", router.pathname)}>
+                     <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
+                     <ListItemText primary="List Bulk Booking" />
+              </ListItem>
+              <Divider />
+           </a>
+          </Link>}
+
+          <Divider/>
           <div className={classes.grow} />
           {isAuth() && <ListItem button onClick={() => signout(() => Router.replace(`/`))}>
                  <ListItemIcon><PowerSettingsNewIcon/></ListItemIcon>
@@ -156,9 +179,11 @@ const SideDrawer = ({ close, status, router }) => {
           </ListItem>}
           <Divider/>
 
-          
-          
-            
+
+
+
+
+
 
 
          </List>

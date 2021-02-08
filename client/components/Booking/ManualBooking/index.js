@@ -70,7 +70,6 @@ const TrainBooking = ({query , pnr}) => {
       seat_number: "",
       wheel_chair: false,
       selected:true
-
     }],
     cab_service_detail: {
       cab_service_opted: null,
@@ -110,6 +109,7 @@ const TrainBooking = ({query , pnr}) => {
         }
       }
   },
+  selected:true,
    total_amount: null
   }
     const theme = useTheme();
@@ -135,6 +135,7 @@ const handleAddPassenger = () => {
           total: 0},
         gender: "",
         golf_cart: false,
+        selected:true,
         meet_and_greet: true,
         passenger_name: "",
         seat_number: "",
@@ -173,15 +174,17 @@ const getServiceAmount = (service_name, category) => {
             return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
           }
     }
+
+
     if(service_name === "luggage_bags"){
           if(category === "BELOW_7KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
+            return process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE
           }
           if(category === "7KG_TO_20KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
+            return process.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE
           }
           if(category === "20KG_TO_30KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
+            return process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE
           }
     }
 
@@ -652,14 +655,14 @@ useEffect(() => {
                         state={state}
                         pnr={pnr}
                         changeDate={changeDate}
-                        
+
                     />
                     <span className="sub-heading">Passenger's Contact Information</span>
                       <PassengerInformation
                       register={register}
                       errors={errors}
                       handleChange={handleChange}
-                      data={state} 
+                      data={state}
                       />
 
                       <span className="sub-heading">Passenger's Details</span>

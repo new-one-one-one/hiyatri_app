@@ -9,7 +9,7 @@ const Summary = ({ data }) => {
     const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
     useEffect(()=>{
-      
+
     },[data.passenger_details])
   return <div className="shadow">
        <Paper  className={classes.orderFull}>

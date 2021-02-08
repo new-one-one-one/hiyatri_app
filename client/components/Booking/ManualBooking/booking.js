@@ -49,27 +49,29 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr >
             <td>
             <TextField
+                id="input-fixed-height"
                 variant="outlined"
                 name="train_no"
-                placeholder="train number"
                 onChange={handleChange("train_no")}
                 inputRef={register({ required: true, minLength:5})}
                 error={errors.train_no?true:false}
-                helperText={errors.train_no? "Train number is invalid !":""}
+                helperText={errors.train_no? "invalid":""}
                 value={state.train_no}
               />
             </td>
              <td>
              <TextField
+             id="input-fixed-height"
                 variant="outlined"
                 name="train_name"
               />  
              </td>
              <td>
              <Select
+                style={{  height: "55px",borderRadius: "20px"}}
                 variant="outlined"
                 name="station_name"
                 className="pl-1"
@@ -105,6 +107,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 /> */}
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <DatePicker 
+                         id="input-fixed-height"
                         inputVariant="outlined"
                         value={ date ? new Date(date) :selectedDate }
                         name="date"
@@ -118,8 +121,8 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
              </td>
              <td>
              <TextField 
+               id="input-fixed-height"
                 fullWidth
-                label="Departure Time"
                 type="time"
                 name="time" 
                 inputRef={register({required:true})} 
@@ -129,7 +132,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 inputProps={{step: 300}}
                 onChange={handleChange("time", isArrival)}
                 error={errors.time?true:false}
-                helperText={errors.time? `Please provide ${query.pid} time `:""}
+                helperText={errors.time? `required`:""}
                 value ={isArrival?state.booking_information.reservation_upto.time:state.booking_information.boarding_station.time}   
                 />
              </td>

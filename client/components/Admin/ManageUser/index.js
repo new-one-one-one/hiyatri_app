@@ -1,10 +1,11 @@
 import {removeUser, addUser} from './../../../actions/user';
 import {useForm} from 'react-hook-form';
-import {TextField, Grid, Paper, FormControl, Typography, Dialog} from '@material-ui/core'
+import {TextField, Grid,Select, Paper, FormControl, Typography, Dialog} from '@material-ui/core'
 import {Button, Table, TableBody, TableCell,TableRow} from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { Grid as Grids, GridColumn as Column } from '@progress/kendo-react-grid';
 import { Input } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 
 
@@ -81,58 +82,70 @@ const UserListComponent = ({usersList, reload}) => {
                 <div className="fieldsUserAdd">
                     
                     <form onSubmit={handleSubmit(formSubmit)}>
-                    <Grid container xs={12} spacing={2}>
-                        <Grid item xs={3}>
-                            <TextField
-                                name="phone_number"  type="text"  id="outlined-basic"
-                                label="Phone Number" variant="outlined"
-                                inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
-                                inputProps={{maxLength:10, style:{fontSize:20}}}
-                                error={errors.phone_number ?true:false}
-                                size="small"
-                                InputLabelProps={{style:{fontSize:15,padding:"7px 0px 0px 0px"}}}
-
-                                helperText={errors.phone_number? "Phone number is Invalid":""}
-
-                            />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <TextField
-                                name="name" label="User Name"
+                    <Box display="flex" p={0}>
+                        <Box p={2} width="20%">
+                            {/* <TextField
+                                id="input-fixed-height"
+                                name="phone_number"
+                                label="Phone Number" 
                                 variant="outlined"
-                                size="small"
-                                inputRef={register({required: true , minLength:1})}
-                                inputProps={{maxLength:20, style:{fontSize:20}}}
-                                error={errors.name?true:false}
-                                InputLabelProps={{style:{fontSize:15,padding:"7px 0px 0px 0px"}}}
-                                helperText={errors.name?"Please Enter the name":""}
-                            />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <FormControl style={{ width:"150px"}} variant="outlined">
+                                error={errors.phone_number ?true:false}
+                                onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                                helperText={errors.phone_number? "invalid":""}
+
+                            /> */}
+                            <TextField
+                                variant="outlined"
+                                id="input-fixed-height"
+                                name="phone_number"
+
+                                label="Phone Number" 
+                                inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
+                                onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                                error={errors.phone_number ?true:false}
+                                helperText={errors.phone_number? "invalid":""}
+                                onChange={handleChange}
+                                fullWidth 
                                 
-                                <select className="dropdownStyle"
-                                style={{height:"54px"}}
-                                    value={user}
-                                    size="small"
-                                    name="user_type"
-                                    onChange={handleChange}
-                                    ref={register({required:true})}>
+                                />
+
+
+                        </Box>
+                        <Box width="20%" p={2}>
+                            <TextField
+                                id="input-fixed-height"
+                                variant="outlined"
+                                name="name"
+                                label="User name"
+                                inputRef={register({required: true , minLength:1})}
+                                error={errors.name?true:false}
+                                helperText={errors.name?"required":""}
+                            />
+
+                        </Box>
+                        <Box width="20%" p={2}>
+                            <Select 
+                                className="pl-1"
+                                variant="outlined"
+                                style={{height:"55px", borderRadius:"20px", width:"150px"}}
+                                value={user}
+                                native
+                                name="user_type"
+                                onChange={handleChange}
+                                ref={register({required:true})}>
                                     <option value="">None</option>
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>
-                                </select>
-                            </FormControl>
+                                </Select>
                             {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
-                        </Grid>
-                        <Grid item xs={3}>
-                        <Typography align="center">
+                        </Box>
+                        <Box width="20%" p={2}>
                             <Button type="Submit"  className="buttonUserAdd" variant="contained" size="large">
                                 Add User
                             </Button>
-                        </Typography>
-                        </Grid>
-                    </Grid>
+                        </Box>
+                    </Box>
+  
 
                     </form>
                 </div>

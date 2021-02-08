@@ -68,7 +68,8 @@ const TrainBooking = ({query , pnr}) => {
       meet_and_greet: true,
       passenger_name: "",
       seat_number: "",
-      wheel_chair: false
+      wheel_chair: false,
+      selected:true
 
     }],
     cab_service_detail: {
@@ -114,7 +115,7 @@ const TrainBooking = ({query , pnr}) => {
     const theme = useTheme();
     const token = getCookie('token');
     const matches = useMediaQuery(theme.breakpoints.up("md"));
-    const {register, errors, handleSubmit} = useForm();
+    const {register, errors, handleSubmit,control} = useForm({defaultValues:initialData});
 
 
     const [state, dispatch] = useReducer(reducer, initialData)
@@ -137,7 +138,8 @@ const handleAddPassenger = () => {
         meet_and_greet: true,
         passenger_name: "",
         seat_number: "",
-        wheel_chair: false
+        wheel_chair: false,
+        selected:true
       }}
   )
 }
@@ -599,9 +601,9 @@ useEffect(() => {
                               <tbody>
                                 <tr>
                                   <td>
-                                  <RadioGroup  onChange={changeBookingType} value={status}>
+                                  <RadioGroup style={{paddingTop:"22px"}}  onChange={changeBookingType} value={status}>
                                       <Box display="flex">
-                                        <Box width="35%">
+                                        <Box width="60%">
                                         <Radio  value="arrival"  color="primary"></Radio> <span style={{"fontSize":"15px"}}> Arrival</span>
                                         </Box>
                                         <Box>
@@ -612,11 +614,9 @@ useEffect(() => {
 
                                   </td>
                                   <td>
-                                  <span>
-                                <Box display="flex" p={0}>
 
-                                  <Box>
                                   <TextField
+                                    id="input-fixed-height"
                                     variant="outlined"
                                     type="number"
                                     size="small"
@@ -626,16 +626,12 @@ useEffect(() => {
                                     inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                                     onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                     error={errors.pnr?true:false}
-                                    helperText={errors.pnr?"Valid PNR number is required":""}
+                                    helperText={errors.pnr?"Invalid PNR":""}
                                     onChange={handleChange("pnr")}
                                     className="hp-input"
                                     placeholder="PNR No."
                                     fullWidth />
-                                  </Box>
-                                </Box>
 
-
-                              </span>
                                   </td>
                                 </tr>
                                 </tbody>
@@ -656,13 +652,15 @@ useEffect(() => {
                         state={state}
                         pnr={pnr}
                         changeDate={changeDate}
+                        
                     />
                     <span className="sub-heading">Passenger's Contact Information</span>
                       <PassengerInformation
                       register={register}
                       errors={errors}
                       handleChange={handleChange}
-                      data={state} />
+                      data={state} 
+                      />
 
                       <span className="sub-heading">Passenger's Details</span>
 

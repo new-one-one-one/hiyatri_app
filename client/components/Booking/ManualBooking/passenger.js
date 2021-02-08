@@ -5,6 +5,7 @@ import Select from '@material-ui/core/Select';
 import InfoIcon from '@material-ui/icons/Info';
 import {Button,Box} from '@material-ui/core';
 import { IconInformation } from "../../iconInformation";
+import { Controller } from "react-hook-form";
 
 
 const PassengerDetails = ({data, handleChange,register, errors, remove, addPassenger}) => {
@@ -18,31 +19,35 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
               return <tr key={index}>
                         <td>
                         <TextField
+                        id="input-fixed-height"
                          variant="outlined"
                          name={`passenger_detail_seat${index}`}
                          value={item.seat_number}
                          onChange={handleChange("passenger_detail_seat", index)}
                          inputRef={register({ required: true, minLength:2})}
-                         error={passenger_detail_name ?true:false}
-                         helperText={passenger_detail_name? "Passenger seat is required":""}
+                         error={ passenger_detail_seat?true:false}
+                         helperText={passenger_detail_seat? "required":""}
                          />
 
                         </td>
                         <td>
                          <TextField
+                         id="input-fixed-height"
                           variant="outlined"
                           name={`passenger_detail_name${index}`}
                           placeholder={item.passenger_name}
                           value={item.passenger_name}
                           onChange={handleChange("passenger_detail_name", index)}
-                          inputRef={register({ required: true, minLength:2})}
-                          error={passenger_detail_name ?true:false}
-                          helperText={passenger_detail_name? "Passenger name is required":""}
+                          inputRef={register({ required: true})}
+                          error={ passenger_detail_name?true:false}
+                          helperText={passenger_detail_name? "required":""}
                           />
+
                         </td>
                         <td>
                         <Select
                           variant="outlined"
+                          style={{  height: "55px",borderRadius: "20px"}}
                           name={`passenger_detail_age_group${index}`}
                           className="pl-1"
                           fullWidth
@@ -55,12 +60,13 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
                           <option value="Children(upto 12 years)">Children (upto 12 years)</option>
                         </Select>
-                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>This is required!</FormHelperText>}
+                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
                         </td>
                         <td>
                         <Select
                           variant="outlined"
                           className="pl-2"
+                          style={{  height: "55px",borderRadius: "20px"}}
                           name={`passenger_detail_gender${index}`}
                           fullWidth
                           native
@@ -72,7 +78,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </Select>
-                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>This is required!</FormHelperText>}
+                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
                         </td>
                         <td>
 
@@ -99,7 +105,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
 
                         </td>
                         <td>
-                        <Button type="button" id={data.passenger_details.length==1?"":"yes-btn"} disabled={data.passenger_details.length==1?true:false} variant="contained" onClick={() => remove(index)}>
+                        <Button type="button" id={data.passenger_details.length==1?"disable-btn":"yes-btn"} disabled={data.passenger_details.length==1?true:false} variant="contained" onClick={() => remove(index)}>
                             Remove
                         </Button>
                         </td>

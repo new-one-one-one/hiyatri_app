@@ -182,7 +182,7 @@ export default function TransitionsModal() {
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                         error={errors.phone_number?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                        helperText={errors.phone_number? "Phone number is Invalid":""}
+                        helperText={errors.phone_number? "Invalid":""}
                         onChange={e =>  set_phone_number(e.target.value)}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."

@@ -28,10 +28,7 @@ export const reducer = (state, action) => {
     /*Station name*/
     case ACTIONS.RESERVATION_UPTO.STATION_NAME:
       return {...state , booking_information : {...state.booking_information , reservation_upto : {...state.booking_information.reservation_upto, station_name : action.payload}}}
-      // return state
-      // case ACTIONS.PORTER_SERVICE.OPTED:
-      //  return {...state, porter_service_detail: { ...state.porter_service_detail,  porter_service_opted: action.payload }}
-                                    
+                                  
     case ACTIONS.RESERVATION_UPTO.DATE:
       return {...state , booking_information : {...state.booking_information , reservation_upto : {...state.booking_information.reservation_upto, date : action.payload}}}
       
@@ -40,10 +37,7 @@ export const reducer = (state, action) => {
       
     case "BOARDING_STATION_NAME":
       return {...state , booking_information : {...state.booking_information , boarding_station : {...state.booking_information.boarding_station, station_name : action.payload}}}
-      // return state
-      // case ACTIONS.PORTER_SERVICE.OPTED:
-      //  return {...state, porter_service_detail: { ...state.porter_service_detail,  porter_service_opted: action.payload }}
-                                    
+                                  
     case "BOARDING_STATION_DATE":
       return {...state , booking_information : {...state.booking_information , boarding_station : {...state.booking_information.boarding_station, date : action.payload}}}
       
@@ -57,6 +51,10 @@ export const reducer = (state, action) => {
       state.passenger_details.splice(action.payload, 1);
       return {...state, passenger_details:[...state.passenger_details]}  
 
+
+
+
+      
 
    /* PNR */
     case ACTIONS.PNR:

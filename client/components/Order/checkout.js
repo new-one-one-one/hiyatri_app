@@ -5,7 +5,7 @@ import useStyles from './style';
 import MuiAlert from '@material-ui/lab/Alert';
 
 
-const Checkout = ({ data, order,originalOrder, terms }) => {
+const Checkout = ({ data, order,originalOrder, terms, isAgreed }) => {
 
   const classes = useStyles();
   const { width } = useWindowSize();
@@ -55,7 +55,7 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                       </Box>
                 {width>500 && (
                   <div className="text-center pt-3 pb-3">
-                   <Button  size="large" className="o-booknow-btn" variant="contained" onClick={order} disabled={!terms}>
+                   <Button  size="large" className="o-booknow-btn" variant="contained" onClick={()=>{terms ? order : isAgreed(false)}}>
                       Book Now
                    </Button>
                   </div>

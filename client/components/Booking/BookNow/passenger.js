@@ -33,18 +33,20 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                         </td>
                         <td>
                         <TextField
+                         id="input-fixed-height"
                          variant="outlined"
                          style={disabledColor(!item.selected)}
                          disabled={!item.selected}
                          name={`passenger_detail_seat${index}`}
                          value={item.seat_number}
                          onChange={handleChange("passenger_detail_seat", index)}
-                         error={passenger_detail_name ?true:false}
+                         error={passenger_detail_seat ?true:false}
                          />
 
                         </td>
                         <td>
                          <TextField
+                          id="input-fixed-height"
                           variant="outlined"
                           style={disabledColor(!item.selected)}
                           name={`passenger_detail_name${index}`}
@@ -54,12 +56,13 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           onChange={handleChange("passenger_detail_name", index)}
                           inputRef={register({ required: item.selected?true:false, minLength:2})}
                           error={passenger_detail_name ?true:false}
-                          helperText={passenger_detail_name? "Passenger name is required":""}
+                          helperText={passenger_detail_name? "required":""}
                           />
                         </td>
                         <td>
                         <Select
                           variant="outlined"
+                          style={{  height: "55px",borderRadius: "20px"}}
                           name={`passenger_detail_age_group${index}`}
                           disabled={!item.selected}
                           className="pl-1"
@@ -74,12 +77,13 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
                           <option value="Children(upto 12 years)">Children (upto 12 years)</option>
                         </Select>
-                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>Age group is required</FormHelperText>}
+                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
                         </td>
                         <td>
                         <Select
                           variant="outlined"
                           className="pl-2"
+                          style={{  height: "55px",borderRadius: "20px"}}
                           name={`passenger_detail_gender${index}`}
                           fullWidth
                           native
@@ -93,7 +97,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </Select>
-                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>Gender is required</FormHelperText>}
+                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
                         </td>
                         <td>
 

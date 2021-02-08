@@ -103,7 +103,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
  table th{
-     text-align: left;
+     text-align: center;
      background-color: #2A306C;
      padding:1% !important;
      color:white;
@@ -115,11 +115,13 @@ input[type=number]::-webkit-outer-spin-button {
 
 
  table td{
+    
      padding:2% !important;
      border-left:1px solid #8588AA;
      border-bottom: 1px solid #8588AA;
      border: 1px solid #8588AA;
      width: 120px ;
+     z-index: inherit;
  }
 
 
@@ -137,12 +139,19 @@ input[type=number]::-webkit-outer-spin-button {
 
  }
 
+
+
  table{
      margin-bottom: 3%;
      margin-top: 1%;
      border-collapse: collapse;
      table-layout: fixed;
      width: 100%;
+ }
+
+ table td , tr, th{
+  text-align: center; 
+  vertical-align: middle;
  }
 
 
@@ -1540,18 +1549,19 @@ color: #00c4ff;
   color:white;
 }
 
+
+
 #no-btn{
   color:#00c4fe;
   border-color: #00c4fe;
   background-color: none;
 }
 
-#yes-btn, #no-btn{
+#yes-btn, #no-btn,#disable-btn{
   width: 65px!important;
   /* height: 40px; */
   font-size: 12px!important;
   font-weight:bold;
-  text-transform: none;
 }
 
 .on-cancellation{
@@ -1664,4 +1674,16 @@ color: #00c4ff;
 }
 .ant-radio-wrapper{
   font-weight: 500;
+}
+
+
+
+#input-fixed-height{
+  height: 10px;
+  border-radius: 20px;
+}
+
+
+input:-webkit-autofill {
+  -webkit-background-clip: text;
 }

@@ -38,6 +38,7 @@ const [termsChecked, setTermsChecked] = useState(false);
 const [loader, setLoader] = useState(false);
 const [successBooking, setBookingSuccess] = useState(false);
 const [failedBooking, setBookingFailed]  = useState(false);
+const [agreed, isAgreed] = useState(true);
 useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
@@ -169,12 +170,19 @@ const paymentHandler = (orderId, amount) => {
     razorpay.open()
 }
 
+useEffect(()=>{
+  
+},[termsChecked])
+
 const terms = () => {
    return <div className="pt-3 pb-3">
             <FormControlLabel
+
              control={<GreenCheckbox checked={termsChecked}  onChange={() => setTermsChecked(!termsChecked) } name="checkedG" />}
             />
              <span className="o-terms-condition"><span style={{ color:"black"}}>I agree to the </span> Terms and Conditions</span>
+             <br></br>
+             { (!(termsChecked ) && !agreed) && <em style={{color:"red"}}>please agree to our terms and conditions by clicking checkbox</em>}
           </div>
 }
 
@@ -205,12 +213,12 @@ return  <>
            </div>
 
            <div className="col-md-3">
-             <Checkout data={data} order={order} originalOrder={originalOrder} terms={termsChecked}/>
+             <Checkout data={data} order={order} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed}/>
            </div>
         </div>
         {(width <500) && (
-          <AppBar className={classes.buttonMobile} position="fixed" onClick={order} >
-            <Button className={classes.buttonMobile} disabled={!termsChecked}>
+          <AppBar className={classes.buttonMobile} position="fixed" onClick={()=>{termsChecked ? order : isAgreed(false)}} >
+            <Button className={classes.buttonMobile}>
               Book Now
             </Button>
           </AppBar>

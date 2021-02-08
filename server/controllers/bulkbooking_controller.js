@@ -186,10 +186,19 @@ module.exports.download_particularExcelFile = (req, res) => {
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           );
           res.send(data);
+          if(fs.existsSync(`./public/${req.params.filename}.xlsx`)){
+            fs.unlink(`./public/${req.params.filename}.xlsx`,(err)=>{
+              if(!err){
+                console.log('removed file after sending back')
+              }
+            })
+          }
         }
       });
     }
-  });
+  }).catch((err)=>{
+    console.log(err)
+  })
 };
 
 module.exports.downloadtemplate = (req, res) => {

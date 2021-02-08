@@ -253,38 +253,6 @@ const BulkBookingsList = () => {
             </FormControl>
           </Box>
 
-          <Box p={1} width="60%">
-            <FormControl className={classes.formControl}>
-              <Typography variant="body2">
-                <span style={{ color: "grey", fontSize: "15px" }}>
-                  Assinged To :
-                </span>
-                <Select
-                  displayEmpty
-                  style={{ width: "200px" }}
-                  disableUnderline
-                  className={classes.selectEmpty}
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value="All_AGENTS">
-                    <button
-                      className="filter-option"
-                      onClick={() => setAgent("All_AGENTS")}
-                    >
-                      All Agents
-                    </button>
-                  </MenuItem>
-                  {/* {(all_agents) && all_agents.map(element => {
-                     return <MenuItem value={element.phone_number} >
-                                 <button className="filter-option" onClick={()=>setAgent(element.phone_number)} >
-                                     {element.name} ({element.phone_number})
-                                 </button>
-                             </MenuItem>
-                 })} */}
-                </Select>
-              </Typography>
-            </FormControl>
-          </Box>
           <Box p={1} width="20%">
             <button
               id="design-admin-list"

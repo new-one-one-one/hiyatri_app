@@ -120,7 +120,6 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                            color="primary"
                            checked={item.golf_cart}
                            onChange={handleChange("passenger_detail_golf_cart", index)} />
-
                         </td>
                     </tr>
                }

@@ -156,6 +156,7 @@ const paymentHandler = (orderId, amount) => {
        .then(result => {
          if(result.error){
           setBookingFailed(true)
+          removeLocalStorage("Booking")
            return console.log(result.error)
          }
          if(result.status === "ok"){
@@ -163,10 +164,12 @@ const paymentHandler = (orderId, amount) => {
            setBookingSuccess(true)
            return;
          }
+         removeLocalStorage("Booking")
          setBookingFailed(true)
          return;
        })
        .catch((err) => {
+        removeLocalStorage("Booking")
         setBookingFailed(true)
          console.log(err)
        })

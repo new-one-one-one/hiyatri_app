@@ -153,7 +153,7 @@ const SideDrawer = ({ close, status, router }) => {
             <a className={classes.menu}>
               <ListItem button style={currentTabStyle("/bulk_booking_list", router.pathname)}>
                      <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
-                     <ListItemText primary="List Bulk Booking" />
+                     <ListItemText primary="Bulk Booking" />
               </ListItem>
               <Divider />
            </a>

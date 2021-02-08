@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { useRouter } from "next/router";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -308,7 +309,7 @@ const BulkBookingsList = () => {
       {content !== undefined && (
         <div className="BulkBookingListing">
           <div className="BulkBookingListing_heading">
-            <h3>Bulk Booking Requests</h3>
+            <h3>Bulk Booking</h3>
             <Button
               onClick={() => router.push("/bulk_booking")}
               variant="contained"
@@ -323,10 +324,9 @@ const BulkBookingsList = () => {
           <table>
             <thead>
               <tr>
-                <th>SNo.</th>
                 <th>BookingId </th>
                 <th> Client Name</th>
-                <th>Excel File</th>
+                <th>Excel File Name</th>
                 <th> Date of Arr/Dep</th>
                 <th>Time of Arr/Dep</th>
                 <th>Booking Type</th>
@@ -339,11 +339,11 @@ const BulkBookingsList = () => {
               {content.map((EachContent,index) => {
                 return (
                   <tr key={EachContent._id}>
-                    <td>{index+1}</td>
+                  
                     <td>{EachContent.bulk_booking_id}</td>
                     <td>{EachContent.client_name}</td>
-                    <td>{EachContent.excel_file_name}</td>
-                    <td>{EachContent.date_of_arrival_or_departure}</td>
+                    <td>{EachContent.excel_file_name}.xlsx</td>
+                    <td>{moment(EachContent.date_of_arrival_or_departure).format('DD-MM-YYYY')}</td>
                     <td>{EachContent.time_of_arrival_or_departure}</td>
                     <td>{EachContent.booking_type}</td>
                     <td>

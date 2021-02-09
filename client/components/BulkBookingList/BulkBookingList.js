@@ -274,7 +274,7 @@ const BulkBookingsList = () => {
 
   return (
     <>
-      {content !== undefined && (
+      {content !== undefined  && (
         <div className="BulkBookingListing">
           <div className="BulkBookingListing_heading">
             <h3>Bulk Booking</h3>

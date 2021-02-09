@@ -131,12 +131,7 @@ module.exports.get_all_excelFiles = (req, res) => {
   //   AWS.config.update({
   //     accessKeyId: process.env.AWS_ACCESS_KEY,
   //     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  //   });
 
-  // var s3 = new AWS.S3();
-  // var params = {
-  //   Bucket: "hiyatribulkbookingexcels",
-  //   Key: 'Records.xlsx'
   // };
 
   // let readStream = s3.getObject(params).createReadStream();
@@ -175,30 +170,32 @@ module.exports.download_particularExcelFile = (req, res) => {
     });
   };
 
-  writingtothefileystem().then(() => {
-    if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
-      fs.readFile(`./public/${req.params.filename}.xlsx`, (err, data) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.setHeader(
-            "Content-Type",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          );
-          res.send(data);
-          if(fs.existsSync(`./public/${req.params.filename}.xlsx`)){
-            fs.unlink(`./public/${req.params.filename}.xlsx`,(err)=>{
-              if(!err){
-                console.log('removed file after sending back')
-              }
-            })
+  writingtothefileystem()
+    .then(() => {
+      if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
+        fs.readFile(`./public/${req.params.filename}.xlsx`, (err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.setHeader(
+              "Content-Type",
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            );
+            res.send(data);
+            if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
+              fs.unlink(`./public/${req.params.filename}.xlsx`, (err) => {
+                if (!err) {
+                  console.log("removed file after sending back");
+                }
+              });
+            }
           }
-        }
-      });
-    }
-  }).catch((err)=>{
-    console.log(err)
-  })
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports.downloadtemplate = (req, res) => {
@@ -257,15 +254,42 @@ module.exports.deleteRecord = (req, res) => {
 };
 
 module.exports.bulk_bookings_requests = async (req, res) => {
-  const pad = (number, length) => {
-    var str = "" + number;
-    while (str.length < length) {
-      str = "0" + str;
-    }
-    return str;
+  const uniquekeysgenerator = () => {
+    let counter = 0;
+    return new Promise((resolve, reject) => {
+      bulk_bookings_info.find({}).then((result) => {
+        if (result.length === 0) {
+          counter++;
+          resolve(counter);
+          return;
+        }
+
+        if (result.length !== 0) {
+          const keys = [];
+
+          for (let i = 0; i < result.length; i++) {
+            let response = result[i].bulk_booking_id.substr(
+              result[i].bulk_booking_id.indexOf("-"),
+              result[i].length
+            );
+            keys.push(parseInt(response) + 1);
+          }
+
+          let largestkey = keys[0];
+          for (let i = 0; i < keys.length; i++) {
+            if (largestkey < keys[i]) {
+              largestkey = keys[i];
+            }
+          }
+
+          resolve(largestkey);
+          return;
+        }
+      });
+    });
   };
 
-  let unique_keys = pad((await bulk_bookings_info.countDocuments()) + 1, 5);
+  let unique_keys = await uniquekeysgenerator();
 
   const bulk_booking_id = "Blk_" + unique_keys;
 

@@ -84,7 +84,7 @@ const BulkBookings = () => {
     }
 
     if (selectedFile === null && errorFlag === true) {
-      toast.error("Please fill the required information");
+      toast.error("Please provide  the required information !!");
     } 
     
     else if (selectedFile === null && errorFlag === false) {
@@ -240,6 +240,7 @@ const BulkBookings = () => {
                     </td>
                     <td>
                       <TextField
+                        style={{marginTop:'3%'}}
                         id="time"
                         type="time"
                         className={classes.textField}

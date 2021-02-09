@@ -50,6 +50,45 @@ const BulkBookingsList = () => {
   const [content, setcontent] = useState();
   const [open, setOpen] = useState(false);
   const [excelId, setexcelId] = useState();
+  const [bookingType, setBooking] = useState();
+
+  const latestinfogetter = () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`${process.env.NEXT_PUBLIC_API}/get_all_excelFiles`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  };
+
+  useEffect(() => {
+    if (bookingType === "Departure") {
+      latestinfogetter().then((res) => {
+        let list_departure = res.filter(
+          (eachbooking) => eachbooking.booking_type === "Departure"
+        );
+        setcontent(list_departure);
+      });
+    }
+    if (bookingType === "Arrival") {
+      latestinfogetter().then((res) => {
+        let list_arrival = res.filter(
+          (eachbooking) => eachbooking.booking_type === "Arrival"
+        );
+        setcontent(list_arrival);
+      });
+    }
+
+    if (bookingType === "All") {
+      latestinfogetter().then((res) => {
+        setcontent(res);
+      });
+    }
+  }, [bookingType]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -119,7 +158,7 @@ const BulkBookingsList = () => {
               Filter
             </Typography>
           </Box>
-          <Box p={1} width="45%">
+          <Box p={1} width="80%">
             <FormControl className={classes.formControl}>
               <Typography variant="body2">
                 <span style={{ color: "grey", fontSize: "15px" }}>
@@ -163,109 +202,9 @@ const BulkBookingsList = () => {
               </Typography>
             </FormControl>
           </Box>
-          <Box p={1} width="50%">
-            <FormControl className={classes.formControl}>
-              <Typography variant="body2">
-                <span style={{ color: "grey", fontSize: "15px" }}>Status:</span>
-                <Select
-                  displayEmpty
-                  style={{ width: "200px", fontSize: "2ex" }}
-                  disableUnderline
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value="" disabled>
-                    Booking Status
-                  </MenuItem>
-                  <MenuItem value="DISPLAY_All">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("DISPLAY_All")}
-                    >
-                      All
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="COMPLETED">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("COMPLETED")}
-                    >
-                      COMPLETED
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="IN_PROGRESS">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("IN_PROGRESS")}
-                    >
-                      IN PROGRESS
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="NO_SHOW">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("NO_SHOW")}
-                    >
-                      NO SHOW
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="ASSIGN_TO_AGENT">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("ASSIGN_TO_AGENT")}
-                    >
-                      ASSIGNED TO AGENT
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="ASSIGN_TO_ADMIN">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("ASSIGN_TO_ADMIN")}
-                    >
-                      ASSIGN TO ADMIN
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="CANCELLED_BY_ADMIN">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("CANCELLED_BY_ADMIN")}
-                    >
-                      CANCELLED(by admin)
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="CANCELLED_BY_AGENT">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("CANCELLED_BY_AGENT")}
-                    >
-                      CANCELLED(by agent)
-                    </button>
-                  </MenuItem>
-                  <MenuItem value="CANCELLED_BY_USER">
-                    <button
-                      className="filter-option"
-                      onClick={() => filterData("CANCELLED_BY_USER")}
-                    >
-                      CANCELLED(by user)
-                    </button>
-                  </MenuItem>
-                </Select>
-              </Typography>
-            </FormControl>
-          </Box>
 
           <Box p={1} width="20%">
-            <button
-              id="design-admin-list"
-              onClick={() => {
-                filterData(
-                  "DISPLAY_All",
-                  setBooking("All"),
-                  setAgent("All_AGENTS")
-                );
-              }}
-            >
-              Clear Filter
-            </button>
+            <button id="design-admin-list">Clear Filter</button>
           </Box>
         </Box>
       </div>
@@ -274,7 +213,7 @@ const BulkBookingsList = () => {
 
   return (
     <>
-      {content !== undefined  && (
+      {content !== undefined && (
         <div className="BulkBookingListing">
           <div className="BulkBookingListing_heading">
             <h3>Bulk Booking</h3>
@@ -304,25 +243,36 @@ const BulkBookingsList = () => {
             </thead>
 
             <tbody>
-              {content.map((EachContent,index) => {
+              {content.map((EachContent, index) => {
                 return (
                   <tr key={EachContent._id}>
-                  
                     <td>{EachContent.bulk_booking_id}</td>
                     <td>{EachContent.client_name}</td>
                     <td>{EachContent.excel_file_name}.xlsx</td>
-                    <td>{moment(EachContent.date_of_arrival_or_departure).format('DD-MM-YYYY')}</td>
-                    <td>{EachContent.time_of_arrival_or_departure}</td>
+                    <td>
+                      {moment(EachContent.date_of_arrival_or_departure).format(
+                        "DD-MM-YYYY"
+                      )}
+                    </td>
+                    <td>
+                      {moment(
+                        EachContent.time_of_arrival_or_departure,
+                        "hh:mm"
+                      ).format("LT")}
+                    </td>
                     <td>{EachContent.booking_type}</td>
                     <td>
                       <Button
                         variant="contained"
                         className="btn"
-                        onClick={() => clickHandler(EachContent.bulk_booking_id)}
+                        onClick={() =>
+                          clickHandler(EachContent.bulk_booking_id)
+                        }
                       >
                         Download Record
                       </Button>
-                    </td> <td>
+                    </td>{" "}
+                    <td>
                       <Button
                         variant="contained"
                         className="btn"
@@ -333,7 +283,7 @@ const BulkBookingsList = () => {
                       >
                         Delete Record
                       </Button>
-                    </td> 
+                    </td>
                     {/* <td>{index + 1}</td>
 
                     <td>{EachContent}</td>

@@ -21,7 +21,7 @@ return <>
               type="text"
               name="passenger_name"
               id="input-fixed-height"
-              value={data.passenger_contact_information.name}
+              // value={data.passenger_contact_information.name}
               onChange={handleChange("passenger_name")}
               inputRef={register({required: true, minLength:2})}
               error={errors.passenger_name ?true:false}

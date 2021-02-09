@@ -59,7 +59,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 inputRef={register({ required: true, minLength:5})}
                 error={errors.train_no?true:false}
                 helperText={errors.train_no? "invalid":""}
-                value={state.train_no}
+                // value={state.train_no}
               />
             </td>
              <td>

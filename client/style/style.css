@@ -528,7 +528,12 @@ max-width: 600px;
     height: 230px!important;
 }
 .hp-mg-container{
-  margin-top: 250px;
+  margin-top: 100px;
+}
+@media (max-width:532px) {
+  .hp-mg-container{
+    margin-top: 10px;
+  }
 }
 @media (max-width:767px) {
   .hp-mg-container{
@@ -1711,7 +1716,7 @@ ul.bulkModalTextList {
 }
 
 .main-img{
-
+  background-color: white;
   width: 100%;
   height: 100%;
 }

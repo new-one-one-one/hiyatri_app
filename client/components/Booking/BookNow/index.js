@@ -106,7 +106,6 @@ const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
   /* Passenger contact information */
   if(value1 === "passenger_name"){
-    console.log(e.target.value)
               dispatch({ type: ACTIONS.PASSENGER_CONTACT_INFO.NAME,
                         payload: e.target.value })
   }
@@ -467,6 +466,7 @@ useEffect(() => {
 useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
 },[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
+
 
 
 

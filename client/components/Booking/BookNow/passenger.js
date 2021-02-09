@@ -51,8 +51,8 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           style={disabledColor(!item.selected)}
                           name={`passenger_detail_name${index}`}
                           disabled={!item.selected}
-                          placeholder={item.passenger_name}
-                          value={item.passenger_name}
+                          // placeholder={item.passenger_name}
+                          // value={item.passenger_name}
                           onChange={handleChange("passenger_detail_name", index)}
                           inputRef={register({ required: item.selected?true:false, minLength:2})}
                           error={passenger_detail_name ?true:false}

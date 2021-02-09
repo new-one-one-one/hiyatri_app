@@ -1,7 +1,10 @@
-import {TextField,InputAdornment} from '@material-ui/core';
+import { useEffect } from 'react';
+import { TextField,InputAdornment } from '@material-ui/core';
 
 
-const PassengerContactInformation = ({ handleChange, data, register, errors }) => {
+const PassengerContactInformation = ({ handleChange, data, register, errors}) => {
+
+
 return <>
   <div className="contact-Information shadow">
       <table>
@@ -21,7 +24,6 @@ return <>
               id="input-fixed-height"
               type="text"
               name="passenger_name"
-              value={data.passenger_contact_information.name}
               onChange={handleChange("passenger_name")}
               inputRef={register({required: true})}
               error={errors.passenger_name ?true:false}

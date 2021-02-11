@@ -16,9 +16,6 @@ module.exports.create_bulk_booking = (req, res) => {
   }
 };
 
-
-console.log(path.join(__dirname,'..','/public'))
-
 // const xlsxHelper = () => {
 //   return new Promise((resolve, reject) => {
 //     let modifiedxldata = xldata;
@@ -294,7 +291,7 @@ module.exports.bulk_bookings_requests = async (req, res) => {
   };
 
 
-  
+
   let unique_keys = await uniquekeysgenerator();
 
   const bulk_booking_id = "Blk_" + unique_keys;

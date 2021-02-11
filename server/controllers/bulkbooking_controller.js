@@ -1,6 +1,7 @@
 const fs = require("fs");
 const AWS = require("aws-sdk");
 const bulk_bookings_info = require("../models/bulk_booking_info_model");
+const path=require('path');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -8,12 +9,15 @@ const s3 = new AWS.S3({
 });
 
 module.exports.create_bulk_booking = (req, res) => {
-  if (fs.existsSync("./public/Records.xlsx")) {
+  if (fs.existsSync(path.join(__dirname,'..', "/public/Records.xlsx"))) {
     res.sendStatus(200);
   } else {
     res.sendStatus(400);
   }
 };
+
+
+console.log(path.join(__dirname,'..','/public'))
 
 // const xlsxHelper = () => {
 //   return new Promise((resolve, reject) => {
@@ -159,7 +163,7 @@ module.exports.download_particularExcelFile = (req, res) => {
 
       let readStream = s3.getObject(params).createReadStream();
       let writeStream = fs.createWriteStream(
-        `./public/${req.params.filename}.xlsx`
+        path.join(__dirname,'..',`/public/${req.params.filename}.xlsx`)
       );
       readStream.pipe(writeStream).on("finish", () => {
         resolve();
@@ -172,8 +176,8 @@ module.exports.download_particularExcelFile = (req, res) => {
 
   writingtothefileystem()
     .then(() => {
-      if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
-        fs.readFile(`./public/${req.params.filename}.xlsx`, (err, data) => {
+      if (fs.existsSync(path.join(__dirname,'..',`/public/${req.params.filename}.xlsx`))) {
+        fs.readFile(path.join(__dirname,'..',`/public/${req.params.filename}.xlsx`) , (err, data) => {
           if (err) {
             console.log(err);
           } else {
@@ -182,8 +186,8 @@ module.exports.download_particularExcelFile = (req, res) => {
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             );
             res.send(data);
-            if (fs.existsSync(`./public/${req.params.filename}.xlsx`)) {
-              fs.unlink(`./public/${req.params.filename}.xlsx`, (err) => {
+            if (fs.existsSync(path.join(__dirname,'..',`/public/${req.params.filename}.xlsx`) )) {
+              fs.unlink(path.join(__dirname,'..',`/public/${req.params.filename}.xlsx`) , (err) => {
                 if (!err) {
                   console.log("removed file after sending back");
                 }
@@ -199,7 +203,7 @@ module.exports.download_particularExcelFile = (req, res) => {
 };
 
 module.exports.downloadtemplate = (req, res) => {
-  fs.readFile(`./public/SampleTemplate/Records.xlsx`, (err, data) => {
+  fs.readFile( path.join(__dirname,'..',`/public/SampleTemplate/Records.xlsx`) , (err, data) => {
     if (err) {
       console.log(err);
     } else {
@@ -241,8 +245,8 @@ module.exports.deleteRecord = (req, res) => {
       }
     );
 
-    if (fs.existsSync(`./public/${req.params.bulk_booking_id}.xlsx`)) {
-      fs.unlink(`./public/${req.params.bulk_booking_id}.xlsx`, (err) => {
+    if (fs.existsSync(path.join(__dirname,'..',`/public/${req.params.bulk_booking_id}.xlsx`))) {
+      fs.unlink( path.join(__dirname,'..',`/public/${req.params.bulk_booking_id}.xlsx`) , (err) => {
         if (err) {
           throw err;
         } else {
@@ -289,16 +293,18 @@ module.exports.bulk_bookings_requests = async (req, res) => {
     });
   };
 
+
+  
   let unique_keys = await uniquekeysgenerator();
 
   const bulk_booking_id = "Blk_" + unique_keys;
 
   const s3uploader = () => {
     return new Promise((resolve, reject) => {
-      if (fs.existsSync("./public/Records.xlsx")) {
+      if (fs.existsSync(path.join(__dirname,'..',"/public/Records.xlsx" ))) {
         fs.rename(
-          `./public/Records.xlsx`,
-          `./public/${bulk_booking_id}.xlsx`,
+          path.join(__dirname,'..', `/public/Records.xlsx`) ,
+          path.join(__dirname,'..', `/public/${bulk_booking_id}.xlsx`),
           () => {
             console.log("excel file name changed for s3 upload!");
             resolve();
@@ -312,8 +318,8 @@ module.exports.bulk_bookings_requests = async (req, res) => {
 
   s3uploader()
     .then(() => {
-      if (fs.existsSync(`./public/${bulk_booking_id}.xlsx`)) {
-        fs.readFile(`./public/${bulk_booking_id}.xlsx`, (err, data) => {
+      if (fs.existsSync( path.join(__dirname,'..', `/public/${bulk_booking_id}.xlsx`)) ) {
+        fs.readFile(path.join(__dirname,'..', `/public/${bulk_booking_id}.xlsx`), (err, data) => {
           if (err) throw err;
 
           if (!err) {
@@ -328,7 +334,7 @@ module.exports.bulk_bookings_requests = async (req, res) => {
               if (s3Err) throw s3Err;
               if (!s3Err) {
                 console.log(`File uploaded successfully at ${data.Location}`);
-                fs.unlink(`./public/${bulk_booking_id}.xlsx`, (err) => {
+                fs.unlink( path.join(__dirname,'..', `/public/${bulk_booking_id}.xlsx`), (err) => {
                   if (err) {
                     throw err;
                   } else {

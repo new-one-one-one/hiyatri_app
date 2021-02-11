@@ -64,6 +64,9 @@ const bookingSchema = mongoose.Schema({
         booking_id:{
           type:String,
         },
+        coupon:{
+         type: String
+        },
         total_amount:{
           type:Number,
           default:0

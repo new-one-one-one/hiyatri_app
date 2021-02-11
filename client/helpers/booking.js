@@ -44,6 +44,7 @@ class Booking {
                   golf_cart:0,
                   total:0
                 },
+                selected:true,
                 seat_number: pass.current_status_details,
                 age_group:"",
                 gender:"",

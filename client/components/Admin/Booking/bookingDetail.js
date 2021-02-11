@@ -307,7 +307,8 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  if(porter.porter_service_opted || porter.baggage_garanteed_opted)
+  const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
+  if((porter.porter_service_opted || porter.baggage_garanteed_opted ) && porter_total!=0)
     return (
       <div>
         <Grid container spacing={2}>
@@ -336,11 +337,9 @@ const displayPorterServiceDetails = (porter) =>{
                             {porter.small_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                      ₹{
-                        porter.large_bags.total +
-                        porter.medium_bags.total+
-                        porter.small_bags.total
-                        }
+                      ₹{porter_total} 
+                        
+                        
                       </Grid>
                 </Grid>
           </Grid>
@@ -348,6 +347,7 @@ const displayPorterServiceDetails = (porter) =>{
 
     )
 }
+
 
   return (
   <div>
@@ -443,7 +443,7 @@ const displayPorterServiceDetails = (porter) =>{
               </div>
 
         )}
-        <br></br> 
+        <br></br>
         {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
@@ -513,8 +513,8 @@ const displayPorterServiceDetails = (porter) =>{
 
             <br></br>
         </Grid>
-      
-      
+
+
         <Grid item xs={12} sm={3}>
         {(data.order_status==='ASSIGN_TO_ADMIN' || data.order_status==='ASSIGN_TO_AGENT' || data.order_status==='IN_PROGRESS') && (
             <div>

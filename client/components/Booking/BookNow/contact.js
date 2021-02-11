@@ -1,6 +1,10 @@
-import {TextField,InputAdornment} from '@material-ui/core';
+import { useEffect } from 'react';
+import { TextField,InputAdornment } from '@material-ui/core';
 
-const PassengerContactInformation = ({ handleChange, data, register, errors }) => {
+
+const PassengerContactInformation = ({ handleChange, data, register, errors}) => {
+
+
 return <>
   <div className="contact-Information shadow">
       <table>
@@ -15,21 +19,21 @@ return <>
         <tbody>
           <tr>
             <td>
-
             <TextField
               variant="outlined"
+              id="input-fixed-height"
               type="text"
               name="passenger_name"
-              value={data.passenger_contact_information.name}
               onChange={handleChange("passenger_name")}
-              inputRef={register({required: true, minLength:2})}
+              inputRef={register({required: true})}
               error={errors.passenger_name ?true:false}
-              helperText={errors.passenger_name? "Passenger name is required":""}
+              helperText={errors.passenger_name? "required":""}
               fullWidth
             />
             </td>
             <td>
               <TextField
+               id="input-fixed-height"
                variant="outlined"
                disabled={true}
                name="passenger_primary_number"
@@ -38,12 +42,13 @@ return <>
                onChange={handleChange("passenger_primary_number")}
                inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                error={errors.passenger_primary_number ?true:false}
-               helperText={errors.passenger_primary_number? "Primary contact number is required":""}
+               helperText={errors.passenger_primary_number? "required":""}
                fullWidth
                type="Number" />
             </td>
             <td>
               <TextField
+               id="input-fixed-height"
                fullWidth
                variant="outlined"
                value={data.passenger_contact_information.secondary_contact_number}
@@ -52,6 +57,7 @@ return <>
             </td>
             <td>
               <TextField
+               id="input-fixed-height"
                fullWidth
                variant="outlined"
                value={data.passenger_contact_information.email_id}

@@ -6,7 +6,7 @@ import 'line-awesome/dist/line-awesome/css/line-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '../style/style.css';
 import 'antd/dist/antd.css';
-
+ 
  const  MyApp = ({ Component, pageProps }) =>  {
   return <Component {...pageProps} />
 }

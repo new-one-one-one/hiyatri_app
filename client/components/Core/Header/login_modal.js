@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { sendingOTP, verifyingOTP, authenticate, verifyPassword } from '../../../actions/auth';
 import Countdown from "react-countdown";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-
+import useWindowSize from '../../../helpers/windowDimension';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  hamburger:{
+    border:"0px solid white"
+  },
   paper: {
+    margin:"20px",
     borderRadius:"8px",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
@@ -33,6 +37,7 @@ export default function TransitionsModal() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openPasswordModal, setPasswordModal] = useState(false);
+  const { width } = useWindowSize();
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const handleOpen = () => {
@@ -145,7 +150,11 @@ export default function TransitionsModal() {
 
   return (
     <div>
-     <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>
+     {width>767 && <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>}
+     {width<767 &&   <Button onClick={handleOpen} className={classes.hamburger}>
+          <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
+       </Button>}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -174,7 +183,7 @@ export default function TransitionsModal() {
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                         error={errors.phone_number?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                        helperText={errors.phone_number? "Phone number is Invalid":""}
+                        helperText={errors.phone_number? "Invalid":""}
                         onChange={e =>  set_phone_number(e.target.value)}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."
@@ -277,7 +286,6 @@ export default function TransitionsModal() {
                           Continue
                       </Button>
                       <Button  onClick={()=>{setPasswordModal(false); setOpen(true)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue Using Phone</p></Button>
-
                    </form>
 
                  </div>

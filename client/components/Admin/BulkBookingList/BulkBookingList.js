@@ -279,7 +279,7 @@ const BulkBookingsList = () => {
           <div className="BulkBookingListing_heading">
             <h3>Bulk Booking</h3>
             <Button
-              onClick={() => router.push("/bulk_booking")}
+              onClick={() => router.push("/admin/bulk_booking")}
               variant="contained"
               className="export-btn"
             >
@@ -333,7 +333,7 @@ const BulkBookingsList = () => {
                       >
                         Delete Record
                       </Button>
-                    </td> 
+                    </td>
                     {/* <td>{index + 1}</td>
 
                     <td>{EachContent}</td>

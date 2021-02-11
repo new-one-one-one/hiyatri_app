@@ -4,7 +4,7 @@ import Head from 'next/head';
   const head = () => (
         <Head>
             <title>
-               {"Terms & Conditions"} | {process.env.NEXT_PUBLIC_APP_NAME}
+               {"Conditions"} | {process.env.NEXT_PUBLIC_APP_NAME}
             </title>
             <meta
              name="description"

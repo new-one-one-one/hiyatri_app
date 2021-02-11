@@ -1,11 +1,13 @@
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 const StaticData = () => {
   return <>
             <div className="hp-mg-container container">
               <div className="hp-mg-heading">MEET & GREET</div>
-              <div className="row col justify-content-center mt-5">
+              <div className="row col justify-content-center mt-3">
                   <div className="col-md-4">
                     <section className="hp-mg-img-container">
-                      <img src="images/meet_greet.png" className="" width="100%"/>
+                      <LazyLoadImage src="images/meet_greet.png" className="" width="100%"/>
                     </section>
                   </div>
                   <div className="col-md-6">
@@ -23,7 +25,7 @@ const StaticData = () => {
             </div>
 
             <div className="hp-service-container container">
-            <div className="hp-service-heading">OUR SERVICES</div>
+            <div className="hp-mg-heading">OUR SERVICES</div>
             <div className="row col justify-content-center mt-5">
                 <div className="col-md-3 shadow hp-service-card">
                  <h2 className="hp-card-title"><i className="las la-subway hp-icons"></i>Arrival</h2>

@@ -93,9 +93,9 @@ const useStyles = makeStyles((theme) => ({
        get_details_by_pnr(state.pnr_number)
         .then(response => {
           setShowSpinner(false);
-          if(response.status==="error"){
-            return toast.error(response.message)
-          }
+          // if(response.status==="error"){
+          //   return toast.error(response.message)
+          // }
           send()
           dispatch({ type: ACTIONS.MODAL, data: true })
         })
@@ -131,7 +131,21 @@ const useStyles = makeStyles((theme) => ({
       return  console.log(response.error)
      }
       authenticate(response, () => {
-          Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+        get_details_by_pnr(state.pnr_number)
+          .then(response => {
+            setShowSpinner(false);
+            if(response.status==="error"){
+              // this is the case if pnr not worked
+              // return toast.error(response.message)
+              Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
+            }
+            else{
+                Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+            }
+          })
+          .catch((err) => {
+              Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
+          })
         })
      })
   }
@@ -242,31 +256,3 @@ const useStyles = makeStyles((theme) => ({
 }
 
 export default Modalbox;
-
-
-  {/*<div className="text-center">
-              <OutlinedInput
-              variant="outlined"
-              type="Number"
-              size="small"
-              disabled={true}
-              startAdornment={<InputAdornment position="start">+91</InputAdornment>}
-              error={false}
-              value={state.phone_number}
-              placeholder="Phone no."
-              className="hp-input mb-2 mt-2 pt-1"
-              fullWidth
-              />
-
-              <Recaptcha
-                className="mb-2 mt-2 pt-1"
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY}
-                render="explicit"
-                verifyCallback={verifyCallback} />
-
-
-              <Button
-                onClick={send}
-                variant="contained"
-                className="md-btn m-2">Continue</Button>
-              </div>*/}

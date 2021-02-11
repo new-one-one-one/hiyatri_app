@@ -57,7 +57,7 @@ const BulkBookings = () => {
   const [uploadInformation, setuploadInformation] = useState({
     booking_type: "",
     client_name: "",
-    date_of_arrival_or_departure: new Date(),
+    date_of_arrival_or_departure: null,
     time_of_arrival_or_departure: "",
   });
 
@@ -168,18 +168,9 @@ const BulkBookings = () => {
               flexDirection: "column",
             }}
             onClick={() => setOpen(true)}
-            title="Instructions for Bulk Upload"
+           
           >
-            <span
-              style={{
-                marginRight: "10px",
-                fontSize: "18px",
-                color: "#26A69A",
-                fontWeight: "bold",
-              }}
-            >
-              Instructions for Bulk Booking
-            </span>
+         
             {/* <img src={questionIcon} height={25} /> */}
             <div className="contact-Information shadow">
               <table>

@@ -203,9 +203,7 @@ const BulkBookingsList = () => {
             </FormControl>
           </Box>
 
-          <Box p={1} width="20%">
-            <button id="design-admin-list">Clear Filter</button>
-          </Box>
+         
         </Box>
       </div>
     );
@@ -262,27 +260,20 @@ const BulkBookingsList = () => {
                     </td>
                     <td>{EachContent.booking_type}</td>
                     <td>
-                      <Button
-                        variant="contained"
-                        className="btn"
-                        onClick={() =>
+                    
+                       <Button type="Submit"  onClick={() =>
                           clickHandler(EachContent.bulk_booking_id)
-                        }
-                      >
-                        Download Record
-                      </Button>
-                    </td>{" "}
+                        }  className="buttonUserAdd" variant="contained" size="large">
+                                Download Record
+                          </Button>
+                    </td>
                     <td>
-                      <Button
-                        variant="contained"
-                        className="btn"
-                        onClick={() => {
+                      <Button type="Submit" onClick={() => {
                           setexcelId(EachContent.bulk_booking_id);
                           handleClickOpen();
-                        }}
-                      >
-                        Delete Record
-                      </Button>
+                        }}  className="buttonUserAdd" variant="contained" size="large">
+                                Delete Record
+                          </Button>
                     </td>
                     {/* <td>{index + 1}</td>
 
@@ -326,12 +317,11 @@ const BulkBookingsList = () => {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button variant="contained" className="btn" onClick={handleClose}>
+              <Button size="small" className="buttonUserdialogbtn" variant="contained" onClick={handleClose}>
                 No
               </Button>
-              <Button
-                variant="contained"
-                className="btn"
+              <Button size="small"
+                className="buttonUserdialogbtn" variant="contained"
                 onClick={() => deleteHandler(excelId)}
               >
                 Yes

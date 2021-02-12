@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Modal from "@material-ui/core/Modal";
 import { makeStyles, Button } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -58,7 +57,7 @@ const BulkBookings = () => {
   const [uploadInformation, setuploadInformation] = useState({
     booking_type: "",
     client_name: "",
-    date_of_arrival_or_departure: new Date(),
+    date_of_arrival_or_departure: null,
     time_of_arrival_or_departure: "",
   });
 
@@ -84,7 +83,7 @@ const BulkBookings = () => {
     }
 
     if (selectedFile === null && errorFlag === true) {
-      toast.error("Please fill the required information");
+      toast.error("Please provide  the required information !!");
     } 
     
     else if (selectedFile === null && errorFlag === false) {
@@ -169,18 +168,9 @@ const BulkBookings = () => {
               flexDirection: "column",
             }}
             onClick={() => setOpen(true)}
-            title="Instructions for Bulk Upload"
+           
           >
-            <span
-              style={{
-                marginRight: "10px",
-                fontSize: "18px",
-                color: "#26A69A",
-                fontWeight: "bold",
-              }}
-            >
-              Instructions for Bulk Booking
-            </span>
+         
             {/* <img src={questionIcon} height={25} /> */}
             <div className="contact-Information shadow">
               <table>
@@ -240,6 +230,7 @@ const BulkBookings = () => {
                     </td>
                     <td>
                       <TextField
+                        style={{marginTop:'3%'}}
                         id="time"
                         type="time"
                         className={classes.textField}

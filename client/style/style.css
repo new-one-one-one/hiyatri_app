@@ -1147,6 +1147,14 @@ color: #2a306c;
   /* font-size: 3ex; */
 }
 
+
+.buttonUserdialogbtn{
+  background-color: #00C4FF!important;
+  color: white!important;
+  font-weight: bold!important;
+  height: 40px;
+  /* font-size: 3ex; */
+}
 .usersListposition{
   margin-top: 50px;
   margin-left: 4%;

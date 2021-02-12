@@ -1789,3 +1789,19 @@ background-color: grey;
    height: 70px!important;
    background: transparent!important;
  } */
+
+
+ #big-btn-style{
+   color: #00c4fe;
+   border:none;
+   width: 200px;
+ }
+
+ #big-btn-style:hover{
+   background: none;
+ }
+
+#dropdown-text{
+  font-size: 14px;
+}
+

@@ -24,13 +24,11 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                   </Box>
                   <Box display="flex" p={0} bgcolor="background.paper">
                       <Box p={1} width="100%">
-                         Discount
-                         <br />
                          <p style={{color:"blue"}}>
                            Apply Coupon ?
                          </p>
                       </Box>
-                      <Box p={2} flexShrink={1}>
+                      <Box p={0} flexShrink={1}>
                       <TextField  size="small"
                         name={`coupon`}
                         onChange={handleChange}
@@ -42,7 +40,7 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       </Box>
                   </Box>
 
-                  <Divider variant="middle"/>
+                  {/* <Divider variant="middle"/>
                       <Box display="flex" p={0} bgcolor="background.paper">
 
                           <Box p={1} width="100%">
@@ -51,7 +49,7 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                           <Box p={1} flexShrink={0}>
                             ₹{(originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount)}
                           </Box>
-                      </Box>
+                      </Box> */}
                 {width>500 && (
                   <div className="text-center pt-3 pb-3">
                    <Button  size="large" className="o-booknow-btn" variant="contained" onClick={()=>{terms ? order() : isAgreed(false)}}>

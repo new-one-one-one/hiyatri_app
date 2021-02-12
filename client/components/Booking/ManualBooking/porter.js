@@ -23,27 +23,36 @@ const PorterService = ({ handleChange, state }) => {
             </thead>
             <tbody>
               <tr>
-                <td>
+              <td>
                   <TextField
-                   variant="outlined"
-                   type="number"
-                   InputProps={{ inputProps: { min: 0 } }}
-                   value={state.porter_service_detail.large_bags.unit === 0?"":state.porter_service_detail.large_bags.unit}
-                   onChange={handleChange("porter_service_lg_bags")} />
+                      id="input-fixed-height"
+                      inputRef={register({pattern: /^\d+$/,required: true})}
+                      type="number"
+                      name="porter_service_lg_bags"
+                      onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                      variant="outlined"
+                      value={state.porter_service_detail.large_bags.unit === 0?"":state.porter_service_detail.large_bags.unit}
+                      onChange={handleChange("porter_service_lg_bags")} />
                 </td>
                 <td>
                   <TextField
-                   variant="outlined"
+                  id="input-fixed-height"
+                   inputRef={register({pattern: /^\d+$/,required: true})}
                    type="number"
-                   InputProps={{ inputProps: { min: 0 } }}
+                   onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                   variant="outlined"
+                   name="porter_service_md_bags"
                    value={state.porter_service_detail.medium_bags.unit === 0?"":state.porter_service_detail.medium_bags.unit}
                    onChange={handleChange("porter_service_md_bags")} />
                 </td>
                 <td>
                   <TextField
-                   variant="outlined"
+                   id="input-fixed-height"
+                   inputRef={register({pattern: /^\d+$/,required: true})}
                    type="number"
-                   InputProps={{ inputProps: { min: 0 } }}
+                   name="porter_service_sm_bags"
+                   onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                   variant="outlined"
                    value={state.porter_service_detail.small_bags.unit === 0?"":state.porter_service_detail.small_bags.unit}
                    onChange={handleChange("porter_service_sm_bags")} />
                 </td>

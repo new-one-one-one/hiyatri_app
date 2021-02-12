@@ -262,6 +262,7 @@ const BulkBookings = () => {
                         value={uploadInformation.booking_type}
                         displayEmpty
                         style={{ width: "100px" }}
+                        
                         disableUnderline
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}

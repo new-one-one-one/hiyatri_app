@@ -140,7 +140,7 @@ const BookingList = ({ list }) => {
            <FormControl className={classes.formControl}>
               <Typography variant="body2">
                   <span style={{color:"grey", fontSize:"15px"}}>Booking Type: </span>
-                  <Select value={booking_type}  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
+                  <Select value={booking_type} id="dropdown-text"  displayEmpty style={{width:"100px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
                       <MenuItem value="" disabled>
                       Select
                       </MenuItem>
@@ -160,6 +160,7 @@ const BookingList = ({ list }) => {
               <span style={{color:"grey", fontSize:"15px"}}>Status:  </span>
               <Select value={filter_type}
                displayEmpty
+               id="dropdown-text"
                style={{width:"200px", fontSize:"2ex"}}
                disableUnderline inputProps={{ 'aria-label': 'Without label' }}
                >
@@ -184,7 +185,7 @@ const BookingList = ({ list }) => {
           <FormControl className={classes.formControl}>
               <Typography variant="body2">
               <span style={{color:"grey", fontSize:"15px"}}>Assinged To : </span>
-              <Select value={agent_name}  displayEmpty style={{width:"200px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
+              <Select value={agent_name} id="dropdown-text"  displayEmpty style={{width:"200px"}} disableUnderline  className={classes.selectEmpty} inputProps={{ 'aria-label': 'Without label' }}>
               <MenuItem value="All_AGENTS">
                   <button className="filter-option" onClick={()=>setAgent("All_AGENTS")} >
                       All Agents

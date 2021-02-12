@@ -103,7 +103,7 @@ const UserListComponent = ({usersList, reload}) => {
                                 inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 error={errors.phone_number ?true:false}
-                                helperText={errors.phone_number? "invalid":""}
+                                helperText={errors.phone_number? "Invalid":""}
                                 onChange={handleChange}
                                 fullWidth 
                                 
@@ -119,7 +119,7 @@ const UserListComponent = ({usersList, reload}) => {
                                 label="User name"
                                 inputRef={register({required: true , minLength:1})}
                                 error={errors.name?true:false}
-                                helperText={errors.name?"required":""}
+                                helperText={errors.name?"Required":""}
                             />
 
                         </Box>
@@ -130,9 +130,10 @@ const UserListComponent = ({usersList, reload}) => {
                                 style={{height:"55px", borderRadius:"20px", width:"150px"}}
                                 value={user}
                                 native
+                                id="dropdown-text"
                                 name="user_type"
                                 onChange={handleChange}
-                                ref={register({required:true})}>
+                                inputRef={register({required:true})}>
                                     <option value="">None</option>
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>

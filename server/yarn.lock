@@ -2,7 +2,6 @@
 # yarn lockfile v1
 
 
-<<<<<<< HEAD
 "@fast-csv/format@4.3.5":
   "integrity" "sha512-8iRn6QF3I8Ak78lNAa+Gdl5MJJBM5vRHivFtMRUWINdevNo00K7OXxS2PshawLKTejVwieIlPmK5YlLu6w4u8A=="
   "resolved" "https://registry.npmjs.org/@fast-csv/format/-/format-4.3.5.tgz"
@@ -33,8 +32,6 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.22.tgz"
   "version" "14.14.22"
 
-=======
->>>>>>> main
 "accepts@~1.3.7":
   "integrity" "sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA=="
   "resolved" "https://registry.npmjs.org/accepts/-/accepts-1.3.7.tgz"
@@ -43,7 +40,15 @@
     "mime-types" "~2.1.24"
     "negotiator" "0.6.2"
 
-"adler-32@", "adler-32@~1.2.0":
+"adler-32@^1.2.0":
+  "integrity" "sha1-aj5r8KY5ALoVZSgIyxXGgT0aXyU="
+  "resolved" "https://registry.npmjs.org/adler-32/-/adler-32-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "exit-on-epipe" "~1.0.1"
+    "printj" "~1.1.0"
+
+"adler-32@~1.2.0":
   "integrity" "sha1-aj5r8KY5ALoVZSgIyxXGgT0aXyU="
   "resolved" "https://registry.npmjs.org/adler-32/-/adler-32-1.2.0.tgz"
   "version" "1.2.0"
@@ -338,9 +343,9 @@
   "resolved" "https://registry.npmjs.org/codepage/-/codepage-1.3.8.tgz"
   "version" "1.3.8"
   dependencies:
-    "commander" ""
-    "concat-stream" ""
-    "voc" ""
+    "commander" "^7.0.0"
+    "concat-stream" "^2.0.0"
+    "voc" "^1.2.0"
 
 "colors@0.6.2":
   "integrity" "sha1-JCP+ZnisDF2uiFLl0OW+CMmXq8w="
@@ -354,7 +359,7 @@
   dependencies:
     "delayed-stream" "~1.0.0"
 
-"commander@":
+"commander@^7.0.0":
   "integrity" "sha512-ovx/7NkTrnPuIV8sqk/GjUIIM1+iUQeqA3ye2VNpq9sVoiZsooObWlQy+OPWGI17GDaEoybuAGJm6U8yC077BA=="
   "resolved" "https://registry.npmjs.org/commander/-/commander-7.0.0.tgz"
   "version" "7.0.0"
@@ -374,16 +379,6 @@
   "resolved" "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
   "version" "0.0.1"
 
-"concat-stream@":
-  "integrity" "sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A=="
-  "resolved" "https://registry.npmjs.org/concat-stream/-/concat-stream-2.0.0.tgz"
-  "version" "2.0.0"
-  dependencies:
-    "buffer-from" "^1.0.0"
-    "inherits" "^2.0.3"
-    "readable-stream" "^3.0.2"
-    "typedarray" "^0.0.6"
-
 "concat-stream@^1.5.2":
   "integrity" "sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw=="
   "resolved" "https://registry.npmjs.org/concat-stream/-/concat-stream-1.6.2.tgz"
@@ -392,6 +387,16 @@
     "buffer-from" "^1.0.0"
     "inherits" "^2.0.3"
     "readable-stream" "^2.2.2"
+    "typedarray" "^0.0.6"
+
+"concat-stream@^2.0.0":
+  "integrity" "sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A=="
+  "resolved" "https://registry.npmjs.org/concat-stream/-/concat-stream-2.0.0.tgz"
+  "version" "2.0.0"
+  dependencies:
+    "buffer-from" "^1.0.0"
+    "inherits" "^2.0.3"
+    "readable-stream" "^3.0.2"
     "typedarray" "^0.0.6"
 
 "content-disposition@0.5.3":
@@ -429,7 +434,7 @@
     "object-assign" "^4"
     "vary" "^1"
 
-"crc-32@", "crc-32@^1.2.0", "crc-32@~1.2.0":
+"crc-32@^1.2.0", "crc-32@~1.2.0":
   "integrity" "sha512-1uBwHxF+Y/4yF5G48fwnKq6QsIXheor3ZLPT80yGBV1oEUwpPojlEhQbWKVw1VwcTQyMGHK1/XMmTjmlsmTTGA=="
   "resolved" "https://registry.npmjs.org/crc-32/-/crc-32-1.2.0.tgz"
   "version" "1.2.0"
@@ -1662,7 +1667,7 @@
   dependencies:
     "colors" "0.6.2"
     "frac" "0.3.1"
-    "voc" ""
+    "voc" "^1.2.0"
 
 "sshpk@^1.7.0":
   "integrity" "sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg=="
@@ -1871,7 +1876,7 @@
     "core-util-is" "1.0.2"
     "extsprintf" "^1.2.0"
 
-"voc@":
+"voc@^1.2.0":
   "integrity" "sha512-BOuDjFFYvJdZO6e/N65AlaDItXo2TgyLjeyRYcqgAPkXpp5yTJcvkL2n+syO1r9Qc5g96tfBD2tuiMhYDmaGcA=="
   "resolved" "https://registry.npmjs.org/voc/-/voc-1.2.0.tgz"
   "version" "1.2.0"
@@ -1899,11 +1904,11 @@
   "resolved" "https://registry.npmjs.org/xlsx/-/xlsx-0.7.12.tgz"
   "version" "0.7.12"
   dependencies:
-    "adler-32" ""
+    "adler-32" "^1.2.0"
     "cfb" ">=0.10.0"
     "codepage" "~1.3.6"
-    "commander" ""
-    "crc-32" ""
+    "commander" "^7.0.0"
+    "crc-32" "^1.2.0"
     "jszip" "2.4.0"
     "ssf" "~0.8.1"
 

@@ -1789,3 +1789,16 @@ background-color: grey;
    height: 70px!important;
    background: transparent!important;
  } */
+
+
+ .error-title{
+   font-weight: 800;
+   color: #00C4FF;
+   font-size: 60px;
+   margin: 20px;
+ }
+.error-code{
+  font-size: 40px;
+  font-weight: 900;
+
+}

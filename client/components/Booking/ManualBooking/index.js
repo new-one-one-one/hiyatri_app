@@ -4,7 +4,6 @@ import PassengerDetails from "./passenger";
 import PorterService from "./porter";
 import CabService from "./cab";
 import React from 'react';
-
 import { useReducer, useEffect, useState } from "react";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";

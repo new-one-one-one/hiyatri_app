@@ -77,39 +77,35 @@ const UserListComponent = ({usersList, reload}) => {
 
 
   const AddUser = () => {
-    return         <div className="rootUserList">
+    return   <div className="rootUserList">
                <Paper elevation={3} className="containerUserAdd">
                 <div className="fieldsUserAdd">
-                    
                     <form onSubmit={handleSubmit(formSubmit)}>
                     <Box display="flex" p={0}>
                         <Box p={2} width="20%">
                             {/* <TextField
                                 id="input-fixed-height"
                                 name="phone_number"
-                                label="Phone Number" 
+                                label="Phone Number"
                                 variant="outlined"
                                 error={errors.phone_number ?true:false}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 helperText={errors.phone_number? "invalid":""}
 
                             /> */}
-                            <TextField
+                            {<TextField
                                 variant="outlined"
                                 id="input-fixed-height"
                                 name="phone_number"
-
-                                label="Phone Number" 
+                                label="Phone Number"
                                 inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 error={errors.phone_number ?true:false}
                                 helperText={errors.phone_number? "invalid":""}
                                 onChange={handleChange}
-                                fullWidth 
-                                
-                                />
+                                fullWidth
 
-
+                                />}
                         </Box>
                         <Box width="20%" p={2}>
                             <TextField
@@ -121,10 +117,9 @@ const UserListComponent = ({usersList, reload}) => {
                                 error={errors.name?true:false}
                                 helperText={errors.name?"required":""}
                             />
-
                         </Box>
                         <Box width="20%" p={2}>
-                            <Select 
+                            {<Select
                                 className="pl-1"
                                 variant="outlined"
                                 style={{height:"55px", borderRadius:"20px", width:"150px"}}
@@ -132,11 +127,12 @@ const UserListComponent = ({usersList, reload}) => {
                                 native
                                 name="user_type"
                                 onChange={handleChange}
-                                ref={register({required:true})}>
+                                inputRef={register({required:true})}
+                                >
                                     <option value="">None</option>
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>
-                                </Select>
+                                </Select>}
                             {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
                         </Box>
                         <Box width="20%" p={2}>
@@ -145,8 +141,6 @@ const UserListComponent = ({usersList, reload}) => {
                             </Button>
                         </Box>
                     </Box>
-  
-
                     </form>
                 </div>
                </Paper>

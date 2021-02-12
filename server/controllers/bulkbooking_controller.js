@@ -324,9 +324,10 @@ module.exports.bulk_bookings_requests = async (req, res) => {
               Bucket: "hiyatribulkbookingexcels",
               Key: `${bulk_booking_id}.xlsx`,
               Body: data,
-              ContentType: "application/vnd.ms-excel",
+              ContentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             };
 
+            
             s3.upload(params, function (s3Err, data) {
               if (s3Err) throw s3Err;
               if (!s3Err) {
@@ -376,3 +377,4 @@ module.exports.bulk_bookings_requests = async (req, res) => {
     }
   });
 };
+

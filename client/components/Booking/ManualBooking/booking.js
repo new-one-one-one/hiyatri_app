@@ -29,7 +29,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
       date = month+"-"+date.substring(0,2)+date.substring(5,)
     }
 
-  const [selectedDate, handleDateChange] = useState(date!=""? new Date(date):new Date() );
+  const [selectedDate, handleDateChange] = useState(null);
   const changeVal =(value) =>{
     handleDateChange(value);
     changeDate(value);
@@ -111,11 +111,13 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                       <DatePicker
                          id="input-fixed-height"
                         inputVariant="outlined"
-                        value={ date ? new Date(date) : selectedDate }
+                        value={selectedDate ? selectedDate :null }
                         name="date"
+                        error={errors.date?true:false}
+                        helperText={errors.date ? "Required" : ""}
                         inputRef={register({required:true})}
                         minDate={Date.now()}
-                        onChange={(value) => {changeVal(value)}}
+                        onChange={(value) => {changeVal(value); errors.date=null}}
                         formatDate={(date) => moment(new Date()).format('DD-MM-YYYY')}
                         />
                   </MuiPickersUtilsProvider>

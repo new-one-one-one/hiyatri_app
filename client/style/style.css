@@ -1147,6 +1147,14 @@ color: #2a306c;
   /* font-size: 3ex; */
 }
 
+
+.buttonUserdialogbtn{
+  background-color: #00C4FF!important;
+  color: white!important;
+  font-weight: bold!important;
+  height: 40px;
+  /* font-size: 3ex; */
+}
 .usersListposition{
   margin-top: 50px;
   margin-left: 4%;
@@ -1791,6 +1799,7 @@ background-color: grey;
  } */
 
 
+ 
  #big-btn-style{
    color: #00c4fe;
    border:none;
@@ -1805,3 +1814,16 @@ background-color: grey;
   font-size: 14px;
 }
 
+ 
+ .error-title{
+   font-weight: 800;
+   color: #00C4FF;
+   font-size: 60px;
+   margin: 20px;
+ }
+.error-code{
+  font-size: 40px;
+  font-weight: 900;
+
+}
+ 

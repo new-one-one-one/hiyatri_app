@@ -93,14 +93,14 @@ const UserListComponent = ({usersList, reload}) => {
                             {/* <TextField
                                 id="input-fixed-height"
                                 name="phone_number"
-                                label="Phone Number" 
+                                label="Phone Number"
                                 variant="outlined"
                                 error={errors.phone_number ?true:false}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 helperText={errors.phone_number? "invalid":""}
 
                             /> */}
-                            <TextField
+                            {<TextField
                                 variant="outlined"
                                 id="input-fixed-height"
                                 name="phone_number"
@@ -113,7 +113,9 @@ const UserListComponent = ({usersList, reload}) => {
                                 
                                 />
 
+ 
 
+                                />}
                         </Box>
                         <Box width="20%" p={2}>
                             <TextField
@@ -125,10 +127,9 @@ const UserListComponent = ({usersList, reload}) => {
                                 error={errors.name?true:false}
                                 helperText={errors.name?"Required":""}
                             />
-
                         </Box>
                         <Box width="20%" p={2}>
-                            <Select 
+                            {<Select
                                 className="pl-1"
                                 variant="outlined"
                                 style={{height:"55px", borderRadius:"20px", width:"150px"}}
@@ -138,10 +139,11 @@ const UserListComponent = ({usersList, reload}) => {
                                 name="user_type"
                                 onChange={handleChange}
                                 inputRef={register({required:true})}>
+ 
                                     <option value="">None</option>
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>
-                                </Select>
+                                </Select>}
                             {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
                         </Box>
                         <Box width="20%" p={2}>
@@ -150,8 +152,6 @@ const UserListComponent = ({usersList, reload}) => {
                             </Button>
                         </Box>
                     </Box>
-  
-
                     </form>
                 </div>
                </Paper>

@@ -1,10 +1,12 @@
-import Layout from '../components/Core/Layout';
 import Head from 'next/head';
+import Button from "@material-ui/core/Button";
 
+
+export default function Error(){
   const head = () => (
         <Head>
             <title>
-               {"About us"} | {process.env.NEXT_PUBLIC_APP_NAME}
+               {"Page not found"} | {process.env.NEXT_PUBLIC_APP_NAME}
             </title>
             <meta
              name="description"
@@ -30,13 +32,12 @@ import Head from 'next/head';
          </Head>
     );
 
-const AboutUs = () => {
   return <>
-          {head()}
-          <Layout>
-
-          </Layout>
+        {head()}
+          <div className="container text-center pt-5">
+             <img src="/images/logo.png" height="100%"/>
+             <h1 className="error-title">Oops!  Error 404</h1>
+            <Button size="large" href="/" color="primary" >Go Back to HiYatri</Button>
+          </div>
          </>
 }
-
-export default AboutUs;

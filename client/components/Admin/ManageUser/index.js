@@ -86,7 +86,7 @@ const UserListComponent = ({usersList, reload}) => {
   const AddUser = () => {
     return  matches?(<div className="rootUserList">
                <Paper elevation={3} className="containerUserAdd">
-                <div className="fieldsUserAdd"> 
+                <div className="fieldsUserAdd">
                     <form onSubmit={handleSubmit(formSubmit)}>
                     <Box display="flex" p={0}>
                         <Box p={2} width="20%">
@@ -100,22 +100,20 @@ const UserListComponent = ({usersList, reload}) => {
                                 helperText={errors.phone_number? "invalid":""}
 
                             /> */}
-                            {<TextField
+                            <TextField
                                 variant="outlined"
                                 id="input-fixed-height"
                                 name="phone_number"
-                                label="Phone Number" 
+                                label="Phone Number"
+                                type="number"
                                 inputRef={register({pattern: /^\d+$/,required: true , minLength:10, maxLength:10})}
                                 onInput={(e)=>{ if(e.target.value.length>0)e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 error={errors.phone_number ?true:false}
                                 helperText={errors.phone_number? "Invalid":""}
-                                fullWidth 
-                                
+                                fullWidth
                                 />
 
- 
 
-                                />}
                         </Box>
                         <Box width="20%" p={2}>
                             <TextField
@@ -127,9 +125,10 @@ const UserListComponent = ({usersList, reload}) => {
                                 error={errors.name?true:false}
                                 helperText={errors.name?"Required":""}
                             />
+
                         </Box>
                         <Box width="20%" p={2}>
-                            {<Select
+                            <Select
                                 className="pl-1"
                                 variant="outlined"
                                 style={{height:"55px", borderRadius:"20px", width:"150px"}}
@@ -139,11 +138,10 @@ const UserListComponent = ({usersList, reload}) => {
                                 name="user_type"
                                 onChange={handleChange}
                                 inputRef={register({required:true})}>
- 
                                     <option value="">None</option>
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>
-                                </Select>}
+                                </Select>
                             {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
                         </Box>
                         <Box width="20%" p={2}>
@@ -152,6 +150,8 @@ const UserListComponent = ({usersList, reload}) => {
                             </Button>
                         </Box>
                     </Box>
+
+
                     </form>
                 </div>
                </Paper>
@@ -163,13 +163,13 @@ const UserListComponent = ({usersList, reload}) => {
                                  variant="outlined"
                                  id="input-fixed-height"
                                  name="phone_number"
-                                 label="Phone Number" 
+                                 label="Phone Number"
                                  inputRef={register({pattern: /^\d+$/,required: true , minLength:10, maxLength:10})}
                                  onInput={(e)=>{ if(e.target.value.length>0)e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                  error={errors.phone_number ?true:false}
                                  helperText={errors.phone_number? "Invalid":""}
                                  />
- 
+
                                 <br/>
                                 <br/>
                              <TextField
@@ -183,9 +183,9 @@ const UserListComponent = ({usersList, reload}) => {
                              />
                              <br/>
                              <br/>
-                             
-                     
-                             <Select 
+
+
+                             <Select
                                  className="pl-1"
                                  variant="outlined"
                                  style={{height:"55px", borderRadius:"20px", width:"222px"}}
@@ -209,9 +209,9 @@ const UserListComponent = ({usersList, reload}) => {
                              <br/>
                              <br/>
                              <br/>
-            
-   
- 
+
+
+
                      </form>
                  </div>
             )

@@ -3,6 +3,8 @@ import {useForm} from 'react-hook-form';
 import {TextField, Grid,Select, Paper, FormControl, Typography, Dialog} from '@material-ui/core'
 import {Button, Table, TableBody, TableCell,TableRow} from '@material-ui/core';
 import { useEffect, useState } from 'react';
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Grid as Grids, GridColumn as Column } from '@progress/kendo-react-grid';
 import { Input } from '@material-ui/core';
 import { Box } from '@material-ui/core';
@@ -13,7 +15,8 @@ import { Box } from '@material-ui/core';
 const UserListComponent = ({usersList, reload}) => {
     const [user, setUser] = useState("ADMIN");
     const {handleSubmit, errors, register, reset} = useForm()
-
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [state, setState] = useState();
     const createState = (skip, take) => {
       return {
@@ -34,6 +37,10 @@ const UserListComponent = ({usersList, reload}) => {
        useEffect(() => {
             setState(createState(0, 10))
        },[usersList])
+
+       useEffect(()=>{
+
+       },[register])
 
 
       const pageChange = (event) => {
@@ -77,9 +84,9 @@ const UserListComponent = ({usersList, reload}) => {
 
 
   const AddUser = () => {
-    return   <div className="rootUserList">
+    return  matches?(<div className="rootUserList">
                <Paper elevation={3} className="containerUserAdd">
-                <div className="fieldsUserAdd">
+                <div className="fieldsUserAdd"> 
                     <form onSubmit={handleSubmit(formSubmit)}>
                     <Box display="flex" p={0}>
                         <Box p={2} width="20%">
@@ -97,13 +104,16 @@ const UserListComponent = ({usersList, reload}) => {
                                 variant="outlined"
                                 id="input-fixed-height"
                                 name="phone_number"
-                                label="Phone Number"
-                                inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
-                                onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                                label="Phone Number" 
+                                inputRef={register({pattern: /^\d+$/,required: true , minLength:10, maxLength:10})}
+                                onInput={(e)=>{ if(e.target.value.length>0)e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 error={errors.phone_number ?true:false}
-                                helperText={errors.phone_number? "invalid":""}
-                                onChange={handleChange}
-                                fullWidth
+                                helperText={errors.phone_number? "Invalid":""}
+                                fullWidth 
+                                
+                                />
+
+ 
 
                                 />}
                         </Box>
@@ -115,7 +125,7 @@ const UserListComponent = ({usersList, reload}) => {
                                 label="User name"
                                 inputRef={register({required: true , minLength:1})}
                                 error={errors.name?true:false}
-                                helperText={errors.name?"required":""}
+                                helperText={errors.name?"Required":""}
                             />
                         </Box>
                         <Box width="20%" p={2}>
@@ -125,10 +135,11 @@ const UserListComponent = ({usersList, reload}) => {
                                 style={{height:"55px", borderRadius:"20px", width:"150px"}}
                                 value={user}
                                 native
+                                id="dropdown-text"
                                 name="user_type"
                                 onChange={handleChange}
-                                inputRef={register({required:true})}
-                                >
+                                inputRef={register({required:true})}>
+ 
                                     <option value="">None</option>
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>
@@ -144,7 +155,66 @@ const UserListComponent = ({usersList, reload}) => {
                     </form>
                 </div>
                </Paper>
-            </div>
+            </div>):(
+                <div className="rootUserList">
+                     <form onSubmit={handleSubmit(formSubmit)}>
+                     <br/>
+                             <TextField
+                                 variant="outlined"
+                                 id="input-fixed-height"
+                                 name="phone_number"
+                                 label="Phone Number" 
+                                 inputRef={register({pattern: /^\d+$/,required: true , minLength:10, maxLength:10})}
+                                 onInput={(e)=>{ if(e.target.value.length>0)e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                                 error={errors.phone_number ?true:false}
+                                 helperText={errors.phone_number? "Invalid":""}
+                                 />
+ 
+                                <br/>
+                                <br/>
+                             <TextField
+                                 id="input-fixed-height"
+                                 variant="outlined"
+                                 name="name"
+                                 label="User name"
+                                 inputRef={register({required: true , minLength:1})}
+                                 error={errors.name?true:false}
+                                 helperText={errors.name?"Required":""}
+                             />
+                             <br/>
+                             <br/>
+                             
+                     
+                             <Select 
+                                 className="pl-1"
+                                 variant="outlined"
+                                 style={{height:"55px", borderRadius:"20px", width:"222px"}}
+                                 value={user}
+                                 native
+                                 id="dropdown-text"
+                                 name="user_type"
+                                 onChange={handleChange}
+                                 inputRef={register({required:true})}>
+                                     <option value="">None</option>
+                                     <option value="ADMIN">Admin</option>
+                                     <option value="AGENT">Agent</option>
+                                 </Select>
+                             {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
+                             <br/>
+                             <br/>
+                             <Button type="Submit"  className="buttonUserAdd" style={{width:"222px"}}  variant="contained" size="large">
+                                 Add User
+                             </Button>
+
+                             <br/>
+                             <br/>
+                             <br/>
+            
+   
+ 
+                     </form>
+                 </div>
+            )
   }
 
 

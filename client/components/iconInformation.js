@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 export const IconInformation = ({serviceName, cost, type}) =>{
     const classes=useStyles();
     return <>
-            <HtmlTooltip title={cost ?whatToShow(serviceName, cost, type):""} >
+            <HtmlTooltip title={cost ?whatToShow(serviceName, cost, type):""} interactive >
                 <InfoIcon className={classes.purple} sizes="small"></InfoIcon>
             </HtmlTooltip>
            </>

@@ -1799,6 +1799,22 @@ background-color: grey;
  } */
 
 
+ 
+ #big-btn-style{
+   color: #00c4fe;
+   border:none;
+   width: 200px;
+ }
+
+ #big-btn-style:hover{
+   background: none;
+ }
+
+#dropdown-text{
+  font-size: 14px;
+}
+
+ 
  .error-title{
    font-weight: 800;
    color: #00C4FF;
@@ -1810,3 +1826,4 @@ background-color: grey;
   font-weight: 900;
 
 }
+ 

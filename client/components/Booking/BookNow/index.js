@@ -528,7 +528,7 @@ if(isValid && validDay){
             <form>
               <div className="container-div">
                   <div className="top-subheading">
-                      <h1>MEET & GREET</h1>
+                      <h1>MEET & GREET {query.pid && query.pid.toUpperCase()}</h1>
                       <div className="pnr-heading">
                           <div>
                               <span>

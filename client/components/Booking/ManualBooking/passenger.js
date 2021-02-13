@@ -26,7 +26,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                          onChange={handleChange("passenger_detail_seat", index)}
                          inputRef={register({ required: true, minLength:2})}
                          error={ passenger_detail_seat?true:false}
-                         helperText={passenger_detail_seat? "required":""}
+                         helperText={passenger_detail_seat? "Required":""}
                          />
 
                         </td>
@@ -40,7 +40,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           onChange={handleChange("passenger_detail_name", index)}
                           inputRef={register({ required: true})}
                           error={ passenger_detail_name?true:false}
-                          helperText={passenger_detail_name? "required":""}
+                          helperText={passenger_detail_name? "Required":""}
                           />
 
                         </td>
@@ -51,16 +51,17 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           name={`passenger_detail_age_group${index}`}
                           className="pl-1"
                           fullWidth
+                          id="dropdown-text"
                           native
                           inputRef={register({ required: true })}
                           value={item.age_group}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None"  />
-                          <option value="Sr citizen(above 60)">Sr citizen (above 58 years)</option>
-                          <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
-                          <option value="Children(upto 12 years)">Children (upto 12 years)</option>
+                          <option value="Sr citizen(above 60)">Sr. Citizen(above 58 years)</option>
+                          <option value="Adult(12yrs-60yrs)">Adult(12-58 years)</option>
+                          <option value="Children(upto 12 years)">Children(upto 12 years)</option>
                         </Select>
-                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
+                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>Required</FormHelperText>}
                         </td>
                         <td>
                         <Select
@@ -70,6 +71,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           name={`passenger_detail_gender${index}`}
                           fullWidth
                           native
+                          id="dropdown-text"
                           required={true}
                           inputRef={register({ required: true })}
                           value={item.gender}
@@ -78,7 +80,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </Select>
-                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
+                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>Required</FormHelperText>}
                         </td>
                         <td>
 
@@ -121,7 +123,7 @@ const PassengerDetails = ({data, handleChange,register, errors, remove, addPasse
                   <tr>
                     <th style={{ width:"120px"}}>Seat No.</th>
                     <th style={{ width:"160px"}}>Passenger Name*</th>
-                    <th style={{ width:"170px"}}>Age Group*</th>
+                    <th style={{ width:"180px"}}>Age Group*</th>
                     <th style={{ width:"95px"}}>Gender*</th>
                     <th style={{ width:"110px"}}>
                         <Box display="flex">

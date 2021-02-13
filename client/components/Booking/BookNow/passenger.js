@@ -56,7 +56,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           onChange={handleChange("passenger_detail_name", index)}
                           inputRef={register({ required: item.selected?true:false, minLength:2})}
                           error={passenger_detail_name ?true:false}
-                          helperText={passenger_detail_name? "required":""}
+                          helperText={passenger_detail_name? "Required":""}
                           />
                         </td>
                         <td>
@@ -69,24 +69,27 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           fullWidth
                           style={disabledColor(!item.selected)}
                           native
+                          id="dropdown-text"
                           inputRef={register({ required: item.selected?true:false })}
                           value={item.age_group}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None"  />
-                          <option value="Sr citizen(above 60)">Sr citizen (above 58 years)</option>
+                          <option value="Sr citizen(above 60)">Sr. Citizen(above 58 years)</option>
                           <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
                           <option value="Children(upto 12 years)">Children (upto 12 years)</option>
                         </Select>
-                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
+                        {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>Required</FormHelperText>}
                         </td>
                         <td>
                         <Select
                           variant="outlined"
                           className="pl-2"
+                          id="dropdown-text"
                           style={{  height: "55px",borderRadius: "20px"}}
                           name={`passenger_detail_gender${index}`}
                           fullWidth
                           native
+
                           style={disabledColor(!item.selected)}
                           required={true}
                           disabled={!item.selected}
@@ -97,7 +100,7 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </Select>
-                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>required</FormHelperText>}
+                          {passenger_detail_gender && <FormHelperText style={{color:"red"}}>Required</FormHelperText>}
                         </td>
                         <td>
 

@@ -27,7 +27,7 @@ return <>
               onChange={handleChange("passenger_name")}
               inputRef={register({required: true})}
               error={errors.passenger_name ?true:false}
-              helperText={errors.passenger_name? "required":""}
+              helperText={errors.passenger_name? "Required":""}
               fullWidth
             />
             </td>
@@ -42,7 +42,7 @@ return <>
                onChange={handleChange("passenger_primary_number")}
                inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                error={errors.passenger_primary_number ?true:false}
-               helperText={errors.passenger_primary_number? "required":""}
+               helperText={errors.passenger_primary_number? "Required":""}
                fullWidth
                type="Number" />
             </td>

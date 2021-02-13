@@ -29,7 +29,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
       date = month+"-"+date.substring(0,2)+date.substring(5,)
     }
 
-  const [selectedDate, handleDateChange] = useState(date!=""? new Date(date):new Date() );
+  const [selectedDate, handleDateChange] = useState(null);
   const changeVal =(value) =>{
     handleDateChange(value);
     changeDate(value);
@@ -58,7 +58,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 onChange={handleChange("train_no")}
                 inputRef={register({ required: true, minLength:5})}
                 error={errors.train_no?true:false}
-                helperText={errors.train_no? "invalid":""}
+                helperText={errors.train_no? "Invalid":""}
                 // value={state.train_no}
               />
             </td>
@@ -76,16 +76,18 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 name="station_name"
                 className="pl-1"
                 fullWidth
+                id="dropdown-text"
                 native
+                error={errors.station_name}
                 inputRef={register({ required: true })}
                 onChange={handleChange("station_name",isArrival)}
                 value = {isArrival?state.booking_information.reservation_upto.station_name:state.booking_information.boarding_station.station_name}
               >
                 <option aria-label="None"  />
-                <option value="New Delhi railway Station">New Delhi railway Station</option>
-                <option value="Old Delhi railway Station">Old Delhi railway Station</option>
+                <option value="New Delhi railway Station">New Delhi Railway Station</option>
+                <option value="Old Delhi railway Station">Old Delhi Railway Station</option>
               </Select>
-              {errors.station_name && <FormHelperText   style={{color:"red"}}>Please select {query.pid} station!</FormHelperText>}
+              {errors.station_name && <FormHelperText   style={{color:"red"}}>Required</FormHelperText>}
 
 
              </td>
@@ -108,13 +110,14 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <DatePicker
                          id="input-fixed-height"
-
                         inputVariant="outlined"
-                        value={ date ? new Date(date) :selectedDate }
+                        value={selectedDate ? selectedDate :null }
                         name="date"
+                        error={errors.date?true:false}
+                        helperText={errors.date ? "Required" : ""}
                         inputRef={register({required:true})}
                         minDate={Date.now()}
-                        onChange={(value) => {changeVal(value)}}
+                        onChange={(value) => {changeVal(value); errors.date=null}}
                         formatDate={(date) => moment(new Date()).format('DD-MM-YYYY')}
                         />
                   </MuiPickersUtilsProvider>
@@ -133,7 +136,7 @@ const BookingInformation = ({query, handleChange, register, errors, state, chang
                 inputProps={{step: 300}}
                 onChange={handleChange("time", isArrival)}
                 error={errors.time?true:false}
-                helperText={errors.time? `required`:""}
+                helperText={errors.time? "Required":""}
                 value ={isArrival?state.booking_information.reservation_upto.time:state.booking_information.boarding_station.time}
 
                 />

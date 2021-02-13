@@ -173,7 +173,7 @@ export default function TransitionsModal() {
             <div className="">
               <div className="row justify-content-center">
                 <div className="lg-container">
-                     <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
+                     <h2 className="login-modal-title">LOGIN</h2>
                    {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                        <TextField
                         variant="outlined"
@@ -204,7 +204,9 @@ export default function TransitionsModal() {
                           Continue
                       </Button>
 
-                      <Button onClick={()=>{setPasswordModal(true); setOpen(false)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue using password</p></Button>
+                      <Button variant="outlined" id="big-btn-style" onClick={()=>{setPasswordModal(true); setOpen(false)}}>
+                          GO FOR SITE ADMINS
+                      </Button>
                    </form>}
 
                     {otp_sent && <form>
@@ -253,7 +255,7 @@ export default function TransitionsModal() {
             <div className="">
               <div className="row justify-content-center">
                 <div className="lg-container">
-                     <h2 className="login-modal-title">LOGIN</h2>
+                     <h2 className="login-modal-title">ADMIN LOGIN</h2>
                      <h5 style={{color:"red"}}>{errorMessage}</h5>
                      <form onSubmit={handleSubmit(onSubmitAdmin)}>
                        <TextField
@@ -264,18 +266,22 @@ export default function TransitionsModal() {
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                         error={errors.phone_number_auth ?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                        helperText={errors.phone_number_auth? "Phone number is Invalid":""}
+                        helperText={errors.phone_number_auth? "Please enter a valid phone number":""}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
+                        
                       <TextField
                         variant="outlined"
                         name="password"
                         type="password"
                         size="small"
+                        inputRef={register({required:true})}
                         onChange={e =>setPassword(e.target.value)}
-                        placeholder="enter password"
+                        helperText={errors.password? "Please enter your password":""}
+                        error={errors.password?true:false}
+                        placeholder="Enter your password"
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
                       <Button
@@ -285,7 +291,7 @@ export default function TransitionsModal() {
                           className="m-2 login-modal-continue">
                           Continue
                       </Button>
-                      <Button  onClick={()=>{setPasswordModal(false); setOpen(true)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue Using Phone</p></Button>
+                      <Button id="big-btn-style"  onClick={()=>{setPasswordModal(false); setOpen(true)}}>for normal login</Button>
                    </form>
 
                  </div>

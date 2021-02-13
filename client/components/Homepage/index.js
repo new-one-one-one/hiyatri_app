@@ -109,10 +109,10 @@ const Homepage = () => {
                         inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         error={errors.PNR_NUMBER?true:false}
-                        helperText={errors.PNR_NUMBER?"Invalid PNR":""}
+                        helperText={errors.PNR_NUMBER?"Please enter a valid PNR":""}
                         onChange={handleChange("pnr")}
                         className="hp-input"
-                        placeholder="PNR No."
+                        placeholder="PNR No. (10 digits)"
                         fullWidth />
 
 
@@ -152,7 +152,7 @@ const showFormWhenNotLoggedIn = () => {
                                 inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                                 error={errors.phone_number ?true:false}
                                 InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                                helperText={errors.phone_number? "invalid":""}
+                                helperText={errors.phone_number? "Invalid":""}
                                 onChange={handleChange("phone")}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 placeholder="Phone no."
@@ -171,7 +171,7 @@ const showFormWhenNotLoggedIn = () => {
                                 name="pnr_number"
                                 inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                                 error={errors.pnr_number?true:false}
-                                helperText={errors.pnr_number? "invalid":""}
+                                helperText={errors.pnr_number? "Invalid":""}
                                 onChange={handleChange("pnr")}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 className="hp-input mt-2 mb-2"

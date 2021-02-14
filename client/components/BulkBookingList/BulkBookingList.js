@@ -109,19 +109,19 @@ const BulkBookingsList = () => {
       });
   }, []);
 
-  const clickHandler = (record) => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_API}/download_particularFile/${record}`
-    ).then((response) => {
-      response.blob().then((blob) => {
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement("a");
-        a.href = url;
-        a.download = `${record}.xlsx`;
-        a.click();
-      });
-    });
-  };
+  // const clickHandler = (record) => {
+  //   fetch(
+  //     `${process.env.NEXT_PUBLIC_API}/download_particularFile/${record}`
+  //   ).then((response) => {
+  //     response.blob().then((blob) => {
+  //       let url = window.URL.createObjectURL(blob);
+  //       let a = document.createElement("a");
+  //       a.href = url;
+  //       a.download = `${record}.xlsx`;
+  //       a.click();
+  //     });
+  //   });
+  // };
 
   const deleteHandler = (id) => {
     const updatedRecord = () => {
@@ -261,11 +261,16 @@ const BulkBookingsList = () => {
                     <td>{EachContent.booking_type}</td>
                     <td>
                     
-                       <Button type="Submit"  onClick={() =>
+                       {/* <Button type="Submit"  onClick={() =>
                           clickHandler(EachContent.bulk_booking_id)
                         }  className="buttonUserAdd" variant="contained" size="large">
                                 Download Record
-                          </Button>
+                          </Button> */}
+                          <a style={{textDecoration:'none'}} href={EachContent.excelawslink}>
+                               <Button type="Submit"className="buttonUserAdd" variant="contained" size="large">
+                                      Download Record
+                                </Button>
+                          </a>
                     </td>
                     <td>
                       <Button type="Submit" onClick={() => {

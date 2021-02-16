@@ -8,7 +8,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 
 const FinalOrder = () => {
-  const [data, setData] = useState();
+  const [bookingData, setBookingData] = useState();
   const token = getCookie('token');
 
   const bookingFromLS = () => {
@@ -23,8 +23,13 @@ const FinalOrder = () => {
   };
 
   useEffect(() => {
-   setData(bookingFromLS())
+    console.log(bookingFromLS())
+    let booking = bookingFromLS();
+    let new_state = booking.passenger_details.filter(pass => pass.selected == true)
+    booking.passenger_details = new_state;
+    setBookingData(booking)
   },[])
+
 
   const head = () => (
         <Head>
@@ -38,11 +43,10 @@ const FinalOrder = () => {
           {head()}
           <Private>
             <Layout>
-              {data && <Order data={data} />}
+              {bookingData && <Order data={bookingData} />}
             </Layout>
           </Private>
          </>
 }
-
 
 export default withRouter(FinalOrder);

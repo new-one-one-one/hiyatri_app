@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { sendingOTP, verifyingOTP, authenticate, verifyPassword } from '../../../actions/auth';
 import Countdown from "react-countdown";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-
+import useWindowSize from '../../../helpers/windowDimension';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  hamburger:{
+    border:"0px solid white"
+  },
   paper: {
+    margin:"20px",
     borderRadius:"8px",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
@@ -33,6 +37,7 @@ export default function TransitionsModal() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [openPasswordModal, setPasswordModal] = useState(false);
+  const { width } = useWindowSize();
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const handleOpen = () => {
@@ -145,7 +150,11 @@ export default function TransitionsModal() {
 
   return (
     <div>
-     <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>
+     {width>767 && <Button className="login-btn mt-2" variant="contained" onClick={handleOpen}> <i class="fas fa-user user-login-icon" /> Login</Button>}
+     {width<767 &&   <Button onClick={handleOpen} className={classes.hamburger}>
+          <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
+       </Button>}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -164,7 +173,7 @@ export default function TransitionsModal() {
             <div className="">
               <div className="row justify-content-center">
                 <div className="lg-container">
-                     <h2 className="login-modal-title">LOGIN/ JOIN US</h2>
+                     <h2 className="login-modal-title">LOGIN</h2>
                    {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                        <TextField
                         variant="outlined"
@@ -174,7 +183,7 @@ export default function TransitionsModal() {
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                         error={errors.phone_number?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                        helperText={errors.phone_number? "Phone number is Invalid":""}
+                        helperText={errors.phone_number? "Invalid":""}
                         onChange={e =>  set_phone_number(e.target.value)}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."
@@ -195,7 +204,9 @@ export default function TransitionsModal() {
                           Continue
                       </Button>
 
-                      <Button onClick={()=>{setPasswordModal(true); setOpen(false)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue using password</p></Button>
+                      <Button variant="outlined" id="big-btn-style" onClick={()=>{setPasswordModal(true); setOpen(false)}}>
+                          GO FOR SITE ADMINS
+                      </Button>
                    </form>}
 
                     {otp_sent && <form>
@@ -244,7 +255,7 @@ export default function TransitionsModal() {
             <div className="">
               <div className="row justify-content-center">
                 <div className="lg-container">
-                     <h2 className="login-modal-title">LOGIN</h2>
+                     <h2 className="login-modal-title">ADMIN LOGIN</h2>
                      <h5 style={{color:"red"}}>{errorMessage}</h5>
                      <form onSubmit={handleSubmit(onSubmitAdmin)}>
                        <TextField
@@ -255,18 +266,22 @@ export default function TransitionsModal() {
                         inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                         error={errors.phone_number_auth ?true:false}
                         InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                        helperText={errors.phone_number_auth? "Phone number is Invalid":""}
+                        helperText={errors.phone_number_auth? "Please enter a valid phone number":""}
                         onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                         placeholder="Mobile no."
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
+                        
                       <TextField
                         variant="outlined"
                         name="password"
                         type="password"
                         size="small"
+                        inputRef={register({required:true})}
                         onChange={e =>setPassword(e.target.value)}
-                        placeholder="enter password"
+                        helperText={errors.password? "Please enter your password":""}
+                        error={errors.password?true:false}
+                        placeholder="Enter your password"
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
                       <Button
@@ -276,8 +291,7 @@ export default function TransitionsModal() {
                           className="m-2 login-modal-continue">
                           Continue
                       </Button>
-                      <Button  onClick={()=>{setPasswordModal(false); setOpen(true)}}><p style={{color:"#00c4fe", backgroundColor:"none"}}>Continue Using Phone</p></Button>
-
+                      <Button id="big-btn-style"  onClick={()=>{setPasswordModal(false); setOpen(true)}}>for normal login</Button>
                    </form>
 
                  </div>

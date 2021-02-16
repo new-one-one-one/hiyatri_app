@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Router from 'next/router';
 import Loader from 'react-loader-spinner'
 import useWindowSize from '../../helpers/windowDimension';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Radio } from 'antd';
 
 const Homepage = () => {
@@ -62,7 +63,7 @@ const Homepage = () => {
   }
 
   const onSubmit = (data) => {
-     console.log(data)
+
   }
 
   const onpnrSubmit = (data) => {
@@ -71,9 +72,13 @@ const Homepage = () => {
       .then(response => {
         setShowSpinner(false);
         if(response.status==="error"){
-          return toast.error(response.message)
+          // this is the case if pnr not worked
+          // return toast.error(response.message)
+          Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
         }
-       Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+        else{
+            Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+        }
       })
       .catch((err) => {
         toast.error("Something went wrong! Try after sometime.")
@@ -85,13 +90,9 @@ const Homepage = () => {
 
   const showFormWhenLoggedIn = () => {
     return <div>
-    {width>767 && <div className="hp-style">
-      <section className="hp-sub-1">India’s Only Meet & Greet Services</section>
-      <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
-    </div>}
-    <div className="row justify-content-center">
-        <div className="col-md-4 col-sm-8 hp-inp-container-l-o text-center">
-                <div className="row justify-content-center ">
+    <div className="hp-welcome-inner">
+        <div className="hp-inp-container-l-o">
+                <div className="row justify-content-center">
                     <div className='hp-inp-container-l'>
                      <FormControl component="fieldset" className="mb-3">
                          <Radio.Group onChange={handleChange("status")} value={state.status}>
@@ -101,18 +102,18 @@ const Homepage = () => {
                      </FormControl>
 
                      <TextField
-                     variant="outlined"
-                     type="number"
-                     size="small"
-                     name="PNR_NUMBER"
-                     inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
-                     onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
-                     error={errors.PNR_NUMBER?true:false}
-                     helperText={errors.PNR_NUMBER?"Valid PNR number is required":""}
-                     onChange={handleChange("pnr")}
-                     className="hp-input"
-                     placeholder="PNR No."
-                     fullWidth />
+                        variant="outlined"
+                        type="number"
+                        size="small"
+                        name="PNR_NUMBER"
+                        inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
+                        onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                        error={errors.PNR_NUMBER?true:false}
+                        helperText={errors.PNR_NUMBER?"Please enter a valid PNR":""}
+                        onChange={handleChange("pnr")}
+                        className="hp-input"
+                        placeholder="PNR No. (10 digits)"
+                        fullWidth />
 
 
                     <div className="text-center hp-mb-continue-btn">
@@ -130,13 +131,8 @@ const Homepage = () => {
 
 const showFormWhenNotLoggedIn = () => {
    return <>
-    {<div className="hp-style">
-     <section className="hp-sub-1">India’s Only Meet & Greet Services</section>
-     <section className="hp-sub-2">Avoid Long Lines With Our Personal VIP Assistance</section>
-     </div>}
-     <div className="row justify-content-center">
-        <div className="col-md-6 col-sm-12 hp-inp-outer">
-                   <div className="hp-inp-container">
+     <div className="hp-welcome-inner">
+        <div className="hp-inp-container">
                         <div className="hp-radio-btn text-center">
                             <FormControl component="fieldset">
                               <Radio.Group onChange={handleChange("status")} value={state.status}>
@@ -156,7 +152,7 @@ const showFormWhenNotLoggedIn = () => {
                                 inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
                                 error={errors.phone_number ?true:false}
                                 InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
-                                helperText={errors.phone_number? state.phone_number? "Phone number is invalid":"Phone number is required":""}
+                                helperText={errors.phone_number? "Invalid":""}
                                 onChange={handleChange("phone")}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 placeholder="Phone no."
@@ -175,7 +171,7 @@ const showFormWhenNotLoggedIn = () => {
                                 name="pnr_number"
                                 inputRef={register({pattern: /^\d+$/,required: true , minLength:10})}
                                 error={errors.pnr_number?true:false}
-                                helperText={errors.pnr_number?state.pnr_number? "PNR number is invalid":"PNR number is required":""}
+                                helperText={errors.pnr_number? "Invalid":""}
                                 onChange={handleChange("pnr")}
                                 onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
                                 className="hp-input mt-2 mb-2"
@@ -187,12 +183,12 @@ const showFormWhenNotLoggedIn = () => {
                               <Modal state={state} submit={handleSubmit(onSubmit)}/>
                             </div>
                         </div>
-                 </div>
+         </div>
+         <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
+            {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
          </div>
      </div>
-     <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
-        {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
-     </div>
+
    </>
 }
 
@@ -208,21 +204,21 @@ const showFormWhenNotLoggedIn = () => {
                  visible={showSpinner}
               />
              </div>
-             <div className="hp-curve" />
-             <div className="hp-welcome">
-
-              {<div className="mb-hp-welcome d-sm-block d-md-none d-lg-none">
-                  <div className="hp-welcome-text-c">
-                  <section className="hp-subs-1">India’s Only Meet & Greet Services</section>
-                  <section className="hp-subs-2">Avoid Long Lines With Our Personal VIP Assistance</section>
-                  </div>
-               </div>}
-
-               <div className="hp-welcome-inner">
+             <div className="">
+               <div className="row col justify-content-center">
+                 <div className="col-md-6 col-md-8 col-sm-12">
+                 {width > 766 && <LazyLoadImage src="/images/tag_line1.svg" className="tag_line1"/>}
+                 {width > 766 && <LazyLoadImage src="/images/tag_line2.svg" className="tag_line2"/>}
+                 </div>
+               </div>
+               {width < 766 && <LazyLoadImage src="/images/tag_line.svg" className="tag_line"/>}
+               <div className="home-container">
+                 <img src="/images/main-img.png" className="main-img"/>
+               </div>
+             </div>
+             <div className="">
                {isAuth() && showFormWhenLoggedIn()}
                {!isAuth() && showFormWhenNotLoggedIn()}
-               </div>
-
             </div>
             <StaticData />
          </>

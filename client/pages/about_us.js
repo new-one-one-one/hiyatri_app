@@ -1,5 +1,4 @@
 import Layout from '../components/Core/Layout';
-
 import Head from 'next/head';
 
   const head = () => (

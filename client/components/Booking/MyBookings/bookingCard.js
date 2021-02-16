@@ -22,7 +22,6 @@ const useStyles = makeStyles({
         minWidth:"400px"
     },
     details:{
-
         paddingLeft:"17%",
         paddingRight:"10%",
     },
@@ -33,6 +32,10 @@ const useStyles = makeStyles({
       marginLeft:"20px"
     }
   });
+
+
+  
+  
 
 const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_arrival }) => {
   const classes = useStyles();
@@ -57,29 +60,45 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
   useEffect(()=>{
   },[thisDataOpen])
   const myStatus= (status, id, pnr, data) => {
-      switch (status){
-          case "ASSIGN_TO_ADMIN": return (
+          if ((status === "ASSIGN_TO_ADMIN") && (compare_date_time(fixedDetails)))
+                      return (
                               <div className="row justify-content-center">
                                        <div className="col-5">
                                          <div className="row justify-content-center">
                                           <CancelModal id={id} duration={duration} />
                                          </div>
                                        </div>
-                                       <div className="col-5">
-                                         <div className="row justify-content-center">
+                                       <div className="col-5" style={{marginRight:"40px"}}>
                                             <Button id="user-booking-list-btn" onClick={()=>{showData(data)}} >View details</Button>
-                                         </div>
                                        </div>
                                   </div>
 
                               )
-          default:return(
-            <div style={{marginLeft:"30%"}}>
-              <Button id="user-booking-list-btn"  onClick={()=>{showData(data)}}>View details</Button>
-            </div>
-          )
-       }
+          else 
+            return(
+              <div style={{marginLeft:"30%"}}>
+                <Button id="user-booking-list-btn"  onClick={()=>{showData(data)}}>View details</Button>
+              </div>
+            )
+      }
+  
+
+  const compare_date_time = (details) =>{
+    var arr = {
+      "01":"Jan", "02":"Feb", "03":"Mar","04":"Apr","05":"May","06":"June","07":"July","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec"
+    };
+      var month = arr[details.date[1]];
+      var today = new Date().getTime();
+      var onthatDay = new Date(details.date[2]+" "+month+" "+details.date[0]+" "+details.hrs+":"+details.mins).getTime();
+      return (onthatDay-today)/3600000 >= 0 ? true : false ;
+    
+    }
+  const fixedDetails={
+    hrs:parseInt(!is_arrival?boarding_station.time.substring(0,2):reservation_upto.time.substring(0,2)),
+    mins:parseInt(!is_arrival?boarding_station.time.substring(3):reservation_upto.time.substring(3)),
+    date:(!is_arrival?boarding_station.date:reservation_upto.date).split("-")
   }
+
 
 return <div className="shadow booking-card">
         <Grid item>
@@ -103,12 +122,12 @@ return <div className="shadow booking-card">
                         <Box display="flex">
                             <Box width="40%"><b>Date</b></Box>
                             <Box width="10%"><b>:</b></Box>
-                            <Box width="50%">{boarding_station.date}</Box>
+                            <Box width="50%">{is_arrival?reservation_upto.date:boarding_station.date}</Box>
                         </Box>
                         <Box display="flex">
                             <Box width="40%"><b>Time</b></Box>
                             <Box width="10%"><b>:</b></Box>
-                            <Box width="50%">{boarding_station.time}</Box>
+                            <Box width="50%">{is_arrival?reservation_upto.time:boarding_station.time}</Box>
                         </Box>
                         <Box display="flex">
                             <Box width="40%"><b>Status</b></Box>

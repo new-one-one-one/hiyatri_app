@@ -4,21 +4,13 @@ import {Paper} from "@material-ui/core";
 import useStyles from './style';
 import MuiAlert from '@material-ui/lab/Alert';
 
-
-const Checkout = ({ data, order,originalOrder, terms }) => {
-
+const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register }) => {
   const classes = useStyles();
   const { width } = useWindowSize();
 
   function Alert(props) {
     return <MuiAlert  variant="filled" {...props} />;
   }
-
-  // const calculateConvenience = () => {
-  //    let price = originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount;
-  //    let convenience = (process.env.NEXT_PUBLIC_CONVENIENCE_FEE_RATE/100)*(originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount)
-  //    return convenience;
-  // }
 
   return <div className="shadow p-3">
             <Paper>
@@ -32,18 +24,23 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                   </Box>
                   <Box display="flex" p={0} bgcolor="background.paper">
                       <Box p={1} width="100%">
-                         Discount
-                         <br />
                          <p style={{color:"blue"}}>
                            Apply Coupon ?
                          </p>
                       </Box>
-                      <Box p={2} flexShrink={1}>
-                      <TextField  size="small"/>
+                      <Box p={0} flexShrink={1}>
+                      <TextField  size="small"
+                        name={`coupon`}
+                        onChange={handleChange}
+                        inputProps={{
+                          maxLength: 5,
+                        }}
+                        inputRef={register({maxLength:5})}
+                      />
                       </Box>
                   </Box>
 
-                  <Divider variant="middle"/>
+                  {/* <Divider variant="middle"/>
                       <Box display="flex" p={0} bgcolor="background.paper">
 
                           <Box p={1} width="100%">
@@ -52,10 +49,10 @@ const Checkout = ({ data, order,originalOrder, terms }) => {
                           <Box p={1} flexShrink={0}>
                             ₹{(originalOrder?originalOrder.total_amount-data.total_amount:data.total_amount)}
                           </Box>
-                      </Box>
+                      </Box> */}
                 {width>500 && (
                   <div className="text-center pt-3 pb-3">
-                   <Button  size="large" className="o-booknow-btn" variant="contained" onClick={order} disabled={!terms}>
+                   <Button  size="large" className="o-booknow-btn" variant="contained" onClick={()=>{terms ? order() : isAgreed(false)}}>
                       Book Now
                    </Button>
                   </div>

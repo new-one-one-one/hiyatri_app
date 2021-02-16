@@ -91,6 +91,11 @@ export const setLocalStorage = (key, value) => {
         localStorage.setItem(key, JSON.stringify(value));
     }
 };
+export const setLocalStorageManual = (key, value) => {
+    if (process.browser) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+};
 
 
 export const removeLocalStorage = key => {

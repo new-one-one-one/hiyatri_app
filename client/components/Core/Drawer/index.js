@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LoginModal from '../Header/login_modal';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic'
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,6 +26,8 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import TrainOutlinedIcon from '@material-ui/icons/TrainOutlined';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+
 const SwipeableDrawer = dynamic(() => import('@material-ui/core/Drawer'), {
   ssr: false,
 })
@@ -83,15 +86,29 @@ const SideDrawer = ({ close, status, router }) => {
   const list = () => (
     <div className={classes.list}>
          <List>
-         <ListItem>
+
+         {/*!isAuth() && <ListItem button>
+               <LoginModal />
+              </ListItem>*/}
+         {isAuth() && <ListItem>
            <ListItemAvatar>
              <Avatar>
                <PhoneRoundedIcon/>
              </Avatar>
            </ListItemAvatar>
                 <ListItemText primary={isAuth() && <div>{"+91-"+ (isAuth() && isAuth().phone_number)}</div>} />
-          </ListItem>
+          </ListItem>}
+
            <Divider />
+           {isAuth() && <Link href="/booking/profile">
+              <a className={classes.menu}>
+               <ListItem button style={currentTabStyle("/booking/profile", router.pathname)}>
+                      <ListItemIcon><PermIdentityIcon/></ListItemIcon>
+                      <ListItemText primary="My Profile" />
+               </ListItem>
+              <Divider />
+             </a>
+           </Link>}
            {isAuth() && <Link href="/">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/", router.pathname)}>
@@ -101,6 +118,9 @@ const SideDrawer = ({ close, status, router }) => {
               <Divider />
              </a>
            </Link>}
+
+
+
            {isAuth() && <Link href="/booking/my_bookings">
               <a className={classes.menu}>
                <ListItem button style={currentTabStyle("/booking/my_bookings", router.pathname)}>
@@ -110,14 +130,6 @@ const SideDrawer = ({ close, status, router }) => {
                <Divider />
              </a>
          </Link>}
-           {/*!isAuth() && <Link href="/login">
-             <a className={classes.menu}>
-               <ListItem button style={currentTabStyle("/login", router.pathname)} className="mt-1">
-                      <ListItemIcon><VpnKeyIcon color="black" /></ListItemIcon>
-                      <ListItemText primary="Login" />
-               </ListItem>
-            </a>
-           </Link>*/}
 
           {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/manage_user">
             <a className={classes.menu}>
@@ -149,7 +161,7 @@ const SideDrawer = ({ close, status, router }) => {
           </Link>} */}
           <Divider/>
 
-          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/bulk_booking_list">
+          {isAuth() && isAuth().user_type ==="ADMIN" && <Link href="/admin/bulk_booking_list">
             <a className={classes.menu}>
               <ListItem button style={currentTabStyle("/bulk_booking_list", router.pathname)}>
                      <ListItemIcon><FormatListNumberedIcon /></ListItemIcon>
@@ -165,10 +177,15 @@ const SideDrawer = ({ close, status, router }) => {
                  <ListItemIcon><PowerSettingsNewIcon/></ListItemIcon>
                  <ListItemText primary="Logout" />
           </ListItem>}
-       
+          <Divider/>
 
-          {/*<div className={classes.drawerBottom} />*/}
-          
+
+
+
+
+
+
+
          </List>
     </div>
   );

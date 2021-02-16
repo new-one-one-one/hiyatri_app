@@ -11,78 +11,30 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Router from 'next/router';
 import HashLoader from "react-spinners/HashLoader";
-import { ToastContainer, toast } from 'react-toastify';
 import { create_booking } from '../../../actions/booking';
 import { getCookie, isAuth, setLocalStorage } from "../../../actions/auth";
 import { singleUser } from "../../../actions/user";
 import {useForm} from 'react-hook-form';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider } from "@material-ui/core";
+import { getServiceAmount } from './services';
+import { reducer } from './reducers';
+import { ACTIONS } from './actions';
+import { useToast } from "@chakra-ui/react"
+import {IconInformation} from './../../iconInformation';
+
+
 
 const TrainBooking = ({ data, query, pnrWorked, modify, order }) => {
- console.log(data);
-
-
-
 const theme = useTheme();
 const token = getCookie('token');
 const matches = useMediaQuery(theme.breakpoints.up("md"));
-const {register, errors, handleSubmit} = useForm();
+const {register, errors, handleSubmit, unregister} = useForm();
+const toast = useToast()
 const capitalize = (s) => {
 if (typeof s !== 'string') return ''
 return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-
-const getServiceAmount = (service_name, category) => {
-    if(service_name === "meet_and_greet"){
-          if(category === "Sr citizen(above 60)"){
-            return process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE
-          }
-          if(category === "Adult(12yrs-60yrs)"){
-            return process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE
-          }
-          if(category === "Children(upto 12 years)"){
-            return process.env.NEXT_PUBLIC_MEET_GREET_5_TO_12_PRICE
-          }
-    }
-    if(service_name === "wheel_chair"){
-         return process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE;
-    }
-    if(service_name === "golf_cart"){
-          if(category === "Sr citizen(above 60)"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
-          }
-          if(category === "Adult(12yrs-60yrs)"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
-          }
-          if(category === "Children(upto 12 years)"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
-          }
-    }
-    if(service_name === "luggage_bags"){
-          if(category === "BELOW_7KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
-          }
-          if(category === "7KG_TO_20KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
-          }
-          if(category === "20KG_TO_30KG"){
-            return process.env.NEXT_PUBLIC_GOLF_CART_5_TO_12_PRICE
-          }
-    }
-
-    if(service_name === "luggage_gaurantee"){
-          if(category === "BELOW_7KG"){
-            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE
-          }
-          if(category === "7KG_TO_20KG"){
-            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE
-          }
-          if(category === "20KG_TO_30KG"){
-            return process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE
-          }
-    }
-}
 
 const initialData = {
   user: "",
@@ -118,7 +70,7 @@ const initialData = {
     total_amount: 0
 },
   porter_service_detail: {
-    porter_service_opted: null,
+    porter_service_opted: true,
     large_bags:{
       unit:0,
       total: 0
@@ -150,308 +102,6 @@ const initialData = {
  total_amount: null
 }
 
-const ACTIONS = {
-  STATE:"state",
-  USER:"user_id",
-  PNR:"pnr",
-  IS_ARRIVAL:"is_arrival",
-  PASSENGER_CONTACT_INFO:{
-    NAME:"name",
-    PRIMARY:"primary_number",
-    SECONDARY:"secondary_number",
-    EMAIL:"email"
-  },
-  PASSENGER_DETAIL:{
-    NAME:"passenger_detail_name",
-    AGE:"passenger_detail_age",
-    GENDER:"passenger_detail_gender",
-    MEETGREET:"passenger_detail_meet_and_greet",
-    WHEELCHAIR:"passenger_detail_wheel_chair",
-    GOLFCART:"passenger_detail_golf_cart",
-    BILL:{
-      MEETGREET:"mg_price",
-      WHEELCHAIR:"wl_price",
-      GOLFCART:"gc_price",
-      TOTAL:"passenger_total_bill",
-      TOTAL_ZERO:"total_zero",
-      MEETGREET_ZERO:"meet_and_greet_zero",
-      GOLFCART_ZERO:"golf_cart_zero",
-      WHEELCHAIR_ZERO:"wheel_chair_zero",
-    }
-  },
-  CAB_SERVICE:{
-    OPTED:"cab_copted",
-    DESTINATION:"cab_destination",
-    NUMBER_OF_PASS:"cab_number_of_pass",
-    LAGGAGE_BAG:"cab_laggage_bag",
-    NUMBER_OF_CAB:"cab_number_of_cab",
-    TOTAL_AMOUNT:"cab_price"
-  },
-  PORTER_SERVICE:{
-    OPTED:"porter_copted",
-    LARGE_BAG:"porter_large_bags",
-    MEDIUM_BAG:"porter_medium_bags",
-    SMALL_BAG:"porter_small_bags",
-    PORTER_BILL:"porter_bill",
-    PORTER_BILL_ZERO:"porter_bill_zero",
-    BAGGAGE_GARANTEED:{
-      OPTED: "baggage_garanteed_opted",
-      LARGE_BAG:"bg_large_bags",
-      MEDIUM_BAG:"bg_medium_bags",
-      SMALL_BAG:"bg_small_bags",
-      BG_BILL:"bg_bill",
-      BG_BILL_ZERO:"bg_bill_zero"
-    }
-  },
-  TOTAL_AMOUNT: "total_amount"
-}
-
-const reducer = (state, action) => {
-  switch (action.type) {
-
-    case ACTIONS.STATE:
-       return action.payload
-
-    /* User id */
-    case ACTIONS.USER:
-       return {...state, user: action.payload }
-
-     /* Total Amount*/
-    case ACTIONS.TOTAL_AMOUNT:
-      return {...state, total_amount: action.payload }
-
-   /* PNR */
-    case ACTIONS.PNR:
-      return {...state, pnr_number: action.payload }
-
-  /* Is arrival */
-    case ACTIONS.IS_ARRIVAL:
-      return {...state, booking_information: {
-        ...state.booking_information,
-        is_arrival: action.payload  }}
-
-    /* Passenger contact information */
-    case ACTIONS.PASSENGER_CONTACT_INFO.PRIMARY:
-       return {...state, passenger_contact_information: {
-         ...state.passenger_contact_information,
-         primary_contact_number: action.payload }}
-    case ACTIONS.PASSENGER_CONTACT_INFO.NAME:
-      return {...state, passenger_contact_information: {
-        ...state.passenger_contact_information,
-        name: action.payload }}
-    case ACTIONS.PASSENGER_CONTACT_INFO.SECONDARY:
-      return {...state, passenger_contact_information: {
-        ...state.passenger_contact_information,
-        secondary_contact_number: action.payload }}
-    case ACTIONS.PASSENGER_CONTACT_INFO.EMAIL:
-      return {...state, passenger_contact_information: {
-        ...state.passenger_contact_information,
-        email_id: action.payload }}
-
-  /* Passenger details */
-  case ACTIONS.PASSENGER_DETAIL.SEAT:
-     const pass_detail_seat = state.passenger_details
-      .map((value, idx) => {
-      if(action.sidx != idx) return value;
-      return {...value, seat_number: action.payload }})
-      return {...state, passenger_details: pass_detail_seat}
-
-    case ACTIONS.PASSENGER_DETAIL.NAME:
-       const pass_detail_name = state.passenger_details
-        .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, passenger_name: action.payload }})
-        return {...state, passenger_details: pass_detail_name}
-
-    case ACTIONS.PASSENGER_DETAIL.AGE:
-       const pass_detail_age = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, age_group: action.payload }})
-        return {...state, passenger_details: pass_detail_age}
-
-    case ACTIONS.PASSENGER_DETAIL.GENDER:
-       const pass_detail_gender = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, gender: action.payload }})
-        return {...state, passenger_details: pass_detail_gender}
-
-    case ACTIONS.PASSENGER_DETAIL.MEETGREET:
-       const pass_detail_meetgreet = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, meet_and_greet: action.payload }})
-        return {...state, passenger_details: pass_detail_meetgreet}
-
-    case ACTIONS.PASSENGER_DETAIL.WHEELCHAIR:
-       const pass_detail_wheelchair = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, wheel_chair: action.payload }})
-        return {...state, passenger_details: pass_detail_wheelchair}
-
-    case ACTIONS.PASSENGER_DETAIL.GOLFCART:
-       const pass_detail_golfcart = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, golf_cart: action.payload }})
-        return {...state, passenger_details: pass_detail_golfcart}
-
-    case ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET:
-       const pass_detail_bill_meetgreet = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, bill: {...value.bill, meet_and_greet: parseFloat(value.bill.meet_and_greet) + parseFloat(action.payload) } }})
-        console.log(299, pass_detail_bill_meetgreet)
-        return {...state, passenger_details: pass_detail_bill_meetgreet }
-
-
-    case ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR:
-       const pass_detail_bill_wheelchair = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, bill: {...value.bill, wheel_chair: parseFloat(value.bill.wheel_chair) + parseFloat(action.payload) } }})
-        return {...state, passenger_details: pass_detail_bill_wheelchair }
-
-    case ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART:
-       const pass_detail_bill_golfcart = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, bill: {...value.bill, golf_cart: parseFloat(value.bill.golf_cart) + parseFloat(action.payload) } }})
-        return {...state, passenger_details: pass_detail_bill_golfcart }
-
-    case ACTIONS.PASSENGER_DETAIL.BILL.TOTAL:
-      const pass_detail_bill_total = state.passenger_details
-      .map((value, idx) => {
-       if(action.sidx != idx) return value;
-       return {...value, bill: {...value.bill, total: parseFloat(value.bill.total) + parseFloat(action.payload) } }})
-        console.log(322, pass_detail_bill_total)
-       return {...state, passenger_details: pass_detail_bill_total}
-
-
-   case ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET_ZERO:
-      const pass_detail_bill_meetgreet_zero = state.passenger_details
-      .map((value, idx) => {
-       if(action.sidx != idx) return value;
-       return {...value, bill: {...value.bill, meet_and_greet: 0} }})
-       return {...state, passenger_details: pass_detail_bill_meetgreet_zero }
-
-     case ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO:
-        const pass_detail_bill_golfcart_zero = state.passenger_details
-        .map((value, idx) => {
-         if(action.sidx != idx) return value;
-         return {...value, bill: {...value.bill, golf_cart: 0 } }})
-         return {...state, passenger_details: pass_detail_bill_golfcart_zero }
-
-
-     case ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO:
-        const pass_detail_bill_wheel_chair_zero = state.passenger_details
-        .map((value, idx) => {
-         if(action.sidx != idx) return value;
-         return {...value, bill: {...value.bill, wheel_chair: 0 } }})
-         return {...state, passenger_details: pass_detail_bill_wheel_chair_zero }
-
-
-     case ACTIONS.PASSENGER_DETAIL.BILL.TOTAL_ZERO:
-       const pass_detail_bill_total_zero = state.passenger_details
-       .map((value, idx) => {
-        if(action.sidx != idx) return value;
-        return {...value, bill: {...value.bill, total: 0 } }})
-        return {...state, passenger_details: pass_detail_bill_total_zero}
-
-
-  /* CAB services  */
-    case ACTIONS.CAB_SERVICE.OPTED:
-       return {...state, cab_service_detail: {
-         ...state.cab_service_detail,
-         cab_service_opted: action.payload }}
-
-
-  /* Porter services */
-    case ACTIONS.PORTER_SERVICE.OPTED:
-       return {...state, porter_service_detail: {
-         ...state.porter_service_detail,
-         porter_service_opted: action.payload }}
-    case ACTIONS.PORTER_SERVICE.LARGE_BAG:
-       return {...state, porter_service_detail: {
-         ...state.porter_service_detail,
-         large_bags: {...state.porter_service_detail.large_bags,
-           unit: parseInt(action.payload),
-           total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE*action.payload)} }}
-    case ACTIONS.PORTER_SERVICE.MEDIUM_BAG:
-       return {...state, porter_service_detail: {
-       ...state.porter_service_detail,
-       medium_bags: {...state.porter_service_detail.medium_bags,
-         unit: parseInt(action.payload),
-         total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE*action.payload)} }}
-    case ACTIONS.PORTER_SERVICE.SMALL_BAG:
-       return {...state, porter_service_detail: {
-       ...state.porter_service_detail,
-       small_bags: {...state.porter_service_detail.small_bags,
-         unit: parseInt(action.payload),
-         total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE*action.payload)} }}
-
-    case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.OPTED:
-        return {...state, porter_service_detail: {
-        ...state.porter_service_detail,
-        baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
-          baggage_garanteed_opted: action.payload} }}
-
-
-    case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.LARGE_BAG:
-       return {...state, porter_service_detail: {
-         ...state.porter_service_detail,
-         baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
-           ...state.porter_service_detail.baggage_garanteed,
-           large_bags:{
-             unit: parseInt(action.payload),
-             total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_20KG_TO_30KG_PRICE*action.payload) }} }}
-
-
-    case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.MEDIUM_BAG:
-      return {...state, porter_service_detail: {
-        ...state.porter_service_detail,
-        baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
-          ...state.porter_service_detail.baggage_garanteed,
-          medium_bags:{
-            unit: parseInt(action.payload),
-            total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_7KG_TO_20KG_PRICE*action.payload)  }} }}
-
-
-   case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.SMALL_BAG:
-       return {...state, porter_service_detail: {
-         ...state.porter_service_detail,
-         baggage_garanteed: {...state.porter_service_detail.baggage_garanteed,
-           ...state.porter_service_detail.baggage_garanteed,
-           small_bags:{
-             unit: parseInt(action.payload),
-             total: parseFloat(process.env.NEXT_PUBLIC_LUGGAGE_GAURANTEE_BELOW_7KG_PRICE*action.payload)  }} }}
-
-
-
-   case ACTIONS.PORTER_SERVICE.PORTER_BILL:
-      // return {...state, porter_service_detail: {
-      //   ...state.porter_service_detail,
-      //     porter_bill: 1  } }
-
-
-   // case ACTIONS.PORTER_SERVICE.PORTER_BILL_ZERO:
-   //      return {...state, total_amount: parseFloat(state.total_amount) + parseFloat(action.payload) }
-
-
-   // case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.BG_BILL:
-   //    return {...state, total_amount: parseFloat(state.total_amount) + parseFloat(action.payload) }
-   //
-   // case ACTIONS.PORTER_SERVICE.BAGGAGE_GARANTEED.BG_BILL_ZERO:
-   //     return {...state, total_amount: parseFloat(state.total_amount) + parseFloat(action.payload) }
-
-     default:
-        return state
-  }
-}
-
-
 const [state, dispatch] = useReducer(reducer, initialData)
 const handleChange = (value1, value2) => e => {
   /* Passenger contact information */
@@ -473,6 +123,38 @@ const handleChange = (value1, value2) => e => {
   }
 
   /* Passengers details */
+  if(value1 === "select_passenger"){
+      dispatch({ type: ACTIONS.PASSENGER_DETAIL.SELECT, sidx: value2, payload: e.target.checked })
+      if(!e.target.checked){
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.AGE,
+                         payload: "",
+                         sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
+                          payload: false,
+                          sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
+                         payload: false,
+                         sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO,
+                       sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
+                       sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
+                       payload: - (state.passenger_details[value2].bill.meet_and_greet),
+                       sidx: value2 })
+
+              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
+                       payload: - (state.passenger_details[value2].bill.total),
+                       sidx: value2 })
+
+             unregister([`passenger_detail_seat${value2}`,`passenger_detail_name${value2}`,`passenger_detail_age_group${value2}`,`passenger_detail_gender${value2}` ])
+      }
+  }
   if(value1 === "passenger_detail_seat"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.SEAT,
                          payload: e.target.value,
@@ -564,32 +246,6 @@ const handleChange = (value1, value2) => e => {
              dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
                        sidx: value2 })
 
-
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-              //           payload: false,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART_ZERO,
-              //           sidx: value2 })
-              //
-              // dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL_ZERO,
-              //           sidx: value2 })
-
-
   }
   if(value1 === "passenger_detail_gender"){
               dispatch({ type: ACTIONS.PASSENGER_DETAIL.GENDER,
@@ -597,66 +253,7 @@ const handleChange = (value1, value2) => e => {
                          sidx: value2 })
   }
   if(value1 === "passenger_detail_meet_and_greet"){
-      //  if(!e.target.checked){
-      //          // e.target.value is false
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-      //                    payload: e.target.checked,
-      //                    sidx: value2 })
-      //
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
-      //                  payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //                  sidx: value2 })
-      //
-      //
-      //        if(state.passenger_details[value2].wheel_chair){
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.WHEELCHAIR,
-      //          payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
-      //          sidx: value2 })
-      //
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                    payload: - getServiceAmount("wheel_chair", state.passenger_details[value2].age_group),
-      //                    sidx: value2 })
-      //        }
-      //
-      //        if(state.passenger_details[value2].golf_cart){
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.GOLFCART,
-      //          payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
-      //          sidx: value2 })
-      //
-      //          dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                    payload: - getServiceAmount("golf_cart", state.passenger_details[value2].age_group),
-      //                    sidx: value2 })
-      //        }
-      //
-      //        dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //                  payload: - getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //                  sidx: value2 })
-      //
-      //
-      //       dispatch({ type: ACTIONS.PASSENGER_DETAIL.WHEELCHAIR,
-      //                   payload: e.target.checked,
-      //                   sidx: value2 })
-      //
-      //       dispatch({ type: ACTIONS.PASSENGER_DETAIL.GOLFCART,
-      //                  payload: e.target.checked,
-      //                  sidx: value2 })
-      //     return;
-      // }
-      // if(state.passenger_details[value2].age_group){
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.MEETGREET,
-      //              payload: e.target.checked,
-      //              sidx: value2 })
-      //
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.MEETGREET,
-      //             payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //             sidx: value2 })
-      //
-      //   dispatch({ type: ACTIONS.PASSENGER_DETAIL.BILL.TOTAL,
-      //             payload: getServiceAmount("meet_and_greet", state.passenger_details[value2].age_group),
-      //             sidx: value2 })
-      //   return;
-      // }
-      //   toast.error("Please select age group")
+
   }
   if(value1 === "passenger_detail_wheel_chair"){
         if(!state.passenger_details[value2].meet_and_greet){
@@ -691,7 +288,15 @@ const handleChange = (value1, value2) => e => {
                 sidx: value2 })
           return;
         }
-        toast.error("Please select age group")
+        // toast.error("")
+        toast({
+          title: "Please select age group",
+          description: "",
+          status: "error",
+          position:"top",
+          duration: 3000,
+          isClosable: true,
+        })
   }
   if(value1 === "passenger_detail_golf_cart"){
         if(!state.passenger_details[value2].meet_and_greet){
@@ -801,13 +406,14 @@ const bookingFromLS = () => {
 };
 
 
+
+
+
 const handleSubmission = e => {
-   setLocalStorage("Booking", state)
-   if(modify){
-     return Router.push(`/booking/modify/order/${query.order_id}`)
-   }
-   Router.push(`/booking/order/`)
+    setLocalStorage("Booking", state)
+    Router.push(`/booking/order/`)
 }
+
 const passengerBill = () => {
     let passenger_bill = state && state.passenger_details && state.passenger_details.map((passenger, i) => {
             return passenger.bill && passenger.bill.total
@@ -836,6 +442,7 @@ const baggageBill = () => {
       bill.push(state.porter_service_detail.baggage_garanteed.small_bags.total)
       return bill.reduce((a,b) => a + b)
 }
+
 useEffect(() => {
   if(bookingFromLS()){
      return dispatch({ type: ACTIONS.STATE,
@@ -854,30 +461,15 @@ useEffect(() => {
                payload: is_arrival })
 },[])
 
-useEffect(() => {
-  if(modify && order){
-     dispatch({ type: ACTIONS.STATE,
-              payload: order })
 
-      dispatch({ type: ACTIONS.USER,
-                payload: isAuth() && isAuth()._id })
 
-      dispatch({ type: ACTIONS.PNR,
-                 payload: query.pnr })
-
-     let is_arrival = query.pid==="arrival"?true:
-                    query.pid==="departure"?false:null;
-
-     dispatch({ type: ACTIONS.IS_ARRIVAL,
-                  payload: is_arrival })
-  }
-
-},[order])
-
-console.log("state", state)
 useEffect(() => {
    dispatch({ type:ACTIONS.TOTAL_AMOUNT, payload: passengerBill() + porterBill() + baggageBill()})
 },[state.passenger_details, state.porter_service_detail, state.porter_service_detail.baggage_garanteed])
+
+
+
+
 
 const showUavailabitlity = (reason, content ) =>{
   return (
@@ -921,11 +513,10 @@ else {
 }
 
 if(isValid){
-  console.log(query.pid, data.boarding_station.time, data.boarding_station.date);
   const fixedDetails={
     hrs:parseInt(query.pid==="departure"?data.boarding_station.time.substring(0,2):data.boarding_station.time.substring(0,2)),
     mins:parseInt(query.pid==="departure"?data.reservation_upto.time.substring(3):data.reservation_upto.time.substring(3)),
-    date:(query.pid==="arrival"?data.boarding_station.date:data.boarding_station.date).split("-")
+    date:(query.pid==="departure"?data.boarding_station.date:data.reservation_upto.date).split("-")
   }
   validDay=compare_date_time(fixedDetails);
 }
@@ -933,12 +524,11 @@ if(isValid){
 
 if(isValid && validDay){
   return <>
-        <ToastContainer />
          <div className="main-div">
             <form>
               <div className="container-div">
                   <div className="top-subheading">
-                      <h1>MEET & GREET</h1>
+                      <h1>MEET & GREET {query.pid && query.pid.toUpperCase()}</h1>
                       <div className="pnr-heading">
                           <div>
                               <span>
@@ -976,15 +566,16 @@ if(isValid && validDay){
                       value={state.cab_service_detail.cab_copted} />
                       <CabService />*/}
 
-                      <span>Porter Service</span>
+                      <span className="mr-2">Porter Service</span>
+                      <IconInformation serviceName={"Porter Service"} cost={process.env.NEXT_PUBLIC_LUGGAGE_BELOW_7KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_7KG_TO_20KG_PRICE+","+process.env.NEXT_PUBLIC_LUGGAGE_20KG_TO_30KG_PRICE}  type={"luggage"}></IconInformation>
                       <Switch
                       color="primary"
                       onChange={handleChange("porter_service_opted")}
                       checked={state.porter_service_detail.porter_service_opted} />
-
                       {state.porter_service_detail.porter_service_opted && <PorterService
                       state={state}
                       handleChange={handleChange} />}
+
                       <br />
                       {matches ? (
                       <div className="payable-amt-section">
@@ -996,8 +587,7 @@ if(isValid && validDay){
                         </div>
                         <Button
                         className="md-btn"
-                        disabled={state.total_amount==0?true:false}
-                        onClick={handleSubmit(handleSubmission)}
+                        onClick={handleSubmit(() =>  handleSubmission())}
                         variant="outlined"
                         type="submit"
                         >
@@ -1007,11 +597,11 @@ if(isValid && validDay){
                       </div>
                       ) : (
                         <Button
-                            onClick={handleSubmit(handleSubmission)}
+                            onClick={handleSubmit(() =>  handleSubmission())}
                             variant="outlined"
                             className="md-btn"
-                            disabled={state.total_amount==0?true:false}
-                            type="submit">
+                            type="submit"
+                            >
                             {`REVIEW YOUR BOOKING & Pay ₹${state.total_amount}`}
                         </Button>
                       )}

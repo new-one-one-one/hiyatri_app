@@ -84,12 +84,12 @@ const BulkBookings = () => {
 
     if (selectedFile === null && errorFlag === true) {
       toast.error("Please provide  the required information");
-    } 
-    
+    }
+
     else if (selectedFile === null && errorFlag === false) {
       toast.error("Please provide the excel file");
-    } 
-    
+    }
+
     else if(selectedFile!==null && errorFlag ===true){
         toast.error('Please fill the details')
     }
@@ -168,9 +168,9 @@ const BulkBookings = () => {
               flexDirection: "column",
             }}
             onClick={() => setOpen(true)}
-           
+
           >
-         
+
             {/* <img src={questionIcon} height={25} /> */}
             <div className="contact-Information shadow">
               <table>

@@ -15,6 +15,7 @@ import { Backdrop } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import {useForm} from 'react-hook-form';
+import {coupounData} from './coupuns';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 const GreenCheckbox = withStyles({
@@ -43,8 +44,8 @@ const [successBooking, setBookingSuccess] = useState(false);
 const [failedBooking, setBookingFailed]  = useState(false);
 const [agreed, isAgreed] = useState(true);
 const [couponCode, setCouponCode] = useState(null);
-
-useEffect(() => {
+const [invalidCoupun, setValidCoupoun] = useState(false);
+ useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
       .then(response => {
@@ -67,28 +68,49 @@ useEffect(() => {
     });
 },[])
 
+useEffect(()=>{
+
+}, [invalidCoupun])
+
+
+const checkCouponCode= (appliedCode)=>{
+  if(appliedCode==null)
+    return true
+  for(var i=0; i<coupounData.length;i++){
+    if(coupounData[i].code == appliedCode)
+      return true
+  }
+  return false
+}
 
 const order = (e) => {
-  // e.preventDefault()
-  setLoader(true)
-  let booking = data;
-      booking.coupon = couponCode;
-      console.log(booking)
+  // e.preventDefault()\
+    if(checkCouponCode(couponCode)){
+      setValidCoupoun(false)
+              setLoader(true) 
+              let booking = data;
+                  booking.coupon = couponCode;
+                  console.log(booking)
+                
 
-  if(!order_id){
-    return create_order(booking)
-       .then(response => {
-         if(response.error){
-           return console.log(response.error)
-         }
-         setLoader(false)
-         paymentHandler(response._id)
-       })
-       .catch((err) => {
-         console.log(err)
-       })
+              if(!order_id){
+                return create_order(booking)
+                  .then(response => {
+                    if(response.error){
+                      return console.log(response.error)
+                    }
+                    setLoader(false)
+                    paymentHandler(response._id)
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
+              }
+              updateOrder()
+            } 
+  else{
+    setValidCoupoun(true)
   }
-  updateOrder()
 }
 
 
@@ -185,6 +207,7 @@ const paymentHandler = (orderId, amount) => {
 
 
 const handleCouponChange = (e) => {
+   setValidCoupoun(false)
    setCouponCode(e.target.value)
 }
 
@@ -228,7 +251,7 @@ return  <>
            </div>
 
            <div className="col-md-3">
-             <Checkout data={data} register={register} order={order} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed}/>
+             <Checkout data={data} register={register} order={order} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed} code={couponCode} invalidCoupun={invalidCoupun}/>
            </div>
         </div>
         {(width <500) && (
@@ -256,7 +279,7 @@ return  <>
                 <Icon style={{color:"green"}}>
         <CheckCircleOutlinedIcon></CheckCircleOutlinedIcon>
 
-        </Icon> Congratulations! Booking Successfull.</b></h4></font>
+        </Icon> Congratulations! Booking successful.</b></h4></font>
                 <Box display="flex" p={2}>
                  <Box p={1} width="100%">
                   <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingSuccess(false); Router.push('/')}}>Ok</Button>

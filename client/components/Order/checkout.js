@@ -3,14 +3,19 @@ import {Grid,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,List
 import {Paper} from "@material-ui/core";
 import useStyles from './style';
 import MuiAlert from '@material-ui/lab/Alert';
+import { useEffect } from 'react';
+import { coupounData } from './coupuns';
 
-const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register }) => {
+const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register,code, invalidCoupun }) => {
   const classes = useStyles();
   const { width } = useWindowSize();
 
   function Alert(props) {
     return <MuiAlert  variant="filled" {...props} />;
   }
+  useEffect(()=>{
+
+  }, [invalidCoupun])
 
   return <div className="shadow p-3">
             <Paper>
@@ -30,13 +35,20 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       </Box>
                       <Box p={0} flexShrink={1}>
                       <TextField  size="small"
+                        variant="outlined"
+                        placeholder="code"
                         name={`coupon`}
                         onChange={handleChange}
                         inputProps={{
                           maxLength: 5,
                         }}
-                        inputRef={register({maxLength:5})}
+                        inputRef={register({maxLength:5, minLength:5})}
+                        value={code}
+                        
+                        fullWidth
                       />
+                     
+                      {invalidCoupun && <span style={{paddingLeft:"10px","color":"red"}}>Invalid</span>}
                       </Box>
                   </Box>
 

@@ -74,8 +74,8 @@ const PassengerDetails = ({data, handleChange,register, errors}) => {
                           value={item.age_group}
                           onChange={handleChange("passenger_detail_age", index)}>
                           <option aria-label="None"  />
-                          <option value="Sr citizen(above 60)">Sr. Citizen(above 58 years)</option>
-                          <option value="Adult(12yrs-60yrs)">Adult (12-58 years)</option>
+                          <option value="Sr citizen(above 58 years)">Sr. Citizen(above 58 years)</option>
+                          <option value="Adult(12-58 years)">Adult (12-58 years)</option>
                           <option value="Children(upto 12 years)">Children (upto 12 years)</option>
                         </Select>
                         {passenger_detail_age_group && <FormHelperText style={{color:"red"}}>Required</FormHelperText>}

@@ -471,7 +471,7 @@ const displayPorterServiceDetails = (porter) =>{
                       hours   : temp_date.getHours(),
                       mins    : temp_date.getMinutes(),
                       day     : temp_date.getDate(),
-                      month   : temp_date.getMonth(),
+                      month   : temp_date.getMonth()+1,
                       fullYear: temp_date.getFullYear()
                   }
                   return (
@@ -568,7 +568,11 @@ const displayPorterServiceDetails = (porter) =>{
           paper:classes.display_modal
         }}
         onClose={()=>openCommentBox(false)}
-        aria-labelledby="scroll-dialog-title"
+        aria-l
+        
+        
+        
+        elledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
         <form>

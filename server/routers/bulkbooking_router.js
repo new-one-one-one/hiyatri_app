@@ -7,7 +7,7 @@ const {
   deleteRecord,
   downloadtemplate,
   bulk_bookings_requests,
-  
+
 } = require("../controllers/bulkbooking_controller");
 
 const multer = require("multer");

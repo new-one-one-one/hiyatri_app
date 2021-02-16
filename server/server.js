@@ -11,7 +11,7 @@ const bookingRouter = require('./routers/booking_router');
 const commentRouter = require('./routers/comment_router');
 const orderRouter = require('./routers/order_router');
 const userRouter = require('./routers/user_router');
-const bulkbookingRouter=require('./routers/bulkbooking_router');
+// const bulkbookingRouter=require('./routers/bulkbooking_router');
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -23,7 +23,7 @@ app.use('/api', bookingRouter);
 app.use('/api', commentRouter);
 app.use('/api', orderRouter);
 app.use('/api', userRouter);
-app.use('/api',bulkbookingRouter)
+// app.use('/api',bulkbookingRouter)
 
 
 

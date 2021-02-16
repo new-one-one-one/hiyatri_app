@@ -12,6 +12,8 @@ const { create_order,
         update_order_status,
         cancel_order,
         get_user_all_orders,
+        add_additional_services,
+        remove_additional_services,
         get_orders_for_agent } = require("../controllers/order_controller");
 
 const { requireSignin,
@@ -36,7 +38,9 @@ router.patch('/order/assign/agent/:order_id/:agent_id',  assign_agent)
 router.get('/order/agent/list',   agent_list)
 router.get('/order/all/:user', get_user_all_orders)
 
-//Agent Routes 
+//Agent Routes
 router.get('/agent/orders/all/:agent_id', get_orders_for_agent);
+router.patch('/agent/add_additional/:order_id', add_additional_services);
+router.patch('/agent/remove_additional/:order_id', remove_additional_services);
 
 module.exports = router;

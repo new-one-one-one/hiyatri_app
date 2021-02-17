@@ -395,7 +395,7 @@ module.exports.get_all_orders = async (req, res) => {
                    item.booking.booking_information.boarding_station.time,
                    _id: item.booking._id,
                    coupon:item.booking.coupon
- 
+
            }
       })
       return res.status(200).json({
@@ -774,7 +774,7 @@ module.exports.remove_additional_services = (req, res) => {
        }
         final_cost = final_cost - find_order.additional_amount;
         let additional = order.additional_services;
-        let filtered_additional_services = additional.filter(item => console.log(item._id!= additional_services_id));
+        let filtered_additional_services = additional.filter(item => item._id != additional_services_id);
        Order.findByIdAndUpdate({ _id: order_id }, { additional_services: filtered_additional_services, total_amount: final_cost })
         .exec((err ,result) => {
         if(err){

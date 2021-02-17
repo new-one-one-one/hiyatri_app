@@ -3,6 +3,7 @@ import {Paper} from "@material-ui/core";
 import useStyles from './style';
 
 const TakenServices = ({data}) => {
+    console.log(data, "data of taken services ")
   const toShow = data.porter_service_detail.porter_service_opted || data.cab_service_detail.cab_service_opted!==null;
   const classes = useStyles();
   const porter_total =  data.porter_service_detail.large_bags.total +data.porter_service_detail.medium_bags.total+data.porter_service_detail.small_bags.total

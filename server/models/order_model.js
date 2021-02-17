@@ -12,7 +12,6 @@ const orderSchema = mongoose.Schema({
      type:ObjectId,
      ref:"User"
    },
-   // add additonal service total amount 
    total_amount:{
      type:Number,
      default:null
@@ -51,10 +50,16 @@ const orderSchema = mongoose.Schema({
      type:String,
      default:null
    },
-   modified_attempt: {
-    type: Number,
-    default:0
-   },
+   additional_services:[{
+      comment: {
+        type: String,
+        default: null
+      },
+      additional_amount:{
+        type:Number,
+        default:0
+      }
+   }],
    del_flag:{
      type:Boolean,
      default:false

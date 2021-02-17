@@ -83,13 +83,13 @@ const BulkBookings = () => {
     }
 
     if (selectedFile === null && errorFlag === true) {
-      toast.error("Please provide  the required information !!");
-    } 
-    
+      toast.error("Please provide  the required information");
+    }
+
     else if (selectedFile === null && errorFlag === false) {
       toast.error("Please provide the excel file");
-    } 
-    
+    }
+
     else if(selectedFile!==null && errorFlag ===true){
         toast.error('Please fill the details')
     }
@@ -103,7 +103,7 @@ const BulkBookings = () => {
         .post(`${process.env.NEXT_PUBLIC_API}/create_bulk_booking`, data)
         .then((res) => {
           setshowSpinner(false);
-          toast.success("Upload successfull !! ");
+          toast.success("Upload successfull");
         })
         .catch((err) => {
           toast.error("upload fail");
@@ -147,7 +147,7 @@ const BulkBookings = () => {
     <>
       <Backdrop className={classes.backdrop} open={showSpinner}>
         <CircularProgress color="inherit" />
-        <p style={{ marginLeft: "20px" }}> Uploading Records Please wait !!</p>
+        <p style={{ marginLeft: "20px" }}> Uploading Records Please wait </p>
       </Backdrop>
 
       <div
@@ -168,9 +168,9 @@ const BulkBookings = () => {
               flexDirection: "column",
             }}
             onClick={() => setOpen(true)}
-           
+
           >
-         
+
             {/* <img src={questionIcon} height={25} /> */}
             <div className="contact-Information shadow">
               <table>

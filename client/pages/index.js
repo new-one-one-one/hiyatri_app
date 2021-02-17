@@ -29,7 +29,7 @@ import Head from 'next/head';
            <meta property="og:image:secure_url" content={`${process.env.NEXT_PUBLIC_DOMAIN}/images/logo.png`} />
            <meta property="og:image:type" content="image/png" />
            <meta property="fb:app_id" content={`${process.env.NEXT_PUBLIC_FB_APP_ID}`} />
-         </Head>
+      </Head>
     );
 
 const Home = () => {

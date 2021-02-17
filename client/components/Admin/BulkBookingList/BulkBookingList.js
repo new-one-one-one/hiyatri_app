@@ -109,19 +109,19 @@ const BulkBookingsList = () => {
       });
   }, []);
 
-  const clickHandler = (record) => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_API}/download_particularFile/${record}`
-    ).then((response) => {
-      response.blob().then((blob) => {
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement("a");
-        a.href = url;
-        a.download = `${record}.xlsx`;
-        a.click();
-      });
-    });
-  };
+  // const clickHandler = (record) => {
+  //   fetch(
+  //     `${process.env.NEXT_PUBLIC_API}/download_particularFile/${record}`
+  //   ).then((response) => {
+  //     response.blob().then((blob) => {
+  //       let url = window.URL.createObjectURL(blob);
+  //       let a = document.createElement("a");
+  //       a.href = url;
+  //       a.download = `${record}.xlsx`;
+  //       a.click();
+  //     });
+  //   });
+  // };
 
   const deleteHandler = (id) => {
     const updatedRecord = () => {
@@ -203,7 +203,6 @@ const BulkBookingsList = () => {
             </FormControl>
           </Box>
 
-
         </Box>
       </div>
     );
@@ -271,7 +270,7 @@ const BulkBookingsList = () => {
                       <Button type="Submit" onClick={() => {
                           setexcelId(EachContent.bulk_booking_id);
                           handleClickOpen();
- 
+
                         }}  className="buttonUserAdd" variant="contained" size="large">
                                 Delete Record
                           </Button>

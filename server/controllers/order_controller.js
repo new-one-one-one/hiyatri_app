@@ -395,6 +395,7 @@ module.exports.get_all_orders = async (req, res) => {
                    item.booking.booking_information.boarding_station.time,
                    _id: item.booking._id,
                    coupon:item.booking.coupon
+ 
            }
       })
       return res.status(200).json({
@@ -687,4 +688,103 @@ module.exports.cancel_order = (req, res) => {
             });
         })
     })
+}
+
+
+module.exports.add_additional_services = (req, res) => {
+    const { additional_services } = req.body;
+    const { order_id } = req.params;
+    if(!additional_services.comment){
+      return res.status(400).json({
+        error: "Comment is required"
+      })
+    }
+    if(!additional_services.additional_amount){
+      return res.status(400).json({
+        error: "Additional amount is required"
+      })
+    }
+    if(!order_id){
+      return res.status(400).json({
+        error: "Order id is required"
+      })
+    }
+     Order.findOne({ _id: order_id })
+      .exec((err, order) => {
+        if(err){
+          return res.status(400).json({
+            error: err
+          })
+        }
+        if(!order){
+          return res.status(404).json({
+            error: "Order not found with the given id"
+          })
+         }
+      let final_cost = order.total_amount;
+          final_cost = final_cost + additional_services.additional_amount;
+          let additional = order.additional_services;
+          additional.push(additional_services)
+      Order.findByIdAndUpdate({ _id: order_id }, { additional_services: additional, total_amount: final_cost })
+        .exec((err ,result) => {
+          if(err){
+            return res.status(400).json({
+              error: err
+            })
+          }
+          res.status(200).json({
+            response: "Additional services added successfuly"
+         })
+      })
+   })
+}
+
+
+module.exports.remove_additional_services = (req, res) => {
+  const { additional_services_id } = req.body;
+  const { order_id } = req.params;
+  if(!additional_services_id){
+    return res.status(400).json({
+      error: "additional_services_id is required"
+    })
+  }
+  if(!order_id){
+    return res.status(400).json({
+      error: "Order id is required"
+    })
+  }
+   Order.findOne({ _id: order_id })
+    .exec((err, order) => {
+      if(err){
+        return res.status(400).json({
+          error: err
+        })
+      }
+      if(!order){
+        return res.status(404).json({
+          error: "Order not found with the given id"
+        })
+       }
+    let final_cost = order.total_amount;
+       let find_order = order.additional_services.find((item) => item._id == additional_services_id);
+       if(!find_order){
+         return res.status(404).json({
+           error:"additional service not found"
+         })
+       }
+        final_cost = final_cost - find_order.additional_amount;
+        let additional = order.additional_services;
+        let filtered_additional_services = additional.filter(item => console.log(item._id!= additional_services_id));
+       Order.findByIdAndUpdate({ _id: order_id }, { additional_services: filtered_additional_services, total_amount: final_cost })
+        .exec((err ,result) => {
+        if(err){
+          return res.status(400).json({
+            error: err
+          })
+        }
+        res.status(200).json({
+          response: "Additional services removed successfuly"
+       })
+    })
+ })
 }

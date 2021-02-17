@@ -27,6 +27,9 @@ const bulk_bookings_info = mongoose.Schema(
     },
     excel_file_name:{
       type:String
+    },
+    excelawslink:{
+      type:String
     }
   },
   { timestamps: true }

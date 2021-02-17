@@ -1,9 +1,9 @@
 export const getServiceAmount = (service_name, category) => {
     if(service_name === "meet_and_greet"){
-          if(category === "Sr citizen(above 60)"){
+          if(category === "Sr citizen(above 58 years)"){
             return process.env.NEXT_PUBLIC_MEET_GREET_ABOVE_58_PRICE
           }
-          if(category === "Adult(12yrs-60yrs)"){
+          if(category === "Adult(12-58 years)"){
             return process.env.NEXT_PUBLIC_MEET_GREET_12_TO_58_PRICE
           }
           if(category === "Children(upto 12 years)"){
@@ -14,10 +14,10 @@ export const getServiceAmount = (service_name, category) => {
          return process.env.NEXT_PUBLIC_WHEEL_CHAIR_PRICE;
     }
     if(service_name === "golf_cart"){
-          if(category === "Sr citizen(above 60)"){
+          if(category === "Sr citizen(above 58 years)"){
             return process.env.NEXT_PUBLIC_GOLF_CART_ABOVE_58_PRICE
           }
-          if(category === "Adult(12yrs-60yrs)"){
+          if(category === "Adult(12-58 years)"){
             return process.env.NEXT_PUBLIC_GOLF_CART_12_TO_58_PRICE
           }
           if(category === "Children(upto 12 years)"){

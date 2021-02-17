@@ -58,7 +58,8 @@ const EditCommandCell = props => {
 
 
 const BookingList = ({ list }) => {
-    const classes = useStyles();
+
+  const classes = useStyles();
   const [state, setState] = useState();
   const [filter_type , filterData] = useState("DISPLAY_All");
   const [booking_type, setBooking] = useState("All");
@@ -246,6 +247,7 @@ console.log(state, list)
                 <Column field="date"  title="Date of Arr/Dep"/>
                 <Column field="time" title="Time of Arr/Dep" />
                 <Column field="booking_type" title="Booking Type" />
+                <Column field="coupon" title="Coupoun"/>
                 <Column cell={MyEditCommandCell} title="Action"  />
             </Grid>}
             </div >

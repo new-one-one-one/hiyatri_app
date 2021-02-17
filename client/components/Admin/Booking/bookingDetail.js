@@ -240,7 +240,7 @@ const BookingDetail = ({ data, reloadData }) => {
             return (<div className={classes.innerDetails} >
                   <Grid container xs={12} justify="space-between">
                         <Typography  variant="body2"  align="left">Get wheel chair</Typography>
-                        <Typography  variant="body2" align="right">{cost}</Typography>
+                        <Typography  variant="body2" align="right">₹{cost}</Typography>
                   </Grid>
                 </div>
                  )
@@ -251,7 +251,7 @@ const BookingDetail = ({ data, reloadData }) => {
           return (<div className={classes.innerDetails} >
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Golf cart</Typography>
-                      <Typography  variant="body2" align="right">{cost}</Typography>
+                      <Typography  variant="body2" align="right">₹{cost}</Typography>
                 </Grid>
               </div>
                )
@@ -263,7 +263,7 @@ const BookingDetail = ({ data, reloadData }) => {
                 <Grid container xs={12} justify="space-between">
                       <Typography  variant="body2"  align="left">Meet & Greet</Typography>
                       <Typography  variant="body2" align="right">
-                         {cost}
+                      ₹{cost}
                       </Typography>
                 </Grid>
               </div>
@@ -348,6 +348,37 @@ const displayPorterServiceDetails = (porter) =>{
     )
 }
   
+
+
+const displayAdditionalService= (addedServices) => {
+    return (
+      <div>
+        {  addedServices.map((service)=>{
+              return (
+
+                 <div>
+                  <Box display="flex" p={1}>
+                    <Box width="80%">
+                      {service.comment}
+                    </Box>
+                    <Box width="20%">
+                    ₹{service.additional_amount}
+                    </Box>
+                  </Box>
+
+
+                 </div>
+              )
+           })
+        
+        }
+      </div>
+       
+       )
+    }
+
+
+console.log(data, "got this data")
 
    if(data!=null && data!={}){
 
@@ -459,6 +490,26 @@ const displayPorterServiceDetails = (porter) =>{
               </div>
 
         )}
+        <br></br>
+        <br></br>
+       { (data.additional_services!=[] && data.additional_services!=null && data.additional_services!=undefined )&& (<div className="shadow">
+                  <Paper className={classes.Services}>
+                      <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
+                                <Typography>Additonal Services</Typography>
+                      </Box>
+                      <Paper className={classes.particularOrder} variant="outlined">
+                      <Box display="flex" p={1}>
+                          <Box width="80%">
+                            <b>About Service</b>
+                          </Box>
+                          <Box width="20%">
+                          <b>Amount(in Rs.)</b>
+                          </Box>
+                        </Box>
+                        {displayAdditionalService(data.additional_services)}
+                      </Paper>
+                  </Paper>
+              </div>)}
         {/* Comments paragraph */}
          <div>Comments </div>
               <div className={classes.comment_root}>

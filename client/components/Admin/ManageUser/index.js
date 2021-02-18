@@ -1,6 +1,6 @@
 import {removeUser, addUser} from './../../../actions/user';
 import {useForm} from 'react-hook-form';
-import {TextField, Grid,Select, Paper, FormControl, Typography, Dialog} from '@material-ui/core'
+import {TextField, Grid,Select, Paper, DialogActions,DialogContentText,DialogContent,DialogTitle,Divider, FormControl, Typography, Dialog} from '@material-ui/core'
 import {Button, Table, TableBody, TableCell,TableRow} from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useTheme } from "@material-ui/core/styles";
@@ -18,6 +18,9 @@ const UserListComponent = ({usersList, reload}) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [state, setState] = useState();
+    const [open, setOpen]=useState(false);
+    const [acted,setAction] = useState("add");
+    
     const createState = (skip, take) => {
       return {
         items: usersList && usersList.slice(skip, skip + take),
@@ -40,7 +43,7 @@ const UserListComponent = ({usersList, reload}) => {
 
        useEffect(()=>{
 
-       },[register])
+       },[register, open])
 
 
       const pageChange = (event) => {
@@ -57,10 +60,15 @@ const UserListComponent = ({usersList, reload}) => {
         addUser(data);
         reload();
         reset();
+        setOpen(true)
+        setAction("add")
+        setOpen(true)
     }
     const removeU = (who)=>{
         removeUser(who);
         reload();
+        setAction("delete")
+        setOpen(true)
     }
 
 
@@ -72,7 +80,7 @@ const UserListComponent = ({usersList, reload}) => {
                     id="user-booking-list-btn"
                     onClick={()=>removeU(props.dataItem)}>
                     Delete
-          </Button>
+                </Button>
             </td>
         );
     };
@@ -90,16 +98,6 @@ const UserListComponent = ({usersList, reload}) => {
                     <form onSubmit={handleSubmit(formSubmit)}>
                     <Box display="flex" p={0}>
                         <Box p={2} width="20%">
-                            {/* <TextField
-                                id="input-fixed-height"
-                                name="phone_number"
-                                label="Phone Number"
-                                variant="outlined"
-                                error={errors.phone_number ?true:false}
-                                onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
-                                helperText={errors.phone_number? "invalid":""}
-
-                            /> */}
                             <TextField
                                 variant="outlined"
                                 id="input-fixed-height"
@@ -112,8 +110,6 @@ const UserListComponent = ({usersList, reload}) => {
                                 helperText={errors.phone_number? "Invalid":""}
                                 fullWidth
                                 />
-
-
                         </Box>
                         <Box width="20%" p={2}>
                             <TextField
@@ -142,7 +138,7 @@ const UserListComponent = ({usersList, reload}) => {
                                     <option value="ADMIN">Admin</option>
                                     <option value="AGENT">Agent</option>
                                 </Select>
-                            {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
+                            {(errors.user_type)&&(<p style={{color:"red"}}>Select Role</p>)}
                         </Box>
                         <Box width="20%" p={2}>
                             <Button type="Submit"  className="buttonUserAdd" variant="contained" size="large">
@@ -199,10 +195,10 @@ const UserListComponent = ({usersList, reload}) => {
                                      <option value="ADMIN">Admin</option>
                                      <option value="AGENT">Agent</option>
                                  </Select>
-                             {(errors.user_type)&&(<p style={{color:"red"}}>Please select user</p>)}
+                             {(errors.user_type)&&(<p style={{color:"red"}}>Select Role</p>)}
                              <br/>
                              <br/>
-                             <Button type="Submit"  className="buttonUserAdd" style={{width:"222px"}}  variant="contained" size="large">
+                             <Button type="Submit" onClick={()=>setOpen(true)}  className="buttonUserAdd" style={{width:"222px"}}  variant="contained" size="large">
                                  Add User
                              </Button>
 
@@ -218,6 +214,27 @@ const UserListComponent = ({usersList, reload}) => {
   }
 
 
+    const messageOnAction=(msg, type)=>{
+        return (
+           <div>
+           <Dialog open={open} keepMounted>
+            <DialogTitle><b>{type} Confirmation </b></DialogTitle>
+            <Divider />
+            <DialogContent>
+              <DialogContentText>
+                User has been {msg} !
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={()=>{setOpen(false)}} size="large" variant="contained" id="yes-btn">Close</Button>
+            </DialogActions>
+          </Dialog>
+        </div> 
+            
+        )
+    }
+
+
     return (
         <div className="">
         {AddUser()}
@@ -231,12 +248,13 @@ const UserListComponent = ({usersList, reload}) => {
                 skip={state.skip}
                 pageable={state.pageable}
                 pageSize={state.pageSize}>
-                <Column field="name"  title="Name"/>
+                <Column field="name"  title="User Name"/>
                 <Column field="user_type" title="Role" />
-                <Column field="phone_number" title="Contact Number" />
+                <Column field="phone_number" title="Phone Number" />
                 <Column cell={MyEditCommandCell} title="Action"  />
             </Grids>}
         </div >
+        {acted!="add"?messageOnAction("deleted succesfully", "Deletion"):messageOnAction("added successfull","Addition")}
         </div>
         </div>
     )

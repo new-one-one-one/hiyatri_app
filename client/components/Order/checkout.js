@@ -6,7 +6,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useEffect } from 'react';
 import { coupounData } from './coupuns';
 
-const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register,code, invalidCoupun }) => {
+const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register,code, invalidCoupun, submitCoupon }) => {
   const classes = useStyles();
   const { width } = useWindowSize();
 
@@ -28,19 +28,19 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       </Box>
                   </Box>
                   <Box display="flex" p={0} bgcolor="background.paper">
-                      <Box p={1} width="100%">
-                         <p style={{color:"blue"}}>
-                           Apply Coupon ?
-                         </p>
-                      </Box>
-                      <Box p={0} flexShrink={1}>
+                      
+                      <Box p={1} width="63%">
                       <TextField  size="small"
                         variant="outlined"
-                        placeholder="code"
+                        placeholder="Coupon code"
+                        
                         name={`coupon`}
                         onChange={handleChange}
                         inputProps={{
                           maxLength: 5,
+                          style:{
+                            height:"10px"
+                          }
                         }}
                         inputRef={register({maxLength:5, minLength:5})}
                         value={code}
@@ -49,6 +49,11 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       />
                      
                       {invalidCoupun && <span style={{paddingLeft:"10px","color":"red"}}>Invalid</span>}
+                      </Box>
+                      <Box p={1} width="50%">
+                      <Button  variant="outlined" id="users-cancel-booking-design"  onClick={() => submitCoupon(code)}>
+                           Apply Coupon
+                      </Button>
                       </Box>
                   </Box>
 

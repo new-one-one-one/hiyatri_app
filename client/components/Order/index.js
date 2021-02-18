@@ -74,7 +74,7 @@ useEffect(()=>{
 
 
 const checkCouponCode= (appliedCode)=>{
-  if(appliedCode==null)
+  if(appliedCode==null || appliedCode==undefined || appliedCode=="")
     return true
   for(var i=0; i<coupounData.length;i++){
     if(coupounData[i].code == appliedCode)
@@ -83,34 +83,42 @@ const checkCouponCode= (appliedCode)=>{
   return false
 }
 
-const order = (e) => {
-  // e.preventDefault()\
-    if(checkCouponCode(couponCode)){
-      setValidCoupoun(false)
-              setLoader(true) 
-              let booking = data;
-                  booking.coupon = couponCode;
-                  console.log(booking)
-                
+var flag=0;
 
-              if(!order_id){
-                return create_order(booking)
-                  .then(response => {
-                    if(response.error){
-                      return console.log(response.error)
-                    }
-                    setLoader(false)
-                    paymentHandler(response._id)
-                  })
-                  .catch((err) => {
-                    console.log(err)
-                  })
-              }
-              updateOrder()
-            } 
-  else{
+const submitCoupon=(code)=>{
+  flag=1;
+  
+  if(!checkCouponCode(code)){
     setValidCoupoun(true)
   }
+  else{
+    setValidCoupoun(false)
+  }
+}
+
+const order = (e) => {
+  // e.preventDefault()\
+      setLoader(true) 
+      
+      let booking = data;
+          booking.coupon = (flag && !invalidCoupun)?couponCode:null;
+          console.log(booking)
+              
+      if(!order_id){
+        return create_order(booking)
+          .then(response => {
+            if(response.error){
+              return console.log(response.error)
+            }
+            setLoader(false)
+            paymentHandler(response._id)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    updateOrder()
+    
 }
 
 
@@ -251,7 +259,7 @@ return  <>
            </div>
 
            <div className="col-md-3">
-             <Checkout data={data} register={register} order={order} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed} code={couponCode} invalidCoupun={invalidCoupun}/>
+             <Checkout data={data} register={register} order={order} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed} code={couponCode} invalidCoupun={invalidCoupun} submitCoupon={submitCoupon}/>
            </div>
         </div>
         {(width <500) && (

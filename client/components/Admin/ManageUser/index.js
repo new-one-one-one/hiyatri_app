@@ -254,7 +254,7 @@ const UserListComponent = ({usersList, reload}) => {
                 <Column cell={MyEditCommandCell} title="Action"  />
             </Grids>}
         </div >
-        {acted!="add"?messageOnAction("deleted succesfully", "Deletion"):messageOnAction("added successfull","Addition")}
+        {acted!="add"?messageOnAction("deleted succesfully", "Deletion"):messageOnAction("added successfully","Addition")}
         </div>
         </div>
     )

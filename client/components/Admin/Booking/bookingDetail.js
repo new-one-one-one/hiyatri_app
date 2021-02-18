@@ -307,8 +307,7 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
-  if((porter.porter_service_opted || porter.baggage_garanteed_opted ) && porter_total!=0)
+  if((porter.porter_service_opted || porter.baggage_garanteed_opted ))
     return (
       <div>
         <Grid container spacing={2}>
@@ -349,6 +348,11 @@ const displayPorterServiceDetails = (porter) =>{
 }
   
 
+const checkServiceExists=(porter)=>{
+  const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
+  return porter_total!=0
+}
+
 
 const displayAdditionalService= (addedServices) => {
     return (
@@ -378,7 +382,6 @@ const displayAdditionalService= (addedServices) => {
     }
 
 
-console.log(data, "got this data")
 
    if(data!=null && data!={}){
 
@@ -463,7 +466,7 @@ console.log(data, "got this data")
          </div>
         <br></br>
         <br></br>
-        {(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
+        {checkServiceExists(data.booking.porter_service.porter_service_detail) &&(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
@@ -477,7 +480,7 @@ console.log(data, "got this data")
 
         )}
         <br></br>
-        {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
+        {checkServiceExists(data.booking.porter_service.porter_service_detail) && (data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">

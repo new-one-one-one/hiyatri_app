@@ -1648,6 +1648,7 @@ color: #00c4ff;
 }
 
 #users-cancel-booking-design{
+  padding: 10px;
   height: 35px;
   color: #00c4fe;
   background-color: none;
@@ -1802,7 +1803,7 @@ background-color: grey;
  } */
 
 
- 
+
  #big-btn-style{
    color: #00c4fe;
    border:none;
@@ -1817,7 +1818,7 @@ background-color: grey;
   font-size: 14px;
 }
 
- 
+
  .error-title{
    font-weight: 800;
    color: #00C4FF;
@@ -1829,4 +1830,3 @@ background-color: grey;
   font-weight: 900;
 
 }
- 

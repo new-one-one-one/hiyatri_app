@@ -53,6 +53,10 @@ export default function TransitionsModal() {
   }
 
   const handleCloseAdmin=()=>{
+    set_session_id("")
+    set_otp_sent(false)
+    set_otp_code("")
+    set_resend_otp(false)
     setPasswordModal(false);
   }
 
@@ -215,11 +219,12 @@ export default function TransitionsModal() {
                             value={otp_code}
                             onChange={e => set_otp_code(e)}
                             containerStyle="m-otp-input"
+                            isInputNum={true}
                             inputStyle="m-otp-input-each"
                             numInputs={6}
                             separator={<span></span>}
                           />
-                          {resend_otp && <Countdown date={Date.now() + 30000} renderer={renderer} />}
+                          {resend_otp && <Countdown date={Date.now() + 60000} renderer={renderer} />}
                           {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
                           <Button
                               variant="contained"

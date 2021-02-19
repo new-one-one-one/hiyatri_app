@@ -89,7 +89,8 @@ const Homepage = () => {
 
 
   const showFormWhenLoggedIn = () => {
-    return <div>
+  return <div>
+  <form onSubmit={handleSubmit(onpnrSubmit)}>
     <div className="hp-welcome-inner">
         <div className="hp-inp-container-l-o">
                 <div className="row justify-content-center">
@@ -117,7 +118,7 @@ const Homepage = () => {
 
 
                     <div className="text-center hp-mb-continue-btn">
-                    <Button variant="contained" className="hp-inpt-btn" onClick={handleSubmit(onpnrSubmit)}>
+                    <Button variant="contained" type="submit" className="hp-inpt-btn" onClick={handleSubmit(onpnrSubmit)}>
                       Continue
                     </Button>
                     </div>
@@ -125,12 +126,14 @@ const Homepage = () => {
               </div>
           </div>
         </div>
+     </form>
   </div>
   }
 
 
 const showFormWhenNotLoggedIn = () => {
    return <>
+   <form onSubmit={handleSubmit(onSubmit)}>
      <div className="hp-welcome-inner">
         <div className="hp-inp-container">
                         <div className="hp-radio-btn text-center">
@@ -160,7 +163,6 @@ const showFormWhenNotLoggedIn = () => {
                                 fullWidth
                                 />
                               </div>
-
                             </div>
                             <div className="col-md-5">
                               <div className="row justify-content-center">
@@ -185,10 +187,10 @@ const showFormWhenNotLoggedIn = () => {
                         </div>
          </div>
          <div className="text-center d-sm-block d-md-none hp-mb-continue-btn">
-            {<Modal state={state} submit={handleSubmit(onSubmit)}/>}
+            {<Modal state={state} submit={handleSubmit(onSubmit)} type="submit" />}
          </div>
      </div>
-
+    </form>
    </>
 }
 

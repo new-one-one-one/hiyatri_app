@@ -28,12 +28,12 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       </Box>
                   </Box>
                   <Box display="flex" p={0} bgcolor="background.paper">
-                      
+
                       <Box p={1} width="63%">
                       <TextField  size="small"
                         variant="outlined"
                         placeholder="Coupon code"
-                        
+
                         name={`coupon`}
                         onChange={handleChange}
                         inputProps={{
@@ -44,10 +44,10 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                         }}
                         inputRef={register({maxLength:5, minLength:5})}
                         value={code}
-                        
+
                         fullWidth
                       />
-                     
+
                       {invalidCoupun && <span style={{paddingLeft:"10px","color":"red"}}>Invalid</span>}
                       </Box>
                       <Box p={1} width="50%">

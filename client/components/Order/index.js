@@ -87,7 +87,7 @@ var flag=0;
 
 const submitCoupon=(code)=>{
   flag=1;
-  
+
   if(!checkCouponCode(code)){
     setValidCoupoun(true)
   }
@@ -98,12 +98,10 @@ const submitCoupon=(code)=>{
 
 const order = (e) => {
   // e.preventDefault()\
-      setLoader(true) 
-      
+      setLoader(true)
+
       let booking = data;
           booking.coupon = (flag && !invalidCoupun)?couponCode:null;
-          console.log(booking)
-              
       if(!order_id){
         return create_order(booking)
           .then(response => {
@@ -118,7 +116,6 @@ const order = (e) => {
           })
       }
     updateOrder()
-    
 }
 
 
@@ -204,7 +201,6 @@ const paymentHandler = (orderId, amount) => {
        .catch((err) => {
         // removeLocalStorage("Booking")
         setBookingFailed(true)
-         console.log(err)
        })
     }
   }

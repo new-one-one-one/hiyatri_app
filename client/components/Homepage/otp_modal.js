@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
- const Modalbox = ({ state, submit }) => {
+ const Modalbox = ({ state, submit, type }) => {
   const classes = useStyles();
   const initialData = {
     open_modal:false,
@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
           return {...state, session_id: action.data}
         case  ACTIONS.SEND:
           return {...state, send_btn: action.data}
+        case  ACTIONS.EMPTY:
+          return {...state, open_modal: false, recaptcha: false, session_id:"", otp_code:"", send_btn:false}
         default:
             return state
       }
@@ -73,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   const handleClose = () => {
+    dispatch({ type: ACTIONS.EMPTY })
     dispatch({ type: ACTIONS.MODAL, data: false })
   };
 
@@ -196,13 +199,13 @@ const useStyles = makeStyles((theme) => ({
       </div>
 
      <div className="d-sm-block d-md-none">
-       <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
+       <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission} type={type}>
           Continue
        </Button>
      </div>
 
      <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none">
-       <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission}>
+       <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission} type={type}>
           Continue
        </Button>
      </div>
@@ -230,6 +233,7 @@ const useStyles = makeStyles((theme) => ({
               <OtpInput
                 value={data.otp_code}
                 containerStyle="m-otp-input"
+                isInputNum={true}
                 inputStyle="m-otp-input-each"
                 onChange={handleChange}
                 numInputs={6}

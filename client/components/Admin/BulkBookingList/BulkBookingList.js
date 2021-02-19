@@ -203,6 +203,7 @@ const BulkBookingsList = () => {
             </FormControl>
           </Box>
 
+
         </Box>
       </div>
     );
@@ -215,7 +216,7 @@ const BulkBookingsList = () => {
           <div className="BulkBookingListing_heading">
             <h3>Bulk Booking</h3>
             <Button
-              onClick={() => router.push("/admin/bulk_booking")}
+              onClick={() => router.push("/bulk_booking")}
               variant="contained"
               className="export-btn"
             >
@@ -260,21 +261,24 @@ const BulkBookingsList = () => {
                     <td>{EachContent.booking_type}</td>
                     <td>
 
-                       <Button type="Submit"  onClick={() =>
+                       {/* <Button type="Submit"  onClick={() =>
                           clickHandler(EachContent.bulk_booking_id)
                         }  className="buttonUserAdd" variant="contained" size="large">
                                 Download Record
-                          </Button>
+                          </Button> */}
+                          <a style={{textDecoration:'none'}} href={EachContent.excelawslink}>
+                               <Button type="Submit"className="buttonUserAdd" variant="contained" size="large">
+                                      Download Record
+                                </Button>
+                          </a>
                     </td>
                     <td>
                       <Button type="Submit" onClick={() => {
                           setexcelId(EachContent.bulk_booking_id);
                           handleClickOpen();
-
                         }}  className="buttonUserAdd" variant="contained" size="large">
                                 Delete Record
                           </Button>
-
                     </td>
                     {/* <td>{index + 1}</td>
 

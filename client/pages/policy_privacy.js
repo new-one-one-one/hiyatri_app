@@ -1,6 +1,53 @@
 import Layout from '../components/Core/Layout';
-
 import Head from 'next/head';
+import Typography from '@material-ui/core/Typography';
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+
+const useStyle = makeStyles((theme) => ({
+  body: {
+    backgroundColor: "#f7f7f7",
+  },
+  banner: {
+    marginTop: theme.spacing(5),
+  },
+  paper: {
+    marginBottom: theme.spacing(5),
+    boxShadow: "0 0 4px 1px rgba(0, 0, 0, 0.2) !important",
+    padding: theme.spacing(3),
+    fontSize: 16,
+    letterSpacing: 0.63,
+    color: "#000000",
+    lineHeight: "28px",
+  },
+  paperHeading: {
+    fontSize: 36,
+    letterSpacing: 1.07,
+    color: "#eb2c2d",
+    fontWeight: 600,
+  },
+  subHeading: {
+    fontSize: 18,
+    lineHeight: "26px",
+    letterSpacing: 0.53,
+    color: "#000000",
+    fontWeight: 600,
+  },
+  list: {
+    marginLeft: 20,
+    "& li": {
+      listStyleType: "disc !important",
+      marginTop: 10,
+      marginBottom: 10,
+    },
+  },
+
+}));
+
+
 
   const head = () => (
         <Head>
@@ -33,10 +80,119 @@ import Head from 'next/head';
 
 
  const PrivacyPolicy = () => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const classes = useStyle();
+  
   return <>
           {head()}
           <Layout>
-
+          <Grid
+            container
+            component="div"
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item xs={11} sm={11} md={11} lg={11} className={classes.banner}>
+            <Typography>
+          <h2>Privacy Policy</h2>
+        </Typography>  
+            </Grid>
+            <Grid item xs={11} sm={11} md={11} lg={11}>
+              <Paper className={classes.paper}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book. It has survived not only five centuries,
+              but also the leap into electronic typesetting, remaining essentially unchanged. 
+              It was popularised in the 1960s with the release of Letraset sheets <br /> <br />
+                You are required to read our ‘Terms and Conditions’ and ‘Privacy
+                Policy’ before starting using our services. By using BikeBazaar
+                services, you agree to our ‘Terms and Conditions’ and ‘Privacy
+                Policy’. If you don’t agree with our ‘Terms and Conditions’,
+                please do not use our services and unsubscribe from BikeBazaar
+                website.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+              </Paper>
+            </Grid> 
+            <Grid item xs={11} sm={11} md={11} lg={11}>
+              <Paper className={classes.paper}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book. It has survived not only five centuries,
+              but also the leap into electronic typesetting, remaining essentially unchanged. 
+              It was popularised in the 1960s with the release of Letraset sheets <br /> <br />
+                You are required to read our ‘Terms and Conditions’ and ‘Privacy
+                Policy’ before starting using our services. By using BikeBazaar
+                services, you agree to our ‘Terms and Conditions’ and ‘Privacy
+                Policy’. If you don’t agree with our ‘Terms and Conditions’,
+                please do not use our services and unsubscribe from BikeBazaar
+                website.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+              </Paper>
+            </Grid> 
+            <Grid item xs={11} sm={11} md={11} lg={11}>
+              <Paper className={classes.paper}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book. It has survived not only five centuries,
+              but also the leap into electronic typesetting, remaining essentially unchanged. 
+              It was popularised in the 1960s with the release of Letraset sheets <br /> <br />
+                You are required to read our ‘Terms and Conditions’ and ‘Privacy
+                Policy’ before starting using our services. By using BikeBazaar
+                services, you agree to our ‘Terms and Conditions’ and ‘Privacy
+                Policy’. If you don’t agree with our ‘Terms and Conditions’,
+                please do not use our services and unsubscribe from BikeBazaar
+                website.
+                <br />
+                <br />
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+              Lorem Ipsum has been the industry's standard dummy.text ever since the 1500s, 
+              when an unknown printer took a galley of type and  scrambled it to make a
+              type specimen book.
+                <br />
+                <br />
+               
+              </Paper>
+            </Grid> 
+        </Grid>
           </Layout>
          </>
 }

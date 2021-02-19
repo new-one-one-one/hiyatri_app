@@ -21,6 +21,7 @@ import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+
 const useStyles = makeStyles((theme) => ({
 
     grow: {
@@ -177,6 +178,7 @@ const useStyles = makeStyles((theme) => ({
       display_modal:{
         borderRadius:"20px"
       }
+      
   }));
 
 
@@ -185,22 +187,27 @@ const BookingDetail = ({ data, reloadData }) => {
   const classes = useStyles();
   const [agent_name, setAgentName] = useState(null);
   const [agents, setAgents] = useState([]);
-  const [assignee, setAssignee] = useState();
+  const [assignee, setAssignee] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [commentText, setCommentText] = useState();
   const [commentBox, openCommentBox] = useState(false);
   const [commentList, setCommentList] = useState([]);
   const [reload, setReload] = useState(false);
+  const [disabledbtn, setDisabledBtn] = useState(true);
+  
   const token = getCookie("token");
 
   const changeDropDown = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  
+
   const assignToAgent = (e) => {
     let orderId = data._id;
      assign_agent(orderId, assignee, token)
+     
         .then(response => {
           if(response.error){
             return console.log(response.error)
@@ -212,6 +219,7 @@ const BookingDetail = ({ data, reloadData }) => {
           console.log(err)
         })
       addComment(e)
+     
   }
 
   const addComment = (e) => {
@@ -307,8 +315,7 @@ const getAgentName = (status)=>{
 }
 
 const displayPorterServiceDetails = (porter) =>{
-  const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
-  if((porter.porter_service_opted || porter.baggage_garanteed_opted ) && porter_total!=0)
+  if((porter.porter_service_opted || porter.baggage_garanteed_opted ))
     return (
       <div>
         <Grid container spacing={2}>
@@ -349,6 +356,11 @@ const displayPorterServiceDetails = (porter) =>{
 }
   
 
+const checkServiceExists=(porter)=>{
+  const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
+  return porter_total!=0
+}
+
 
 const displayAdditionalService= (addedServices) => {
     return (
@@ -378,7 +390,6 @@ const displayAdditionalService= (addedServices) => {
     }
 
 
-console.log(data, "got this data")
 
    if(data!=null && data!={}){
 
@@ -463,7 +474,7 @@ console.log(data, "got this data")
          </div>
         <br></br>
         <br></br>
-        {(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
+        {checkServiceExists(data.booking.porter_service.porter_service_detail) &&(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
@@ -477,7 +488,7 @@ console.log(data, "got this data")
 
         )}
         <br></br>
-        {(data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
+        {checkServiceExists(data.booking.porter_service.porter_service_detail) && (data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted!==null && data.booking.porter_service.porter_service_detail.baggage_garanteed.baggage_garanteed_opted)&&(
               <div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
@@ -588,7 +599,7 @@ console.log(data, "got this data")
               <br></br>
               {(data.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
                   <Box p={1}>
-                    <Button  variant="contained"  className="bd-btn-agent" size="large" fullWidth={true} onClick={()=>setOpen(true)} >Re-Assign to agent</Button>
+                    <Button  variant="contained"  className="bd-btn-agent" size="large" fullWidth={true} onClick={()=>{setOpen(true);setAssignee(null)}} >Re-Assign to agent</Button>
                   </Box>
                 </div>
               )}
@@ -675,13 +686,17 @@ console.log(data, "got this data")
             id="scroll-dialog-description"
             tabIndex={10}
           >
-        <FormControl style={{minWidth:"80%"}}>
+        <FormControl style={{minWidth:"80%"}}> 
         <Autocomplete
           onChange={(event, newValue) => {
             if(newValue){
                 setAssignee(newValue._id)
             }
+            else{
+              setAssignee(null)
+            }
           }}
+          
           options={agents}
           getOptionLabel={(option) => option.name+"-("+option.phone_number+")"}
           renderInput={(params) => (
@@ -710,10 +725,10 @@ console.log(data, "got this data")
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.headFootAgent}>
-          <Button onClick={assignToAgent} className="bd-btn-submit" variant="contained" color="primary">
+          <Button disabled={assignee==null?true:false} onClick={assignToAgent} className="bd-btn-submit" variant="contained">
             Assign
           </Button>
-          <Button onClick={()=>setOpen(false)} variant="outlined" style={{color:"#00c4fe", borderColor:"#00c4fe"}}>
+          <Button  onClick={()=>setOpen(false)} variant="outlined" style={{color:"#00c4fe", borderColor:"#00c4fe", backgroundColor:"white"}}>
             Cancel
           </Button>
         </DialogActions>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Modal from "@material-ui/core/Modal";
 import { makeStyles, Button } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -58,7 +57,7 @@ const BulkBookings = () => {
   const [uploadInformation, setuploadInformation] = useState({
     booking_type: "",
     client_name: "",
-    date_of_arrival_or_departure: new Date(),
+    date_of_arrival_or_departure: null,
     time_of_arrival_or_departure: "",
   });
 
@@ -84,13 +83,13 @@ const BulkBookings = () => {
     }
 
     if (selectedFile === null && errorFlag === true) {
-      toast.error("Please fill the required information");
-    } 
-    
+      toast.error("Please provide  the required information");
+    }
+
     else if (selectedFile === null && errorFlag === false) {
       toast.error("Please provide the excel file");
-    } 
-    
+    }
+
     else if(selectedFile!==null && errorFlag ===true){
         toast.error('Please fill the details')
     }
@@ -104,7 +103,7 @@ const BulkBookings = () => {
         .post(`${process.env.NEXT_PUBLIC_API}/create_bulk_booking`, data)
         .then((res) => {
           setshowSpinner(false);
-          toast.success("Upload successfull !! ");
+          toast.success("Upload successfull");
         })
         .catch((err) => {
           toast.error("upload fail");
@@ -148,7 +147,7 @@ const BulkBookings = () => {
     <>
       <Backdrop className={classes.backdrop} open={showSpinner}>
         <CircularProgress color="inherit" />
-        <p style={{ marginLeft: "20px" }}> Uploading Records Please wait !!</p>
+        <p style={{ marginLeft: "20px" }}> Uploading Records Please wait </p>
       </Backdrop>
 
       <div
@@ -169,18 +168,9 @@ const BulkBookings = () => {
               flexDirection: "column",
             }}
             onClick={() => setOpen(true)}
-            title="Instructions for Bulk Upload"
+
           >
-            <span
-              style={{
-                marginRight: "10px",
-                fontSize: "18px",
-                color: "#26A69A",
-                fontWeight: "bold",
-              }}
-            >
-              Instructions for Bulk Booking
-            </span>
+
             {/* <img src={questionIcon} height={25} /> */}
             <div className="contact-Information shadow">
               <table>
@@ -240,6 +230,7 @@ const BulkBookings = () => {
                     </td>
                     <td>
                       <TextField
+                        style={{marginTop:'3%'}}
                         id="time"
                         type="time"
                         className={classes.textField}
@@ -262,7 +253,6 @@ const BulkBookings = () => {
                         value={uploadInformation.booking_type}
                         displayEmpty
                         style={{ width: "100px" }}
-                        
                         disableUnderline
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}

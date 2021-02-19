@@ -271,7 +271,7 @@ export default function TransitionsModal() {
                         placeholder="Mobile no."
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
-                        
+
                       <TextField
                         variant="outlined"
                         name="password"
@@ -291,7 +291,7 @@ export default function TransitionsModal() {
                           className="m-2 login-modal-continue">
                           Continue
                       </Button>
-                      <Button id="big-btn-style"  onClick={()=>{setPasswordModal(false); setOpen(true)}}>for normal login</Button>
+                      <Button id="big-btn-style"  onClick={()=>{setPasswordModal(false); setOpen(true)}}>For User Login</Button>
                    </form>
 
                  </div>

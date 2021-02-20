@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -104,22 +105,29 @@ const BulkBookings = () => {
         .then((res) => {
           setshowSpinner(false);
           toast.success("Upload successfull");
+          if(res.status===200){
+            createbulkbookings();
+          }
         })
         .catch((err) => {
           toast.error("upload fail");
         });
 
-      axios
-        .post(
-          `${process.env.NEXT_PUBLIC_API}/bulk_bookings_requests`,
-          uploadInformation
-        )
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+
+
+        const createbulkbookings=()=>{
+          axios
+          .post(
+            `${process.env.NEXT_PUBLIC_API}/bulk_bookings_requests`,
+            uploadInformation
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        }
     }
   };
 

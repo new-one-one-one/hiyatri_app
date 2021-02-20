@@ -178,7 +178,7 @@ const useStyles = makeStyles((theme) => ({
       display_modal:{
         borderRadius:"20px"
       }
-      
+
   }));
 
 
@@ -195,19 +195,19 @@ const BookingDetail = ({ data, reloadData }) => {
   const [commentList, setCommentList] = useState([]);
   const [reload, setReload] = useState(false);
   const [disabledbtn, setDisabledBtn] = useState(true);
-  
+
   const token = getCookie("token");
 
   const changeDropDown = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  
+
 
   const assignToAgent = (e) => {
     let orderId = data._id;
      assign_agent(orderId, assignee, token)
-     
+
         .then(response => {
           if(response.error){
             return console.log(response.error)
@@ -219,7 +219,7 @@ const BookingDetail = ({ data, reloadData }) => {
           console.log(err)
         })
       addComment(e)
-     
+
   }
 
   const addComment = (e) => {
@@ -344,9 +344,9 @@ const displayPorterServiceDetails = (porter) =>{
                             {porter.small_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                      ₹{porter_total} 
-                        
-                        
+                      ₹{/*porter_total*/}
+
+
                       </Grid>
                 </Grid>
           </Grid>
@@ -354,7 +354,7 @@ const displayPorterServiceDetails = (porter) =>{
 
     )
 }
-  
+
 
 const checkServiceExists=(porter)=>{
   const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
@@ -382,10 +382,10 @@ const displayAdditionalService= (addedServices) => {
                  </div>
               )
            })
-        
+
         }
       </div>
-       
+
        )
     }
 
@@ -631,9 +631,9 @@ const displayAdditionalService= (addedServices) => {
         }}
         onClose={()=>openCommentBox(false)}
         aria-l
-        
-        
-        
+
+
+
         elledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
@@ -686,7 +686,7 @@ const displayAdditionalService= (addedServices) => {
             id="scroll-dialog-description"
             tabIndex={10}
           >
-        <FormControl style={{minWidth:"80%"}}> 
+        <FormControl style={{minWidth:"80%"}}>
         <Autocomplete
           onChange={(event, newValue) => {
             if(newValue){
@@ -696,7 +696,7 @@ const displayAdditionalService= (addedServices) => {
               setAssignee(null)
             }
           }}
-          
+
           options={agents}
           getOptionLabel={(option) => option.name+"-("+option.phone_number+")"}
           renderInput={(params) => (

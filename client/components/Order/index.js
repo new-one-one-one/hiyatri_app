@@ -45,6 +45,7 @@ const [failedBooking, setBookingFailed]  = useState(false);
 const [agreed, isAgreed] = useState(true);
 const [couponCode, setCouponCode] = useState(null);
 const [invalidCoupun, setValidCoupoun] = useState(false);
+const [flag, setFlag] = useState(0);
  useEffect(() => {
   if(order_id){
     single_order_by_id(order_id)
@@ -73,35 +74,13 @@ useEffect(()=>{
 }, [invalidCoupun])
 
 
-const checkCouponCode= (appliedCode)=>{
-  if(appliedCode==null || appliedCode==undefined || appliedCode=="")
-    return true
-  for(var i=0; i<coupounData.length;i++){
-    if(coupounData[i].code == appliedCode)
-      return true
-  }
-  return false
-}
-
-var flag=0;
-
-const submitCoupon=(code)=>{
-  flag=1;
-
-  if(!checkCouponCode(code)){
-    setValidCoupoun(true)
-  }
-  else{
-    setValidCoupoun(false)
-  }
-}
 
 const order = (e) => {
   // e.preventDefault()\
       setLoader(true)
 
       let booking = data;
-          booking.coupon = (flag && !invalidCoupun)?couponCode:null;
+          booking.coupon = (flag && !invalidCoupun)?couponCode:"Not Applied";
       if(!order_id){
         return create_order(booking)
           .then(response => {
@@ -209,6 +188,26 @@ const paymentHandler = (orderId, amount) => {
     removeLocalStorage("Booking")
 }
 
+const checkCouponCode= (appliedCode)=>{
+  if(appliedCode==null || appliedCode==undefined || appliedCode=="")
+    return true
+  for(var i=0; i<coupounData.length;i++){
+    if(coupounData[i].code == appliedCode)
+      return true
+  }
+  return false
+}
+
+
+const submitCoupon=(code)=>{
+setFlag(1);
+  if(!checkCouponCode(code)){
+    setValidCoupoun(true)
+  }
+  else{
+    setValidCoupoun(false)
+  }
+}
 
 const handleCouponChange = (e) => {
    setValidCoupoun(false)

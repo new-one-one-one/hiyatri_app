@@ -3,19 +3,20 @@ import {Grid,FormControlLabel,Box,Button,TextField,List,Avatar,ListItemText,List
 import {Paper} from "@material-ui/core";
 import useStyles from './style';
 import MuiAlert from '@material-ui/lab/Alert';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { coupounData } from './coupuns';
+import { set } from 'js-cookie';
 
 const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register,code, invalidCoupun, submitCoupon }) => {
   const classes = useStyles();
   const { width } = useWindowSize();
-
+  const [is_applied, setApplied]=useState(false);
+  console.log(code, "code")
   function Alert(props) {
     return <MuiAlert  variant="filled" {...props} />;
   }
   useEffect(()=>{
-
-  }, [invalidCoupun])
+  }, [invalidCoupun, is_applied, code])
 
   return <div className="shadow p-3">
             <Paper>
@@ -33,9 +34,8 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       <TextField  size="small"
                         variant="outlined"
                         placeholder="Coupon code"
-
                         name={`coupon`}
-                        onChange={handleChange}
+                        onChange={(e)=> {handleChange(e); setApplied(false)} }
                         inputProps={{
                           maxLength: 5,
                           style:{
@@ -49,9 +49,11 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       />
 
                       {invalidCoupun && <span style={{paddingLeft:"10px","color":"red"}}>Invalid</span>}
+                      {!invalidCoupun && code!=null && code!="" && is_applied && <span style={{paddingLeft:"10px","color":"#00c4fe"}}>Applied Successfully !</span>}
+
                       </Box>
                       <Box p={1} width="50%">
-                      <Button  variant="outlined" id="users-cancel-booking-design"  onClick={() => submitCoupon(code)}>
+                      <Button  variant="outlined" id="users-cancel-booking-design"  onClick={() => {submitCoupon(code); setApplied(true)}}>
                            Apply Coupon
                       </Button>
                       </Box>

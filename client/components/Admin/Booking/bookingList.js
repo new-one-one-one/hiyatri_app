@@ -213,7 +213,6 @@ const BookingList = ({ list }) => {
   </div>
   }
 
-console.log(state, list)
 
     return (
         <div>
@@ -247,7 +246,7 @@ console.log(state, list)
                 <Column field="date"  title="Date of Arr/Dep"/>
                 <Column field="time" title="Time of Arr/Dep" />
                 <Column field="booking_type" title="Booking Type" />
-                <Column field="coupon" title="Coupoun"/>
+                <Column field="coupon" title="Coupon"/>
                 <Column cell={MyEditCommandCell} title="Action"  />
             </Grid>}
             </div >

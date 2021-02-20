@@ -143,19 +143,22 @@ return <div className="shadow booking-card">
             </Card>
            </Grid>
            <Dialog open={open} style={{marginTop:"100px"}} onClose={handleClose} aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Booking Details</DialogTitle>
+              <DialogTitle id="form-dialog-title">Booking Details(<b>Total Cost</b>  =  ₹{booking.total_amount})</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   {thisDataOpen && <Details data={thisDataOpen}/>}
                   { thisDataOpen!==undefined &&<TakenServices data={{porter_service_detail : thisDataOpen.porter_service.porter_service_detail, cab_service_detail:thisDataOpen.cab_service.cab_service_detail}}/>}
+                
                 </DialogContentText>
 
               </DialogContent>
-              <DialogActions>
+                
+                <DialogActions>
                 <Button onClick={handleClose} variant="outlined"  id="users-cancel-booking-design">
-                  Close
-                </Button>
-              </DialogActions>
+                          Close
+                        </Button>
+                </DialogActions>
+               
           </Dialog>
        </div>
 }

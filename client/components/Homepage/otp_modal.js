@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   const [data, dispatch] = useReducer(reducer, initialData)
   const [showSpinner, setShowSpinner] = useState(false);
   const [resend_otp, set_resend_otp] = useState(false);
-  const [curr_date, setDate] = useState(Date.now + 5000)
+  const [curr_date, setDate] = useState(new Date().getTime()+ 120000)
 
 
   const handleClose = () => {
@@ -166,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   const handleResendOTP = () => {
-        onSubmit()
+        send()
         set_resend_otp(true)
   }
 

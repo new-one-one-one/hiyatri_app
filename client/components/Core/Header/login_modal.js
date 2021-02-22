@@ -67,9 +67,12 @@ export default function TransitionsModal() {
   const [recaptcha_check, set_recaptcha_check] = useState(false);
   const [otp_sent, set_otp_sent] = useState(false);
   const [resend_otp, set_resend_otp] = useState(false);
+  const [curr_date, setDate] = useState(new Date().getTime()+ 120000)
+
 
 
     const onSubmit = (data) => {
+      setDate(new Date().getTime() + 120000)
       sendingOTP({ phone_number })
       .then(response => {
         if(response.error){
@@ -139,17 +142,17 @@ export default function TransitionsModal() {
        onSubmit()
   }
 
-    const renderer = ({ minutes, seconds, completed }) => {
-      if (completed) {
-         set_resend_otp(false)
-          return  "";
-      } else {
-        return (
-          <div className="otp-resend">
-            Resend OTP in {'00'}:{seconds}
-          </div>
-        );
-      }
+    const renderer = ({ total, minutes, seconds, completed }) => {
+      if (total==0) {
+        set_resend_otp(false)
+        return  "";
+     } else {
+       return (
+         <div className="otp-resend">
+           Resend OTP in 0{minutes}:{seconds}
+         </div>
+       );
+     }
     };
 
   return (
@@ -214,7 +217,7 @@ export default function TransitionsModal() {
                    </form>}
 
                     {otp_sent && <form>
-                      <div className="otp-msg">OTP has been sent to {phone_number}</div>
+                      <div className="otp-msg">OTP has been sent to +91-{phone_number}</div>
                           <OtpInput
                             value={otp_code}
                             onChange={e => set_otp_code(e)}
@@ -224,7 +227,7 @@ export default function TransitionsModal() {
                             numInputs={6}
                             separator={<span></span>}
                           />
-                          {resend_otp && <Countdown date={Date.now() + 60000} renderer={renderer} />}
+              {resend_otp && <Countdown date={curr_date}   renderer={renderer} />}
                           {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
                           <Button
                               variant="contained"

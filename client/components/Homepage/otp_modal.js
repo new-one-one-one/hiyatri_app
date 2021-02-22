@@ -240,9 +240,8 @@ const useStyles = makeStyles((theme) => ({
                 separator={<span></span>}
               />
 
-              {resend_otp && <Countdown date={Date.now() + 60000} renderer={renderer}/>}
+              {resend_otp && <Countdown date={Date.now() + 60000} renderer={renderer} />}
               {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
-
               <Button variant="contained" className="m-2 md-btn" onClick={verify}>
                 SUBMIT
               </Button>

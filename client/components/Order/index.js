@@ -43,7 +43,7 @@ const [loader, setLoader] = useState(false);
 const [successBooking, setBookingSuccess] = useState(false);
 const [failedBooking, setBookingFailed]  = useState(false);
 const [agreed, isAgreed] = useState(true);
-const [couponCode, setCouponCode] = useState(null);
+const [couponCode, setCouponCode] = useState("");
 const [invalidCoupun, setValidCoupoun] = useState(false);
 const [flag, setFlag] = useState(0);
  useEffect(() => {
@@ -80,7 +80,10 @@ const order = (e) => {
       setLoader(true)
 
       let booking = data;
-          booking.coupon = (flag && !invalidCoupun)?couponCode:"Not Applied";
+      var v=(couponCode=="")+" --  "+flag+" --  "+couponCode+" -- "+(!invalidCoupun)
+      alert(v)
+         booking.coupon = ((couponCode!=="")&& flag && !invalidCoupun)?couponCode:"Not Applied"
+     
       if(!order_id){
         return create_order(booking)
           .then(response => {
@@ -211,6 +214,7 @@ setFlag(1);
 
 const handleCouponChange = (e) => {
    setValidCoupoun(false)
+   
    setCouponCode(e.target.value)
 }
 

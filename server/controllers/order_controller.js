@@ -296,17 +296,18 @@ return res.status(400).json({
 // please send the detals of single order to the bookinf openeing --lazag
 
 module.exports.get_single_order = (req, res) => {
+
   Order.findOne({ booking: req.params.booking_id })
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id additional_services total_amount',
               populate: { path: 'cab_service', select: 'cab_service_detail'}})
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id additional_services total_amount',
               populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .populate({ path:'user',
               select:'name phone_number'
             })
-  .select('amount payment_verified order_status agent booking_id')
+  .select('amount payment_verified order_status agent booking_id additional_services total_amount')
   .exec((err, response) => {
      if(err){
       return res.status(400).json({
@@ -324,10 +325,10 @@ module.exports.get_single_order = (req, res) => {
 module.exports.get_single_order_by_id = (req, res) => {
   Order.findById(req.params.order_id)
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id additional_services total_amount',
               populate: { path: 'cab_service', select: 'cab_service_detail'}})
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id additional_services total_amount',
               populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .exec((err, response) => {
      if(err){
@@ -344,12 +345,14 @@ module.exports.get_single_order_by_id = (req, res) => {
              passenger_details,
              porter_service,
              pnr_number,
+             additional_services,
              passenger_contact_information } = response.booking;
 
      res.status(200).json({
        response: {
          booking_id,
-         total_amount: response.total_amount,
+         additional_services,
+         total_amount:total_amount,
          booking_information,
          cab_service_detail: cab_service.cab_service_detail,
          porter_service_detail: porter_service.porter_service_detail,
@@ -367,13 +370,13 @@ module.exports.get_all_orders = async (req, res) => {
   if(!order_type && !order_status){
     return Order.find()
     .populate({ path: 'booking',
-                select:'booking_information passenger_contact_information pnr_number passenger_details booking_id coupon',
+                select:'booking_information passenger_contact_information pnr_number passenger_details booking_id coupon additional_services total_amount' ,
                 populate: { path: 'cab_service', select: 'cab_service_detail'}})
     .populate({ path: 'booking',
-                select:'booking_information passenger_contact_information pnr_number passenger_details booking_id coupon',
+                select:'booking_information passenger_contact_information pnr_number passenger_details booking_id coupon additional_services total_amount',
                 populate: { path: 'porter_service', select: 'porter_service_detail'}})
     .populate('agent', 'name phone_number')
-    .select('order_type order_status')
+    .select('order_type order_status total_amount')
     .sort({ updatedAt: -1 })
     .exec((err, response) => {
       if(err){
@@ -385,7 +388,9 @@ module.exports.get_all_orders = async (req, res) => {
           return { booking_status: item.order_status,
                    booking_type: item.order_type,
                    agent: item.agent,
+                   total_amount:item.total_amount,
                    // booking_details: item.booking,
+                   additional_services:item.additional_services,
                    booking_id: item.booking.booking_id,
                    date: item.booking.booking_information.is_arrival ?
                    item.booking.booking_information.reservation_upto.date:
@@ -406,13 +411,13 @@ module.exports.get_all_orders = async (req, res) => {
 
   Order.find({ order_type, order_status, payment_verified: true })
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id additional_services total_amount',
               populate: { path: 'cab_service', select: 'cab_service_detail'}})
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id additional_services total_amount',
               populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .populate('agent', 'name phone_number')
-  .select('order_type order_status agent')
+  .select('order_type order_status agent additional_services total_amount')
   .sort({ updatedAt: -1 })
   .exec((err, response) => {
     if(err){
@@ -424,6 +429,7 @@ module.exports.get_all_orders = async (req, res) => {
         return { booking_status: item.order_status,
                  booking_type: item.order_type,
                  booking_id: item.booking.booking_id,
+                 additional_services:item.additional_services,
                  agent: item.agent,
                  // booking_details: item.booking,
                  date: item.booking.booking_information.is_arrival ?
@@ -483,10 +489,10 @@ module.exports.get_user_all_orders = (req, res) => {
   Order.find({ user: req.params.user })
   .sort({ createdAt: -1 })
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id total_amount',
               populate: { path: 'cab_service', select: 'cab_service_detail'}})
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id total_amount',
               populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .exec((err, response) => {
      if(err){
@@ -523,7 +529,7 @@ module.exports.get_orders_for_agent=(req, res)=>{
   Order.find({agent:agent_id})
   .sort({ updatedAt: -1 })
   .populate({ path: 'booking',
-              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id',
+              select:'booking_information passenger_contact_information pnr_number passenger_details booking_id total_amount',
               populate: { path: 'porter_service', select: 'porter_service_detail'}})
   .exec((err, orders)=>{
     if(err)

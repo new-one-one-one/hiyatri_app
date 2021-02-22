@@ -184,6 +184,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const BookingDetail = ({ data, reloadData }) => {
+  console.log(data, "additonal services")
   const classes = useStyles();
   const [agent_name, setAgentName] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -252,7 +253,7 @@ const BookingDetail = ({ data, reloadData }) => {
                   </Grid>
                 </div>
                  )
-                 break
+                 
           }
       case "golf":
         if(needed){
@@ -344,7 +345,7 @@ const displayPorterServiceDetails = (porter) =>{
                             {porter.small_bags.unit}
                       </Grid>
                       <Grid  item sm={3}>
-                      ₹{/*porter_total*/}
+                      ₹{porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total}
 
 
                       </Grid>
@@ -408,8 +409,10 @@ const displayAdditionalService= (addedServices) => {
               <br></br>
             <Box className={classes.headingPart} display="flex" p={1} bgcolor="#2a306c">
                       <Box p={1} width="100%">
-                        BOOKING-ID : {data.booking.booking_id}
+                        BOOKING-ID : {data.booking.booking_id} (Total Cost  = <b>₹{data.total_amount}</b> )
                       </Box >
+                      
+                      
             </Box>
 
              <Paper variant="outlined" className={classes.particularOrder}>
@@ -445,9 +448,12 @@ const displayAdditionalService= (addedServices) => {
                       </Grid>
                     </Grid>
                   </Grid>
+                  
                       {/* ---------------------------------------- */}
                   </div>
               </Paper>
+             
+               
 
              {data.booking.passenger_details.map(val => {
                 if(val.wheel_chair || val.golf_cart || val.meet_and_greet ){
@@ -467,11 +473,10 @@ const displayAdditionalService= (addedServices) => {
                         )}
                })
              }
-
-
-              <br></br>
+             <br></br>
           </Paper>
          </div>
+  
         <br></br>
         <br></br>
         {checkServiceExists(data.booking.porter_service.porter_service_detail) &&(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
@@ -503,7 +508,7 @@ const displayAdditionalService= (addedServices) => {
         )}
         <br></br>
         <br></br>
-       { (data.additional_services!=[] && data.additional_services!=null && data.additional_services!=undefined )&& (<div className="shadow">
+       { (data.additional_services.length!=0 && data.additional_services!==null && data.additional_services!=undefined )&& (<div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
                                 <Typography>Additonal Services</Typography>

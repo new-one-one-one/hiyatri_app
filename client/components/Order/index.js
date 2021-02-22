@@ -80,10 +80,10 @@ const order = (e) => {
       setLoader(true)
 
       let booking = data;
-      var v=(couponCode=="")+" --  "+flag+" --  "+couponCode+" -- "+(!invalidCoupun)
-      alert(v)
+      // var v=(couponCode=="")+" --  "+flag+" --  "+couponCode+" -- "+(!invalidCoupun)
+      // alert(v)
          booking.coupon = ((couponCode!=="")&& flag && !invalidCoupun)?couponCode:"Not Applied"
-     
+
       if(!order_id){
         return create_order(booking)
           .then(response => {
@@ -214,7 +214,7 @@ setFlag(1);
 
 const handleCouponChange = (e) => {
    setValidCoupoun(false)
-   
+
    setCouponCode(e.target.value)
 }
 

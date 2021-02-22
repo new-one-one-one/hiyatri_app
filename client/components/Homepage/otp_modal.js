@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
   const [data, dispatch] = useReducer(reducer, initialData)
   const [showSpinner, setShowSpinner] = useState(false);
   const [resend_otp, set_resend_otp] = useState(false);
+  const [curr_date, setDate] = useState(new Date().getTime()+ 120000)
 
 
   const handleClose = () => {
@@ -85,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   const onSubmission = () => {
+      setDate(new Date().getTime() + 120000)
       submit()
       if(state.phone_number.length !== 10){
         return;
@@ -164,20 +166,20 @@ const useStyles = makeStyles((theme) => ({
 
 
   const handleResendOTP = () => {
-        onSubmit()
+        send()
         set_resend_otp(true)
   }
 
 
 
-    const renderer = ({ minutes, seconds, completed }) => {
-      if (completed) {
+    const renderer = ({total, minutes, seconds, completed }) => {
+      if (total==0) {
          set_resend_otp(false)
-          return  "";
+         return  "";
       } else {
         return (
           <div className="otp-resend">
-            Resend OTP in {'00'}:{seconds}
+            Resend OTP in 0{minutes}:{seconds}
           </div>
         );
       }
@@ -201,7 +203,9 @@ const useStyles = makeStyles((theme) => ({
      <div className="d-sm-block d-md-none">
        <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission} type={type}>
           Continue
+          
        </Button>
+       
      </div>
 
      <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none">
@@ -229,7 +233,7 @@ const useStyles = makeStyles((theme) => ({
 
 
             {<div className="text-center">
-              <div className="otp-msg">OTP has been sent to {state.phone_number}</div>
+              <div className="otp-msg">OTP has been sent to +91-{state.phone_number}</div>
               <OtpInput
                 value={data.otp_code}
                 containerStyle="m-otp-input"
@@ -239,8 +243,7 @@ const useStyles = makeStyles((theme) => ({
                 numInputs={6}
                 separator={<span></span>}
               />
-
-              {resend_otp && <Countdown date={Date.now() + 60000} renderer={renderer} />}
+              {resend_otp && <Countdown date={curr_date}   renderer={renderer} />}
               {!resend_otp && <div className="otp-resend"   onClick={handleResendOTP}>Resend OTP</div>}
               <Button variant="contained" className="m-2 md-btn" onClick={verify}>
                 SUBMIT

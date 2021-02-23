@@ -4,14 +4,13 @@ import {Paper} from "@material-ui/core";
 import useStyles from './style';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useEffect, useState } from 'react';
-import { coupounData } from './coupuns';
+import { coupounData } from './coupons';
 import { set } from 'js-cookie';
 
 const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,register,code, invalidCoupun, submitCoupon }) => {
   const classes = useStyles();
   const { width } = useWindowSize();
   const [is_applied, setApplied]=useState(false);
-  console.log(code, "code")
   function Alert(props) {
     return <MuiAlert  variant="filled" {...props} />;
   }
@@ -49,7 +48,7 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       />
 
                       {invalidCoupun && <span style={{paddingLeft:"10px","color":"red"}}>Invalid</span>}
-                      {!invalidCoupun && code!=null && code!="" && is_applied && <span style={{paddingLeft:"10px","color":"#00c4fe"}}>Applied Successfully !</span>}
+                      {!invalidCoupun && code!=null && code!="" && is_applied && <span style={{paddingLeft:"10px","color":"#00c4fe"}}>Applied Successfully</span>}
 
                       </Box>
                       <Box p={1} width="50%">

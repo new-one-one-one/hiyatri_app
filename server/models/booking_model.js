@@ -45,7 +45,7 @@ const bookingSchema = mongoose.Schema({
             total:Number
           },
           passenger_name:String,
-          age_group:String,
+          age_group:{ type: String, enum:['Sr citizen(above 58 years)','Adult(12-58 years)','Children(upto 12 years)']},
           gender:{ type: String, enum:['Male','Female']},
           meet_and_greet:{ type:Boolean, default:false },
           wheel_chair:{ type:Boolean, default:false },

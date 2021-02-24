@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Modal, Button} from '@material-ui/core';
+import {Modal,IconButton, Button} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import {TextField,InputAdornment} from '@material-ui/core';
@@ -13,7 +13,9 @@ import { sendingOTP, verifyingOTP, authenticate, verifyPassword } from '../../..
 import Countdown from "react-countdown";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import useWindowSize from '../../../helpers/windowDimension';
-
+import { Dialog,DialogActions,DialogContent } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close'
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -162,25 +164,25 @@ export default function TransitionsModal() {
           <img alt="hamburger-icon" src="/images/hamburger_icon.svg" />
        </Button>}
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
+        <Dialog open={open}  onClose={handleClose} className={classes.modal} aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
+               <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={handleClose}>
+                        <CloseIcon style={{width:"20px", height:"20px"}}  />
+                        </IconButton>
+                </Box>
+          
+          <DialogContent>
           <ToastContainer />
             <div className="">
               <div className="row justify-content-center">
                 <div className="lg-container">
-                     <h2 className="login-modal-title">LOGIN</h2>
+                     <Box display="flex" >
+                        <Box width="98%" p={1}>
+                          <h2 className="login-modal-title">LOGIN</h2>
+                        </Box>
+                     </Box>
+
+                     
                    {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                        <TextField
                         variant="outlined"
@@ -197,12 +199,6 @@ export default function TransitionsModal() {
                         className="login-modal-input mb-2 mt-2"
                         fullWidth />
 
-                        {/*<Recaptcha
-                          className="mb-2 mt-2 pt-1"
-                          sitekey="6Le9rd8ZAAAAAMM-XB7SMhZUQCHa6OCbXry-nlWL"
-                          render="explicit"
-                          verifyCallback={verifyCallback}
-                          />*/}
 
                       <Button
                           size="large"
@@ -242,10 +238,70 @@ export default function TransitionsModal() {
                 </div>
               </div>
             </div>
+            <br></br>
+          </DialogContent>
+        </Dialog>
+      
+      <Dialog open={openPasswordModal}    className={classes.modal} aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
+                <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={handleClose}>
+                        <CloseIcon style={{width:"20px", height:"20px"}}  />
+                        </IconButton>
+                </Box>
+         
+          <DialogContent>
+          <ToastContainer />
+            <div className="">
+              <div className="row justify-content-center">
+                <div className="lg-container">
+                   <Box p={1}>
+                      <h2 className="login-modal-title">ADMIN LOGIN</h2>                                  
+                   </Box> 
+                     <h5 style={{color:"red"}}>{errorMessage}</h5>
+                     <form onSubmit={handleSubmit(onSubmitAdmin)}>
+                       <TextField
+                        variant="outlined"
+                        name="phone_number_auth"
+                        type="Number"
+                        size="small"
+                        inputRef={register({ pattern: /^\d+$/,required: true, minLength:10})}
+                        error={errors.phone_number_auth ?true:false}
+                        InputProps={{startAdornment: <InputAdornment position="start">+91</InputAdornment>}}
+                        helperText={errors.phone_number_auth? "Please enter a valid phone number":""}
+                        onInput={(e)=>{e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)}}
+                        placeholder="Mobile no."
+                        className="login-modal-input mb-2 mt-2"
+                        fullWidth />
+
+                      <TextField
+                        variant="outlined"
+                        name="password"
+                        type="password"
+                        size="small"
+                        inputRef={register({required:true})}
+                        onChange={e =>setPassword(e.target.value)}
+                        helperText={errors.password? "Please enter your password":""}
+                        error={errors.password?true:false}
+                        placeholder="Enter your password"
+                        className="login-modal-input mb-2 mt-2"
+                        fullWidth />
+                      <Button
+                          type="submit"
+                          size="large"
+                          onClick={()=>{handleSubmit(onSubmitAdmin)}}
+                          className="m-2 login-modal-continue">
+                          Continue
+                      </Button>
+                      <Button id="big-btn-style"  onClick={()=>{setPasswordModal(false); setOpen(true)}}>For User Login</Button>
+                   </form>
+
+                 </div>
+              </div>
           </div>
-        </Fade>
-      </Modal>
-      <Modal
+            <br></br>
+          </DialogContent>
+        </Dialog>
+      {/* <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
@@ -307,7 +363,7 @@ export default function TransitionsModal() {
             </div>
           </div>
         </Fade>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

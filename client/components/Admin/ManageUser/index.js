@@ -8,6 +8,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Grid as Grids, GridColumn as Column } from '@progress/kendo-react-grid';
 import { Input } from '@material-ui/core';
 import { Box } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 
@@ -19,7 +21,8 @@ const UserListComponent = ({usersList, reload}) => {
     const matches = useMediaQuery(theme.breakpoints.up("md"));
     const [state, setState] = useState();
     const [open, setOpen]=useState(false);
-    const [acted,setAction] = useState("add");
+    const [acted,setAction] = useState("");
+
     
     const createState = (skip, take) => {
       return {
@@ -36,6 +39,11 @@ const UserListComponent = ({usersList, reload}) => {
         }
       }
     }
+       
+      // not reloading properly on deletion so this is used 
+      useEffect(()=>{
+
+      },[state])
 
        useEffect(() => {
             setState(createState(0, 10))
@@ -212,29 +220,48 @@ const UserListComponent = ({usersList, reload}) => {
                  </div>
             )
   }
-
+  
 
     const messageOnAction=(msg, type)=>{
         return (
            <div>
-           <Dialog open={open} keepMounted>
-            <DialogTitle><b>{type} Confirmation </b></DialogTitle>
-            <Divider />
-            <DialogContent>
-              <DialogContentText>
-                User has been {msg} !
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={()=>{setOpen(false)}} size="large" variant="contained" id="yes-btn">Close</Button>
-            </DialogActions>
-          </Dialog>
+            <Dialog open={open}  aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
+          
+            <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={ () => setOpen(false)}>
+                        <CloseIcon style={{width:"16px", height:"16px"}}  />
+                        </IconButton>
+                </Box>
+          <DialogContent>
+          <Box display={"flex"} p={3}>
+            <div className="text-center">
+            <font className="cm-title"><h4><b>{type} Confirmation</b></h4>       
+            </font>
+                
+        <small>  <h6 className="on-cancellation">User has been {msg}!</h6></small>
+                <Box display="flex" p={1}>
+                 <Box width="38%" p={1}>
+                 </Box>
+                 <Box p={1}>
+                  <Button variant="contained" id="yes-btn"  onClick={()=>{setOpen(false)}}>CLOSE</Button>
+                 </Box>     
+                </Box>
+                  
+            </div>
+            </Box>
+          </DialogContent>
+        </Dialog>
         </div> 
             
         )
     }
 
-
+     useEffect(()=>{
+        if(Object.keys(errors).length !== 0)
+            {
+                setAction("")
+            }
+     }, [errors])
     return (
         <div className="">
         {AddUser()}
@@ -254,7 +281,8 @@ const UserListComponent = ({usersList, reload}) => {
                 <Column cell={MyEditCommandCell} title="Action"  />
             </Grids>}
         </div >
-        {acted!="add"?messageOnAction("deleted succesfully", "Deletion"):messageOnAction("added successfully","Addition")}
+        
+        {Object.keys(errors).length === 0 && acted!="" &&(acted!="add"?messageOnAction("deleted succesfully", "Deletion"):messageOnAction("added successfully","Addition"))}
         </div>
         </div>
     )

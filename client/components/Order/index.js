@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { withStyles } from "@material-ui/core/styles";
 import useWindowSize from '../../helpers/windowDimension';
 import { getCookie, isAuth,removeLocalStorage } from "../../actions/auth";
-import { Grid,Icon,Button,AppBar,FormControlLabel,Checkbox, Modal, Fade,Box} from "@material-ui/core";
+import { Grid,Icon,Dialog, DialogContent,Button,AppBar,FormControlLabel,Checkbox, Modal, Fade,Box} from "@material-ui/core";
 import { create_order, verify_order, modify_order, single_order_by_id } from '../../actions/order';
 import useStyles from './style';
 import Checkout from './checkout';
@@ -16,7 +16,8 @@ import { Paper } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import {useForm} from 'react-hook-form';
 import {coupounData} from './coupuns';
-
+import { IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import CancelIcon from '@material-ui/icons/Cancel';
 const GreenCheckbox = withStyles({
   root: {
@@ -73,8 +74,6 @@ useEffect(()=>{
 
 }, [invalidCoupun])
 
-
-
 const order = (e) => {
   // e.preventDefault()\
       setLoader(true)
@@ -99,7 +98,6 @@ const order = (e) => {
       }
     updateOrder()
 }
-
 
 const updateOrder = () => {
   let original = originalOrder && originalOrder.total_amount
@@ -141,7 +139,6 @@ const updateOrder = () => {
            console.log(err)
          })
 }
-
 
 const paymentHandler = (orderId, amount) => {
     const options = {
@@ -201,7 +198,6 @@ const checkCouponCode= (appliedCode)=>{
   return false
 }
 
-
 const submitCoupon=(code)=>{
 setFlag(1);
   if(!checkCouponCode(code)){
@@ -217,8 +213,6 @@ const handleCouponChange = (e) => {
 
    setCouponCode(e.target.value)
 }
-
-
 
 const terms = () => {
    return <div className="pt-3 pb-3">
@@ -270,60 +264,65 @@ return  <>
         )}
 
     </div>
-
-    <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={successBooking}
-        closeAfterTransition
-      >
-        <Paper elevation={3}>
-        <Fade in={successBooking}>
-          <div className={classes.paper}>
-            <div className="text-center">
-              <font className="cm-title"><h4><b>
-                <Icon style={{color:"green"}}>
-        <CheckCircleOutlinedIcon></CheckCircleOutlinedIcon>
-
-        </Icon> Congratulations! Booking successful.</b></h4></font>
-                <Box display="flex" p={2}>
-                 <Box p={1} width="100%">
-                  <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingSuccess(false); Router.push('/')}}>Ok</Button>
-                 </Box>
+    <Dialog open={successBooking} aria-labelledby="customized-dialog-title">
+            <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={ () =>  Router.push('/')}>
+                        <CloseIcon style={{width:"16px", height:"16px"}}  />
+                        </IconButton>
                 </Box>
-            </div>
-          </div>
-        </Fade>
-        </Paper>
-      </Modal>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={failedBooking}
-        closeAfterTransition
-      >
-        <Paper elevation={3}>
+          <DialogContent>
 
-        <Fade in={failedBooking}>
+          <Box  p={3}>
+
+            <div className="text-center">
+            <font className="cm-title"><h4><b>
+                <Icon style={{color:"green"}}>
+                <CheckCircleOutlinedIcon></CheckCircleOutlinedIcon>
+
+        </Icon> Congratulations! Booking successful</b></h4></font><small>
+          <h6 className="on-cancellation"> Thank you! for using our services.</h6></small>
+                <Box display="flex" p={2}>
+                 <Box width="40%" p={1}>
+                 </Box>
+                 <Box p={1}>
+                  <Button variant="contained" id="yes-btn"  onClick={()=>{Router.push('/')}}>CLOSE</Button>
+                 </Box>     
+                </Box>
+                  
+            </div>
+          </Box>
+          </DialogContent>
+        </Dialog>
+
+
+       
+        <Dialog open={failedBooking}  onClose={()=>setBookingFailed(false)} aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
+        <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={ () => setOpen(false)}>
+                        <CloseIcon style={{width:"16px", height:"16px"}}  />
+                        </IconButton>
+                </Box>
+          <DialogContent>
           <div className={classes.paper}>
             <div className="text-center">
-              <font className="cm-title"><h4><b>
-                <Icon style={{color:"red"}}>
+            <font className="cm-title"><h4><b>
+            <Icon style={{color:"red"}}>
            <CancelIcon></CancelIcon>
 
-        </Icon> Sorry ! Booking Failed.</b></h4></font>
+        </Icon> Sorry! Booking Failed</b></h4></font><small>
+          <h6 className="on-cancellation">There might be some technichal issue <br></br> Please try again !</h6></small>
                 <Box display="flex" p={2}>
-                 <Box p={1} width="100%">
-                  <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingFailed(false); Router.push('/')}}>Ok</Button>
+                 <Box width="40%" p={1}>
                  </Box>
+                 <Box p={1}>
+                  <Button variant="contained" id="yes-btn"  onClick={()=>{setBookingSuccess(false); Router.push('/')}}>CLOSE</Button>
+                 </Box>     
                 </Box>
+                  
             </div>
           </div>
-        </Fade>
-        </Paper>
-      </Modal>
+          </DialogContent>
+        </Dialog>
     </>
 }
 export default Payment;

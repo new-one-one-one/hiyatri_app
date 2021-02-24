@@ -1653,7 +1653,7 @@ color: #00c4ff;
   color: #00c4fe;
   background-color: none;
   border-color: #00c4fe;
-  font-size: 0.6em;
+  font-size: 0.8em;
   font-weight: bold;
 }
 
@@ -1829,4 +1829,12 @@ background-color: grey;
   font-size: 40px;
   font-weight: 900;
 
+}
+
+
+
+.cross-btn{
+  position:"absolute";
+   top:0;
+   right:0;
 }

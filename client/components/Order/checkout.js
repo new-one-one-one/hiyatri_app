@@ -49,7 +49,7 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       />
 
                       {invalidCoupun && <span style={{paddingLeft:"10px","color":"red"}}>Invalid</span>}
-                      {!invalidCoupun && code!=null && code!="" && is_applied && <span style={{paddingLeft:"10px","color":"#00c4fe"}}>Applied Successfully !</span>}
+                      {!invalidCoupun && code!=null && code!="" && is_applied && <span style={{paddingLeft:"10px","color":"#00c4fe"}}>Applied Successfully</span>}
 
                       </Box>
                       <Box p={1} width="50%">

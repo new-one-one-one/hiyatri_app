@@ -117,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
       if(response.error){
         return console.log(response.error)
       }
+      console.log(response)
       dispatch({ type: ACTIONS.SEND, data: true })
       dispatch({ type: ACTIONS.SESSION_ID, data: response.session_id })
       set_resend_otp(true)
@@ -154,16 +155,6 @@ const useStyles = makeStyles((theme) => ({
         })
      })
   }
-
-
-
-
-  // const verifyCallback = (response) => {
-  //    if(response){
-  //       dispatch({ type: ACTIONS.RECAPTCHA, data: true })
-  //    }
-  // }
-
 
   const handleResendOTP = () => {
         send()
@@ -203,9 +194,8 @@ const useStyles = makeStyles((theme) => ({
      <div className="d-sm-block d-md-none">
        <Button variant="contained" className="hp-inpt-btn" onClick={onSubmission} type={type}>
           Continue
-          
        </Button>
-       
+
      </div>
 
      <div className="d-lg-block d-xl-block d-none d-md-block d-lg-none">
@@ -248,9 +238,6 @@ const useStyles = makeStyles((theme) => ({
               <Button variant="contained" className="m-2 md-btn" onClick={verify}>
                 SUBMIT
               </Button>
-              {/*<Button variant="contained" className="m-2 md-btn">
-                Resend OTP
-              </Button>*/}
               </div>}
            </div>
          </div>

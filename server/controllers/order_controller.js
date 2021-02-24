@@ -3,7 +3,6 @@ const User = require("../models/user_model");
 const Booking = require("../models/booking_model");
 const Cab = require("../models/cab_model");
 const Porter = require("../models/porter_model");
-const Transaction = require("../models/transaction_modal");
 const Razorpay = require('razorpay');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
@@ -25,7 +24,6 @@ const pad = (number, length) => {
     return str;
 }
 
-
 // CREATE PAYMENT
 module.exports.create_order = async (req,res) => {
   const {
@@ -40,30 +38,30 @@ module.exports.create_order = async (req,res) => {
   porter_service_detail,
 } = req.body.order;
 
-
-     await Cab({
-       user,
-       pnr_number,
-       cab_service_detail
+   console.log(req.body.order)
+   await Cab({
+     user,
+     pnr_number,
+     cab_service_detail
+   })
+   .save(async (err, cab) => {
+   if(err){
+     return res.status(400).json({
+     error: err
      })
-     .save(async (err, cab) => {
-     if(err){
-       return res.status(400).json({
-       error: err
-       })
-     }
+   }
 
-      await Porter({
-       user,
-       pnr_number,
-       porter_service_detail
-     })
-     .save(async (err, porter) => {
-         if(err){
-           return res.status(400).json({
-           error: err
-           })
-         }
+    await Porter({
+     user,
+     pnr_number,
+     porter_service_detail
+   })
+   .save(async (err, porter) => {
+       if(err){
+         return res.status(400).json({
+         error: err
+         })
+       }
 
   const booking_id = booking_information.is_arrival ?
   "Arr_" + pad(await Booking.countDocuments()+1, 5):
@@ -118,23 +116,10 @@ module.exports.create_order = async (req,res) => {
                         error: err
                       })
                     }
-
-                    await Transaction({
-                       user: result.user,
-                       order_id: result._id,
-                       transaction_amount: result.total_amount
-                    })
-                     .save(async (err, transaction) => {
-                      if(err){
-                        return res.status(400).json({
-                          error: err
-                        })
-                      }
-                      send_email('mailmeaktiwari@gmail.com', 'TEST', 'test', '<a>Test</a>').catch(console.error)
-                      return res.status(200).json({
-                        _id: rzp_order.id,
-                        message: "Order created successfuly"
-                      })
+                   send_email('mailmeaktiwari@gmail.com', 'TEST', 'test', '<a>Test</a>').catch(console.error)
+                   return res.status(200).json({
+                     _id: rzp_order.id,
+                     message: "Order created successfuly"
                    })
                 })
              })
@@ -204,21 +189,10 @@ module.exports.modify_order = (req, res) => {
                               error: err
                             })
                           }
-                      await Transaction({
-                            user: user,
-                            order_id: orderUpdated._id,
-                            transaction_amount: difference
-                          }).save((err, transaction) => {
-                            if(err){
-                              return res.status(400).json({
-                                error: err
-                              })
-                            }
-                            return res.status(200).json({
-                               message:"Order modified and refund issued successfuly"
-                            })
-                          })
-                        })
+                      return res.status(200).json({
+                         message:"Order modified and refund issued successfuly"
+                         })
+                      })
                      }
                     res.status(200).json({
                       message:"Order modified successfuly"
@@ -234,16 +208,13 @@ module.exports.modify_order = (req, res) => {
 // VERIFY PAYMENT
 module.exports.verify_order = (req, res) => {
   const {razorpay_payment_id, razorpay_order_id, razorpay_signature} = req.body;
-  // generate signature with razorpay_payment_id and razorpay_order_id
   let generatedSignature = crypto
                          .createHmac("SHA256",process.env.RAZORPAY_KEY_SECRET)
                          .update(razorpay_order_id + "|" + razorpay_payment_id)
                          .digest("hex");
-  // match the razorpay signature with generated signature
   let isSignatureValid = generatedSignature == razorpay_signature;
 if(isSignatureValid){
-  //if generatedSignature matched with the given razorpay_signature then update the payment status to Verified
-  const update_info = {razorpay_payment_id:  razorpay_payment_id, payment_verified: true, order_status:"ASSIGN_TO_ADMIN"}
+   const update_info = {razorpay_payment_id:  razorpay_payment_id, payment_verified: true, order_status:"ASSIGN_TO_ADMIN"}
   return   Order.findOneAndUpdate({ razorpay_order_id: razorpay_order_id },update_info,{ new: true })
         .populate("booking")
         .exec((err, result) => {
@@ -253,35 +224,26 @@ if(isSignatureValid){
             })
           }
           console.log(result)
-          Transaction.findOneAndUpdate({ order_id: result._id }, {status: "SUCCESS"}, { new: true})
-            .exec((err, transaction) => {
-              if(err || !transaction){
-                return res.status(400).json({
-                  error: err
-                })
-              }
-
-              var options = {
-                'method': 'POST',
-                'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
-                formData: {
-                  'From': 'HIYBTS',
-                  'To': result.booking.passenger_contact_information.primary_contact_number,
-                  'TemplateName': 'bookingSuccessful',
-                  'VAR1':result.booking.passenger_contact_information.name,
-                  'VAR2':result.booking.booking_id,
-                  'VAR3': "https://hiyatri.com"
-                }
-              };
-              request(options, function (error, response) {
-                console.log(error)
-                if (error) throw new Error(error);
-                return res.status(200).json({
-                  message: 'Payment verified successfuly',
-                  status:"ok"
-                })
-              });
-          })
+          var options = {
+            'method': 'POST',
+            'url': `http://2factor.in/API/V1/${process.env.TWOFACTOR_API_KEY}/ADDON_SERVICES/SEND/TSMS`,
+            formData: {
+              'From': 'HIYBTS',
+              'To': result.booking.passenger_contact_information.primary_contact_number,
+              'TemplateName': 'bookingSuccessful',
+              'VAR1':result.booking.passenger_contact_information.name,
+              'VAR2':result.booking.booking_id,
+              'VAR3': "https://hiyatri.com"
+            }
+          };
+          request(options, function (error, response) {
+            console.log(error)
+            if (error) throw new Error(error);
+            return res.status(200).json({
+              message: 'Payment verified successfuly',
+              status:"ok"
+            })
+          });
       })
   }
 return res.status(400).json({
@@ -617,7 +579,6 @@ module.exports.cancel_order = (req, res) => {
                    }
                  };
                  request(options, function (error, response) {
-                   console.log(error)
                    if (error) throw new Error(error);
                    return res.status(200).json({
                      status:"Order cancelled successfuly",

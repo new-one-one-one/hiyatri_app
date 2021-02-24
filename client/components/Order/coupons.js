@@ -1,5 +1,5 @@
 export const coupounData = [
-    
+
     {
         code : "ABT12",
         discount: 5

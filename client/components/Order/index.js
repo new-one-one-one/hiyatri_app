@@ -15,9 +15,10 @@ import { Backdrop } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import {useForm} from 'react-hook-form';
-import {coupounData} from './coupuns';
 import { IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import {coupounData} from './coupons';
+
 import CancelIcon from '@material-ui/icons/Cancel';
 const GreenCheckbox = withStyles({
   root: {
@@ -69,123 +70,53 @@ const [flag, setFlag] = useState(0);
       });
     });
 },[])
-
-useEffect(()=>{
-
-}, [invalidCoupun])
-
-const order = (e) => {
-  // e.preventDefault()\
-      setLoader(true)
-
-      let booking = data;
-      // var v=(couponCode=="")+" --  "+flag+" --  "+couponCode+" -- "+(!invalidCoupun)
-      // alert(v)
-         booking.coupon = ((couponCode!=="")&& flag && !invalidCoupun)?couponCode:"Not Applied"
-
-      if(!order_id){
-        return create_order(booking)
-          .then(response => {
-            if(response.error){
-              return console.log(response.error)
-            }
-            setLoader(false)
-            paymentHandler(response._id)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
-    updateOrder()
-}
-
-const updateOrder = () => {
-  let original = originalOrder && originalOrder.total_amount
-  let difference = original - (data && data.total_amount)
-
-  if(difference>0){
-    return modify_order(data, original)
-         .then(response => {
-           if(response.error){
-             return console.log(response.error)
-           }
-          console.log(response)
-         })
-         .catch((err) => {
-           console.log(err)
-         })
-  }
-  else if(difference<0){
-    return  modify_order(data)
-               .then(response => {
-                 if(response.error){
-                   return console.log(response.error)
-                 }
-                 paymentHandler(response._id, -difference)
-               })
-               .catch((err) => {
-                 console.log(err)
-               })
-  }
-
-    modify_order(data)
-         .then(response => {
-           if(response.error){
-             return console.log(response.error)
-           }
-          console.log(response)
-         })
-         .catch((err) => {
-           console.log(err)
-         })
-}
-
-const paymentHandler = (orderId, amount) => {
-    const options = {
-    key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
-    amount: amount*100,
-    currency: 'INR',
-    name: 'Payments',
-    order_id: orderId,
-    prefill: {
-      contact: isAuth() && isAuth().phone_number,
-      email: data && data.passenger_contact_information.email_id
-    },
-    theme: {
-    color: '#2a306c',
-    },
-    "modal": {
-    "ondismiss": function(){
-         setBookingFailed(true)
-     }
-},
-    handler(response) {
-     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
-      verify_order({ razorpay_order_id, razorpay_payment_id, razorpay_signature })
-       .then(result => {
-         if(result.error){
-          setBookingFailed(true)
-
-           return console.log(result.error)
-         }
-         if(result.status === "ok"){
-           // removeLocalStorage("Booking")
-           setBookingSuccess(true)
-           return;
-         }
-         // removeLocalStorage("Booking")
-         setBookingFailed(true)
-         return;
-       })
-       .catch((err) => {
-        // removeLocalStorage("Booking")
+  
+const paymentHandler = async (orderId, amount) => {
+  setLoader(true)
+  let booking = data;
+      booking.coupon = ((couponCode!=="")&& flag && !invalidCoupun)?couponCode:"Not Applied"
+try {
+  let new_order = await create_order(booking);
+  setLoader(false)
+  const options = {
+  key: process.env.NEXT_PUBLIC_RAZORPAY_ID,
+  amount: amount*100,
+  currency: 'INR',
+  name: 'Payments',
+  order_id: new_order._id,
+  prefill: {
+    contact: isAuth() && isAuth().phone_number,
+    email: data && data.passenger_contact_information.email_id
+  },
+  theme: {
+  color: '#2a306c',
+  },
+  handler(response) {
+   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+    verify_order({ razorpay_order_id, razorpay_payment_id, razorpay_signature })
+     .then(result => {
+       if(result.error){
         setBookingFailed(true)
-       })
-    }
+        return console.log(result.error)
+       }
+       if(result.status === "ok"){
+       setBookingSuccess(true)
+       return;
+       }
+       setBookingFailed(true)
+     })
+     .catch((err) => {
+       console.log(err)
+       setBookingFailed(true)
+     })
   }
-    const razorpay = new window.Razorpay(options);
-    razorpay.open()
-    removeLocalStorage("Booking")
+}
+  const razorpay = new window.Razorpay(options);
+  removeLocalStorage("Booking")
+  razorpay.open()
+} catch (e) {
+  console.log(e)
+ }
 }
 
 const checkCouponCode= (appliedCode)=>{
@@ -199,7 +130,7 @@ const checkCouponCode= (appliedCode)=>{
 }
 
 const submitCoupon=(code)=>{
-setFlag(1);
+  setFlag(1);
   if(!checkCouponCode(code)){
     setValidCoupoun(true)
   }
@@ -210,7 +141,6 @@ setFlag(1);
 
 const handleCouponChange = (e) => {
    setValidCoupoun(false)
-
    setCouponCode(e.target.value)
 }
 
@@ -252,11 +182,11 @@ return  <>
            </div>
 
            <div className="col-md-3">
-             <Checkout data={data} register={register} order={order} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed} code={couponCode} invalidCoupun={invalidCoupun} submitCoupon={submitCoupon}/>
+             <Checkout data={data} register={register} order={paymentHandler} handleChange={handleCouponChange} originalOrder={originalOrder} terms={termsChecked} isAgreed={isAgreed} code={couponCode} invalidCoupun={invalidCoupun} submitCoupon={submitCoupon}/>
            </div>
         </div>
         {(width <500) && (
-          <AppBar className={classes.buttonMobile} position="fixed" onClick={()=>{termsChecked ? order() : isAgreed(false)}} >
+          <AppBar className={classes.buttonMobile} position="fixed" onClick={()=>{termsChecked ? paymentHandler() : isAgreed(false)}} >
             <Button className={classes.buttonMobile}>
               Book Now
             </Button>

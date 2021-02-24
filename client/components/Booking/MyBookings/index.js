@@ -4,6 +4,10 @@ import {Grid} from '@material-ui/core';
 import Loader from 'react-loader-spinner'
 
 import BookingCard from './bookingCard';
+import { Dialog } from "@material-ui/core";
+import { DialogTitle } from "@material-ui/core";
+import { DialogContent ,Icon,Box,Button} from "@material-ui/core";
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 
 const useStyles = makeStyles({
     particularBooking:{
@@ -67,6 +71,7 @@ console.log(loader)
             {display(data)}
           </div>
         </div>
+        
      </>
     )
 }

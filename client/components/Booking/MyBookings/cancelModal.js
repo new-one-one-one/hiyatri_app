@@ -5,7 +5,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import {Button ,Box} from '@material-ui/core';
 import { cancel_order } from '../../../actions/order';
-
+import { Dialog,IconButton, DialogActions, DialogContent } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close'
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -70,27 +71,26 @@ const CancelModal = ({ id, duration })  => {
 
   return (
     <div>
+
+
       <Button variant="outlined" id="users-cancel-booking-design" onClick={handleOpen}>Cancel This</Button>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
+      <Dialog open={open}  onClose={handleClose} className={classes.modal} aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
+          <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={handleClose}>
+                        <CloseIcon style={{width:"20px", height:"20px"}}  />
+                        </IconButton>
+                </Box>
+          <DialogContent>
+          <Box display={"flex"} p={4}>
             <div className="text-center">
-              <font className="cm-title"><h4><b>Are you sure to cancel this booking ?</b></h4></font>
-              <small><h6 className="on-cancellation">*on cancellation you will get the {cancellation.msg} </h6></small>
-                <Box display="flex" p={2}>
+                <font className="cm-title"><h4><b>Are you sure to cancel this booking ?</b></h4>       
+            </font>
+               
+               
+        <small>  <h6 className="on-cancellation">*on cancellation you will get the {cancellation.msg}</h6></small>
+        <Box display="flex" p={2}>
                  <Box width="60%" p={1}>
-                  <Button variant="outlined" id="no-btn" onClick={handleClose}>No</Button>
+                  <Button  variant="outlined" id="no-btn" onClick={handleClose}>No</Button>
                  </Box>
                  <Box p={1}>
                   <Button variant="contained" id="yes-btn"  onClick={()=>handleCancelBooking(id)}>Yes</Button>
@@ -100,9 +100,9 @@ const CancelModal = ({ id, duration })  => {
                 </Box>
                   
             </div>
-          </div>
-        </Fade>
-      </Modal>
+            </Box> 
+          </DialogContent>
+        </Dialog>
     </div>
   );
 }

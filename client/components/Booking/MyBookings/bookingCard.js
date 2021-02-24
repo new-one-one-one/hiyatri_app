@@ -7,7 +7,8 @@ import { blue } from '@material-ui/core/colors';
 import Details from '../../Order/summary';
 import TakenServices from '../../Order/takenServices';
 import { useState, useEffect } from 'react';
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
+import {Dialog, DialogActions, Icon, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 
 const useStyles = makeStyles({
     root: {
@@ -100,6 +101,36 @@ const BookingCard = ({ booking, allInfo, boarding_station, reservation_upto, is_
   }
 
 
+  
+const displayAdditionalService= (addedServices) => {
+  return (
+    <div>
+      {  addedServices.map((service)=>{
+            return (
+
+               <div>
+                <Box display="flex" p={1}>
+                  <Box width="80%">
+                    {service.comment}
+                  </Box>
+                  <Box width="20%">
+                  ₹{service.additional_amount}
+                  </Box>
+                </Box>
+
+
+               </div>
+            )
+         })
+
+      }
+    </div>
+
+     )
+  }
+
+  
+
 return <div className="shadow booking-card">
         <Grid item>
             <Card className={classes.particularBooking}>
@@ -146,9 +177,28 @@ return <div className="shadow booking-card">
               <DialogTitle id="form-dialog-title">Booking Details(<b>Total Cost</b>  =  ₹{booking.total_amount})</DialogTitle>
               <DialogContent>
                 <DialogContentText>
+                  
                   {thisDataOpen && <Details data={thisDataOpen}/>}
                   { thisDataOpen!==undefined &&<TakenServices data={{porter_service_detail : thisDataOpen.porter_service.porter_service_detail, cab_service_detail:thisDataOpen.cab_service.cab_service_detail}}/>}
-                
+                  { (allInfo.additional_services.length!=0 ) &&  (<div className="shadow">
+                      <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
+                                <Typography style={{"color":"white"}}>Additonal Services</Typography>
+                      </Box>
+                      <Box display="flex" p={1} color="black">
+                          <Box width="70%">
+                            <b>About Service</b>
+                          </Box>
+                          <Box width="30%">
+                          <b>Amount(in Rs)</b>
+                          </Box>
+                      </Box>
+                      <Box>
+                      {displayAdditionalService(allInfo.additional_services)}
+                      </Box>
+                        
+              </div>)
+
+                  }
                 </DialogContentText>
 
               </DialogContent>

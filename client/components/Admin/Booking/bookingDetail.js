@@ -392,6 +392,18 @@ const displayAdditionalService= (addedServices) => {
 
 
 
+  const adminActions = (status) => {
+    switch(status){
+      case "ASSIGN_TO_ADMIN": return  <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
+
+        case "ASSIGN_TO_AGENT": return  <Button  variant="contained"  className="bd-btn-agent" size="large" fullWidth={true} onClick={()=>{setOpen(true);setAssignee(null)}} >Re-Assign to agent</Button>
+
+          case "IN_PROGRESS": ""
+    }
+
+  }
+
+
    if(data!=null && data!={}){
 
   return (
@@ -452,8 +464,6 @@ const displayAdditionalService= (addedServices) => {
                       {/* ---------------------------------------- */}
                   </div>
               </Paper>
-             
-               
 
              {data.booking.passenger_details.map(val => {
                 if(val.wheel_chair || val.golf_cart || val.meet_and_greet ){
@@ -476,8 +486,6 @@ const displayAdditionalService= (addedServices) => {
              <br></br>
           </Paper>
          </div>
-  
-        <br></br>
         <br></br>
         {checkServiceExists(data.booking.porter_service.porter_service_detail) &&(data.booking.porter_service.porter_service_detail.porter_service_opted!==null && data.booking.porter_service.porter_service_detail.porter_service_opted)&&(
               <div className="shadow">
@@ -507,7 +515,6 @@ const displayAdditionalService= (addedServices) => {
 
         )}
         <br></br>
-        <br></br>
        { (data.additional_services.length!=0 && data.additional_services!==null && data.additional_services!=undefined )&& (<div className="shadow">
                   <Paper className={classes.Services}>
                       <Box className={classes.headingPart} p={1} bgcolor="#2a306c">
@@ -527,7 +534,8 @@ const displayAdditionalService= (addedServices) => {
                   </Paper>
               </div>)}
         {/* Comments paragraph */}
-         <div>Comments </div>
+         <br></br>
+         <h6> <b>Comments</b> </h6>
               <div className={classes.comment_root}>
               <div className="shadow">
              {commentList.map((comment)=>{
@@ -585,31 +593,22 @@ const displayAdditionalService= (addedServices) => {
 
 
         <Grid item xs={12} sm={3}>
+        
+        
         {(data.order_status==='ASSIGN_TO_ADMIN' || data.order_status==='ASSIGN_TO_AGENT' || data.order_status==='IN_PROGRESS') && (
-            <div>
-              {(data.order_status!=='ASSIGN_TO_AGENT') &&
-                ( <div className="shadow">
-                    <Paper className={classes.promocode}>
+                <>
+                <div className="shadow">
                       <Box p={1}>
-                        <Button variant="contained" size="large" fullWidth={true} onClick={()=>setOpen(true)} className="bd-btn-agent">Assign to agent</Button>
+                          {adminActions(data.order_status)}
                       </Box>
                       <Box p={1}>
                         <Button  variant="outlined" size="large" fullWidth={true} className="bd-btn-cancel" onClick={()=>{update_order_status(data._id, "CANCELLED_BY_ADMIN"); reloadData(!reload)}} >Cancel</Button>
                       </Box>
-
-                    </Paper>
-                    <br></br>
-                  </div>
-              )}
-              <br></br>
-              {(data.order_status!=='ASSIGN_TO_ADMIN')&&(<div>
-                  <Box p={1}>
-                    <Button  variant="contained"  className="bd-btn-agent" size="large" fullWidth={true} onClick={()=>{setOpen(true);setAssignee(null)}} >Re-Assign to agent</Button>
-                  </Box>
                 </div>
-              )}
-            </div>
-          )}
+                <br></br>
+                </>      
+        )}
+          
           <Paper className={classes.promocode}>
             <div className="shadow" style={{padding:"10px"}}>
               <Grid container xs={12} justify="space-between">

@@ -1653,7 +1653,7 @@ color: #00c4ff;
   color: #00c4fe;
   background-color: none;
   border-color: #00c4fe;
-  font-size: 0.8em;
+  font-size: 0.8em!important;
   font-weight: bold;
 }
 

@@ -170,7 +170,7 @@ export default function TransitionsModal() {
                         <CloseIcon style={{width:"20px", height:"20px"}}  />
                         </IconButton>
                 </Box>
-          
+
           <DialogContent>
           <ToastContainer />
             <div className="">
@@ -182,7 +182,7 @@ export default function TransitionsModal() {
                         </Box>
                      </Box>
 
-                     
+
                    {!otp_sent && <form onSubmit={handleSubmit(onSubmit)}>
                        <TextField
                         variant="outlined"
@@ -241,22 +241,22 @@ export default function TransitionsModal() {
             <br></br>
           </DialogContent>
         </Dialog>
-      
+
       <Dialog open={openPasswordModal}    className={classes.modal} aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
                 <Box style={{position:"absolute", top:"4px", right:"4px"}} >
-                      <IconButton size="small" aria-label="close"  onClick={handleClose}>
+                      <IconButton size="small" aria-label="close"  onClick={() => setPasswordModal(false)}>
                         <CloseIcon style={{width:"20px", height:"20px"}}  />
                         </IconButton>
                 </Box>
-         
+
           <DialogContent>
           <ToastContainer />
             <div className="">
               <div className="row justify-content-center">
                 <div className="lg-container">
                    <Box p={1}>
-                      <h2 className="login-modal-title">ADMIN LOGIN</h2>                                  
-                   </Box> 
+                      <h2 className="login-modal-title">ADMIN LOGIN</h2>
+                   </Box>
                      <h5 style={{color:"red"}}>{errorMessage}</h5>
                      <form onSubmit={handleSubmit(onSubmitAdmin)}>
                        <TextField

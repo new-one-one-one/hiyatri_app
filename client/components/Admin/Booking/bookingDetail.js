@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useDebugValue } from 'react';
 import {Paper} from "@material-ui/core";
 import {Theme, makeStyles, createStyles} from "@material-ui/core/styles";
 import {Grid,Input,Dialog, Select, InputLabel, DialogActions, DialogContent, FormControlLabel, Box,Button, TextField,Typography,Divider} from "@material-ui/core";
@@ -20,7 +20,19 @@ import { getCookie } from '../../../actions/auth';
 import { isAuth } from '../../../actions/auth';
 import { TextareaAutosize } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Icon } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { setDate } from 'date-fns';
 
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+// pick a date util library
+import MomentUtils from '@date-io/moment';
+import DateFnsUtils from '@date-io/date-fns';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -196,8 +208,20 @@ const BookingDetail = ({ data, reloadData }) => {
   const [commentList, setCommentList] = useState([]);
   const [reload, setReload] = useState(false);
   const [disabledbtn, setDisabledBtn] = useState(true);
+  const [is_delay, setDelay] = useState(false)
+  const [delayTime, setDelayTime]=useState(data.booking.booking_information.is_arrival?data.booking.booking_information.reservation_upto.time:data.booking.booking_information.boarding_station.time);
+
+  
+  var myDate=data.booking.booking_information.is_arrival?data.booking.booking_information.reservation_upto.date:data.booking.booking_information.boarding_station.date
+    if(myDate!==""){
+      var month= parseInt(myDate.substring(3,5))
+      month= String(month).length==1 ? "0"+month : month
+      myDate = month+"-"+myDate.substring(0,2)+myDate.substring(5,)
+    }
+    const [delayDate, setDelayDate]=useState(myDate);
 
   const token = getCookie("token");
+  
 
   const changeDropDown = (panel) => (isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -305,7 +329,6 @@ useEffect(() => {
         console.log(err)
       })
 },[reload])
-
 const getAgentName = (status)=>{
   if(status!==null){
      singleUser(status).then((data)=>setAgentName(data.result.name));
@@ -314,7 +337,6 @@ const getAgentName = (status)=>{
     return "None"
   }
 }
-
 const displayPorterServiceDetails = (porter) =>{
   if((porter.porter_service_opted || porter.baggage_garanteed_opted ))
     return (
@@ -355,14 +377,10 @@ const displayPorterServiceDetails = (porter) =>{
 
     )
 }
-
-
 const checkServiceExists=(porter)=>{
   const porter_total = porter.large_bags.total +porter.medium_bags.total+porter.small_bags.total
   return porter_total!=0
 }
-
-
 const displayAdditionalService= (addedServices) => {
     return (
       <div>
@@ -389,7 +407,13 @@ const displayAdditionalService= (addedServices) => {
 
        )
     }
+const submitDelays = () => {
+  // alert(delayDate)
+  // alert(delayTime)
+}
 
+useEffect(()=>{
+}, [delayDate])
 
 
   const adminActions = (status) => {
@@ -411,6 +435,7 @@ const displayAdditionalService= (addedServices) => {
     {/* Creating heading bar */}
     <div className={classes.root}>
       <h5>Summary</h5>
+    
 
       <Grid container spacing={3}>
         {/* This one is for All orders list for booking */}
@@ -420,13 +445,14 @@ const displayAdditionalService= (addedServices) => {
             <Paper className={classes.orderFull}>
               <br></br>
             <Box className={classes.headingPart} display="flex" p={1} bgcolor="#2a306c">
-                      <Box p={1} width="100%">
+                      <Box p={1} width="90%">
                         BOOKING-ID : {data.booking.booking_id} (Total Cost  = <b>₹{data.total_amount}</b> )
                       </Box >
-                      
-                      
+                      <Box style={{right:"10px"}}>
+                        <Button id="yes-btn"  variant="contained" onClick={()=>setDelay(true)}>Edit</Button>
+                      </Box>
             </Box>
-
+              
              <Paper variant="outlined" className={classes.particularOrder}>
                   <div style={{marginLeft:"4%"}}>
                     <Grid style={{color:'grey'}} container spacing={1}>
@@ -586,12 +612,8 @@ const displayAdditionalService= (addedServices) => {
                   </Typography>
               </Grid>
             </div>
-
-
             <br></br>
         </Grid>
-
-
         <Grid item xs={12} sm={3}>
         
         
@@ -737,6 +759,68 @@ const displayAdditionalService= (addedServices) => {
           </Button>
         </DialogActions>
       </Dialog>
+{/* +++++++++++++++++++++++++++++++++++++++++++++++++++++DELAY SERVICE++++++++++++++++++++++++++++++++++++++++ */}
+  <Dialog open={is_delay} keepMounted aria-labelledby="customized-dialog-title">
+            <Box style={{position:"absolute", top:"4px", right:"4px"}} >
+                      <IconButton size="small" aria-label="close"  onClick={()=>{setDelay(false)}}>
+                        <CloseIcon style={{width:"16px", height:"16px"}}  />
+                        </IconButton>
+                </Box>
+          <DialogContent>
+
+          <Box  p={3}>
+
+            <div className="text-center">   
+                <Box display="flex" p={1}>
+                  <Box width="50%">
+                    Date : 
+                    {data.booking.booking_information.is_arrival?data.booking.booking_information.reservation_upto.date:data.booking.booking_information.boarding_station.date}
+                  </Box>
+                  <Box width="10%">
+
+                  </Box>
+                  <Box>
+                  Time : {data.booking.booking_information.is_arrival?data.booking.booking_information.reservation_upto.time:data.booking.booking_information.boarding_station.time}   
+                  </Box>
+                </Box>         
+                <Box display="flex" p={1}>
+                  <Box width="50%">
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DatePicker
+                         id="input-fixed-height"
+                        inputVariant="outlined"
+                        name="date"
+                        onChange = {(value)=>{ setDelayDate(value)}}
+                        value={new Date(delayDate)}
+                        // minDate={Date.now()}
+                        />
+                  </MuiPickersUtilsProvider>
+                  </Box>
+                  <Box width="10%">
+
+                  </Box>
+                  <Box>
+                      <TextField id="input-fixed-height" fullWidth type="time" name="time"
+                        variant="outlined" defaultValue="" InputLabelProps={{shrink: true}} onChange={(e)=> setDelayTime(e.target.value)} inputProps={{step: 300}}
+                        onChange
+                        />
+                  </Box>
+                </Box>
+
+                <Box display="flex" p={2}>
+                 <Box width="40%" p={1}>
+                 </Box>
+                 <Box p={1}>
+                  <Button variant="contained" id="yes-btn"  onClick={()=>{submitDelays();setDelay(false)}}>SUBMIT</Button>
+                 </Box>     
+                </Box>
+                  
+            </div>
+          </Box>
+          </DialogContent>
+        </Dialog>
+
+      
     </div>
   );
  }

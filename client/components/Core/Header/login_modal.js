@@ -244,7 +244,7 @@ export default function TransitionsModal() {
       
       <Dialog open={openPasswordModal}    className={classes.modal} aria-labelledby="customized-dialog-title" aria-labelledby="customized-dialog-title">
                 <Box style={{position:"absolute", top:"4px", right:"4px"}} >
-                      <IconButton size="small" aria-label="close"  onClick={handleClose}>
+                      <IconButton size="small" aria-label="close"  onClick={() => setPasswordModal(false)}>
                         <CloseIcon style={{width:"20px", height:"20px"}}  />
                         </IconButton>
                 </Box>

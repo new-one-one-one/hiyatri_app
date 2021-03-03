@@ -51,7 +51,7 @@ const Checkout = ({ data, order,originalOrder, terms, isAgreed,handleChange,regi
                       {!invalidCoupun && code!=null && code!="" && is_applied && <span style={{paddingLeft:"10px","color":"#00c4fe"}}>Applied Successfully</span>}
 
                       </Box>
-                      <Box p={1} width="50%">
+                      <Box p={1} width="60%">
                       <Button  variant="outlined" id="users-cancel-booking-design"  onClick={() => {submitCoupon(code); setApplied(true)}}>
                            Apply Coupon
                       </Button>

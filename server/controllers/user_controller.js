@@ -37,11 +37,7 @@ module.exports.single_user = (req, res) => {
       res.status(200).json({
         result: result
       })
-
-     })
-     
-        
-  
+     })  
 }
 
 

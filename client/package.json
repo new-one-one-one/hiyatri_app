@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "PORT=3006 next start"
+    "start": "next start"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.2.1",

@@ -1,6 +1,9 @@
 import { isAuth } from '../actions/auth';
 
+
+
 class Booking {
+
     constructor(){
         this.booking = {
           pnr_number:"",
@@ -37,6 +40,21 @@ class Booking {
                                     station_code: data.reservation_upto.station_code,
                                     time: data.reservation_upto.time};
         const passInfo = data.pass_info.map((pass, i) => {
+        const seat_regex = "/\[0-9]";
+        const seat_num = "[0-9]"
+        const{
+          booking_status_details,
+          current_status_details
+        }   = pass
+        var seat_result=null;
+        if(current_status_details.match(seat_num)){
+          seat_result =current_status_details
+        }
+
+        else if(booking_status_details.match(seat_regex)){
+          seat_result=booking_status_details;
+        }
+       
         return {passenger_name: "",
                 bill:{
                   meet_and_greet:0,
@@ -45,7 +63,7 @@ class Booking {
                   total:0
                 },
                 selected:true,
-                seat_number: pass.current_status_details,
+                seat_number:seat_result,
                 age_group:"",
                 gender:"",
                 meet_and_greet:true,

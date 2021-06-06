@@ -46,7 +46,7 @@ class Booking {
           booking_status_details,
           current_status_details
         }   = pass
-        var seat_result=null;
+        var seat_result="";
         if(current_status_details.match(seat_num)){
           seat_result =current_status_details
         }
@@ -54,6 +54,7 @@ class Booking {
         else if(booking_status_details.match(seat_regex)){
           seat_result=booking_status_details;
         }
+       
        
         return {passenger_name: "",
                 bill:{

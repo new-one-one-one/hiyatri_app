@@ -71,16 +71,18 @@ const Homepage = () => {
     get_details_by_pnr(state.pnr_number)
       .then(response => {
         setShowSpinner(false);
-        if(response.status==="error"){
-          // this is the case if pnr not worked
-          // return toast.error(response.message)
-          Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
-        }
-        else{
-            Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
-        }
+//         if(response.status==="error"){
+//           // this is the case if pnr not worked
+//           // return toast.error(response.message)
+//           Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
+//         }
+//         else{
+//             Router.push(`/booking/${state.status}?pnr=${state.pnr_number}`)
+//         }
+       Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
       })
       .catch((err) => {
+       Router.push(`/booking/manual/${state.status}?pnr=${state.pnr_number}`)
         toast.error("Something went wrong! Try after sometime.")
       })
 
